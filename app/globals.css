@@ -80,367 +80,512 @@
   }
 }
 
+ 
+@layer base{
+body{
+  @apply !pt-10  bg-white dark:bg-slate-900 font-body
+}
+h1{
+  @apply text-3xl font-bold text-black dark:text-white font-title
+}
+}
+
+
 @layer components{
   
-    .header{
-      @apply fixed top-0 inset-x-0 flex flex-wrap bg-white/[.8] md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md  lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white  dark:bg-slate-900/75
-    }
-    .heading{
-      @apply text-center mb-12 capitalize text-2xl md:text-3xl text-slate-800 dark:text-slate-50 font-bold;
-    }
-  
-    .nav-bar{
-      @apply font-body font-bold
-    }
-    .navbar_item{
-      @apply  font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400
-    }
-    
-    
-    
-    /* --------------- logo -------------------- */
-    
-    .logo_icon_dark{
-      @apply hidden h-8 w-8 object-cover dark:block md:h-10 md:w-10
-    }
-    .logo_icon_light{
-      @apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10
-    }
-    .logo_text{
-      @apply text-xl font-bold text-slate-900 dark:text-white md:text-xl font-title
-    }
-    /* ------------------------------------------------ */
-    /* ========  FEATURE SECTION -==================== */
-    .aside_card{
-      @apply block    p-8 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 
-      duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-full    dark:border-gray-600
-      
-     }
-     .aside_icon{
-      @apply text-emerald-500  transition-transform  ease-in-out w-12 h-12 rounded-md p-3
-     }
-    .feature_heading{
-      @apply mt-4 text-xl font-bold text-black dark:text-white font-title
-    }
-    .feature_description{
-      @apply mt-1 text-sm text-slate-600 dark:text-slate-300 }
-    
-    /* TIMELINE */
-    
-    
-     /* ============================= HERO ==================*/
-    .hero_btn{
-      @apply inline-block w-full sm:w-60  py-2 px-10 text-white text-xl font-medium rounded-md  hover:bg-emerald-700 bg-emerald-600   shadow-md hover:shadow-lg transition-colors duration-300  mt-10 text-center
-    }
-    
-     /* --------------PROGRAM--------------- */
-    .programme_heading{
-      @apply text-center rounded-md mx-auto p-2 bg-emerald-50 text-emerald-500 font-body dark:text-emerald-50 dark:bg-emerald-700 text-2xl capitalize  font-extrabold  tracking-wide my-20 
-     }
-     .programme-title{
-      @apply block text-center text-2xl md:text-3xl lg:text-5xl font-extrabold text-black uppercase tracking-widest dark:text-white mt-6 mb-4  }
-    .title-heading{
-      @apply text-center text-xl md:text-3xl  font-extrabold text-slate-900 uppercase tracking-widest   mb-4 font-body
-    }
-    .sub_link{
-      @apply text-center text-[1.2rem] text-[#777]
-    }
-    .headin-link{
-      @apply text-center bg-cover bg-center bg-[url('../assets/img/heading-bg.jpg')] px-4
-    }
-      .program_filter{
-        @apply  flex sm:justify-center   overflow-y-auto items-center whitespace-nowrap py-3 space-x-2 px-2
-      }
-      .program_card{
-        @apply mb-10 sm:mb-0 relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden
-        duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer   dark:border-gray-600 rounded-3xl  bg-white dark:bg-transparent
-        
-       }
-       .program_wrapper{
-        @apply lg:px-10 mx-auto max-w-6xl sm:w-[100%] relative mb-60 sm:grid gap-8   sm:grid-cols-2 md:pt-12 lg:grid-cols-3 lg:gap-8  p-1
-      }
-    
-    
-       /* ---------------------------------------- */
-    
-     
-    
-     
-     .cards_container{
-      /* @apply relative mt-8 mb-20 grid grid-cols-1 gap-8 border-l border-gray-200 dark:border-gray-700 md:grid-cols-2 md:p-6 lg:grid-cols-3 xl:grid-cols-4  lg:border-none */
-     @apply relative mb-60  sm:grid   sm:grid-cols-2 md:pt-12 lg:grid-cols-3  md:mx-auto md:w-[85%] gap-8
-     }
-     .text_container{
-      @apply p-4 md:p-5 flex items-center justify-between  overflow-hidden
-     }
-    .card_link{
-        @apply  flex flex-col overflow-hidden    transition 
-      }
-      .card_image_wrapper{
-        /* sm:pt-[60%] lg:pt-[80%] */
-        @apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2
-      }
-    .card_image{
-      @apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out 
-      }
-      .course-code{
-        @apply w-max uppercase tracking-widest text-white text-[10px]  mb-2  font-body absolute top-5 bg-amber-900/70 ring-2  ring-amber-500 backdrop-blur-2xl px-2 py-1 rounded-md font-bold
-      }
-    .card_heading{
-        @apply lg:text-lg font-bold  text-base  text-gray-800 dark:text-white capitalize font-title text-left w-5/6 align-middle
-      }
-    
-    
-    
-      /*==========  Year Cards =================== */
-    .year_cards_container{
-      @apply mt-8 grid grid-cols-1 gap-8  sm:grid-cols-2   
-    }
-      
-    .year_card-link{
-      @apply    relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden
-      duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer   dark:border-gray-600 rounded-3xl  bg-white dark:bg-transparent w-72
-    }
-    
-    /* ============================================ */
-    
-    
-      
-      
-    .footer{
-        @apply bg-emerald-900  bottom-0 w-full
-      }
-    .footer_content_wrapper{
-        @apply mx-auto max-w-screen-xl space-y-8 overflow-hidden px-4 py-12 sm:px-6 lg:px-8
-      }
-    .footer_link_wrapper{
-        @apply mt-8 flex justify-center space-x-6
-      }
-      .footer_links{
-        @apply rounded-full p-2 text-gray-50 hover:bg-emerald-200 hover:text-emerald-600 duration-300 transition-colors
-      }
-      .footer_copyright{
-        @apply mt-8 text-center text-xs sm:text-sm md:text-base leading-6 text-gray-200
-      }
-    
-    .mobile_menu{
-     @apply  absolute inset-x-0 mt-12 w-full lg:max-w-4xl px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 lg:mt-0 lg:p-0 lg:top-0 lg:!right-0 lg:!relative lg:bg-transparent lg:w-auto  lg:translate-x-0 lg:flex lg:items-center
-    }
-    .toggle-dot{
-      @apply w-4 h-4 rounded-full bg-gray-50 shadow-md  duration-300 my-1 transform
-     
-    }
-    #toggle:checked ~ label div.toggle-dot,
-    #toggle1:checked ~ label div.toggle-dot{
-      @apply translate-x-3 transform  rounded-full bg-gray-50 shadow-md  duration-300 my-1; 
-    }
-    
-    #myUL{
-      @apply  w-full max-w-screen-2xl
-    }
+.header{
+  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white/[.8] md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md  lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white  dark:bg-slate-900/75
+}
+.heading{
+  @apply text-center mb-12 capitalize text-2xl md:text-3xl text-slate-800 dark:text-slate-50 font-bold;
+}
+.theme_toggle{
+  @apply inline-flex h-9 w-9 flex-shrink-0 items-center justify-center text-base font-medium 
+}
+.nav-bar{
+  @apply font-body font-bold
+}
+.navbar_item{
+  @apply  font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400
+}
+.sidebar_logo{
+  @apply flex-none text-xl font-semibold dark:text-white text-black
+}
+.sidebar_nav{
+  @apply flex w-full flex-col flex-wrap py-6 font-body h-[90%] justify-center
+}
+.sidebar_ul{
+  @apply  text-lg flex flex-col justify-center  self-center text-left w-full overflow-hidden
+}
+.sidebar_nav_item{
+  @apply  font-bold pl-10 rounded-l-full hover:translate-x-6 origin-right transition-transform duration-200 py-4 hover:bg-emerald-500 dark:hover:shadow-emerald-500/20 hover:shadow-lg  text-4xl text-slate-700 hover:text-white mt-4 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-slate-50 block
+}
 
-    .accordion-heading {
-      @apply dark:!text-slate-200 text-[#444]
-    }
-    .contact .icons-container .icons h3 {
-      @apply capitalize text-[#444] dark:text-slate-50 text-[1.3rem] py-[.5rem] px-0;
-    }
-    .contact .icons-container .icons p {
-      @apply  text-[#777] dark:text-slate-400 text-[1rem] ;
-    }
+
+/* --------------- logo -------------------- */
+
+.logo_icon_dark{
+  @apply hidden h-8 w-8 object-cover dark:block md:h-10 md:w-10
+}
+.logo_icon_light{
+  @apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10
+}
+.logo_text{
+  @apply text-xl font-bold text-slate-900 dark:text-white md:text-xl font-title
+}
+/* ------------------------------------------------ */
+/* ========  FEATURE SECTION -==================== */
+.aside_card{
+  @apply block    p-8 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 
+  duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-full    dark:border-gray-600
+  
+ }
+ .aside_icon{
+  @apply text-emerald-500  transition-transform  ease-in-out w-12 h-12 rounded-md p-3
+ }
+.feature_heading{
+  @apply mt-4 text-xl font-bold text-black dark:text-white font-title
+}
+.feature_description{
+  @apply mt-1 text-sm text-slate-600 dark:text-slate-300 }
+
+/* TIMELINE */
+
+
+ /* ============================= HERO ==================*/
+.hero_btn{
+  @apply inline-block w-full sm:w-60  py-2 px-10 text-white text-xl font-medium rounded-md  hover:bg-emerald-700 bg-emerald-600   shadow-md hover:shadow-lg transition-colors duration-300  mt-10 text-center
+}
+#myUL{
+  @apply w-full
+}
+
+ /* --------------PROGRAM--------------- */
+.programme_heading{
+  @apply text-center rounded-md mx-auto p-2 bg-emerald-50 text-emerald-500 font-body dark:text-emerald-50 dark:bg-emerald-700 text-2xl capitalize  font-extrabold  tracking-wide my-20 
+ }
+ .programme-title{
+  @apply block text-center text-2xl md:text-3xl lg:text-5xl font-extrabold text-black uppercase tracking-widest dark:text-white mt-6 mb-4  }
+.title-heading{
+  @apply text-center text-xl md:text-3xl  font-extrabold text-slate-900 uppercase tracking-widest   mb-4 font-body
+}
+.sub_link{
+  @apply text-center text-[1.2rem] text-[#777]
+}
+.headin-link{
+  @apply text-center bg-cover bg-center bg-[url('../assets/img/heading-bg.jpg')] px-4
+}
+  .program_filter{
+    @apply  flex sm:justify-center   overflow-y-auto items-center whitespace-nowrap py-3 space-x-2 px-2
+  }
+  .program_card{
+    @apply mb-10 sm:mb-0 relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden
+    duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer   dark:border-gray-600 rounded-3xl  bg-white dark:bg-transparent
     
-    /* Share button */
-    .share-btn{
-      @apply    text-white font-body  bg-emerald-600  ring-2 ring-emerald-500  p-4  w-1/6 rounded-md absolute -right-2 -bottom-2 h-2/6 items-center flex 
-    }
-    .books_container{
-      @apply backdrop-blur-xl  mb-20 overflow-hidden max-w-2xl rounded-3xl px-4 md:px-6 py-8  text-center pattern
-    }
-    .books_btn{
-      @apply  inline-block w-full sm:w-60 mt-10 py-2 px-10 dark:text-white text-lg font-medium rounded-md hover:text-white hover:bg-emerald-600 ring-emerald-600 text-emerald-600 dark:ring-white ring-2 dark:hover:bg-white dark:hover:text-current shadow-md hover:shadow-lg transition-colors duration-300
-    }
-    .books_info{
-      @apply text-slate-600 dark:text-slate-300 block text-lg 
-    }
-    .books_heading{
-      @apply inline-block text-2xl md:text-4xl font-bold text-blue-600
-    }
-    .books_heading_wrapper{
-      @apply inline-flex space-x-2 items-center mb-4 justify-center text-blue-500 bg-blue-200 dark:bg-blue-700/30 rounded-md shadow-sm py-4 px-8
-    }
-    
-    
-    }
-    .pattern{
-        background-image: url('https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png');
-        background-position-x: center;
-          background-position-y: 172px;
-          background-size: initial;
-        background-repeat: no-repeat;
-      }
-       
+   }
+   .program_wrapper{
+    @apply lg:px-10 mx-auto max-w-6xl sm:w-[100%] relative mb-60 sm:grid gap-8   sm:grid-cols-2 md:pt-12 lg:grid-cols-3 lg:gap-8  p-1
+  }
+
+
+   /* ---------------------------------------- */
+
+ 
+
+ 
+ .cards_container{
+  /* @apply relative mt-8 mb-20 grid grid-cols-1 gap-8 border-l border-gray-200 dark:border-gray-700 md:grid-cols-2 md:p-6 lg:grid-cols-3 xl:grid-cols-4  lg:border-none */
+ @apply relative mb-60  sm:grid   sm:grid-cols-2 md:pt-12 lg:grid-cols-3  md:mx-auto md:w-[85%] gap-8
+ }
+ .text_container{
+  @apply p-4 md:p-5 space-y-2  overflow-hidden flex-1
+ }
+.card_link{
+    @apply  flex sm:flex-col overflow-hidden    transition 
+  }
+  .card_image_wrapper{
+    /* sm:pt-[60%] lg:pt-[80%] */
+    @apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-1/3
+  }
+.card_image{
+  @apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out 
+  }
+  .course-code{
+    @apply w-max uppercase tracking-widest md:text-white text-[10px]  mb-2  font-body bottom-4 right-4 absolute md:top-5 md:bg-amber-900/70 md:ring-2  ring-amber-500 backdrop-blur-2xl px-2 py-1 rounded-md font-bold text-amber-600
+  }
+.card_heading{
+    @apply lg:text-lg font-bold  text-sm  text-gray-800 dark:text-white capitalize font-title text-left w-full md:w-5/6 align-middle
+  }
+
+
+
+  /*==========  Year Cards =================== */
+
+
+/* ============================================ */
+
+
+
+.footer{
+    @apply bg-emerald-900
+  }
+.footer_content_wrapper{
+    @apply mx-auto max-w-screen-xl space-y-8 overflow-hidden px-4 py-12 sm:px-6 lg:px-8
+  }
+.footer_link_wrapper{
+    @apply mt-8 flex justify-center space-x-6
+  }
+  .footer_links{
+    @apply rounded-full p-2 text-gray-50 hover:bg-emerald-200 hover:text-emerald-600 duration-300 transition-colors
+  }
+  .footer_copyright{
+    @apply mt-8 text-center text-xs sm:text-sm md:text-base leading-6 text-gray-200
+  }
+
+
+
+
+
+.contact .icons-container .icons h3 {
+  @apply capitalize text-[#444] dark:text-slate-50 text-[1.3rem] py-[.5rem] px-0;
+}
+.contact .icons-container .icons p {
+  @apply  text-[#777] dark:text-slate-400 text-[1rem] ;
+}
+
+/* Share button */
+.share-btn{
+  @apply    text-white font-body  bg-emerald-600  ring-2 ring-emerald-500  p-4  w-1/6 rounded-md absolute -right-2 -bottom-2 h-2/6 items-center flex 
+}
+.books_container{
+  @apply backdrop-blur-xl  mb-20 overflow-hidden max-w-2xl rounded-3xl px-4 md:px-6 py-8  text-center pattern
+}
+.books_btn{
+  @apply  inline-block w-full sm:w-60 mt-10 py-2 px-10 dark:text-white text-lg font-medium rounded-md hover:text-white hover:bg-emerald-600 ring-emerald-600 text-emerald-600 dark:ring-white ring-2 dark:hover:bg-white dark:hover:text-current shadow-md hover:shadow-lg transition-colors duration-300
+}
+.books_info{
+  @apply text-slate-600 dark:text-slate-300 block text-lg 
+}
+.books_heading{
+  @apply inline-block text-2xl md:text-4xl font-bold text-blue-600
+}
+.books_heading_wrapper{
+  @apply inline-flex space-x-2 items-center mb-4 justify-center text-blue-500 bg-blue-200 rounded-md shadow-sm py-4 px-8
+}
+
+
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* border-radius: 100vh; */
+  background: #2f3030;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #34d484;
+  border-radius: 100vh;
+  border: 3px solid #363738;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #14ca6f;
+}
+ 
+
+
+.pattern{
+  background-image: url('https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png');
+  background-position-x: center;
+    background-position-y: 172px;
+    background-size: initial;
+  background-repeat: no-repeat;
+}
+
+ 
 .nav-bar {
  
   
-    left: 0;
-    width: 100%;
-    padding: 20px 200px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
+  left: 0;
+  width: 100%;
+  padding: 20px 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.nav-bar .logo {
+  font-size: 22px;
+  font-weight: 500;
+}
+.nav-bar .nav-links {
+  column-gap: 20px;
+  list-style: none;
+}
+.nav-bar .nav-links a {
+  transition: all 0.2s linear;
+}
+.nav-bar .nav-links a:hover {
+  color:#15c095;
+}
+.nav-bar.openSearch .nav-links a {
+  opacity: 0;
+  pointer-events: none;
   
+}
+.nav-bar .search-icon {
   
+  font-size: 20px;
+  cursor: pointer;
+}
+.nav-bar .search-box {
+  position: absolute;
   
-  .nav-bar .logo {
-    font-size: 22px;
-    font-weight: 500;
-  }
-  .nav-bar .nav-links {
-    column-gap: 20px;
-    list-style: none;
-  }
-  .nav-bar .nav-links a {
-    transition: all 0.2s linear;
-  }
-  .nav-bar .nav-links a:hover {
-    color:#15c095;
-  }
-  .nav-bar.openSearch .nav-links a {
-    opacity: 0;
-    pointer-events: none;
-    
-  }
+  height: 45px;
   
-  /* responsive */
-  @media screen and (max-width: 1160px) {
-    .nav-bar {
-      padding: 15px 100px;
-    }
-    /* .nav-bar .search-box {
-      right: 150px;
-    } */
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s linear;
+}
+.nav-bar.openSearch .search-box {
+  opacity: 1;
+  pointer-events: auto;
+}
+.search-box .search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  left: 15px;
+  color: #11af87;
+  transform: translateY(-50%);
+}
+.search-box input {
+  height: 100%;
+ 
+  border: none;
+  outline: none;
+  border-radius: 6px;
+
+  padding: 0 15px 0 45px;
+}
+
+.nav-bar .navOpenBtn,
+.nav-bar .navCloseBtn {
+  display: none;
+}
+
+/* responsive */
+@media screen and (max-width: 1160px) {
+  .nav-bar {
+    padding: 15px 100px;
   }
-  @media screen and (max-width: 950px) {
-    .nav-bar {
-      padding: 15px 50px;
-    }
-    .nav-bar .search-box {
-      right: 200px;
-      max-width: 400px;
-    }
+  /* .nav-bar .search-box {
+    right: 150px;
+  } */
+}
+@media screen and (max-width: 950px) {
+  .nav-bar {
+    padding: 15px 50px;
   }
-  @media screen and (max-width: 768px) {
-    .nav-bar .navOpenBtn,
-    .nav-bar .navCloseBtn {
-      display: block;
-    }
-    .nav-bar {
-      padding: 15px 20px;
-    }
+  .nav-bar .search-box {
+    right: 200px;
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .nav-bar .navOpenBtn,
+  .nav-bar .navCloseBtn {
+    display: block;
+  }
+  .nav-bar {
+    padding: 15px 20px;
+  }
+
   
-    
-    .nav-bar .search-box {
-      top: calc(100% + 0px);
-      max-width: calc(100% - 20px);
-      right: 50%;
-      transform: translateX(50%);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+  .nav-bar .search-box {
+    top: calc(100% + 0px);
+    max-width: calc(100% - 20px);
+    right: 50%;
+    transform: translateX(50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
-  
+}
+
+
+section {
+  padding: 5rem 5%;
+}
+
+.heading-link {
+  text-align: center;
+
+  background: url('../assets/img/heading-bg.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.heading-link h3 {
+  font-size: 2rem;
+  text-transform: capitalize;
+  color: #444;
+}
+
+.heading-link p {
+  font-size: 1.2rem;
+  line-height: 2;
+  color: #777;
+}
+
+.heading-link p a {
+  color: #0eb582;
+}
+
+.heading-link p a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+.contact .icons-container {
+  margin-bottom: 3rem;
+
+
+
+}
+
+.contact .icons-container .icons {
+  text-align: center;
+  padding: 3rem 2rem;
+
+
+}
+
+.contact .icons-container .icons i {
+  height: 4rem;
+  width: 4rem;
+  line-height: 4rem;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  margin-bottom: .5rem;
+  color: #fff;
+  background: #0eb582;
+}
+
+.contact .icons-container .icons h3 {
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  color: #444;
+  padding: .5rem 0;
+}
+
+
+
+.contact .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+ .faq .accordion-container .accordion {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 40rem;
+          flex: 1 1 40rem;
+        
+  border: 0.1rem solid #0eb582;
+}
+
+.faq .accordion-container .accordion.active .accordion-heading {
+  background: #0eb582;
+}
+
+.faq .accordion-container .accordion.active .accordion-heading h3 {
+  color: #fff;
+}
+
+.faq .accordion-container .accordion.active .accordion-heading i {
+  color: #fff;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.faq .accordion-container .accordion.active .accordion-content {
+  display: block;
+}
+
+.faq .accordion-container .accordion .accordion-heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 1.5rem;
+}
+
+.faq .accordion-container .accordion .accordion-heading h3 {
+  font-size: 1.2rem;
+  text-transform: capitalize;
+
+}
+
+.faq .accordion-container .accordion .accordion-heading i {
+  font-size: 1.5rem;
+  color: #0eb582;
+}
+
+.faq .accordion-container .accordion .accordion-content {
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 2;
+  color: #777;
+  border-top: 0.1rem solid #0eb582;
+  display: none;
+}
+
+
+
+@media (max-width: 1200px) {
+  section {
+    padding: 3rem 5%;
+  }
+}
+
+@media (max-width: 991px) {
   
   section {
-    padding: 5rem 5%;
-  }
-  
-  .heading-link {
-    text-align: center;
-  
-    background: url('../assets/img/heading-bg.jpg') no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .heading-link h3 {
-    font-size: 2rem;
-    text-transform: capitalize;
-    color: #444;
-  }
-  
-  .heading-link p {
-    font-size: 1.2rem;
-    line-height: 2;
-    color: #777;
-  }
-  
-  .heading-link p a {
-    color: #0eb582;
-  }
-  
-  .heading-link p a:hover {
-    text-decoration: underline;
-  }
-  
-.contact .icons-container {
-    margin-bottom: 3rem;
-  
-  
-  
-  }
-  
-  .contact .icons-container .icons {
-    text-align: center;
     padding: 3rem 2rem;
-  
-  
   }
-  
-  .contact .icons-container .icons i {
-    height: 4rem;
-    width: 4rem;
-    line-height: 4rem;
-    font-size: 1.5rem;
-    border-radius: 50%;
-    margin-bottom: .5rem;
-    color: #fff;
-    background: #0eb582;
-  }
-  
-  .contact .icons-container .icons h3 {
-    font-size: 1.3rem;
-    text-transform: capitalize;
-    color: #444;
-    padding: .5rem 0;
-  }
-  
-  
-  
-  .contact .row {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    gap: 2rem;
-  }
-  
-  
-  
-  
-  
-  @media (max-width: 1200px) {
-    section {
-      padding: 3rem 5%;
-    }
-  }
-  
-  @media (max-width: 991px) {
-    
-    section {
-      padding: 3rem 2rem;
-    }
-  }
-  
-  
+}
