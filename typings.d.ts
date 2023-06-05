@@ -13,7 +13,7 @@ interface ProgramData {
 	name:string
 	description:string
   duration:string
-	programId:string
+	image:string
 }
 interface CampusData {
 
