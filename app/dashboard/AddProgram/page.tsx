@@ -21,16 +21,27 @@ export default function AddProgram() {
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [duration, setDuration] = useState('');
   
+	
+
 	const handleImageUpload = async () => {
-	  if (imageFile) {
-		const response = await storage.createFile('647d48fe0c9790069105',ID.unique(),
+		if (imageFile) {
+		  try {
+			const response = await storage.createFile('647d48fe0c9790069105',ID.unique(),
 			imageFile);
-		return response.$id;
-		console.log(response.$id)
+			const fileId = response.$id;
+			
+			const fileResponse = await storage.getFileView('647d48fe0c9790069105',fileId);
+			const imageUrl = fileResponse;
+			console.log(fileResponse)
+			
+			return imageUrl;
+		  } catch (error) {
+			console.error('Error uploading image:', error);
+		  }
+		}
 		
-	  }
-	  return '';
-	};
+		return '';
+	  };
   
 	const handleSubmit = async (event: React.FormEvent) => {
 	  event.preventDefault();
