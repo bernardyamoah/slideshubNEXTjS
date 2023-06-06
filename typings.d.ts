@@ -9,17 +9,15 @@ interface CourseData {
 	programId: string;
 }
 interface ProgramData {
-
-	name:string
-	description:string
-  duration:string
-	image:string
+	name: string;
+	description: string;
+	duration: string;
+	image: string;
 }
 interface CampusData {
-
-	name:string
-	location:string
-	image:string
+	name: string;
+	location: string;
+	image: string;
 }
 
 interface Image {
