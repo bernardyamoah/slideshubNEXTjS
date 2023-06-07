@@ -37,7 +37,7 @@ export default function Dashboard() {
 			<div className='max-w-2xl grid grid-cols-2 gap-8 container '>
 			{Buttons.map((button, index) => (
 						<Link href={button.link} key={index}>
-						<Card>
+			<Card>
 			  <CardHeader>
 				<CardTitle>{button.name}</CardTitle>
 				
