@@ -1,4 +1,5 @@
 'use client'
+import SelectProgram from "@/components/SelectCampus";
 import {
   Card,
 
@@ -33,7 +34,7 @@ export default function Dashboard() {
 		<>
 			<h1 className='text-5xl my-5 text-center font-bold '>Dashboard</h1>
 			<div className=' flex items-center mt-10'>
-
+<SelectProgram/>
 			<div className='max-w-2xl grid grid-cols-2 gap-8 container '>
 			{Buttons.map((button, index) => (
 						<Link href={button.link} key={index}>

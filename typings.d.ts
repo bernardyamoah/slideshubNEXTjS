@@ -1,6 +1,5 @@
 interface CourseData {
-	courseName: string;
-	description: string;
+	name: string;
 	semester: string;
 	courseCode: string;
 	credit: string;
@@ -8,11 +7,14 @@ interface CourseData {
 	fileId: string;
 	programId: string;
 }
+
 interface ProgramData {
 	name: string;
-	description: string;
+
 	duration: string;
 	image: string;
+	campusId:string;
+
 }
 interface CampusData {
 	name: string;
