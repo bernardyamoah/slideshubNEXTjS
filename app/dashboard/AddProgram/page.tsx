@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react';
+import * as React from "react"
+import { useEffect, useState } from "react"
 import { storage, ID } from '@/appwrite';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,14 +17,48 @@ import { createProgram } from '@/lib/createProgram';
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
 
+
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { getCampus } from "@/lib/getCampus"
+
+
+
 export default function AddProgram() {
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [duration, setDuration] = useState('');
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [value, setValue] = React.useState("")
+  console.log(value)
+  const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
+  useEffect(() => {
+      async function fetchCampuses() {
+        try {
+          const response = await getCampus();
+          setCampuses(response);
+        } catch (error) {
+          console.log('Error fetching campuses:', error);
+        }
+      }
+  
+      fetchCampuses();
+    }, []);
 
+    const handleSelectChange = (selectedValue: string) => {
+      setValue(selectedValue);
+    };
+  // handle upload progress
   const handleImageUpload = async () => {
     if (imageFile) {
       try {
@@ -33,7 +68,7 @@ export default function AddProgram() {
           ID.unique(),
           file,
           undefined,
-		  (progress: UploadProgress)  => {
+		  (progress:UploadProgress)  => {
 			// Update the progress bar with the progress value (0-100)
 			const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
 			console.log('Upload progress:', uploadprogress);
@@ -55,7 +90,7 @@ export default function AddProgram() {
 
     return '';
   };
-
+// Handle image change
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -71,6 +106,7 @@ export default function AddProgram() {
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -79,9 +115,10 @@ export default function AddProgram() {
 
       const programData = {
         name,
-        description,
         duration,
         image: imageUrl,
+        campusId:value
+        
       };
 
       const response = await createProgram(programData);
@@ -89,7 +126,7 @@ export default function AddProgram() {
 
       // Reset form fields
       setName('');
-      setDescription('');
+  setValue('')
       setDuration('');
       setImageFile(null);
       setImagePreview(null);
@@ -107,10 +144,7 @@ export default function AddProgram() {
         <div className="max-w-2xl md:container">
 
 				{/* Display Program preview */}
-
-                {imagePreview && (
-					
-
+          {imagePreview && (
 				  <aside
 				
 				className=" mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
@@ -129,7 +163,7 @@ export default function AddProgram() {
 				  </div>
 				  <div className="text_container">
 					<h3 className="card_heading">{name}</h3>
-					<p className="text-sm font-light text-gray-400">{description}</p>
+			
 					<p className="course-code"><span className='text-gray-400 mr-2 sm:hidden'>Duration:</span> {duration}</p>
 					</div>
 				</div>
@@ -142,6 +176,7 @@ export default function AddProgram() {
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
+                
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Program Name</Label>
                     <Input
@@ -151,16 +186,35 @@ export default function AddProgram() {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
-
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="description">Description</Label>
-                    <Input
-                      id="description"
-                      placeholder="Describe the course"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
+                  {/* Select campus */}
+                  
+                  <Label htmlFor="campus">Campus</Label>
+                  <Select   onValueChange={handleSelectChange}>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Select campus"/>
+      </SelectTrigger>
+  
+    
+      <SelectContent position="popper" >
+      
+      
+      <SelectGroup>
+          <SelectLabel>Campus</SelectLabel>
+          {campuses.map((campus) => (
+            <SelectItem key={campus.$id} value={campus.$id} >{campus.name}</SelectItem>
+          ))}
+        
+         
+        </SelectGroup>
+        
+      </SelectContent>
+    
+    </Select>
+
+
                   </div>
+                
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="duration">Duration</Label>
                     <Input
