@@ -171,7 +171,7 @@ export default function AddCampus() {
                     <Label htmlFor="picture">Picture</Label>
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
-        <Button >add</Button>
+				  <div className='mt-24 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
           </div>
         </form>
       </CardContent>

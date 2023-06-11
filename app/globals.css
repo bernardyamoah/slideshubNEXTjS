@@ -227,7 +227,7 @@ h1{
 
 
 .footer{
-    @apply bg-emerald-900
+    @apply bg-emerald-900 fixed bottom-0 inset-x-0
   }
 .footer_content_wrapper{
     @apply mx-auto max-w-screen-xl space-y-8 overflow-hidden px-4 py-12 sm:px-6 lg:px-8

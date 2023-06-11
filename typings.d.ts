@@ -5,6 +5,7 @@ interface CourseData {
 	credit: string;
 	lecturer: string;
 	fileId: string;
+	image:string;
 	programId: string;
 }
 

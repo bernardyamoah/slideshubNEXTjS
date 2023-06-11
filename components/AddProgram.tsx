@@ -242,8 +242,9 @@ export default function AddProgram() {
                     <Label htmlFor="picture">Picture</Label>
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
-              <div className='mt-6 flex justify-end'>  <Button type="submit">Add</Button></div>
-                </div>
+                
+                  <div className='mt-24 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
+              </div>
               </form>
             </CardContent>
             {uploadProgress > 0 && (

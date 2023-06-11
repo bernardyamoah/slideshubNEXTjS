@@ -85,6 +85,7 @@ const documents = responseCampus.documents;
 // Check if a document with the same name already exists
 const existingCourse = documents.find(
   (doc) => doc.name === courseData.name && doc.programId === courseData.programId
+
 );
 
 if (existingCourse ) {
@@ -220,11 +221,7 @@ export const getPrograms = async (): Promise<any[]> => {
 };
 export async function getCoursesByProgramId(programId: string): Promise<any[]> {
   try {
-    // Create an instance of the Appwrite SDK
-  
-
-
-
+    
     // Fetch the courses by programId
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID!,

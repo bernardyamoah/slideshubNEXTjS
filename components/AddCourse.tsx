@@ -197,7 +197,7 @@ const creditHours=[
 			
 			<div className=' flex items-center mt-10'>
 
-			<div className=' sm:container w-full p-2'>
+			<div className=' sm:container w-full '>
         {/* Display Program preview */}
         {imagePreview && (
 				  <aside
@@ -253,108 +253,8 @@ const creditHours=[
                       onChange={(e) => setName(e.target.value)}
                     />
             </div>
-            <div className="grid  w-full items-center gap-1.5">
-                    <Label htmlFor="picture">Picture</Label>
-                    <Input id="picture" type="file" onChange={handleImageChange} />
-                  </div>
-          
-                  <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="lecturer">Lecturer Name</Label>
-              <Input
-                      id="lecturer"
-                      placeholder="Dr. Martinson"
-                      value={lecturer}
-                      onChange={(e) =>setLecturer(e.target.value)}
-                    />
-            </div>
-<div className='gap-2 grid grid-cols-2'>
-{/* Course code */}
-<div className="flex flex-col space-y-1.5 w-full">
-              <Label htmlFor="course_code">Course Code</Label>
-              <Input
-                      id="course_code"
-                      placeholder="MSE 4324"
-                      value={courseCode}
-                      onChange={(e) => setCourseCode(e.target.value)}
-                    />
-            </div>
-
-            {/* Credit Hours */}
-
-<div className="flex flex-col space-y-1.5 w-full">
-              <Label htmlFor="credit">Credit Hours</Label>
-              <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {credit
-            ? creditHours.find((creditHour) => creditHour.id === credit)?.hour
-            : "Select credit hour"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command onValueChange={handleCreditHourChange}>
-          <CommandInput placeholder="Search ..." />
-          <CommandEmpty>No credit hour found.</CommandEmpty>
-          <CommandGroup>
-            {creditHours.map((creditHour) => (
-              <CommandItem
-                key={creditHour.id}
-                onSelect={(currentValue) => {
-                  setCredit(currentValue === credit ? "" : currentValue)
-                  setOpen(false)
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    credit === creditHour.id ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {creditHour.hour}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  
-            </div>
-{/* Semester */}
-<div className="flex flex-col space-y-1.5 flex-1">
-              <Label htmlFor="name">Semester</Label>
-              <Select  onValueChange={handleSemesterChange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Semester" />
-                  <SelectContent position="popper" >
-                    <SelectItem value="first semester">First Semester</SelectItem>
-                    <SelectItem value="second semester">Second Semester</SelectItem>
-                    
-                  </SelectContent>
-                </SelectTrigger>
-              </Select>
-            </div>
-
-</div>
-            
-			
-
-
-            
-		
-
-
-
-
-
-
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="credit">Programmes</Label>
+              <Label htmlFor="programme">Programme</Label>
               <Popover open={open1} onOpenChange={setOpen1}>
       <PopoverTrigger asChild>
         <Button
@@ -400,20 +300,97 @@ const creditHours=[
 
 
 
+            <div className="grid  w-full items-center gap-1.5">
+                    <Label htmlFor="picture">Picture</Label>
+                    <Input id="picture" type="file" onChange={handleImageChange} />
+                  </div>
+          
+                  <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="lecturer">Lecturer Name</Label>
+              <Input
+                      id="lecturer"
+                      placeholder="Dr. Martinson"
+                      value={lecturer}
+                      onChange={(e) =>setLecturer(e.target.value)}
+                    />
+            </div>
+<div className='gap-4 md:gap-4 flex flex-wrap lg:grid grid-cols-3'>
+{/* Course code */}
+<div className="flex flex-col space-y-1.5  shrink w-24 ">
+              <Label htmlFor="course_code">Course Code</Label>
+              <Input
+                      id="course_code"
+                      placeholder="MSE 4324"
+                      value={courseCode}
+                      onChange={(e) => setCourseCode(e.target.value)}
+                    />
+            </div>
 
+            {/* Credit Hours */}
 
+<div className="flex flex-col space-y-1.5 w-full flex-1 ">
+              <Label htmlFor="credit">Credit Hours</Label>
+              <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between  overflow-hidden no-wrap"
+        >
+          {credit
+            ? creditHours.find((creditHour) => creditHour.id === credit)?.hour
+            : "Select credit hour"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command onValueChange={handleCreditHourChange}>
+          <CommandInput placeholder="Search ..." />
+          <CommandEmpty>No credit hour found.</CommandEmpty>
+          <CommandGroup>
+            {creditHours.map((creditHour) => (
+              <CommandItem
+                key={creditHour.id}
+                onSelect={(currentValue) => {
+                  setCredit(currentValue === credit ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    credit === creditHour.id ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {creditHour.hour}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  
+            </div>
+{/* Semester */}
+<div className="flex flex-col space-y-1.5 flex-1 w-44 sm:w-full">
+              <Label htmlFor="name">Semester</Label>
+              <Select  onValueChange={handleSemesterChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Semester" className='text-xs' />
+                  <SelectContent position="popper" >
+                    <SelectItem value="first semester">First Semester</SelectItem>
+                    <SelectItem value="second semester">Second Semester</SelectItem>
+                    
+                  </SelectContent>
+                </SelectTrigger>
+              </Select>
+            </div>
 
-
-
-
-
-
-
-
-
-
+</div>
+            
 		
-            <div className='mt-10 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
+            <div className='mt-24 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
             
           </div>
         </form>

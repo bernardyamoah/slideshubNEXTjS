@@ -42,7 +42,7 @@ export default function DataEntry() {
     <>
     
 
-      <Tabs defaultValue={activeTab} className="max-w-2xl mx-auto px-2 w-full md:overflow-y-auto md:full">
+      <Tabs defaultValue={activeTab} className="w-full mx-auto   md:overflow-y-auto md:full">
         <TabsList className="flex justify-evenly items-center sm:grid w-full sm:grid-cols-4">
           {Buttons.map((button, index) => (
             <TabsTrigger
