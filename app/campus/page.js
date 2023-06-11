@@ -26,7 +26,7 @@ export default function Campus() {
     <>
       <main className="card_container">
         <h1 className="text-2xl font-bold mb-4 text-center">Campuses</h1>
-        <section className="max-w-6xl container relative grid grid-cols-2 gap-8 pb-10">
+        <section className="max-w-6xl container relative flex flex-wrap sm:grid sm:grid-cols-2 gap-8 pb-10">
           <Suspense fallback={<Loading />}>
             {campuses.map((campus) => (
               <aside
@@ -35,13 +35,13 @@ export default function Campus() {
               >
                 <Link className="card_link group" href={`/campus/${campus.$id}`}>
                   <div className="card_image_wrapper">
-                    {/*<Image
+                    <Image
                       className="card_image group-hover:scale-105"
                       src={campus.image}
                       alt={campus.name}
                       width={300}
                       height={200}
-                    />*/}
+                    />
                   </div>
                   <div className="text_container">
                     <h3 className="card_heading">{campus.name}</h3>

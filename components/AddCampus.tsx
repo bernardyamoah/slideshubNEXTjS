@@ -5,8 +5,12 @@ import {useState} from 'react'
 
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,  CardFooter
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
   
 } from "@/components/ui/card"
 import { UploadProgress } from 'appwrite';
@@ -111,10 +115,10 @@ export default function AddCampus() {
 
 	return (
 		<>
-			<h1 className='text-2xl my-5 text-center font-bold '>Add a New Campus</h1>
+			
 			<div className=' flex items-center mt-10'>
 
-			<div className='max-w-2xl container '>
+			<div className='max-w-2xl sm:container w-full p-2'>
 			{imagePreview && (
 				<section className='space-y-6'>
 
@@ -143,8 +147,11 @@ export default function AddCampus() {
 			  </aside>
 				</section>            
                 )}
-			<Card className="lg:container md:max-w-2xl  pt-6">
-
+			<Card className="lg:container md:max-w-2xl  ">
+			<CardHeader>
+        <CardTitle>Add Campus</CardTitle>
+        <CardDescription>Deploy your new project in one-click.</CardDescription>
+      </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid w-full items-center gap-4">

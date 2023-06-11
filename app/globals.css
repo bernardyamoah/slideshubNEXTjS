@@ -83,7 +83,7 @@
  
 @layer base{
 body{
-  @apply !pt-10  bg-white dark:bg-slate-900 font-body
+  @apply !pt-10  bg-white dark:bg-slate-900 font-body pattern bg-cover
 }
 h1{
   @apply text-3xl font-bold text-black dark:text-white font-title

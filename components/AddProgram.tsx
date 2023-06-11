@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  
+  CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
  
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -41,7 +43,7 @@ export default function AddProgram() {
   const [duration, setDuration] = useState('');
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [value, setValue] = React.useState("")
-  console.log(value)
+
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
   useEffect(() => {
       async function fetchCampuses() {
@@ -49,7 +51,7 @@ export default function AddProgram() {
           const response = await getCampus();
           setCampuses(response);
         } catch (error) {
-          console.log('Error fetching campuses:', error);
+        
         }
       }
   
@@ -141,9 +143,9 @@ export default function AddProgram() {
 
   return (
     <>
-      <h1 className="text-5xl my-5 text-center font-bold">Add Program</h1>
+      
       <div className="flex items-center mt-10">
-        <div className="max-w-2xl md:container">
+      <div className='max-w-2xl sm:container w-full p-2'>
 
 				{/* Display Program preview */}
           {imagePreview && (
@@ -165,7 +167,14 @@ export default function AddProgram() {
 				  </div>
 				  <div className="text_container">
 					<h3 className="card_heading">{name}</h3>
+			<div>
+          <p className='text-gray-400 mr-2 text-sm'>Duration:</p>
+      <p className="course-code">{duration}</p>
+      </div>
 			
+			
+					<p className="course-code"><span className='text-gray-400 mr-2 sm:hidden'>Duration:</span> {duration}</p>
+					
 					<p className="course-code"><span className='text-gray-400 mr-2 sm:hidden'>Duration:</span> {duration}</p>
 					</div>
 				</div>
@@ -173,8 +182,11 @@ export default function AddProgram() {
             
                 )}
 
-          <Card className="md:container md:max-w-2xl py-4 pt-6">
-            
+<Card className="lg:container md:max-w-2xl  ">
+          <CardHeader>
+        <CardTitle>Add Program</CardTitle>
+        <CardDescription>Deploy your new project in one-click.</CardDescription>
+      </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
@@ -204,7 +216,7 @@ export default function AddProgram() {
       <SelectGroup>
           <SelectLabel>Campus</SelectLabel>
           {campuses.map((campus) => (
-            <SelectItem key={campus.$id} value={campus.$id} >{campus.name}</SelectItem>
+            <SelectItem key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
           ))}
         
          
@@ -226,11 +238,11 @@ export default function AddProgram() {
                       onChange={(e) => setDuration(e.target.value)}
                     />
                   </div>
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <div className="grid  w-full items-center gap-1.5">
                     <Label htmlFor="picture">Picture</Label>
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
-                  <Button type="submit">Add</Button>
+              <div className='mt-6 flex justify-end'>  <Button type="submit">Add</Button></div>
                 </div>
               </form>
             </CardContent>

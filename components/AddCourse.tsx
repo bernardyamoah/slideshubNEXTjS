@@ -25,7 +25,7 @@ import {
 import {getPrograms} from '@/lib/getPrograms'
 import {createCourse} from '@/lib/functions'
 import { Check, ChevronsUpDown } from "lucide-react"
-
+import { storage, ID } from '@/appwrite';
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -41,6 +41,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import Image from 'next/image';
+import { UploadProgress } from 'appwrite';
 
 export default function AddCourse() {
   const [open, setOpen] = React.useState(false)
@@ -57,8 +59,10 @@ export default function AddCourse() {
 
 	const [fileId, setFileId]=useState('')
 	const [programId, setprogramId]=React.useState("")
-  console.log(programId)
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   useEffect(() => {
       async function fetchPrograms() {
         try {
@@ -71,7 +75,6 @@ export default function AddCourse() {
   
       setTimeout(fetchPrograms, 10000);
     }, []);
-
 
 
 
@@ -94,10 +97,59 @@ const creditHours=[
     hour: '4'
   },
 ]
+  // handle upload progress
+  const handleImageUpload = async () => {
+    if (imageFile) {
+      try {
+        const file = imageFile;
+        const uploader = await storage.createFile(
+          '647d48fe0c9790069105',
+          ID.unique(),
+          file,
+          undefined,
+		  (progress:UploadProgress)  => {
+			// Update the progress bar with the progress value (0-100)
+			const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
+			console.log('Upload progress:', uploadprogress);
+      setUploadProgress(uploadprogress);
+			return uploadprogress
+          }
+        );
+
+        const fileId = uploader.$id;
+        const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
+        const imageUrl = fileResponse.toString();
+        console.log(imageUrl);
+
+        return imageUrl;
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+
+    return '';
+  };
+// Handle image change
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+  };
 
 	const handleSubmit=async (event:React.FormEvent)=>{
 		event.preventDefault()
 		try{
+      const imageUrl = await handleImageUpload();
+    
 			const courseData={
 				name,
 	semester,
@@ -105,6 +157,7 @@ const creditHours=[
 	credit,
 	lecturer,
 	fileId,
+  image:imageUrl,
 	
 					programId:programId
 	
@@ -141,18 +194,56 @@ const creditHours=[
   };
 	return (
 		<>
-			<h1 className='text-5xl my-5 text-center font-bold '>Add course</h1>
+			
 			<div className=' flex items-center mt-10'>
 
-			<div className='max-w-2xl container '>
-			<Card className="container md:max-w-2xl  ">
+			<div className=' sm:container w-full p-2'>
+        {/* Display Program preview */}
+        {imagePreview && (
+				  <aside
+				
+				className=" mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
+			  >
+				<div className=" group" >
+    
+				  <div className="card_image_wrapper">
+					<Image
+					  className="card_image group-hover:scale-105"
+					  fill
+					  src={imagePreview}
+					  alt="Upload image"
+					  
+				   
+					/> 
+				  
+				  </div>
+				  <div className="text_container">
+					<h3 className="card_heading">{name}</h3>
+			<div>
+          <p className='text-gray-400 mr-2 text-sm'>{semester}</p>
+          <p className='text-gray-400 mr-2 text-sm'>{courseCode}</p>
+          {credit&&(
+            <p className='text-gray-400 mr-2 text-sm'>{credit} hours</p>
+          )}
+          <p className='text-gray-400 mr-2 text-sm'>{lecturer}</p>
+      </div>
+			
+			
+				
+					</div>
+				</div>
+			  </aside>
+            
+                )}
+
+			<Card className="lg:container  ">
       <CardHeader>
-        <CardTitle>Create project</CardTitle>
+        <CardTitle>Add course</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
-          <div className="grid w-full items-center gap-4">
+          <div className="grid w-full items-center gap-2 space-y-6">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Course Name</Label>
               <Input
@@ -162,12 +253,80 @@ const creditHours=[
                       onChange={(e) => setName(e.target.value)}
                     />
             </div>
-            <div className="flex flex-col space-y-1.5">
-                
+            <div className="grid  w-full items-center gap-1.5">
+                    <Label htmlFor="picture">Picture</Label>
+                    <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
+          
+                  <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="lecturer">Lecturer Name</Label>
+              <Input
+                      id="lecturer"
+                      placeholder="Dr. Martinson"
+                      value={lecturer}
+                      onChange={(e) =>setLecturer(e.target.value)}
+                    />
+            </div>
+<div className='gap-2 grid grid-cols-2'>
+{/* Course code */}
+<div className="flex flex-col space-y-1.5 w-full">
+              <Label htmlFor="course_code">Course Code</Label>
+              <Input
+                      id="course_code"
+                      placeholder="MSE 4324"
+                      value={courseCode}
+                      onChange={(e) => setCourseCode(e.target.value)}
+                    />
+            </div>
 
+            {/* Credit Hours */}
 
-            <div className="flex flex-col space-y-1.5">
+<div className="flex flex-col space-y-1.5 w-full">
+              <Label htmlFor="credit">Credit Hours</Label>
+              <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between"
+        >
+          {credit
+            ? creditHours.find((creditHour) => creditHour.id === credit)?.hour
+            : "Select credit hour"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command onValueChange={handleCreditHourChange}>
+          <CommandInput placeholder="Search ..." />
+          <CommandEmpty>No credit hour found.</CommandEmpty>
+          <CommandGroup>
+            {creditHours.map((creditHour) => (
+              <CommandItem
+                key={creditHour.id}
+                onSelect={(currentValue) => {
+                  setCredit(currentValue === credit ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    credit === creditHour.id ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {creditHour.hour}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  
+            </div>
+{/* Semester */}
+<div className="flex flex-col space-y-1.5 flex-1">
               <Label htmlFor="name">Semester</Label>
               <Select  onValueChange={handleSemesterChange}>
                 <SelectTrigger>
@@ -180,18 +339,14 @@ const creditHours=[
                 </SelectTrigger>
               </Select>
             </div>
-			<div className="flex flex-col space-y-1.5">
-              <Label htmlFor="course_code">Course Code</Label>
-              <Input
-                      id="course_code"
-                      placeholder="MSE 4324"
-                      value={courseCode}
-                      onChange={(e) => setCourseCode(e.target.value)}
-                    />
-            </div>
+
+</div>
+            
+			
 
 
-
+            
+		
 
 
 
@@ -206,7 +361,7 @@ const creditHours=[
           variant="outline"
           role="combobox"
           aria-expanded={open1}
-          className="w-[200px] justify-between"
+          className="w-full justify-between"
         >
           {programId
             ? programs.find((program) => program.$id === programId)?.name
@@ -214,8 +369,8 @@ const creditHours=[
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
+      <PopoverContent className="w-full p-0">
+        <Command onValueChange={handleSelectChange}>
           <CommandInput placeholder="Search program..." />
           <CommandEmpty>No program found.</CommandEmpty>
           <CommandGroup>
@@ -257,67 +412,13 @@ const creditHours=[
 
 
 
-			<div className="flex flex-col space-y-1.5">
-              <Label htmlFor="credit">Credit Hours</Label>
-              <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {credit
-            ? creditHours.find((creditHour) => creditHour.id === credit)?.hour
-            : "Select credit hour"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search ..." />
-          <CommandEmpty>No credit hour found.</CommandEmpty>
-          <CommandGroup>
-            {creditHours.map((creditHour) => (
-              <CommandItem
-                key={creditHour.id}
-                onSelect={(currentValue) => {
-                  setCredit(currentValue === credit ? "" : currentValue)
-                  setOpen(false)
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    credit === creditHour.id ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {creditHour.hour}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  
-            </div>
-			<div className="flex flex-col space-y-1.5">
-              <Label htmlFor="lecturer">Lecturer Name</Label>
-              <Input
-                      id="lecturer"
-                      placeholder="Dr. Martinson"
-                      value={lecturer}
-                      onChange={(e) =>setLecturer(e.target.value)}
-                    />
-            </div>
-            <Button>Deploy</Button>
+		
+            <div className='mt-10 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
+            
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="ghost">Cancel</Button>
-        
-      </CardFooter>
+    
     </Card>
   
 			
