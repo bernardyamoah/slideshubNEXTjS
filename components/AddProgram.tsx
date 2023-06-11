@@ -13,11 +13,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { createProgram } from '@/lib/createProgram';
+import { createProgram } from '@/lib/functions';
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
 
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   Select,
@@ -72,8 +73,8 @@ export default function AddProgram() {
 			// Update the progress bar with the progress value (0-100)
 			const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
 			console.log('Upload progress:', uploadprogress);
+      setUploadProgress(uploadprogress);
 			return uploadprogress
-            setUploadProgress(uploadprogress);
           }
         );
 
@@ -121,9 +122,10 @@ export default function AddProgram() {
         
       };
 
-      const response = await createProgram(programData);
-      console.log('Program created:', response.$id);
+   await createProgram(programData);
+    
 
+      
       // Reset form fields
       setName('');
   setValue('')
@@ -242,6 +244,7 @@ export default function AddProgram() {
             )}
           </Card>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

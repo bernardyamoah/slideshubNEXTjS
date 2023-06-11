@@ -1,7 +1,8 @@
 'use client'
 import * as React from "react"
 import { useEffect, useState } from "react"
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
   CardContent,
@@ -22,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {getPrograms} from '@/lib/getPrograms'
-import {createCourse} from '@/lib/createCourse'
+import {createCourse} from '@/lib/functions'
 import { Check, ChevronsUpDown } from "lucide-react"
 
 
@@ -119,7 +120,7 @@ const creditHours=[
 				setLecturer(''),
 				setFileId(''),
 				setprogramId('')
-				console.log('Course created: ', response.$id)
+			
 		}
 		catch(error){
 			console.log('error creating course', error)
@@ -323,7 +324,7 @@ const creditHours=[
 			
 			</div>
 
-			
+			<ToastContainer />
 			</div>
 			
 		</>

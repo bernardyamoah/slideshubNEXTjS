@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/emptyState.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/emptyState.js", "lib/createCampus.ts", "pages/_app.tsx"],
   "exclude": ["node_modules"]
 }

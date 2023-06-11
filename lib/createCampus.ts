@@ -10,7 +10,7 @@ export const createCampus = async (campusData: CampusData) => {
       ID.unique(),
        campusData 
     );
-    alert('Campus Created :'+ response);
+  
     return response;
   } catch (error) {
     console.log(error);

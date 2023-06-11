@@ -17,16 +17,7 @@ export default function Navbar() {
 		{
 			name: "Books",
 			link: "/books",
-		},
-		
-		{
-			name: "About Us",
-			link: "/about",
-		},
-		{
-			name: "Contact Us",
-			link: "/contact",
-		},
+		}
 	];
 	return (
 		<>
