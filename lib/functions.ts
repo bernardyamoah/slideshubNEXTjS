@@ -151,6 +151,82 @@ export const createProgram = async (programData: ProgramData) => {
   }
 };
 
+export const createBook=async (bookData: BooksData) => {
+  try{
+    // Retrieve all documents from the collection
+const responseCampus = await databases.listDocuments(
+process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
+process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+);
+
+const documents = responseCampus.documents;
+
+// Check if a document with the same name already exists
+const existingBook = documents.find(
+(doc) => doc.name === bookData.name 
+
+);
+
+if (existingBook ) {
+warnMessage('This book  already exists.');
+return;
+}
+    
+    
+    
+    
+    const data= await databases.createDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,ID.unique(),
+      bookData
+  );
+
+  successMessage('Book created! 🎉')
+  return data}
+  catch(error){
+    errorMessage('Error adding book')
+      throw error
+  }
+}
+
+
+export const createSlide=async (slideData: SlidesData) => {
+  try{
+    // Retrieve all documents from the collection
+const responseCampus = await databases.listDocuments(
+process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
+process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+);
+
+const documents = responseCampus.documents;
+
+// Check if a document with the same name already exists
+const existingSlides = documents.find(
+(doc) => doc.name === slideData.name && doc.programId === slideData.programId
+
+);
+
+if (existingSlides ) {
+warnMessage('This slide  already exists.');
+return;
+}
+    
+    
+    
+    
+    const data= await databases.createDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,ID.unique(),
+      slideData
+  );
+
+  successMessage('Slides uploaded 🎉')
+  return data}
+  catch(error){
+    errorMessage('Error adding slide')
+      throw error
+  }
+}
 
 // =====================================================================
 

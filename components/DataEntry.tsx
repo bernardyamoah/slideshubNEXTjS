@@ -16,8 +16,8 @@ import {
 import AddCourse from '@/components/AddCourse';
 import AddCampus from '@/components/AddCampus';
 import AddProgram from '@/components/AddProgram';
-
-
+import AddSlides from '@/components/AddSlides';
+import AddBook from '@/components/AddBook';
 interface ButtonItem {
   name: string;
  
@@ -38,7 +38,11 @@ export default function DataEntry() {
      
     },
     {
-      name: "File",
+      name: "Slides",
+    
+    },
+    {
+      name: "Book",
     
     },
   ];
@@ -71,6 +75,8 @@ export default function DataEntry() {
           {button.name === 'Course' && <AddCourse />}
             {button.name === 'Campus' && <AddCampus />}
             {button.name === 'Program' && <AddProgram />}
+            {button.name === 'Slides' && <AddSlides />}
+            {button.name === 'Program' && <AddBook />}
             {/* Add other components for different tabs based on their names */}
           </TabPanel>
         ))}

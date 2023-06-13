@@ -44,7 +44,7 @@ import {
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
 
-export default function AddCourse() {
+export default function AddSlides() {
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)
 
