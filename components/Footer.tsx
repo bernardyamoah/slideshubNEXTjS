@@ -2,6 +2,7 @@
 import Link from 'next/link'
 
 export default function Footer() {
+    const currentYear=new Date().getFullYear()
     return (
         <>
         <footer className="footer">
@@ -50,7 +51,7 @@ export default function Footer() {
                     </Link>
                 </div>
                 <p className="footer_copyright">
-                    © <span id="year"></span> BartLabs, Inc. All rights reserved.
+                    © <span >{currentYear}</span> BartLabs, Inc. All rights reserved.
                 </p>
             </div>
         </footer>

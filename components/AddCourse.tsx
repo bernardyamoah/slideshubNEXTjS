@@ -197,12 +197,12 @@ const creditHours=[
 			
 			<div className=' flex items-center mt-10'>
 
-			<div className=' sm:container w-full '>
+			<div className=' max-w-5xl grid md:grid-cols-2 sm:container w-full grid-cols-1 '>
         {/* Display Program preview */}
         {imagePreview && (
 				  <aside
 				
-				className=" mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
+				className="place-center mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
 			  >
 				<div className=" group" >
     
@@ -316,7 +316,7 @@ const creditHours=[
             </div>
 <div className='gap-4 md:gap-4 flex flex-wrap lg:grid grid-cols-3'>
 {/* Course code */}
-<div className="flex flex-col space-y-1.5  shrink w-24 ">
+<div className="flex flex-col space-y-1.5 w-[120px] lg:w-full ">
               <Label htmlFor="course_code">Course Code</Label>
               <Input
                       id="course_code"

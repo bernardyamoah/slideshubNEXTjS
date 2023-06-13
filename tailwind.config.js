@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const colors = require('tailwindcss/colors')
+const withMT=require('@material-tailwind/react/utils/withMT')
+module.exports = withMT({
   darkMode: ["class"],
   content: [
   
@@ -13,6 +15,12 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    colors: {
+      gray: colors.gray,
+      emerald: colors.emerald,
+      indigo: colors.indigo,
+      yellow: colors.yellow,
     },
     extend: {
       colors: {
@@ -80,4 +88,4 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate"),
   require('@tailwindcss/typography')],
-}
+})

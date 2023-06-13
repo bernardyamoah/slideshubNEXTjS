@@ -26,9 +26,10 @@ const Hero = () => {
 							loading="lazy"
 						/>
 					<div className="text-center">
+						
 						<Link
 							data-splitbee-event="Get Started"
-							href="/programmes"
+							href="/campus"
 							className="hero_btn"
 						>
 							Get Started
@@ -63,7 +64,7 @@ const Hero = () => {
 								<div>
 									<Link
 										data-splitbee-event="Get Started"
-										href="/programmmes"
+										href="/campus"
 										className="hero_btn"
 									>
 										Get Started

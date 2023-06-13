@@ -145,7 +145,7 @@ export default function AddProgram() {
     <>
       
       <div className="flex items-center mt-10">
-      <div className='max-w-2xl sm:container w-full p-2'>
+      <div className='max-w-5xl grid grid-cols-2 sm:container w-full p-2 '>
 
 				{/* Display Program preview */}
           {imagePreview && (

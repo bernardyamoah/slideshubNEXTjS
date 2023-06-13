@@ -1,7 +1,18 @@
 'use client'
 import  { useState } from 'react';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+import {
+  Square3Stack3DIcon,
+  UserCircleIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/solid";
 import AddCourse from '@/components/AddCourse';
 import AddCampus from '@/components/AddCampus';
 import AddProgram from '@/components/AddProgram';
@@ -42,26 +53,29 @@ export default function DataEntry() {
     <>
     
 
-      <Tabs defaultValue={activeTab} className="w-full mx-auto   md:overflow-y-auto md:full">
-        <TabsList className="flex justify-evenly items-center sm:grid w-full sm:grid-cols-4">
-          {Buttons.map((button, index) => (
-            <TabsTrigger
-              key={index}
-              value={button.name}
-              onClick={() => handleTabChange(button.name)}
-            >
-              {button.name}
-            </TabsTrigger>
+    <Tabs value="Course" className='w-full'>
+    <TabsHeader className='max-w-xl mx-auto'>
+    {Buttons.map((button, index) => (
+          <Tab  key={index}
+          value={button.name}
+          onClick={() => handleTabChange(button.name)}>
+                {button.name}
+          </Tab>
           ))}
-        </TabsList>
-        {Buttons.map((button, index) => (
-          <TabsContent key={index} value={button.name}>
-            {button.name === 'Course' && <AddCourse />}
+          
+      
+      </TabsHeader>
+      <TabsBody>
+      {Buttons.map((button, index) => (
+          <TabPanel key={index} value={button.name}>
+          {button.name === 'Course' && <AddCourse />}
             {button.name === 'Campus' && <AddCampus />}
             {button.name === 'Program' && <AddProgram />}
             {/* Add other components for different tabs based on their names */}
-          </TabsContent>
+          </TabPanel>
         ))}
+      </TabsBody>
+      
       </Tabs>
     
     </>

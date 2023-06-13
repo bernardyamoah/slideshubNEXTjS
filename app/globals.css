@@ -83,7 +83,7 @@
  
 @layer base{
 body{
-  @apply !pt-10  bg-white dark:bg-slate-900 font-body pattern bg-cover
+  @apply !pt-10  bg-white  font-body pattern bg-cover
 }
 h1{
   @apply text-3xl font-bold text-black dark:text-white font-title
@@ -94,10 +94,10 @@ h1{
 @layer components{
   
 .header{
-  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white/[.8] md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md  lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white  dark:bg-slate-900/75
+  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white/[.8] md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md  lg:border-b   bg-white 
 }
 .heading{
-  @apply text-center mb-12 capitalize text-2xl md:text-3xl text-slate-800 dark:text-slate-50 font-bold;
+  @apply text-center mb-12 capitalize text-2xl md:text-3xl text-gray-800 dark:text-gray-50 font-bold;
 }
 .theme_toggle{
   @apply inline-flex h-9 w-9 flex-shrink-0 items-center justify-center text-base font-medium 
@@ -118,7 +118,7 @@ h1{
   @apply  text-lg flex flex-col justify-center  self-center text-left w-full overflow-hidden
 }
 .sidebar_nav_item{
-  @apply  font-bold pl-10 rounded-l-full hover:translate-x-6 origin-right transition-transform duration-200 py-4 hover:bg-emerald-500 dark:hover:shadow-emerald-500/20 hover:shadow-lg  text-4xl text-slate-700 hover:text-white mt-4 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-slate-50 block
+  @apply  font-bold pl-10 rounded-l-full hover:trangray-x-6 origin-right transition-transform duration-200 py-4 hover:bg-emerald-500 dark:hover:shadow-emerald-500/20 hover:shadow-lg  text-4xl text-gray-700 hover:text-white mt-4 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-gray-50 block
 }
 
 
@@ -131,7 +131,7 @@ h1{
   @apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10
 }
 .logo_text{
-  @apply text-xl font-bold text-slate-900 dark:text-white md:text-xl font-title
+  @apply text-xl font-bold text-gray-900 dark:text-white md:text-xl font-title
 }
 /* ------------------------------------------------ */
 /* ========  FEATURE SECTION -==================== */
@@ -147,7 +147,7 @@ h1{
   @apply mt-4 text-xl font-bold text-black dark:text-white font-title
 }
 .feature_description{
-  @apply mt-1 text-sm text-slate-600 dark:text-slate-300 }
+  @apply mt-1 text-sm text-gray-600 dark:text-gray-300 }
 
 /* TIMELINE */
 
@@ -167,7 +167,7 @@ h1{
  .programme-title{
   @apply block text-center text-2xl md:text-3xl lg:text-5xl font-extrabold text-black uppercase tracking-widest dark:text-white mt-6 mb-4  }
 .title-heading{
-  @apply text-center text-xl md:text-3xl  font-extrabold text-slate-900 uppercase tracking-widest   mb-4 font-body
+  @apply text-center text-xl md:text-3xl  font-extrabold text-gray-900 uppercase tracking-widest   mb-4 font-body
 }
 .sub_link{
   @apply text-center text-[1.2rem] text-[#777]
@@ -211,7 +211,7 @@ h1{
   @apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out 
   }
   .course-code{
-    @apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-950/90 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600
+    @apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600
   }
 .card_heading{
     @apply lg:text-lg font-bold  text-sm  text-gray-800 dark:text-white capitalize font-title text-left w-full md:w-5/6 align-middle
@@ -227,7 +227,7 @@ h1{
 
 
 .footer{
-    @apply bg-emerald-900 fixed bottom-0 inset-x-0
+    @apply bg-emerald-900 relative bottom-0 inset-x-0
   }
 .footer_content_wrapper{
     @apply mx-auto max-w-screen-xl space-y-8 overflow-hidden px-4 py-12 sm:px-6 lg:px-8
@@ -247,10 +247,10 @@ h1{
 
 
 .contact .icons-container .icons h3 {
-  @apply capitalize text-[#444] dark:text-slate-50 text-[1.3rem] py-[.5rem] px-0;
+  @apply capitalize text-[#444] dark:text-gray-50 text-[1.3rem] py-[.5rem] px-0;
 }
 .contact .icons-container .icons p {
-  @apply  text-[#777] dark:text-slate-400 text-[1rem] ;
+  @apply  text-[#777] dark:text-gray-400 text-[1rem] ;
 }
 
 /* Share button */
@@ -264,7 +264,7 @@ h1{
   @apply  inline-block w-full sm:w-60 mt-10 py-2 px-10 dark:text-white text-lg font-medium rounded-md hover:text-white hover:bg-emerald-600 ring-emerald-600 text-emerald-600 dark:ring-white ring-2 dark:hover:bg-white dark:hover:text-current shadow-md hover:shadow-lg transition-colors duration-300
 }
 .books_info{
-  @apply text-slate-600 dark:text-slate-300 block text-lg 
+  @apply text-gray-600 dark:text-gray-300 block text-lg 
 }
 .books_heading{
   @apply inline-block text-2xl md:text-4xl font-bold text-blue-600
@@ -285,7 +285,7 @@ h1{
 /* Track */
 ::-webkit-scrollbar-track {
   /* border-radius: 100vh; */
-  background: #2f3030;
+  background: #f4f5f5c7;
 }
 
 /* Handle */
@@ -365,7 +365,7 @@ h1{
   top: 50%;
   left: 15px;
   color: #11af87;
-  transform: translateY(-50%);
+  transform: trangrayY(-50%);
 }
 .search-box input {
   height: 100%;
@@ -414,7 +414,7 @@ h1{
     top: calc(100% + 0px);
     max-width: calc(100% - 20px);
     right: 50%;
-    transform: translateX(50%);
+    transform: trangrayX(50%);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 }

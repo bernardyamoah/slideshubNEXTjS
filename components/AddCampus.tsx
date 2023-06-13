@@ -118,7 +118,7 @@ export default function AddCampus() {
 			
 			<div className=' flex items-center mt-10'>
 
-			<div className='max-w-2xl sm:container w-full p-2'>
+			<div className='max-w-5xl grid grid-cols-2 sm:container w-full p-2 '>
 			{imagePreview && (
 				<section className='space-y-6'>
 
@@ -141,7 +141,7 @@ export default function AddCampus() {
 				  </div>
 				  <div className="text_container">
 					<h3 className="card_heading">{name}</h3>
-					<span className='course-code'>{location}</span>
+					<p className='course-code'>{location}</p>
 				</div>
 				</div>
 			  </aside>

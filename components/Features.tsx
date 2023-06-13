@@ -8,15 +8,15 @@ const Features = () => {
 	return (
 		<>
 		<section className="pattern flex items-center justify-center py-10">
-		<div className="max-w-screen py-10">
+		<div className="max-w-7xl py-10">
 			<div className="mt-32 space-y-10">
-				<div className="ani-card writeup mx-auto mb-20">
+				<div className="text-4xl font-bold  mx-auto mb-20">
 					<h2>Here's what what you'll love about Slideshub</h2>
 				</div>
 				{/* <!-- Feature cards --> */}
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{/* <!-- free Download--> */}
-					<aside className="ani-card aside_card group transition-all">
+					<aside className="ani-card aside_card group transition-all duration-300">
 						<div className="aside_icon bg-emerald-500 group-hover:scale-110">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
