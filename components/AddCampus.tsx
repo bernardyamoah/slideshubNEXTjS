@@ -118,9 +118,9 @@ export default function AddCampus() {
 			
 			<div className=' flex items-center mt-10'>
 
-			<div className='max-w-5xl grid grid-cols-2 sm:container w-full p-2 '>
+			<div className='max-w-5xl grid md:grid-cols-2 sm:container w-full p-2 '>
 			{imagePreview && (
-				<section className='space-y-6'>
+				<section className='space-y-6 bg-white'>
 
 <p className="text-center text-lg font-light text-slate-600 uppercase">Preview</p>
 				  <aside

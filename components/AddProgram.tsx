@@ -145,10 +145,11 @@ export default function AddProgram() {
     <>
       
       <div className="flex items-center mt-10">
-      <div className='max-w-5xl grid grid-cols-2 sm:container w-full p-2 '>
+      <div className='max-w-5xl grid md:grid-cols-2 sm:container w-full p-2 '>
 
 				{/* Display Program preview */}
-          {imagePreview && (
+        <section className='bg-white '>
+        {imagePreview && (
 				  <aside
 				
 				className=" mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
@@ -181,6 +182,8 @@ export default function AddProgram() {
 			  </aside>
             
                 )}
+          </section> 
+          
 
 <Card className="lg:container md:max-w-2xl  ">
           <CardHeader>

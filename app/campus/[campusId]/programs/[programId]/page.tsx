@@ -27,16 +27,19 @@ interface Props {
 export default function CourseList({ params }: Props) {
   const { programId, campusId } = params;
   const [courses, setCourses] = useState<Course[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true); // Sta
   useEffect(() => {
     async function fetchCourses() {
       try {
         const response = await getCourses();
         successMessage('Successfully fetched courses');
         setCourses(response);
+        setIsLoading(false); // Set loading state to false when data is fetched
       } catch (error) {
         console.log('Error fetching courses:', error);
         errorMessage('Failed to fetch courses');
+        setIsLoading(false); // Set loading state to false if there's an error
+
       }
     }
 
@@ -57,6 +60,9 @@ export default function CourseList({ params }: Props) {
 
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
+          {isLoading ? (
+              <Loading /> // Render the loading UI when data is loading
+            ) : (
             <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
               <Suspense fallback={<Loading />}>
                 {filteredCourses.length > 0 ? (
@@ -91,6 +97,7 @@ export default function CourseList({ params }: Props) {
                 )}
               </Suspense>
             </ul>
+                )}
           </div>
         </section>
         <ToastContainer />

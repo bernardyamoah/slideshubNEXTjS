@@ -47,17 +47,12 @@ import { UploadProgress } from 'appwrite';
 export default function AddCourse() {
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)
-
 	const [name, setName]=useState('')
-  
 	const [semester, setSemester]=useState('')
 	const [courseCode, setCourseCode]=useState('')
-
 	const [credit, setCredit]=useState('')
-
 	const [lecturer, setLecturer]=useState('')
   const [year, setYear]=useState('')
-
 	const [fileId, setFileId]=useState('')
 	const [programId, setprogramId]=React.useState("")
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -74,7 +69,7 @@ export default function AddCourse() {
         }
       }
   
-      setTimeout(fetchPrograms, 10000);
+      setTimeout(fetchPrograms, 5000);
     }, []);
 
 
@@ -305,13 +300,13 @@ const creditHours=[
   
             </div>
 
-
+{/* Image selection */}
 
             <div className="grid  w-full items-center gap-1.5">
                     <Label htmlFor="picture">Picture</Label>
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
-          
+          {/* Lecturer Name */}
                   <div className="flex flex-col space-y-1.5">
               <Label htmlFor="lecturer">Lecturer Name</Label>
               <Input
@@ -321,9 +316,9 @@ const creditHours=[
                       onChange={(e) =>setLecturer(e.target.value)}
                     />
             </div>
-<div className='gap-4 md:gap-4 flex flex-wrap lg:grid grid-cols-3'>
+<div className='gap-4 md:gap-8 grid grid-cols-2'>
 {/* Course code */}
-<div className="flex flex-col space-y-1.5 w-[120px] lg:w-full ">
+<div className="flex flex-col space-y-1.5 w-full ">
               <Label htmlFor="course_code">Course Code</Label>
               <Input
                       id="course_code"
@@ -333,7 +328,7 @@ const creditHours=[
                     />
             </div>
         {/* Year */}
-<div className="flex flex-col space-y-1.5 flex-1 w-44 sm:w-full">
+<div className="flex flex-col space-y-1.5 flex-1 w-full">
               <Label htmlFor="name">Year</Label>
               <Select  onValueChange={handleYearChange}>
                 <SelectTrigger>
@@ -396,7 +391,7 @@ const creditHours=[
   
             </div>
 {/* Semester */}
-<div className="flex flex-col space-y-1.5 flex-1 w-44 sm:w-full">
+<div className="flex flex-col space-y-1.5 flex-1 w-full">
               <Label htmlFor="name">Semester</Label>
               <Select  onValueChange={handleSemesterChange}>
                 <SelectTrigger>

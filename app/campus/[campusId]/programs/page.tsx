@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Loading from '../../../../components/ui/Cloading';
 import { Suspense } from 'react';
 
-
 interface Program {
   $id: string;
   campusId: string;
@@ -22,26 +21,27 @@ interface Props {
 }
 
 export default function ProgrammeList({ params }: Props) {
-
   const { campusId } = params;
   const [programs, setPrograms] = useState<Program[]>([]);
-console.log(campusId)
+  const [isLoading, setIsLoading] = useState(true); // State variable for loading
+
   useEffect(() => {
     async function fetchPrograms() {
       try {
         const response = await getPrograms();
         successMessage('Successfully fetched programs');
         setPrograms(response);
+        setIsLoading(false); // Set loading state to false when data is fetched
       } catch (error) {
         console.log('Error fetching programs:', error);
         errorMessage('Failed to fetch programs');
+        setIsLoading(false); // Set loading state to false if there's an error
       }
     }
 
     setTimeout(fetchPrograms, 6000);
   }, [campusId]);
 
-  // Filter programs based on campusId
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
 
   return (
@@ -50,25 +50,27 @@ console.log(campusId)
         <section className="heading-link">
           <h3>Programmes</h3>
           <p>
-            <Link href="/">home</Link> / programmes
+          <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link> / Programs
           </p>
         </section>
 
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
-            <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
-              <Suspense fallback={<Loading />}>
-                {filteredPrograms.length > 0 ? (
-                  filteredPrograms.map((program) => (
-                    <aside
-                      key={program.$id}
-                      className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-                    >
-                      <Link
-                        href={`/campus/${campusId}/programs/${program.$id}`}
-                    className='card_link group'
+            {isLoading ? (
+              <Loading /> // Render the loading UI when data is loading
+            ) : (
+              <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+                <Suspense fallback={<Loading />}>
+                  {filteredPrograms.length > 0 ? (
+                    filteredPrograms.map((program) => (
+                      <aside
+                        key={program.$id}
+                        className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
                       >
-                      
+                        <Link
+                          href={`/campus/${campusId}/programs/${program.$id}`}
+                          className="card_link group"
+                        >
                           <div className="card_image_wrapper">
                             <img
                               className="card_image group-hover:scale-105"
@@ -83,15 +85,15 @@ console.log(campusId)
                               <span className="text-gray-400 mr-2 sm:hidden">Duration:</span> {program.duration}
                             </p>
                           </div>
-                        
-                      </Link>
-                    </aside>
-                  ))
-                ) : (
-                  <p>No programs available for this campus.</p>
-                )}
-              </Suspense>
-            </ul>
+                        </Link>
+                      </aside>
+                    ))
+                  ) : (
+                    <p>No programs available for this campus.</p>
+                  )}
+                </Suspense>
+              </ul>
+            )}
           </div>
         </section>
       </main>

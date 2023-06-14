@@ -21,21 +21,22 @@ interface Props {
 export default function FilesList({ params }: Props) {
   const { courseId } = params;
   const [files, setFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(true); 
+useEffect(() => {
+      try {
+         const response = await getCourses(courseId);
+         successMessage('Successfully fetched files');
+         setFiles(response);
+  setIsLoading(false); // Set loading state to false if there's an error
+      } catch (error) {
+         console.log('Error fetching files:', error);
+        errorMessage('Failed to fetch files');
+  setIsLoading(false); // Set loading state to false if there's an error
+       }
+    }
 
-  // useEffect(() => {
-  //   async function fetchFiles() {
-  //     try {
-  //       const response = await getCourses(courseId);
-  //       successMessage('Successfully fetched files');
-  //       setFiles(response);
-  //     } catch (error) {
-  //       console.log('Error fetching files:', error);
-  //       errorMessage('Failed to fetch files');
-  //     }
-  //   }
-
-  //   setTimeout(fetchFiles, 6000);
-  // }, [courseId]);
+     setTimeout(fetchFiles, 6000);
+  }, [courseId]);
 
   return (
     <>
@@ -47,8 +48,11 @@ export default function FilesList({ params }: Props) {
           </p>
         </section>
 
-        {/* <section className="container relative mx-auto flex flex-col items-center pb-10">
+         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
+            {isLoading ? (
+              <Loading /> // Render the loading UI when data is loading
+            ) : (
             <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
               <Suspense fallback={<Loading />}>
                 {files.map((file) => (
@@ -70,8 +74,9 @@ export default function FilesList({ params }: Props) {
                 ))}
               </Suspense>
             </ul>
+                )}
           </div>
-        </section> */}
+        </section> 
       </main>
     </>
   );

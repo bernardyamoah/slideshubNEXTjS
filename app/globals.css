@@ -83,7 +83,7 @@
  
 @layer base{
 body{
-  @apply !pt-10  bg-white  font-body pattern bg-cover
+  @apply  bg-white  font-body pattern bg-cover
 }
 h1{
   @apply text-3xl font-bold text-black dark:text-white font-title
@@ -108,18 +108,7 @@ h1{
 .navbar_item{
   @apply  font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400
 }
-.sidebar_logo{
-  @apply flex-none text-xl font-semibold dark:text-white text-black
-}
-.sidebar_nav{
-  @apply flex w-full flex-col flex-wrap py-6 font-body h-[90%] justify-center
-}
-.sidebar_ul{
-  @apply  text-lg flex flex-col justify-center  self-center text-left w-full overflow-hidden
-}
-.sidebar_nav_item{
-  @apply  font-bold pl-10 rounded-l-full hover:trangray-x-6 origin-right transition-transform duration-200 py-4 hover:bg-emerald-500 dark:hover:shadow-emerald-500/20 hover:shadow-lg  text-4xl text-gray-700 hover:text-white mt-4 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-gray-50 block
-}
+
 
 
 /* --------------- logo -------------------- */
@@ -263,15 +252,6 @@ h1{
 .books_btn{
   @apply  inline-block w-full sm:w-60 mt-10 py-2 px-10 dark:text-white text-lg font-medium rounded-md hover:text-white hover:bg-emerald-600 ring-emerald-600 text-emerald-600 dark:ring-white ring-2 dark:hover:bg-white dark:hover:text-current shadow-md hover:shadow-lg transition-colors duration-300
 }
-.books_info{
-  @apply text-gray-600 dark:text-gray-300 block text-lg 
-}
-.books_heading{
-  @apply inline-block text-2xl md:text-4xl font-bold text-blue-600
-}
-.books_heading_wrapper{
-  @apply inline-flex space-x-2 items-center mb-4 justify-center text-blue-500 bg-blue-200 rounded-md shadow-sm py-4 px-8
-}
 
 
 }
@@ -336,51 +316,11 @@ h1{
 .nav-bar .nav-links a:hover {
   color:#15c095;
 }
-.nav-bar.openSearch .nav-links a {
-  opacity: 0;
-  pointer-events: none;
-  
-}
-.nav-bar .search-icon {
-  
-  font-size: 20px;
-  cursor: pointer;
-}
-.nav-bar .search-box {
-  position: absolute;
-  
-  height: 45px;
-  
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s linear;
-}
-.nav-bar.openSearch .search-box {
-  opacity: 1;
-  pointer-events: auto;
-}
-.search-box .search-icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  left: 15px;
-  color: #11af87;
-  transform: trangrayY(-50%);
-}
-.search-box input {
-  height: 100%;
- 
-  border: none;
-  outline: none;
-  border-radius: 6px;
 
-  padding: 0 15px 0 45px;
-}
 
-.nav-bar .navOpenBtn,
-.nav-bar .navCloseBtn {
-  display: none;
-}
+
+
+
 
 /* responsive */
 @media screen and (max-width: 1160px) {
@@ -421,7 +361,7 @@ h1{
 
 
 section {
-  padding: 5rem 5%;
+  padding: 5rem 2%;
 }
 
 .heading-link {
@@ -579,13 +519,13 @@ section {
 
 @media (max-width: 1200px) {
   section {
-    padding: 3rem 5%;
+    padding: 3rem 3%;
   }
 }
 
 @media (max-width: 991px) {
   
   section {
-    padding: 3rem 2rem;
+    padding: 3rem 0.5rem;
   }
 }

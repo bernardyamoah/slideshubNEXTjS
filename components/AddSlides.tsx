@@ -13,35 +13,23 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-
-  SelectItem,
-
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import {Select,SelectContent,SelectItem,SelectTrigger,SelectValue,} from "@/components/ui/select"
 import {getPrograms} from '@/lib/getPrograms'
 import {createCourse} from '@/lib/functions'
 import { Check, ChevronsUpDown } from "lucide-react"
 import { storage, ID } from '@/appwrite';
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
+import {Command,CommandEmpty,CommandGroup,CommandInput,CommandItem,
 } from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import Image from 'next/image';
+import {
+  CardBody,
+  CardFooter,
+  Typography,
+  
+} from "@material-tailwind/react";
 import { UploadProgress } from 'appwrite';
 
 export default function AddSlides() {
@@ -204,44 +192,31 @@ const creditHours=[
 			
 			<div className=' flex items-center mt-10'>
 
-			<div className=' max-w-5xl grid md:grid-cols-2 sm:container w-full grid-cols-1 '>
+			<div className=' max-w-5xl grid md:grid-cols-2 sm:container w-full grid-cols-1 gap-4'>
         {/* Display Program preview */}
-        {imagePreview && (
-				  <aside
-				
-				className="place-center mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-			  >
-				<div className=" group" >
-    
-				  <div className="card_image_wrapper">
-					<Image
-					  className="card_image group-hover:scale-105"
-					  fill
-					  src={imagePreview}
-					  alt="Upload image"
-					  
-				   
-					/> 
-				  
-				  </div>
-				  <div className="text_container">
-					<h3 className="card_heading">{name}</h3>
-			<div>
-          <p className='text-gray-400 mr-2 text-sm'>{semester}</p>
-          <p className='text-gray-400 mr-2 text-sm'>{courseCode}</p>
-          {credit&&(
-            <p className='text-gray-400 mr-2 text-sm'>{credit} hours</p>
-          )}
-          <p className='text-gray-400 mr-2 text-sm'>{lecturer}</p>
-      </div>
+      
 			
-			
-				
-					</div>
-				</div>
-			  </aside>
             
-                )}
+<Card className="mt-6 w-96">
+      <CardHeader color="blue-gray" className="relative h-56">
+        <Image src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="img-blur-shadow" layout="fill" />
+      </CardHeader>
+      <CardBody>
+        <Typography variant="h5" color="blue-gray" className="mb-2">
+          UI/UX Review Check
+        </Typography>
+        <Typography>
+          The place is close to Barceloneta Beach and bus stop just 2 min by walk
+          and near to &quot;Naviglio&quot; where you can enjoy the main night life
+          in Barcelona.
+        </Typography>
+      </CardBody>
+      <CardFooter className="pt-0">
+        <Button>Read More</Button>
+      </CardFooter>
+    </Card>
+
+              
 
 			<Card className="lg:container  ">
       <CardHeader>
@@ -321,9 +296,9 @@ const creditHours=[
                       onChange={(e) =>setLecturer(e.target.value)}
                     />
             </div>
-<div className='gap-4 md:gap-4 flex flex-wrap lg:grid grid-cols-3'>
+<div className='gap-4 md:gap-8 grid grid-cols-2'>
 {/* Course code */}
-<div className="flex flex-col space-y-1.5 w-[120px] lg:w-full ">
+<div className="flex flex-col space-y-1.5  w-full ">
               <Label htmlFor="course_code">Course Code</Label>
               <Input
                       id="course_code"
@@ -333,7 +308,7 @@ const creditHours=[
                     />
             </div>
         {/* Year */}
-<div className="flex flex-col space-y-1.5 flex-1 w-44 sm:w-full">
+<div className="flex flex-col space-y-1.5 flex-1 w-full">
               <Label htmlFor="name">Year</Label>
               <Select  onValueChange={handleYearChange}>
                 <SelectTrigger>

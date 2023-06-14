@@ -1,6 +1,6 @@
 
 import { Suspense } from "react";
-import Loading from "../contact/loading";
+ 
 import Link from "next/link";
 
 async function Page() {
