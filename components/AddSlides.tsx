@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -39,7 +39,7 @@ export default function AddSlides() {
           const fileId = uploader.$id;
  // Fetch file information from Appwrite
           const fileDetails = await storage.getFile(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
-          const fileType = fileDetails.mimeType || "";
+          
           const fileName = fileDetails.name || "";
 
           const fileUrlResponse = await storage.getFileDownload(
@@ -89,7 +89,7 @@ export default function AddSlides() {
           <Card className="lg:container">
             <CardHeader>
               <CardTitle>Add Slide</CardTitle>
-              <CardDescription>Deploy your new project in one-click.</CardDescription>
+              <CardDescription>Add a slide document in one-click.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>

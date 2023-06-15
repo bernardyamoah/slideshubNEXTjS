@@ -70,9 +70,9 @@ export default function DocumentUpload({
               }}
             />
           ) : null}
-          <div className="text-center">
+          <div className="text-center hover:text-white">
             {currentFile ? (
-              <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-white">
+              <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-gray-500">
                 <div>{fileIcon(currentFile.type)}</div>
                 <p>{currentFile.name}</p>
                 <p className="text-gray-500">{bytesToSize(currentFile.size)}</p>
@@ -84,7 +84,7 @@ export default function DocumentUpload({
               />
             )}
 
-            <div className="mt-4 flex text-sm leading-6 text-gray-400">
+            <div className="mt-4 flex text-sm leading-6 text-gray-700">
               <span className="mx-auto">
                 {currentFile ? "" : "Choose file to upload or drag and drop"}
               </span>

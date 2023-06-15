@@ -46,3 +46,11 @@ interface BooksData {
 
 
 }
+
+interface Slides {
+	$id: string;
+	name: string;
+	fileUrl: string;
+	fileType:string;
+	size:string
+  }
