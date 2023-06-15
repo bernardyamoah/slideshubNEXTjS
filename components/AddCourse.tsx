@@ -53,6 +53,7 @@ export default function AddCourse() {
 	const [credit, setCredit]=useState('')
 	const [lecturer, setLecturer]=useState('')
   const [year, setYear]=useState('')
+  console.log(year)
 	const [fileId, setFileId]=useState('')
 	const [programId, setprogramId]=React.useState("")
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -179,11 +180,11 @@ const creditHours=[
 	}
   
   const handleYearChange = (selectedValue: string) => {
-    setCourseCode(selectedValue);
+    setYear(selectedValue);
   
   };
   const handleCreditHourChange = (selectedValue: string) => {
-    setCourseCode(selectedValue);
+    setCredit(selectedValue);
   
   };
   const handleSelectChange = (selectedValue: string) => {
@@ -319,9 +320,9 @@ const creditHours=[
 <div className='gap-4 md:gap-8 grid grid-cols-2'>
 {/* Course code */}
 <div className="flex flex-col space-y-1.5 w-full ">
-              <Label htmlFor="course_code">Course Code</Label>
+              <Label htmlFor="coursecode">Course Code</Label>
               <Input
-                      id="course_code"
+                      id="coursecode"
                       placeholder="MSE 4324"
                       value={courseCode}
                       onChange={(e) => setCourseCode(e.target.value)}
@@ -329,10 +330,10 @@ const creditHours=[
             </div>
         {/* Year */}
 <div className="flex flex-col space-y-1.5 flex-1 w-full">
-              <Label htmlFor="name">Year</Label>
-              <Select  onValueChange={handleYearChange}>
+              <Label htmlFor="year">Year</Label>
+              <Select onValueChange={handleYearChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select Semester" className='text-xs' />
+                  <SelectValue placeholder="Select Level/Year" className='text-xs' />
                   <SelectContent position="popper" >
                     <SelectItem value="Level 100">Level 100</SelectItem>
                     <SelectItem value="Level 200">Level 200</SelectItem>
