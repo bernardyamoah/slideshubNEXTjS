@@ -36,6 +36,18 @@ export const warnMessage = (message: string) => {
   });
 };
 
+// Error toast notification
+export const infoMessage = (message: string) => {
+  toast.info(message, {
+    position: "top-right",
+    autoClose: 5000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  });
+};
+
 // Create campus function
 export const createCampus = async (campusData: CampusData) => {
   try {
@@ -193,30 +205,30 @@ return;
 export const createSlide=async (slideData: SlidesData) => {
   try{
     // Retrieve all documents from the collection
-const responseCampus = await databases.listDocuments(
-process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
-);
+// const responseSlides = await databases.listDocuments(
+// process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
+// process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+// );
 
-const documents = responseCampus.documents;
+// const documents = responseSlides.documents;
 
-// Check if a document with the same name already exists
-const existingSlides = documents.find(
-(doc) => doc.name === slideData.name && doc.programId === slideData.programId
+// // Check if a document with the same name already exists
+// const existingSlides = documents.find(
+// (doc) => doc.name === slideData.name 
 
-);
+// );
 
-if (existingSlides ) {
-warnMessage('This slide  already exists.');
-return;
-}
+// if (existingSlides ) {
+// warnMessage('This slide  already exists.');
+// return;
+// }
     
     
     
     
     const data= await databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,ID.unique(),
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,ID.unique(),
       slideData
   );
 
@@ -295,6 +307,32 @@ export const getPrograms = async (): Promise<any[]> => {
     throw error;
   }
 };
+
+// Get Programs
+export const getSlides = async (): Promise<any[]> => {
+
+
+  if (!databaseId) {
+    throw new Error("Database ID is not defined");
+  }
+
+  try {
+    const response = await databases.listDocuments(
+      databaseId,
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID! // Replace with your collection ID
+    );
+
+    return response.documents;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+
+
+
 export async function getCoursesByProgramId(programId: string): Promise<any[]> {
   try {
     
@@ -319,7 +357,17 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 
 
 
-
+export function bytesToSize(bytes: number) {
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  if (bytes === 0) return "n/a";
+  const i = Math.floor(Math.log(bytes) / Math.log(1000));
+  if (i === 0) return `${bytes} ${sizes[i]}`;
+  const sizeInCurrentUnit = bytes / Math.pow(1000, i);
+  if (sizeInCurrentUnit >= 1000 && i < sizes.length - 1) {
+    return `1 ${sizes[i + 1]}`;
+  }
+  return `${Math.round(sizeInCurrentUnit)} ${sizes[i]}`;
+}
 
 
 

@@ -30,16 +30,12 @@ interface Image {
 }
 
 interface SlidesData {
-	name: string;
-	semester: string;
-	courseCode: string;
-	credit: string;
-	lecturer: string;
-	fileId: string;
-	image:string;
-	programId: string;
-	year:string
-	courseId:string
+	fileUrl:string;
+	name:string;
+	size:string;
+	fileType:string;
+
+	
 }
 
 interface BooksData {
