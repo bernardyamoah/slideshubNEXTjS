@@ -53,4 +53,5 @@ interface Slides {
 	fileUrl: string;
 	fileType:string;
 	size:string
+	courseId:string
   }

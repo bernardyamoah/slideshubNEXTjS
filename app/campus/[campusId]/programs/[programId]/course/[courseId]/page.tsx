@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function FilesList({ params }: Props) {
-  const { courseId } = params;
+  const { courseId,programId } = params;
   const [slides, setSlides] = useState<Slides[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 console.log(slides)
@@ -34,25 +34,26 @@ console.log(slides)
 
     setTimeout(fetchFiles, 6000);
   }, [courseId]);
-
+  const filteredSlides = slides.filter((slide) => slide.courseId === courseId);
   return (
     <>
       <main className="card_container">
         <section className="heading-link">
-          <h3>Files</h3>
+          <h3>Slides</h3>
           <p>
-            <Link href="/">home</Link> / files
+            <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>/ <Link href={`/campus/$[campusId]/programs/${programId}`}>/Course</Link>/Slides
           </p>
         </section>
 
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
-            {isLoading ? (
+          {isLoading ? (
               <Loading /> // Render the loading UI when data is loading
             ) : (
               <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
                 <Suspense fallback={<Loading />}>
-                  {slides.map((slide) => (
+                {filteredSlides.length > 0 ? (
+                  filteredSlides.map((slide) => (
                     <aside
                       key={slide.$id}
                       className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl  dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
@@ -72,7 +73,10 @@ console.log(slides)
                         </div>
                       </div>
                     </aside>
-                  ))}
+                  ))
+                  ) : (
+                    <p>No slidse available for this program.</p>
+                  )}
                 </Suspense>
               </ul>
             )}

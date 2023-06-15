@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState } from "react";
+import {useEffect,useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -9,14 +9,52 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { bytesToSize, createSlide, successMessage, errorMessage } from "@/lib/functions";
+import { getCourses,bytesToSize, createSlide, successMessage, errorMessage } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
+import { Check, ChevronsUpDown } from "lucide-react"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+
+
+
+
+
 
 export default function AddSlides() {
-  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
+  const [open, setOpen] = React.useState(false)
+  const [open1, setOpen1] = React.useState(false)  
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
+const [courseId, setCourseId]=useState('')
+console.log(courseId)
+const [courses, setCourses] = useState<any[]>([]);
+
+useEffect(() => {
+  async function fetchCourses() {
+    try {
+      const response = await getCourses();
+      setCourses(response);
+    } catch (error) {
+      console.log('Error fetching courses:', error);
+    }
+  }
+
+  setTimeout(fetchCourses, 5000);
+}, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -65,6 +103,7 @@ export default function AddSlides() {
           size: bytesToSize(currentFile.size),
           fileUrl: fileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
+          courseId,
         };
 
         const response = await createSlide(slideData);
@@ -81,7 +120,10 @@ export default function AddSlides() {
       errorMessage("Error occurred during slide upload.");
     }
   };
-
+  const handleSelectChange = (selectedValue: string) => {
+    setCourseId(selectedValue);
+  
+  };
   return (
     <>
       <div className="flex items-center mt-10">
@@ -94,6 +136,50 @@ export default function AddSlides() {
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2 space-y-6">
+                <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="course">Courses</Label>
+              <Popover open={open1} onOpenChange={setOpen1}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open1}
+          className="w-full justify-between"
+        >
+          {courseId
+            ? courses.find((course) => course.$id === courseId)?.name
+            : "Select Courses"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-full p-0">
+        <Command onValueChange={handleSelectChange}>
+          <CommandInput placeholder="Search course..." />
+          <CommandEmpty>No course found.</CommandEmpty>
+          <CommandGroup>
+            {courses.map((course) => (
+              <CommandItem
+                key={course.$id}
+                onSelect={(currentValue) => {
+                  setCourseId(currentValue === courseId ? "" : course.$id)
+                  setOpen1(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    courseId === course.$id ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {course.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  
+            </div>
                   <div className="grid w-full items-center gap-1.5">
                     <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
                   </div>

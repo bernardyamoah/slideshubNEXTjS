@@ -43,7 +43,7 @@ export default function CourseList({ params }: Props) {
       }
     }
 
-    setTimeout(fetchCourses, 6000);
+    fetchCourses()
   }, [programId]);
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
