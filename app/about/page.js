@@ -27,7 +27,7 @@ export default function about() {
 						that our unique perspectives help drive innovation and success. We
 						are always looking for talented and passionate individuals to join
 						our team. If you are interested in making a difference in education,
-						please don't hesitate to reach out to us.
+						please don&apos;t hesitate to reach out to us.
 					</p>
 
 					<div className="mt-8 grid grid-cols-1 gap-8 lg:container md:grid-cols-2 lg:px-24 xl:mt-16 xl:grid-cols-2">
@@ -53,8 +53,8 @@ export default function about() {
 							</div>
 
 							<p className="mt-4 text-sm capitalize text-gray-500 group-hover:text-gray-200 dark:text-gray-400 sm:text-sm">
-								With 3+ years of experience in the coding I'm passionate about
-								using technology to improve the learning experience for all. I'm
+								With 3+ years of experience in the coding I&apos;m passionate about
+								using technology to improve the learning experience for all. I&apos;m
 								dedicated to building a strong, supportive team and creating a
 								positive impact in the community.
 							</p>

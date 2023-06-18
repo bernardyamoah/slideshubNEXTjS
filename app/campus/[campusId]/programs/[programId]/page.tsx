@@ -13,6 +13,7 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+import Image from 'next/image';
 
 interface Course {
   $id: string;
@@ -154,10 +155,11 @@ export default function CourseList() {
                   className="card_link group"
                 >
                   <div className="card_image_wrapper">
-                    <img
+                    <Image
                       className="card_image group-hover:scale-105"
                       src={course.image}
                       alt={course.name}
+                      fill
                     />
                   </div>
                   <div className="text_container">
