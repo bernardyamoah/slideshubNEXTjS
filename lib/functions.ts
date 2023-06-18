@@ -30,15 +30,9 @@ export const warnMessage = (message: string) => {
 export const createCampus = async (campusData: CampusData) => {
   try {
 // Retrieve all documents from the collection
-const responseCampus = await toast.promise(databases.listDocuments(
+const responseCampus = await databases.listDocuments(
   process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
   process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID! // Replace with your collection ID
-),
-{
-  loading: 'Retrieving documents...',
-  success: '',
-  error: 'Failed to retrieve documents',
-}
 );
 const documents = responseCampus.documents;
 
@@ -48,13 +42,13 @@ const existingCampus = documents.find(
 );
 
 if (existingCampus) {
-  warnMessage('A campus with the same name already exists.');
+  errorMessage('A campus with the same name already exists.');
   return;
 }
 
     const response = await toast.promise(databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-      "647a94c632b8aeb6b530", // Replace with your collection ID
+      process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID!, // Replace with your collection ID
       ID.unique(),
       campusData
     ),
@@ -66,8 +60,8 @@ if (existingCampus) {
   );
     return response;
   } catch (error) {
-    errorMessage("Error: " + error);
     throw error;
+    errorMessage("Error: " + error);
   }
 };
 
@@ -89,7 +83,7 @@ const existingCourse = documents.find(
 );
 
 if (existingCourse ) {
-  warnMessage('This course  already exists.');
+errorMessage('This course  already exists.');
   return;
 }
       
@@ -115,30 +109,22 @@ export const createProgram = async (programData: ProgramData) => {
   try {
 
       // Retrieve all documents from the collection
-      const responseCampus = await await toast.promise(databases.listDocuments(
+      const responseProgram = await  databases.listDocuments(
         process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
         process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID! // Replace with your collection ID
-      ),
-      {
-        loading: 'Retrieving documents...',
-        success: '',
-        error: 'Failed to retrieve documents',
-      }
+      
     );
-      const documents = responseCampus.documents;
+      const documents = responseProgram.documents;
       
       // Check if a document with the same name already exists
-      const existingCourse = documents.find(
+      const existingProgram = documents.find(
         (doc) => doc.name === programData.name  && doc.campusId === programData.campusId
       );
       
-      if (existingCourse ) {
-        warnMessage('This program  already exists.');
+      if (existingProgram ) {
+        errorMessage('This program  already exists.');
         return;
       }
-
-
-
 
 
 
@@ -193,7 +179,7 @@ return;
     
     const data= await toast.promise(databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,ID.unique(),
+      process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,ID.unique(),
       bookData
   ),
   {
@@ -268,14 +254,19 @@ export const getCampus = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await databases.listDocuments(
+    const response = await toast.promise(databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID! // Replace with your collection ID
-    );
+    ),{
+			loading: "Fetching campuses...",
+			success: "Campus fetched successfully!",
+			error: "Error occurred while fetching campuses",
+		  }
+		);;
   
     return response.documents;
   } catch (error) {
-    console.log(error);
+
     throw error;
   }
 };
@@ -288,10 +279,15 @@ export const getCourses = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await databases.listDocuments(
+    const response = await toast.promise( databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
-    );
+    ),{
+			loading: "Fetching courses...",
+			success: "Courses fetched successfully!",
+			error: "Error occurred while fetching courses from database",
+		  }
+		);;
 
     return response.documents;
   } catch (error) {
@@ -309,10 +305,15 @@ export const getPrograms = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await databases.listDocuments(
+    const response = await toast.promise(databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID! // Replace with your collection ID
-    );
+    ),{
+			loading: "Fetching programs...",
+			success: "Fetched!",
+			error: "Couldn't fetch programs.",
+		  }
+		);;
 
     return response.documents;
   } catch (error) {
@@ -330,10 +331,15 @@ export const getSlides = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await databases.listDocuments(
+    const response = await toast.promise(databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID! // Replace with your collection ID
-    );
+    ),{
+			loading: "Fetching slides...",
+			success: "Fetched slides successfully!",
+			error: "Error occurred while fetching slides.",
+		  }
+		);
 
     return response.documents;
   } catch (error) {

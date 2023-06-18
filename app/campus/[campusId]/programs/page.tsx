@@ -57,7 +57,7 @@ export default function ProgrammeList() {
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link> / Programs
           </p>
         </section>
-
+<h1>{campusinfo}-{campusLocation}</h1>
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
             {isLoading ? (

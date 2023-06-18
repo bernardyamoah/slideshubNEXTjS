@@ -39,7 +39,7 @@ export default function AddSlides() {
   const [open1, setOpen1] = React.useState(false)  
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 const [courseId, setCourseId]=useState('')
-console.log(courseId)
+
 const [courses, setCourses] = useState<any[]>([]);
 
 useEffect(() => {

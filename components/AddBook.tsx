@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/popover"
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
-
+import toast, { Toaster } from 'react-hot-toast';
 export default function AddBook() {
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)
@@ -86,7 +86,7 @@ export default function AddBook() {
         const fileId = uploader.$id;
         const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
         const imageUrl = fileResponse.toString();
-        console.log(imageUrl);
+  
 
         return imageUrl;
       } catch (error) {
@@ -133,7 +133,7 @@ export default function AddBook() {
 			
 		}
 		catch(error){
-			console.log('error creating course ', error)
+	throw error
 		}
 	}
   
@@ -230,7 +230,7 @@ export default function AddBook() {
 			
 			</div>
 
-			<ToastContainer />
+      <Toaster />
 			</div>
 			
 		</>

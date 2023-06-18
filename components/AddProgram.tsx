@@ -15,12 +15,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { createProgram } from '@/lib/functions';
+import { createProgram,errorMessage } from '@/lib/functions';
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 import {
   Select,
@@ -31,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { getCampus } from "@/lib/getCampus"
+import { getCampus } from "@/lib/functions"
 
 
 
@@ -66,8 +64,8 @@ export default function AddProgram() {
     if (imageFile) {
       try {
         const file = imageFile;
-        const uploader = await storage.createFile(
-          '647d48fe0c9790069105',
+        const uploader = await toast.promise(storage.createFile(
+          process.env.NEXT_PUBLIC_PRORAM_IMAGES_ID!,
           ID.unique(),
           file,
           undefined,
@@ -78,16 +76,23 @@ export default function AddProgram() {
       setUploadProgress(uploadprogress);
 			return uploadprogress
           }
-        );
+        )
+        ,
+			{
+				loading: 'Uploading file',
+				success: 'image uploaded! 🎉',
+				error: 'Not authorized',
+			  }
+			  );
 
         const fileId = uploader.$id;
-        const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
+        const fileResponse = await storage.getFileView(process.env.NEXT_PUBLIC_PRORAM_IMAGES_ID!, fileId);
         const imageUrl = fileResponse.toString();
-        console.log(imageUrl);
+    
 
         return imageUrl;
       } catch (error) {
-        console.error('Error uploading image:', error);
+      errorMessage('Error uploading image:'+ error);
       }
     }
 
@@ -114,7 +119,7 @@ export default function AddProgram() {
     event.preventDefault();
     try {
       const imageUrl = await handleImageUpload();
-      console.log(imageUrl);
+    
 
       const programData = {
         name,
@@ -136,7 +141,7 @@ export default function AddProgram() {
       setImagePreview(null);
 	  
     } catch (error) {
-      console.error('Error creating program:', error);
+      errorMessage('Error creating program:'+error);
       // Handle error
     }
   };
@@ -260,7 +265,7 @@ export default function AddProgram() {
             )}
           </Card>
         </div>
-        <ToastContainer />
+      	<Toaster />
       </div>
     </>
   );

@@ -1,8 +1,7 @@
 'use client'
 import * as React from "react"
 import { useEffect, useState } from "react"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Card,
   CardContent,
@@ -22,8 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {getPrograms} from '@/lib/getPrograms'
-import {createCourse} from '@/lib/functions'
+
+import {createCourse,getPrograms} from '@/lib/functions'
 import { Check, ChevronsUpDown } from "lucide-react"
 import { storage, ID } from '@/appwrite';
 
@@ -53,7 +52,7 @@ export default function AddCourse() {
 	const [credit, setCredit]=useState('')
 	const [lecturer, setLecturer]=useState('')
   const [year, setYear]=useState('')
-  console.log(year)
+
 	const [fileId, setFileId]=useState('')
 	const [programId, setprogramId]=React.useState("")
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -70,7 +69,7 @@ export default function AddCourse() {
         }
       }
   
-      setTimeout(fetchPrograms, 5000);
+      fetchPrograms();
     }, []);
 
 
@@ -99,8 +98,8 @@ const creditHours=[
     if (imageFile) {
       try {
         const file = imageFile;
-        const uploader = await storage.createFile(
-          '647d48fe0c9790069105',
+        const uploader = await toast.promise(storage.createFile(
+          process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
           ID.unique(),
           file,
           undefined,
@@ -111,12 +110,18 @@ const creditHours=[
       setUploadProgress(uploadprogress);
 			return uploadprogress
           }
-        );
+        ),
+        {
+          loading: 'Uploading file',
+          success: 'image uploaded! 🎉',
+          error: 'Not authorized',
+          }
+          );
 
         const fileId = uploader.$id;
-        const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
+        const fileResponse = await storage.getFileView(process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!, fileId);
         const imageUrl = fileResponse.toString();
-        console.log(imageUrl);
+      
 
         return imageUrl;
       } catch (error) {
@@ -175,7 +180,7 @@ const creditHours=[
 			
 		}
 		catch(error){
-			console.log('error creating course', error)
+			throw error
 		}
 	}
   
@@ -421,7 +426,7 @@ const creditHours=[
 			
 			</div>
 
-			<ToastContainer />
+			<Toaster />
 			</div>
 			
 		</>

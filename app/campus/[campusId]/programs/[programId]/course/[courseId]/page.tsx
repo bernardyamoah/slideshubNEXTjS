@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 import {
-  CloudArrowUpIcon,
+  CloudArrowDownIcon,
 
 } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
@@ -70,13 +70,13 @@ export default function FilesList() {
                           <div className="text_container gap-2  flex sm:block ">
                             <h3 className="card_heading  ">{slide.name}</h3>
                           
-                            <Button size="sm" color="Blue Gray" variant="gradient" ripple={true} className="flex items-center gap-3 mt-0 sm:mt-4"onClick={() => {
+                            <Button size="sm"  variant="gradient" ripple={true} className="flex items-center gap-3 mt-0 sm:mt-4"onClick={() => {
                                 toast('Download started!', {
                                   icon: '📥',
                                 });
                               }}>
                                   <a href={slide.fileUrl} download={slide.fileUrl} className='flex items-center gap-2'>                  
-        <CloudArrowUpIcon strokeWidth={2} className="h-5 w-5" /> Download</a>
+        <CloudArrowDownIcon strokeWidth={2} className="h-5 w-5" /> Download</a>
       </Button>
                           </div>
                         </div>

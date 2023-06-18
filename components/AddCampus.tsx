@@ -17,10 +17,9 @@ import { UploadProgress } from 'appwrite';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from 'next/image';
-import {createCampus, successMessage} from '@/lib/functions'
+import {createCampus} from '@/lib/functions'
 import { Progress } from '@/components/ui/progress';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 export default function AddCampus() {
 	const [name, setName] = useState('');
 	const [location, setLocation] = useState('');
@@ -31,8 +30,9 @@ export default function AddCampus() {
 	const handleProgress=(progressEvent:UploadProgress)=>{
 
 		const uploadprogress = Math.round((progressEvent.chunksUploaded * 100) / progressEvent.chunksTotal)
+		console.log(uploadprogress)
 		setUploadProgress(uploadprogress)
-		console.log(uploadProgress)
+	
 		}
 		
 
@@ -41,8 +41,8 @@ export default function AddCampus() {
 		if (imageFile) {
 		  try {
 			const file = imageFile;
-			const uploader = await storage.createFile(
-			  '647d48fe0c9790069105',
+			const uploader = await toast.promise(storage.createFile(
+				process.env.NEXT_PUBLIC_CAMPUS_IMAGES_ID!,
 			  ID.unique(),
 			  file,
 			  undefined, handleProgress
@@ -53,17 +53,24 @@ export default function AddCampus() {
 			// 	return uploadprogress
 			// 	setUploadProgress(uploadprogress);
 			//   }
-			);
+			),
+			{
+				loading: 'Uploading file',
+				success: 'image uploaded! 🎉',
+				error: 'Not authorized',
+			  }
+			  );
 	
 			const fileId = uploader.$id;
-			const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
+			const fileResponse = await storage.getFileView(process.env.NEXT_PUBLIC_CAMPUS_IMAGES_ID!, fileId)
+			;
 			const imageUrl = fileResponse.toString();
 			
-			console.log(imageUrl);
+		
 	
 			return imageUrl;
 		  } catch (error) {
-			console.error('Error uploading image:', error);
+			throw error
 			
 		  }
 		}
@@ -96,9 +103,10 @@ export default function AddCampus() {
 		  location,
 		  image: imageUrl,
 		};
-		 createCampus(campusData);
+	const	response=await  createCampus(campusData)
 	
-  
+		
+		;
 		// Reset form fields
 		setName('');
 		setImageFile(null);
@@ -189,7 +197,7 @@ export default function AddCampus() {
 	
 			</div>
 
-			<ToastContainer />
+			<Toaster />
 			</div>
 		
 		</>

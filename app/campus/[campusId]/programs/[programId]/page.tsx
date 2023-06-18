@@ -72,7 +72,7 @@ export default function CourseList() {
             <Link href="/">home</Link> / <Link href={`/campus`}>campus</Link> /<Link href={`/campus/${campusId}/programs`}>programs</Link> / courses
           </p>
         </section>
-
+<h1 className='text-center'>{programName}</h1>
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
           {isLoading ? (
