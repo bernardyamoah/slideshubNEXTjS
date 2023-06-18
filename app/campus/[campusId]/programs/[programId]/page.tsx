@@ -6,6 +6,14 @@ import Loading from '../../../../../components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, {Toaster} from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation'
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+
 interface Course {
   $id: string;
   campusId: string;
@@ -14,6 +22,9 @@ interface Course {
   courseCode: string;
   credit: number;
   programId: string; // Added programId property
+  year: string;
+  semester: string; // Added semester property
+  
 }
 
 interface Props {
@@ -62,61 +73,118 @@ export default function CourseList() {
   }, [programId, programName]);
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
-
+  
+  const data = [
+    {
+      label: "Level 100",
+      value: "level 100",
+    
+    },
+    {
+      label: " Level 200",
+      value: "Level 200",
+      
+    },
+    {
+      label: "Level 300",
+      value: "Level 300",
+    
+    },
+    {
+      label: "Level 400",
+      value: "Level 400",
+    
+    },
+      
+  ];
   return (
     <>
       <main className="card_container">
         <section className="heading-link">
-          <h3>Courses</h3>
+        <h2 className='text-center'>{programName}</h2>
           <p>
             <Link href="/">home</Link> / <Link href={`/campus`}>campus</Link> /<Link href={`/campus/${campusId}/programs`}>programs</Link> / courses
           </p>
+        
         </section>
-<h1 className='text-center'>{programName}</h1>
-        <section className="container relative mx-auto flex flex-col items-center pb-10">
-          <div id="myUL">
-          {isLoading ? (
-              <Loading /> // Render the loading UI when data is loading
-            ) : (
-            <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
-              <Suspense fallback={<Loading />}>
-                {filteredCourses.length > 0 ? (
-                  filteredCourses.map((course) => (
-                    <aside
-                      key={course.$id}
-                      className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-                    >
-                      <Link
-                    
 
-                        href={{
-                          pathname: `/campus/${campusId}/programs/${programId}/course/${course.$id}`, 
-                          query: { courseId: course.$id, name: course.name } }} shallow passHref
-                        className="card_link group"
-                      >
-                        <div className="card_image_wrapper">
-                          <img
-                            className="card_image group-hover:scale-105"
-                            src={course.image}
-                            alt={course.name}
-                          />
-                        </div>
-                        <div className="text_container">
-                          <h3 className="card_heading">{course.name}</h3>
-                          <p className="course-code">
-                            <span className="text-gray-400 mr-2 sm:hidden">{course.courseCode}</span>
-                            <span className="text-gray-400 mr-2 sm:hidden">credit: {course.credit}</span>
-                          </p>
-                        </div>
-                      </Link>
-                    </aside>
-                  ))
-                ) : (
-                  <p>No courses available for this program.</p>
-                )}
-              </Suspense>
-            </ul>
-                )}
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <section className="md:container relative mx-auto flex flex-col items-center pb-10">
+          <div id="myUL">
+          <Tabs >
+<TabsHeader className='max-w-2xl mx-auto mb-10'>
+    {data.map(({ label, value }) => (
+      <Tab key={value} value={value} className='text-sm font-title sm:text-base font-medium'>
+        {label}
+      </Tab>
+    ))}
+  </TabsHeader>
+  <TabsBody>
+  
+      {/* Render course list for year 1 */}
+      {data.map(({ value }) => (
+  <TabPanel key={value} value={value}>
+    <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+      <Suspense fallback={<Loading />}>
+        {filteredCourses.filter((course) => course.year === value).length > 0 ? (
+          filteredCourses
+            .filter((course) => course.year === value)
+            .map((course) => (
+              <aside
+                key={course.$id}
+                className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
+              >
+                <Link
+                  href={{
+                    pathname: `/campus/${campusId}/programs/${programId}/course/${course.$id}`,
+                    query: { courseId: course.$id, name: course.name }
+                  }}
+                  shallow
+                  passHref
+                  className="card_link group"
+                >
+                  <div className="card_image_wrapper">
+                    <img
+                      className="card_image group-hover:scale-105"
+                      src={course.image}
+                      alt={course.name}
+                    />
+                  </div>
+                  <div className="text_container">
+                    <h3 className="card_heading">{course.name}</h3>
+                    <p className="course-code">
+                      <span className="text-gray-400 mr-2 sm:hidden">{course.courseCode}</span>
+                      <span className="text-gray-400 mr-2 sm:hidden">credit: {course.credit}</span>
+                    </p>
+                  </div>
+                </Link>
+              </aside>
+            ))
+        ) : (
+          <p>No courses available for this level.</p>
+        )}
+      </Suspense>
+    </ul>
+  </TabPanel>
+))}
+
+  
+  
+    
+  </TabsBody>
+</Tabs>
+
+      
           </div>
         </section>
         <Toaster />
