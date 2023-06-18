@@ -1,12 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getCourses, successMessage, errorMessage } from '@/lib/functions';
+import { getCourses,getProgramDetails,getProgramName} from '@/lib/functions';
 import Link from 'next/link';
 import Loading from '../../../../../components/ui/Cloading';
 import { Suspense } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import toast, {Toaster} from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation'
 interface Course {
   $id: string;
   campusId: string;
@@ -21,30 +20,46 @@ interface Props {
   params: {
     programId: string;
     campusId: string;
+    name:string;
   };
 }
 
-export default function CourseList({ params }: Props) {
-  const { programId, campusId } = params;
+export default function CourseList() {
+  const searchParams = useSearchParams();
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true); // Sta
+ const programId = searchParams?.get('programId') ?? '';
+  const programName = searchParams?.get('name'); 
+  let campusId = searchParams?.get('campusId');
+  //  const campusId = searchParams?.get('campusId');
+
+  
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await getCourses();
-        successMessage('Successfully fetched courses');
+        const programName = await getProgramName(programId);
+        const programDetails = await getProgramDetails(programId); // Fetch program details
+        const campusId  = programDetails?.campusId;
+    
+        const response = await toast.promise(getCourses(),
+        {
+          loading: `fetctching courses from ${programName} database...`,
+          success: <b>Successfully fetched courses</b>,
+          error: <b>Failed to fetch courses ${programName}.</b>,
+        });
+  
+    
         setCourses(response);
         setIsLoading(false); // Set loading state to false when data is fetched
       } catch (error) {
-        console.log('Error fetching courses:', error);
-        errorMessage('Failed to fetch courses');
+  
         setIsLoading(false); // Set loading state to false if there's an error
 
       }
     }
 
     fetchCourses()
-  }, [programId]);
+  }, [programId, programName]);
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
 
@@ -54,7 +69,7 @@ export default function CourseList({ params }: Props) {
         <section className="heading-link">
           <h3>Courses</h3>
           <p>
-            <Link href="/">home</Link> / <Link href={`/campus/${campusId}/programs`}>programs</Link> / courses
+            <Link href="/">home</Link> / <Link href={`/campus`}>campus</Link> /<Link href={`/campus/${campusId}/programs`}>programs</Link> / courses
           </p>
         </section>
 
@@ -72,7 +87,11 @@ export default function CourseList({ params }: Props) {
                       className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
                     >
                       <Link
-                        href={`/campus/${campusId}/programs/${programId}/course/${course.$id}`}
+                    
+
+                        href={{
+                          pathname: `/campus/${campusId}/programs/${programId}/course/${course.$id}`, 
+                          query: { courseId: course.$id, name: course.name } }} shallow passHref
                         className="card_link group"
                       >
                         <div className="card_image_wrapper">
@@ -100,7 +119,7 @@ export default function CourseList({ params }: Props) {
                 )}
           </div>
         </section>
-        <ToastContainer />
+        <Toaster />
       </main>
     </>
   );

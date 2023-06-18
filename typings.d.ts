@@ -55,3 +55,11 @@ interface Slides {
 	size:string
 	courseId:string
   }
+  interface Program {
+	$id: string;
+	campusId: string;
+	image: string;
+	name: string;
+	description: string;
+	duration: string;
+  }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect,useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
@@ -9,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCourses,bytesToSize, createSlide, successMessage, errorMessage } from "@/lib/functions";
+import { getCourses,bytesToSize, createSlide } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
@@ -28,7 +27,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
-
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -53,7 +52,7 @@ useEffect(() => {
     }
   }
 
-  setTimeout(fetchCourses, 5000);
+fetchCourses()
 }, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -68,16 +67,30 @@ useEffect(() => {
       const handleFileUpload = async () => {
         try {
           const file = currentFile;
-          const uploader = await storage.createFile(
+          const uploader = await toast.promise(storage.createFile(
             process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
             ID.unique(),
             file
-          );
-
+          ),
+          {
+            loading: 'Uploading file...',
+            success: 'File uploaded!',
+            error: 'Upload failed',
+          }
+        );
           const fileId = uploader.$id;
- // Fetch file information from Appwrite
-          const fileDetails = await storage.getFile(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
-          
+  // Fetch file information from Appwrite
+  const fileDetails = await toast.promise(
+    storage.getFile(
+      process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+      fileId
+    ),
+    {
+      loading: 'Fetching file details...',
+      success:'File details fetched!',
+      error: 'Failed to fetch file details',
+    }
+  );
           const fileName = fileDetails.name || "";
 
           const fileUrlResponse = await storage.getFileDownload(
@@ -106,18 +119,24 @@ useEffect(() => {
           courseId,
         };
 
-        const response = await createSlide(slideData);
+        const response = await toast.promise(createSlide(slideData),
+        {
+          loading: "Creating slide...",
+          success: "Slide added successfully!",
+          error: "Error occurred during slide creation.",
+        }
+      );
 
         // Reset form fields
         setCurrentFile(null);
 
-        successMessage("Slide added successfully!");
+    
       }
     } catch (error) {
       console.error("Error handling form submission:", error);
       setCurrentFile(null);
 
-      errorMessage("Error occurred during slide upload.");
+  
     }
   };
   const handleSelectChange = (selectedValue: string) => {
@@ -193,7 +212,7 @@ useEffect(() => {
             </CardContent>
           </Card>
         </div>
-        <ToastContainer />
+        <Toaster />
       </div>
     </>
   );

@@ -1,10 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getPrograms, successMessage, errorMessage } from '@/lib/functions';
+import { getPrograms,getProgramName} from '@/lib/functions';
 import Link from 'next/link';
 import Loading from '../../../../components/ui/Cloading';
 import { Suspense } from 'react';
-
+import toast, { Toaster } from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation'
 interface Program {
   $id: string;
   campusId: string;
@@ -14,32 +15,35 @@ interface Program {
   duration: string;
 }
 
-interface Props {
-  params: {
-    campusId: string;
-  };
-}
+export const dynamic = 'force-dynamic'
 
-export default function ProgrammeList({ params }: Props) {
-  const { campusId } = params;
+export default function ProgrammeList() {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [isLoading, setIsLoading] = useState(true); // State variable for loading
-
+  const searchParams = useSearchParams();
+  const campusId = searchParams?.get('campusId');
+  const campusinfo = searchParams?.get('name');
+  const campusLocation = searchParams?.get('loc');
   useEffect(() => {
     async function fetchPrograms() {
       try {
-        const response = await getPrograms();
-        successMessage('Successfully fetched programs');
+        const response = await toast.promise(getPrograms(),
+        {
+          loading: `fetctching programs from ${campusinfo}-${campusLocation} database...`,
+          success: <b>Successfully fetched programs!</b>,
+          error: <b>Could not load campuses.</b>,
+        });
+        
         setPrograms(response);
         setIsLoading(false); // Set loading state to false when data is fetched
       } catch (error) {
-        console.log('Error fetching programs:', error);
-        errorMessage('Failed to fetch programs');
+      
+    
         setIsLoading(false); // Set loading state to false if there's an error
       }
     }
 
-    setTimeout(fetchPrograms, 6000);
+    fetchPrograms();
   }, [campusId]);
 
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
@@ -68,7 +72,13 @@ export default function ProgrammeList({ params }: Props) {
                         className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
                       >
                         <Link
-                          href={`/campus/${campusId}/programs/${program.$id}`}
+                          
+
+                          href={{
+                          pathname: `/campus/${campusId}/programs/${program.$id}`, 
+                          query: { programId: program.$id,
+                            campusId:campusId,
+                             name: program.name } }} shallow passHref
                           className="card_link group"
                         >
                           <div className="card_image_wrapper">
@@ -96,6 +106,7 @@ export default function ProgrammeList({ params }: Props) {
             )}
           </div>
         </section>
+        <Toaster />
       </main>
     </>
   );

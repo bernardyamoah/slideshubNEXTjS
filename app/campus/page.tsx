@@ -1,4 +1,3 @@
-
 'use client'
 import { useState, useEffect } from 'react';
 import { getCampus } from '@/lib/functions';
@@ -7,24 +6,36 @@ import Loading from '../../components/ui/Cloading';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Chip } from "@material-tailwind/react";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Button
 } from "@material-tailwind/react";
 
-export default function Campus() {
-  const [campuses, setCampuses] = useState([]);
+
+interface Campus {
+  $id: string;
+  name: string;
+  image: string;
+  location: string;
+}
+
+export default function CampusList() {
+  const [campuses, setCampuses] = useState<Campus[]>([]);
 
   useEffect(() => {
     async function fetchCampuses() {
       try {
-        const response = await getCampus();
+  
+        const response = await toast.promise(getCampus(),
+        {
+          loading: 'fetctching campuses from database...',
+          success: <b>Campuses fetched!</b>,
+          error: <b>Could not load campuses.</b>,
+        });
+      
         setCampuses(response);
       } catch (error) {
         console.error('Error fetching campuses:', error);
@@ -46,10 +57,16 @@ export default function Campus() {
         <Suspense fallback={<Loading />}>
           {campuses.map((campus) => (
             <Card
+key={campus.$id}
               className="max-w-xs transition-all hover:border-emerald-500 dark:hover:border-emerald-500 border-gray-200 w-full dark:bg-transparent group duration-300"
-              key={campus.$id}
             >
-              <Link href={`/campus/${campus.$id}/programs`} className="transition  group">
+              <Link href={{ pathname: `/campus/${campus.$id}/programs`, query: { campusId: campus.$id, name: campus.name, loc:campus.location } }} shallow passHref
+              
+              
+
+  
+  
+className="transition  group">
                 <CardHeader color="blue-gray" className="relative h-36 aspect-auto">
                   <Image
                     fill
@@ -70,7 +87,8 @@ export default function Campus() {
             </Card>
           ))}
         </Suspense>
-        <ToastContainer />
+        <Toaster />
+      
       </section>
     </>
   );

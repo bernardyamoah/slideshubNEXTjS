@@ -76,7 +76,7 @@ export default function DataEntry() {
             {button.name === 'Campus' && <AddCampus />}
             {button.name === 'Program' && <AddProgram />}
             {button.name === 'Slides' && <AddSlides />}
-            {button.name === 'Program' && <AddBook />}
+            {button.name === 'Book' && <AddBook />}
             {/* Add other components for different tabs based on their names */}
           </TabPanel>
         ))}

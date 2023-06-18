@@ -1,13 +1,10 @@
-// pages/_app.js
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { AppProps } from 'next/app';
 function App({ Component, pageProps }: AppProps) {
 	return (
 	  <>
 		<Component {...pageProps} />
-		<ToastContainer />
+		<Toaster />
 	  </>
 	);
   }

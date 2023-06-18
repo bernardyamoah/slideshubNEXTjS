@@ -1,15 +1,13 @@
-import { toast } from "react-toastify";
+
+import toast, { Toaster } from 'react-hot-toast';
+
 import { databases, ID,Query } from "@/appwrite";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
   toast.success(message, {
     position: "top-right",
-    autoClose: 5000,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
+
   });
 };
 
@@ -17,46 +15,31 @@ export const successMessage = (message: string) => {
 export const errorMessage = (message: string) => {
   toast.error(message, {
     position: "top-right",
-    autoClose: 5000,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
   });
 };
 // Error toast notification
 export const warnMessage = (message: string) => {
-  toast.warning(message, {
+  toast.custom(message, {
     position: "top-right",
-    autoClose: 5000,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
   });
 };
 
 // Error toast notification
-export const infoMessage = (message: string) => {
-  toast.info(message, {
-    position: "top-right",
-    autoClose: 5000,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  });
-};
 
 // Create campus function
 export const createCampus = async (campusData: CampusData) => {
   try {
 // Retrieve all documents from the collection
-const responseCampus = await databases.listDocuments(
+const responseCampus = await toast.promise(databases.listDocuments(
   process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
   process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID! // Replace with your collection ID
+),
+{
+  loading: 'Retrieving documents...',
+  success: '',
+  error: 'Failed to retrieve documents',
+}
 );
-
 const documents = responseCampus.documents;
 
 // Check if a document with the same name already exists
@@ -69,13 +52,18 @@ if (existingCampus) {
   return;
 }
 
-    const response = await databases.createDocument(
+    const response = await toast.promise(databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
       "647a94c632b8aeb6b530", // Replace with your collection ID
       ID.unique(),
       campusData
-    );
-    successMessage("Campus created! 🎉");
+    ),
+    {
+      loading: 'Creating campus...',
+      success: 'Campus created! 🎉',
+      error: 'Failed to create campus',
+    }
+  );
     return response;
   } catch (error) {
     errorMessage("Error: " + error);
@@ -127,11 +115,16 @@ export const createProgram = async (programData: ProgramData) => {
   try {
 
       // Retrieve all documents from the collection
-      const responseCampus = await databases.listDocuments(
+      const responseCampus = await await toast.promise(databases.listDocuments(
         process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
         process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID! // Replace with your collection ID
-      );
-      
+      ),
+      {
+        loading: 'Retrieving documents...',
+        success: '',
+        error: 'Failed to retrieve documents',
+      }
+    );
       const documents = responseCampus.documents;
       
       // Check if a document with the same name already exists
@@ -149,13 +142,18 @@ export const createProgram = async (programData: ProgramData) => {
 
 
 
-    const response = await databases.createDocument(
+    const response = await await toast.promise(databases.createDocument(
     process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
     process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!, // Replace with your collection ID
       ID.unique(),
        programData 
-    );
-    successMessage('Program created Successfully')
+    ),
+    {
+      loading: 'Creating Program...',
+      success: 'Program created! 🎉',
+      error: 'Failed to create Program',
+    }
+  );
     return response;
   } catch (error) {
     errorMessage('Error creating program')
@@ -166,9 +164,15 @@ export const createProgram = async (programData: ProgramData) => {
 export const createBook=async (bookData: BooksData) => {
   try{
     // Retrieve all documents from the collection
-const responseCampus = await databases.listDocuments(
+const responseCampus = await toast.promise(databases.listDocuments(
 process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
 process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+),
+{
+  loading: 'Retrieving documents...',
+  success: '',
+  error: 'Failed to retrieve documents',
+}
 );
 
 const documents = responseCampus.documents;
@@ -180,20 +184,25 @@ const existingBook = documents.find(
 );
 
 if (existingBook ) {
-warnMessage('This book  already exists.');
+errorMessage('This book  already exists.');
 return;
 }
     
     
     
     
-    const data= await databases.createDocument(
+    const data= await toast.promise(databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,ID.unique(),
       bookData
-  );
+  ),
+  {
+    loading: 'Creating book...',
+    success: 'Book created! 🎉',
+    error: 'Failed to create book',
+  }
+);
 
-  successMessage('Book created! 🎉')
   return data}
   catch(error){
     errorMessage('Error adding book')
@@ -226,13 +235,17 @@ export const createSlide=async (slideData: SlidesData) => {
     
     
     
-    const data= await databases.createDocument(
+    const data= await toast.promise(databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,ID.unique(),
       slideData
-  );
-
-  successMessage('Slides uploaded 🎉')
+  ),
+  {
+    loading: 'Creating slide...',
+    success: 'Slides uploaded! 🎉',
+    error: 'Failed to upload slides',
+  }
+);
   return data}
   catch(error){
     errorMessage('Error adding slide')
@@ -349,6 +362,84 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
     throw new Error('Failed to fetch courses by programId: ' + error);
   }
 }
+
+
+export const getProgramsByCampusId = async (campusId: string) => {
+  try {
+    
+    // Fetch the courses by programId
+    const response = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+      [ `campusId=${campusId}`], // Filter documents by the campus ID
+    );
+
+
+    // Return the courses data
+    return response.documents;
+  } catch (error) {
+    throw new Error('Failed to fetch courses by programId: ' + error);
+  }
+}
+
+
+export async function getProgramName(programId:string) {
+  try {
+    // Fetch the program document from Appwrite database
+    const program = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!,
+
+      process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,programId);
+  
+    // Extract and return the program name
+    return program.name;
+  } catch (error) {
+    console.error('Failed to fetch program name:', error);
+    throw error;
+  }
+}
+export async function getProgramDetails(programId:string) {
+  try {
+    // Fetch the program document from Appwrite database
+    console.log(programId)
+    const response = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,programId);
+    
+      if (response.$id) {
+        const campusId = response.campusId;
+        const name=response.name;
+        return {campusId, name};
+      } else {
+        return null;
+      }
+  } catch (error) {
+    console.error('Failed to fetch program name:', error);
+    throw error;
+  }
+}
+
+
+export async function getCourseDetails(courseId:string) {
+  try {
+    // Fetch the program document from Appwrite database
+    console.log(courseId)
+    const response = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,courseId);
+    
+      if (response.$id) {
+        const programId = response.programId;
+        const name=response.name;
+        return {programId, name};
+      } else {
+        return null;
+      }
+  } catch (error) {
+    console.error('Failed to fetch program name:', error);
+    throw error;
+  }
+}
+
+
+
 
 
 
