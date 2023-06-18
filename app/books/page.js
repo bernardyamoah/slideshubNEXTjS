@@ -1,7 +1,7 @@
 
 import { Suspense } from "react";
  
-import Link from "next/link";
+import Loading from "@/components/ui/Cloading";
 
 async function Page() {
 	

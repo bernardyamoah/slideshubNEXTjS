@@ -1,7 +1,7 @@
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import { databases, ID,Query } from "@/appwrite";
+import { databases, ID,Query,account } from "@/appwrite";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -488,38 +488,38 @@ export function bytesToSize(bytes: number) {
 // };
 
 // Login function
-// export const logIn = async (email: string, setEmail: (email: string) => void, password: string, setPassword: (password: string) => void, router: any) => {
-//   try {
-//     await account.createEmailSession(email, password);
-//     successMessage("Welcome back! 🎉");
-//     setEmail("");
-//     setPassword("");
-//     router.push("/dashboard");
-//   } catch (error) {
-//     console.error(error);
-//     errorMessage("Invalid credentials ❌");
-//   }
-// };
+export const logIn = async (email: string, setEmail: (email: string) => void, password: string, setPassword: (password: string) => void, router: any) => {
+  try {
+    await account.createEmailSession(email, password);
+    successMessage("Welcome back! 🎉");
+    setEmail("");
+    setPassword("");
+    router.push("/dashboard");
+  } catch (error) {
+    console.error(error);
+    errorMessage("Invalid credentials ❌");
+  }
+};
 
 // Logout function
-// export const logOut = async (router: any) => {
-//   try {
-//     await account.deleteSession("current");
-//     router.push("/");
-//     successMessage("See you later! 🎉");
-//   } catch (error) {
-//     console.error(error);
-//     errorMessage("Encountered an error 😪");
-//   }
-// };
+export const logOut = async (router: any) => {
+  try {
+    await account.deleteSession("current");
+    router.push("/");
+    successMessage("See you later! 🎉");
+  } catch (error) {
+    console.error(error);
+    errorMessage("Encountered an error 😪");
+  }
+};
 
 // Check authentication status function
-// export const checkAuthStatus = async (setUser: (user: any) => void, setLoading: (loading: boolean) => void, router: any) => {
-//   try {
-//     const request = await account.get();
-//     setUser(request);
-//     setLoading(false);
-//   } catch (error) {
-//     router.push("/");
-//   }
-// };
+export const checkAuthStatus = async (setUser: (user: any) => void, setLoading: (loading: boolean) => void, router: any) => {
+  try {
+    const request = await account.get();
+    setUser(request);
+    setLoading(false);
+  } catch (error) {
+    router.push("/");
+  }
+};

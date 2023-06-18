@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { getCampus } from "@/lib/getCampus"
+import { getCampus } from "@/lib/functions"
 
 export default function SelectCampus() {
   const [open, setOpen] = React.useState(false)

@@ -11,7 +11,7 @@ const Features = () => {
 		<div className="max-w-7xl py-10">
 			<div className="mt-32 space-y-10">
 				<div className="text-4xl font-bold  mx-auto mb-20">
-					<h2>Here's what what you'll love about Slideshub</h2>
+					<h2>Here&apos;s what what you&apos;ll love about Slideshub</h2>
 				</div>
 				{/* <!-- Feature cards --> */}
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
