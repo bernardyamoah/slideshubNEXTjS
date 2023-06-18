@@ -31,7 +31,7 @@ export default function ProgrammeList() {
     async function fetchPrograms() {
       try {
         const response = await toast.promise(getPrograms(), {
-          loading: `Fetching programs from ${campusinfo}-${campusLocation} database...`,
+          loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
           success: <b>Successfully fetched programs!</b>,
           error: <b>Could not load campuses.</b>,
         });
