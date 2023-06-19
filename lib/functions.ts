@@ -254,15 +254,10 @@ export const getCampus = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await toast.promise(databases.listDocuments(
+    const response = await databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID! // Replace with your collection ID
-    ),{
-			loading: "Fetching campuses...",
-			success: "Campus fetched successfully!",
-			error: "Error occurred while fetching campuses",
-		  }
-		);;
+    );
   
     return response.documents;
   } catch (error) {
@@ -279,15 +274,10 @@ export const getCourses = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await toast.promise( databases.listDocuments(
+    const response = await  databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
-    ),{
-			loading: "Fetching courses...",
-			success: "Courses fetched successfully!",
-			error: "Error occurred while fetching courses from database",
-		  }
-		);;
+    );
 
     return response.documents;
   } catch (error) {
@@ -305,15 +295,10 @@ export const getPrograms = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await toast.promise(databases.listDocuments(
+    const response = await databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID! // Replace with your collection ID
-    ),{
-			loading: "Fetching programs...",
-			success: "Fetched!",
-			error: "Couldn't fetch programs.",
-		  }
-		);;
+    );
 
     return response.documents;
   } catch (error) {
@@ -331,15 +316,10 @@ export const getSlides = async (): Promise<any[]> => {
   }
 
   try {
-    const response = await toast.promise(databases.listDocuments(
+    const response = await databases.listDocuments(
       databaseId,
       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID! // Replace with your collection ID
-    ),{
-			loading: "Fetching slides...",
-			success: "Fetched slides successfully!",
-			error: "Error occurred while fetching slides.",
-		  }
-		);
+    )
 
     return response.documents;
   } catch (error) {
