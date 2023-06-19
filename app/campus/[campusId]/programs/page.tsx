@@ -125,7 +125,9 @@ Programme
 </Link> 
                     ))
                   ) : (
-                    <p>No programs available for this campus.</p>
+                    <div className="flex justify-center w-full">
+                    <EmptyState/>
+                  </div>
                   )}
                 </Suspense>
               </ul>
