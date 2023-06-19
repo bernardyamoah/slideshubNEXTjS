@@ -6,12 +6,9 @@ import Loading from '../../../../../../../components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
-import {
-  CloudArrowDownIcon,
-
-} from "@heroicons/react/24/outline";
+import {CloudArrowDownIcon,} from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
-
+import EmptyState from '@/lib/empty_campus';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
@@ -83,7 +80,7 @@ export default function FilesList() {
                       </aside>
                     ))
                   ) : (
-                    <p>No slides available for this program.</p>
+                    <EmptyState></EmptyState>
                   )}
                 </Suspense>
               </ul>
