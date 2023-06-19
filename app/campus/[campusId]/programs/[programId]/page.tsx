@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react';
 import { getCourses, getProgramDetails, getProgramName } from '@/lib/functions';
 import Link from 'next/link';
@@ -24,7 +25,8 @@ interface Course {
   credit: string;
   programId: string; // Added programId property
   year: string;
-  semester: string; // Added semester property
+  semester: string;
+  $createdAt:string // Added semester property
 }
 
 interface Props {
