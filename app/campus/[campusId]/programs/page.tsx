@@ -31,7 +31,7 @@ export default function ProgrammeList() {
     async function fetchPrograms() {
       try {
         const response = await toast.promise(getPrograms(), {
-          loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
+          loading: <b>Fetching programs from {campusinfo} - {campusLocation} database...</b>,
           success: <b>Successfully fetched programs!</b>,
           error: <b>Could not load campuses.</b>,
         });
@@ -86,39 +86,43 @@ export default function ProgrammeList() {
               <Loading />
             ) : (
               <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
-                <Suspense fallback={<Loading />}>
+   <Suspense fallback={<Loading />}>
                   {filteredPrograms.length > 0 ? (
                     filteredPrograms.map((program) => (
-                      <aside
-                        key={program.$id}
-                        className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-                      >
-                        <Link
-                          href={{
-                            pathname: `/campus/${campusId}/programs/${program.$id}`,
-                            query: { programId: program.$id, campusId: campusId, name: program.name },
-                          }}
-                          shallow
-                          passHref
-                          className="card_link group"
-                        >
-                          <div className="card_image_wrapper">
-                            <Image
-                              className="card_image group-hover:scale-105"
-                              src={program.image}
-                              alt={program.name}
-                              fill
-                            />
-                          </div>
-                          <div className="text_container">
-                            <h3 className="card_heading">{program.name}</h3>
-                            <p className="text-sm font-light text-gray-400">{program.description}</p>
-                            <p className="course-code">
-                              <span className="text-gray-400 mr-2 sm:hidden">Duration:</span> {program.duration}
-                            </p>
-                          </div>
-                        </Link>
-                      </aside>
+                    
+                      <Link   key={program.$id} href={{
+                        pathname: `/campus/${campusId}/programs/${program.$id}`,
+                        query: { programId: program.$id, campusId: campusId, name: program.name },
+                      }}
+                      shallow
+                      passHref
+                      className="  group relative block bg-black">
+<Image
+alt={program.image}
+src={program.image}
+width={200} height={300}
+className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-20"
+/>
+
+<div className="relative p-4 sm:p-6 lg:p-8">
+<p className="text-sm font-semibold uppercase tracking-widest text-emerald-500">
+Programme
+</p>
+
+<p className="text-xl font-bold text-white sm:text-2xl">{program.name}</p>
+
+<div className="mt-32 sm:mt-48 lg:mt-64">
+  <div
+    className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
+  >
+      <p className="text-sm font-light text-gray-400">{program.description}</p>
+    <p className="text-sm text-white">
+    {program.duration}
+    </p>
+  </div>
+</div>
+</div>
+</Link> 
                     ))
                   ) : (
                     <p>No programs available for this campus.</p>

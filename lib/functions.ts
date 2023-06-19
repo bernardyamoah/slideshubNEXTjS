@@ -386,7 +386,7 @@ export async function getProgramName(programId:string) {
 export async function getProgramDetails(programId:string) {
   try {
     // Fetch the program document from Appwrite database
-    console.log(programId)
+
     const response = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,programId);
     
@@ -407,7 +407,7 @@ export async function getProgramDetails(programId:string) {
 export async function getCourseDetails(courseId:string) {
   try {
     // Fetch the program document from Appwrite database
-    console.log(courseId)
+  
     const response = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,courseId);
     
