@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
-import EmptyState from '@/lib/empty_books';
+import EmptyState from '@/lib/Empty';
 
 export default function FilesList() {
   const searchParams = useSearchParams();

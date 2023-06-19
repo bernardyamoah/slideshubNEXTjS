@@ -1,5 +1,5 @@
 "use client";
-import EmptyState from "@/lib/empty_books";
+import EmptyState from "@/lib/Empty";
 export default function Sample() {
 
   return (

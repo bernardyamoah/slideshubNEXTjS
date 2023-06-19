@@ -13,7 +13,6 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import Image from 'next/image';
 import CourseCard from '@/components/CourseCard';
 
 interface Course {
@@ -29,13 +28,6 @@ interface Course {
   $createdAt:string // Added semester property
 }
 
-interface Props {
-  params: {
-    programId: string;
-    campusId: string;
-    name: string;
-  };
-}
 
 export default function CourseList() {
   const searchParams = useSearchParams();
@@ -53,9 +45,9 @@ export default function CourseList() {
         const campusId = programDetails?.campusId;
 
         const response = await toast.promise(getCourses(), {
-          loading: `Fetching courses from ${programName} database...`,
+          loading: <b>Fetching courses from {programName} database...</b>,
           success: <b>Successfully fetched courses</b>,
-          error: <b>Failed to fetch courses ${programName}.</b>,
+          error: <b>Failed to fetch courses {programName}.</b>,
         });
 
         setCourses(response);
@@ -102,7 +94,7 @@ export default function CourseList() {
 
         <section className="md:container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
-            <Tabs>
+            <Tabs value={data[0].value}>
               <TabsHeader className="max-w-2xl mx-auto mb-10">
                 {data.map(({ label, value }) => (
                   <Tab

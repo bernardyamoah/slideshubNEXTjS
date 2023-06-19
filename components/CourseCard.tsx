@@ -1,3 +1,4 @@
+import { formatTime } from '@/lib/functions';
 import Image from 'next/image'
 import Link from 'next/link';
 
@@ -24,6 +25,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   semester,
   timePosted,
 }) => {
+  const formattedTime = formatTime(timePosted);
   return (
     <Link
     href={{
@@ -45,7 +47,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             
                className="block shrink-0">
           <Image
-            alt="Speaker"
+            alt=  {name}
             src={image}
             width={300}
             height={200}
@@ -84,7 +86,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
                   d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
                 />
               </svg>
-              <p className="text-xs">{semester}</p>
+              <p className="text-xs capitalize">{semester}</p>
             </div>
             <div className="flex items-center gap-1 text-gray-500">
             <svg
@@ -102,7 +104,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   />
 </svg>
 
-              <p className="text-xs">{credit} credit hours</p>
+              <p className="text-xs capitalize">{credit} credit hours</p>
             </div>
               
 
@@ -137,7 +139,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             />
           </svg>
 
-          <span className="text-[10px] font-medium sm:text-xs">{timePosted}</span>
+          <span className="text-[10px] font-medium sm:text-xs">{formattedTime}</span>
         </strong>
         <strong
           className="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-600 px-3 py-1.5 text-white"
@@ -157,7 +159,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             />
           </svg>
 
-          <span className="text-[10px] font-medium sm:text-xs">{courseCode}</span>
+          <span className="text-[10px] font-medium sm:text-xs">{courseCode.toUpperCase()}</span>
         </strong>
       </div>
     </Link>

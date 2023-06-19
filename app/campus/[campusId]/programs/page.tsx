@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import EmptyProgram from '@/components/EmptyPrograms';
 
 interface Program {
   $id: string;
@@ -126,7 +127,7 @@ Programme
                     ))
                   ) : (
                     <div className="flex justify-center w-full">
-                    <EmptyState/>
+                    <EmptyProgram/>
                   </div>
                   )}
                 </Suspense>
