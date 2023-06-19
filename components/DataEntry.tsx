@@ -8,11 +8,7 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import {
-  Square3Stack3DIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-} from "@heroicons/react/24/solid";
+
 import AddCourse from '@/components/AddCourse';
 import AddCampus from '@/components/AddCampus';
 import AddProgram from '@/components/AddProgram';
