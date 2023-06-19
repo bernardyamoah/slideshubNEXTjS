@@ -69,35 +69,35 @@ export default function CampusList() {
               excepturi dolores.
             </p>
 
-
-          </div>
-        </div>
-      </div>
-      <section className="heading-link">
-
+    
+    </div>
+  </div>
+</div>
+      {/* <section className="heading-link">
+    
         <p>
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>
         </p>
-      </section>
-      <div className=" relative mx-auto flex flex-col items-center pb-10 px-2">
-        <div id="myUL">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
-              <Suspense fallback={<Loading />}>
-                {campuses.map((campus) => (
-                  <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
-                ))}
-              </Suspense>
-
-
-            </ul>
+      </section> */}
+      <section className="mt-10 relative mx-auto flex flex-col items-center pb-10 px-2">
+          <div id="myUL">
+            {isLoading ? (
+              <Loading />
+            ) : (
+      <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+        <Suspense fallback={<Loading />}>
+          {campuses.map((campus) => (
+                      <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
+                    ))}
+        </Suspense>
+        
+      
+      </ul>
           )}
-        </div>
-      </div>
-      <Toaster />
-
+          </div>
+        </section>
+        <Toaster />
+    
     </>
   );
 }

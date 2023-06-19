@@ -44,12 +44,12 @@ export default function FilesList() {
   return (
     <>
       <main className="card_container">
-        <section className="heading-link">
+        {/* <section className="heading-link">
           <h3>Slides</h3>
           <p>
             <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>/Slides
           </p>
-        </section>
+        </section> */}
 
         <section className="container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">

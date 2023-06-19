@@ -61,7 +61,7 @@ export default function ProgrammeList() {
   <div className="bg-black/60 p-8 md:p-12 lg:px-16 lg:py-24">
     <div className="text-center ltr:sm:text-left rtl:sm:text-right">
       <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
-      {campusinfo} - {campusLocation}
+      {campusinfo} - {campusLocation} Programmes
       </h2>
 
       <p
@@ -82,8 +82,8 @@ export default function ProgrammeList() {
             <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link> / Programs
           </p>
         </section> */}
-        <h3>Programmes</h3>
-        <div className=" relative mx-auto flex flex-col items-center pb-10 px-2">
+            
+        <section className="mt-20 relative mx-auto flex flex-col items-center pb-10 px-2">
           <div id="myUL">
             {isLoading ? (
               <Loading />
@@ -103,7 +103,7 @@ export default function ProgrammeList() {
               </ul>
             )}
           </div>
-        </div>
+        </section>
         <Toaster />
       </main>
     </>
