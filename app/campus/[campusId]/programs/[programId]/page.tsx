@@ -45,7 +45,7 @@ export default function CourseList() {
         const campusId = programDetails?.campusId;
 
         const response = await toast.promise(getCourses(), {
-          loading: <b>Fetching courses from {programName} database...</b>,
+          loading: `Fetching courses from ${programName} database..`,
           success: <b>Successfully fetched courses</b>,
           error: <b>Failed to fetch courses {programName}.</b>,
         });
@@ -109,7 +109,7 @@ export default function CourseList() {
               <TabsBody>
                 {data.map(({ value }) => (
                   <TabPanel key={value} value={value}>
-                    <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+                    <ul className="mx-auto max-w-7xl grid sm:flex flex-wrap gap-8 pb-10">
                       <Suspense fallback={<Loading />}>
                         {filteredCourses.filter((course) => course.year === value).length > 0 ? (
                           filteredCourses

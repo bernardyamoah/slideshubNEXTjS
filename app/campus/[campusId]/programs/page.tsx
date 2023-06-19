@@ -1,13 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { getPrograms, getProgramName } from '@/lib/functions';
-import Link from 'next/link';
+
 import Loading from '../../../../components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+
 import EmptyProgram from '@/components/EmptyPrograms';
+import ProgramCard from '@/components/ProgramCard';
 
 interface Program {
   $id: string;
@@ -16,6 +17,7 @@ interface Program {
   name: string;
   description: string;
   duration: string;
+  $createdAt:string;
 }
 
 export const dynamic = 'force-dynamic';
@@ -90,40 +92,7 @@ export default function ProgrammeList() {
    <Suspense fallback={<Loading />}>
                   {filteredPrograms.length > 0 ? (
                     filteredPrograms.map((program) => (
-                    
-                      <Link   key={program.$id} href={{
-                        pathname: `/campus/${campusId}/programs/${program.$id}`,
-                        query: { programId: program.$id, campusId: campusId, name: program.name },
-                      }}
-                      shallow
-                      passHref
-                      className="  group relative block bg-black">
-<Image
-alt={program.image}
-src={program.image}
-width={200} height={300}
-className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-20"
-/>
-
-<div className="relative p-4 sm:p-6 lg:p-8">
-<p className="text-sm font-semibold uppercase tracking-widest text-emerald-500">
-Programme
-</p>
-
-<p className="text-xl font-bold text-white sm:text-2xl">{program.name}</p>
-
-<div className="mt-32 sm:mt-48 lg:mt-64">
-  <div
-    className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-  >
-      <p className="text-sm font-light text-gray-400">{program.description}</p>
-    <p className="text-sm text-white">
-    {program.duration}
-    </p>
-  </div>
-</div>
-</div>
-</Link> 
+                      <ProgramCard key={program.$id} programId={program.$id} {...program} timePosted={program.$createdAt} />
                     ))
                   ) : (
                     <div className="flex justify-center w-full">

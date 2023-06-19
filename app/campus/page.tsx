@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { getCampus } from '@/lib/functions';
 import { Suspense } from 'react';
 import Loading from '../../components/ui/Cloading';
-import Image from 'next/image';
+
 import Link from 'next/link';
-import { Chip } from "@material-tailwind/react";
+
 import toast, { Toaster } from 'react-hot-toast';
-import {Card,CardHeader,CardBody,Typography,} from "@material-tailwind/react";
+
+import CampusCard from '@/components/CampusCard';
 
 
 interface Campus {
@@ -15,25 +16,28 @@ interface Campus {
   name: string;
   image: string;
   location: string;
+  $createdAt:string;
 }
 
 export default function CampusList() {
   const [campuses, setCampuses] = useState<Campus[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function fetchCampuses() {
       try {
   
         const response = await toast.promise(getCampus(),
         {
-          loading: 'fetctching campuses from database...',
+          loading: 'Fetctching campus from database...',
           success: <b>Campuses fetched!</b>,
           error: <b>Could not load campuses.</b>,
         });
       
         setCampuses(response);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching campuses:', error);
+        setIsLoading(false);
       }
     }
 
@@ -75,38 +79,25 @@ export default function CampusList() {
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>
         </p>
       </section>
-      <section className="container grid sm:grid-cols-2 lg:grid-cols-3 place-items-center gap-8 pb-10 ">
+      <div className=" relative mx-auto flex flex-col items-center pb-10 px-2">
+          <div id="myUL">
+            {isLoading ? (
+              <Loading />
+            ) : (
+      <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
         <Suspense fallback={<Loading />}>
           {campuses.map((campus) => (
-            <Card key={campus.$id}
-              className="max-w-xs transition-all hover:border-emerald-500 dark:hover:border-emerald-500 border-gray-200 w-full dark:bg-transparent group duration-300"
-            >
-              <Link href={{ pathname: `/campus/${campus.$id}/programs`, query: { campusId: campus.$id, name: campus.name, loc:campus.location } }} shallow passHref
-
-              className="transition  group">
-                <CardHeader color="blue-gray" className="relative h-36 aspect-auto">
-                  <Image
-                    fill
-                    alt={campus.name}
-                    src={campus.image}
-                    className="transition-transform duration-500 ease-in-out object-center object-cover group-hover:scale-105"
-                  />
-                </CardHeader>
-                <CardBody>
-                  <Typography variant="h6" color="blue-gray">
-                    {campus.name}
-                  </Typography>
-                  <Typography className="font-normal text-left absolute bottom-0 right-0">
-                    <Chip className="w-fit" size="sm" value={campus.location.toUpperCase()} variant="gradient" />
-                  </Typography>
-                </CardBody>
-              </Link>
-            </Card>
-          ))}
+                      <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
+                    ))}
         </Suspense>
-        <Toaster />
+        
       
-      </section>
+      </ul>
+          )}
+          </div>
+        </div>
+        <Toaster />
+    
     </>
   );
 }
