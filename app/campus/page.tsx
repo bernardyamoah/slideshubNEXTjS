@@ -73,13 +73,13 @@ export default function CampusList() {
     </div>
   </div>
 </div>
-      <section className="heading-link">
+      {/* <section className="heading-link">
     
         <p>
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>
         </p>
-      </section>
-      <div className=" relative mx-auto flex flex-col items-center pb-10 px-2">
+      </section> */}
+      <section className="mt-10 relative mx-auto flex flex-col items-center pb-10 px-2">
           <div id="myUL">
             {isLoading ? (
               <Loading />
@@ -95,7 +95,7 @@ export default function CampusList() {
       </ul>
           )}
           </div>
-        </div>
+        </section>
         <Toaster />
     
     </>
