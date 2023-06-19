@@ -8,7 +8,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 import {CloudArrowDownIcon,} from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
-import EmptyState from '@/lib/empty_campus';
+
+import { EmptySlides } from '@/lib/Empty';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
@@ -80,7 +81,7 @@ export default function FilesList() {
                       </aside>
                     ))
                   ) : (
-                    <EmptyState></EmptyState>
+                <EmptySlides/>
                   )}
                 </Suspense>
               </ul>

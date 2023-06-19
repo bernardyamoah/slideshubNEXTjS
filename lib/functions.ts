@@ -430,6 +430,13 @@ export async function getCourseDetails(courseId:string) {
 
 
 
+export const formatTime = (timePosted: string) => {
+  return new Date(timePosted).toLocaleString('en-US', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+};
+
 
 
 
