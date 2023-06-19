@@ -7,12 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Chip } from "@material-tailwind/react";
 import toast, { Toaster } from 'react-hot-toast';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-} from "@material-tailwind/react";
+import {Card,CardHeader,CardBody,Typography,} from "@material-tailwind/react";
 
 
 interface Campus {
@@ -54,19 +49,14 @@ export default function CampusList() {
         </p>
       </section>
       <section className="container grid sm:grid-cols-2 lg:grid-cols-3 place-items-center gap-10 pb-10 ">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading/>}>
           {campuses.map((campus) => (
-            <Card
-key={campus.$id}
+            <Card key={campus.$id}
               className="max-w-xs transition-all hover:border-emerald-500 dark:hover:border-emerald-500 border-gray-200 w-full dark:bg-transparent group duration-300"
             >
               <Link href={{ pathname: `/campus/${campus.$id}/programs`, query: { campusId: campus.$id, name: campus.name, loc:campus.location } }} shallow passHref
-              
-              
 
-  
-  
-className="transition  group">
+              className="transition  group">
                 <CardHeader color="blue-gray" className="relative h-36 aspect-auto">
                   <Image
                     fill
