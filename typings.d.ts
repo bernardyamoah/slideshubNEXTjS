@@ -8,6 +8,7 @@ interface CourseData {
 	image:string;
 	programId: string;
 	year:string
+	user_id:string
 }
 
 interface ProgramData {
@@ -34,13 +35,13 @@ interface SlidesData {
 	name:string;
 	size:string;
 	fileType:string;
-
+	user_id:string;
 	
 }
 
 interface BooksData {
 	name: string;
-	
+	user_id:string;
 	fileId: string;
 	image:string;
 
@@ -54,7 +55,9 @@ interface Slides {
 	fileType:string;
 	size:string
 	courseId:string
+	
   }
+
   interface Program {
 	$id: string;
 	campusId: string;
