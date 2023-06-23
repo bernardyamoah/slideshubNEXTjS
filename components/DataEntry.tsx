@@ -19,7 +19,7 @@ interface ButtonItem {
  
 }
 
-export default function DataEntry() {
+export default function DataEntry({ user }: { user: User }) {
   let Buttons: ButtonItem[] = [
     {
       name: "Course",
@@ -68,11 +68,11 @@ export default function DataEntry() {
       <TabsBody>
       {Buttons.map((button, index) => (
           <TabPanel key={index} value={button.name}>
-          {button.name === 'Course' && <AddCourse />}
+          {button.name === 'Course' && <AddCourse user={user} />}
             {button.name === 'Campus' && <AddCampus />}
             {button.name === 'Program' && <AddProgram />}
-            {button.name === 'Slides' && <AddSlides />}
-            {button.name === 'Book' && <AddBook />}
+            {button.name === 'Slides' && <AddSlides user={user} />}
+            {button.name === 'Book' && <AddBook user={user}/>}
             {/* Add other components for different tabs based on their names */}
           </TabPanel>
         ))}
