@@ -467,7 +467,7 @@ export const signUp = async (name: string, email: string, password: string, rout
   try {
     await account.create(ID.unique(), email, password, name);
     successMessage("Account created! 🎉");
-    router.push("/login");
+    router.push("/dashboard");
   } catch (error) {
     errorMessage("Check your network / User already exists ❌");
     router.push("/login");
@@ -510,3 +510,43 @@ export const checkAuthStatus = async (setUser: (user: any) => void, setLoading: 
     router.push("/");
   }
 };
+//👇🏻 Appwrite authenticate and get user's tickets
+export const checkAuthStatusDashboard = async (
+  setUser: (user: any) => void,
+  setLoading: (loading: boolean) => void,
+  setSlides: (slides: any[]) => void,
+  router: any
+) => {
+  try {
+    const request = await account.get();
+    getUserSlides(request.$id, setSlides, setLoading);
+    setUser(request)
+  } catch (err) {
+    router.push("/");
+  }
+};
+
+
+
+const getUserSlides = async (id: string, setSlides: (slides: any[]) => void, setLoading: (loading: boolean) => void): Promise<any[]> => {
+  if (!databaseId) {
+    throw new Error("Database ID is not defined");
+  }
+
+  try {
+    const response = await databases.listDocuments(
+      databaseId,
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+      [Query.equal("user_id", id)]
+    );
+
+    setSlides(response.documents);
+    setLoading(false);
+
+    return response.documents;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+

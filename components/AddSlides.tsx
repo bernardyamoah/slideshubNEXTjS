@@ -31,9 +31,12 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
+interface AddSlidesProps {
+  user: any;
+}
 
 
-export default function AddSlides() {
+export default function AddSlides({ user }: AddSlidesProps) {
 
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)  
@@ -117,6 +120,7 @@ fetchCourses()
           fileUrl: fileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
           courseId,
+          user_id:user.id
         };
 
         const response = await toast.promise(createSlide(slideData),

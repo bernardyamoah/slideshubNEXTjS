@@ -66,3 +66,17 @@ interface Slides {
 	description: string;
 	duration: string;
   }
+
+  interface User {
+	id: string;
+	name?: string;
+	// Other user properties
+  }
+
+  interface SlidesCardProps {
+	name: string;
+  fileUrl:string
+  user_id:string
+	timePosted: string;
+  }
+  
