@@ -1,34 +1,18 @@
-'use client'
-import * as React from "react"
-import { useEffect, useState } from "react"
-import { ToastContainer } from 'react-toastify';
+import * as React from "react";
+import {useEffect,useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
   CardContent,
   CardDescription,
-
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-
-  SelectItem,
-
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
-import {createBook} from '@/lib/functions'
+} from "@/components/ui/card";
+import { getCourses,bytesToSize, createSlide } from "@/lib/functions";
+import { storage, ID } from "@/appwrite";
+import { Button } from "@/components/ui/button";
+import DocumentUpload from "./document-upload";
 import { Check, ChevronsUpDown } from "lucide-react"
-import { storage, ID } from '@/appwrite';
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -41,198 +25,199 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import Image from 'next/image';
-import { UploadProgress } from 'appwrite';
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
 import toast, { Toaster } from 'react-hot-toast';
-export default function AddBook() {
+
+
+
+interface AddBookProps {
+  user: any;
+}
+
+
+export default function AddBook({ user }: AddBookProps) {
+
   const [open, setOpen] = React.useState(false)
-  const [open1, setOpen1] = React.useState(false)
+  const [open1, setOpen1] = React.useState(false)  
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
+const [courseId, setCourseId]=useState('')
 
-	const [name, setName]=useState('')
-  
+const [courses, setCourses] = useState<any[]>([]);
 
+useEffect(() => {
+  async function fetchCourses() {
+    try {
+      const response = await getCourses();
+      setCourses(response);
+    } catch (error) {
+      console.log('Error fetching courses:', error);
+    }
+  }
 
-	const [fileId, setFileId]=useState('')
-	
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+fetchCourses()
+}, []);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
+    // Check if the file is chosen
+    if (!currentFile) {
+      toast.error("Please select a file to upload.");
+      return;
+    }
 
-
-
-
-
-
-  // handle upload progress
-  const handleImageUpload = async () => {
-    if (imageFile) {
-      try {
-        const file = imageFile;
-        const uploader = await storage.createFile(
-          '647d48fe0c9790069105',
-          ID.unique(),
-          file,
-          undefined,
-		  (progress:UploadProgress)  => {
-			// Update the progress bar with the progress value (0-100)
-			const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
-			console.log('Upload progress:', uploadprogress);
-      setUploadProgress(uploadprogress);
-			return uploadprogress
+    try {
+      const handleFileUpload = async () => {
+        try {
+          const file = currentFile;
+          const uploader = await toast.promise(storage.createFile(
+            process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+            ID.unique(),
+            file
+          ),
+          {
+            loading: 'Uploading file...',
+            success: 'File uploaded!',
+            error: 'Upload failed',
           }
         );
-
-        const fileId = uploader.$id;
-        const fileResponse = await storage.getFileView('647d48fe0c9790069105', fileId);
-        const imageUrl = fileResponse.toString();
-  
-
-        return imageUrl;
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
+          const fileId = uploader.$id;
+  // Fetch file information from Appwrite
+  const fileDetails = await toast.promise(
+    storage.getFile(
+      process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+      fileId
+    ),
+    {
+      loading: 'Fetching file details...',
+      success:'File details fetched!',
+      error: 'Failed to fetch file details',
     }
+  );
+          const fileName = fileDetails.name || "";
 
-    return '';
-  };
-// Handle image change
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+          const fileUrlResponse = await storage.getFileDownload(
+            process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+            fileId
+          );
+          const uploadedFileUrl = fileUrlResponse.toString();
+
+          return uploadedFileUrl;
+        } catch (error) {
+          throw new Error("Upload failed");
+        }
       };
-      reader.readAsDataURL(file);
-    } else {
-      setImageFile(null);
-      setImagePreview(null);
+
+      const result = await handleFileUpload();
+
+      if (result !== "") {
+        const fileUrl = result;
+        const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
+        const fileName = currentFile.name;
+        const slideData = {
+          name: fileName.slice(0, fileName.lastIndexOf(".")),
+          size: bytesToSize(currentFile.size),
+          fileUrl: fileUrl,
+          fileType:fileExtension ? fileExtension.toString() : "",
+          courseId,
+          user_id:user.id
+        };
+
+        const response = await toast.promise(createSlide(slideData),
+        {
+          loading: "Creating slide...",
+          success: "Slide added successfully!",
+          error: "Error occurred during slide creation.",
+        }
+      );
+
+        // Reset form fields
+        setCurrentFile(null);
+
+    
+      }
+    } catch (error) {
+      console.error("Error handling form submission:", error);
+      setCurrentFile(null);
+
+  
     }
   };
-
-	const handleSubmit=async (event:React.FormEvent)=>{
-		event.preventDefault()
-		try{
-      const imageUrl = await handleImageUpload();
-    
-			const bookData={
-				name,
-
-	fileId,
-  image:imageUrl,
-
-			}
-
-			createBook(bookData)
-				// reset Form field
-				setName('')
-				setFileId('')
-			
-			
-		}
-		catch(error){
-	throw error
-		}
-	}
+  const handleSelectChange = (selectedValue: string) => {
+    setCourseId(selectedValue);
   
-
- 
-
-	return (
-		<>
-			
-			<div className=' flex items-center mt-10'>
-
-			<div className=' max-w-5xl grid md:grid-cols-2 sm:container w-full grid-cols-1 '>
-        {/* Display Program preview */}
-        {imagePreview && (
-				  <aside
-				
-				className="place-center mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-			  >
-				<div className=" group" >
-    
-				  <div className="card_image_wrapper">
-					<Image
-					  className="card_image group-hover:scale-105"
-					  fill
-					  src={imagePreview}
-					  alt="Upload image"
-					  
-				   
-					/> 
-				  
-				  </div>
-				  <div className="text_container">
-					<h3 className="card_heading">{name}</h3>
-			<div>
-        
+  };
+  return (
+    <>
+      <div className="flex items-center mt-10">
+        <div className="max-w-3xl mx-auto w-full">
+          <Card className="lg:container">
+            <CardHeader>
+              <CardTitle>Add Book</CardTitle>
+              <CardDescription>Add a Book .</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit}>
+                <div className="grid w-full items-center gap-2 space-y-6">
+                <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="course">Courses</Label>
+              <Popover open={open1} onOpenChange={setOpen1}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open1}
+          className="w-full justify-between"
+        >
+          {courseId
+            ? courses.find((course) => course.$id === courseId)?.name
+            : "Select Courses"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-full p-0">
+        <Command onValueChange={handleSelectChange}>
+          <CommandInput placeholder="Search course..." />
+          <CommandEmpty>No course found.</CommandEmpty>
+          <CommandGroup>
+            {courses.map((course) => (
+              <CommandItem
+                key={course.$id}
+                onSelect={(currentValue) => {
+                  setCourseId(currentValue === courseId ? "" : course.$id)
+                  setOpen1(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    courseId === course.$id ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {course.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   
-    
-      </div>
-			
-			
-				
-					</div>
-				</div>
-			  </aside>
-            
-                )}
-
-			<Card className="lg:container  ">
-      <CardHeader>
-        <CardTitle>Add Book</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit}>
-          <div className="grid w-full items-center gap-2 space-y-6">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Book Name</Label>
-              <Input
-                      id="name"
-                      placeholder="Algebra"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
             </div>
-        
-
-
-            <div className="grid  w-full items-center gap-1.5">
-                    <Label htmlFor="picture">Picture</Label>
-                    <Input id="picture" type="file" onChange={handleImageChange} />
+                  <div className="grid w-full items-center gap-1.5">
+                    <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
                   </div>
-          
-            
-<div className='gap-4 md:gap-4 flex flex-wrap lg:grid grid-cols-3'>
-{/* Course code */}
-
-    
-
-
-{/* Semester */}
-
-</div>
-            
-		
-            <div className='mt-24 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
-            
-          </div>
-        </form>
-      </CardContent>
-    
-    </Card>
-  
-			
-			
-			</div>
-
-      <Toaster />
-			</div>
-			
-		</>
-	);
+                  <div className="mt-24 sm:flex sm:justify-end w-full">
+                    <Button type="submit" className="w-full py-4">
+                      Add
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+        <Toaster />
+      </div>
+    </>
+  );
 }
