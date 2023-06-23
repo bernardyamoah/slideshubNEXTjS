@@ -42,7 +42,8 @@ interface SlidesData {
 interface BooksData {
 	name: string;
 	user_id:string;
-	fileId: string;
+	category:string;
+	size:string;
 	image:string;
 
 
@@ -80,3 +81,9 @@ interface Slides {
 	timePosted: string;
   }
   
+  interface AuthNavProps {
+	user: User | null;
+  }
+  interface UserNavProps {
+	user: User | null;
+  }

@@ -29,7 +29,7 @@ export default function Dashboard() {
   useEffect(() => {
     authenticateUser();
   }, []);
-
+console.log(user)
   if (loading) return <Loading />;
 
   return (
