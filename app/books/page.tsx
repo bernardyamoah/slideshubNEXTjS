@@ -22,8 +22,8 @@ export default function FilesList() {
     async function fetchFiles() {
       try {
         const response = await toast.promise(getSlides(), {
-          loading: `fetching Slides from database...`,
-          success: <b>Successfully fetched slides</b>,
+          loading: `fetching books from database...`,
+          success: <b>Successfully fetched books</b>,
           error: <b>Failed to fetch slides.</b>,
         });
         setSlides(response);
