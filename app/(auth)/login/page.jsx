@@ -2,10 +2,9 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { HiMail } from "react-icons/hi";
-import { AiTwotoneLock } from "react-icons/ai";
-import { useRouter } from "next/router";
-import { logIn } from "../utils/functions";
+import { EnvelopeSimple, Lock,  } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
+import { logIn } from "@/lib/functions";
 
 export default function Login() 
 	{
@@ -20,10 +19,10 @@ export default function Login()
 	return (
 		<div>
 			<Head>
-				<title>Register | EventTiz</title>
+				<title>Register</title>
 				<meta
 					name='description'
-					content='An event ticketing system built with NextJS and Appwrite'
+					content=''
 				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
@@ -47,7 +46,7 @@ export default function Login()
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 							/>
-							<HiMail className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							<EnvelopeSimple size={32} className='bg-red-200' />
 						</div>
 						<label htmlFor='password'>Password</label>
 						<div className='w-full relative'>
@@ -59,7 +58,7 @@ export default function Login()
 								className='border px-10 py-2 mb-4 rounded-md w-full'
 								required
 							/>
-							<AiTwotoneLock className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							<Lock size={32}/>
 						</div>
 
 						<button
@@ -77,22 +76,12 @@ export default function Login()
 					</form>
 					<div className='absolute bottom-5 left-5'>
 						<p className='opacity-50 text-sm'>
-							<Link href='/'>EventTiz</Link> &copy; Copyright{" "}
+							
 							{new Date().getFullYear()}{" "}
 						</p>
 					</div>
 				</div>
-				<div className='login md:w-[40%] h-[100vh] relative'>
-					<div className='absolute bottom-5 right-5'>
-						<a
-							href='https://github.com/dha-stix'
-							target='_blank'
-							className='text-gray-100'
-						>
-							Built by David Asaolu
-						</a>
-					</div>
-				</div>
+				
 			</main>
 		</div>
 	);

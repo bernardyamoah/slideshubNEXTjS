@@ -3,12 +3,11 @@ import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import { BsPersonHeart } from "react-icons/bs";
-import { AiTwotoneLock, AiFillCheckCircle } from "react-icons/ai";
-import { useRouter } from "next/router";
-import { signUp } from "../utils/functions";
+import { useRouter } from "next/navigation";
+import { signUp } from "@/lib/functions";
+import { CheckCircle, EnvelopeSimple, Lock, User } from "@phosphor-icons/react";
 
-export default function Register() 
+export default function Page() 
 	{
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -30,7 +29,7 @@ export default function Register()
 	return (
 		<div>
 			<Head>
-				<title>Register | EventTiz</title>
+				<title>Register </title>
 				<meta
 					name='description'
 					content='An event ticketing system built with NextJS and Firebase'
@@ -57,7 +56,7 @@ export default function Register()
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 							/>
-							<BsPersonHeart className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							<User size={32} />
 						</div>
 						<label htmlFor='email'>Email address</label>
 						<div className='w-full relative'>
@@ -70,7 +69,7 @@ export default function Register()
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 							<EnvelopeSimple size={32} className='bg-red-200' />
-							<HiMail className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							
 						</div>
 						<label htmlFor='password'>Password</label>
 						<div className='w-full relative'>
@@ -83,9 +82,9 @@ export default function Register()
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 							/>
-							<AiTwotoneLock className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							<Lock size={32}/>
 							{password === cpassword && cpassword !== "" && (
-								<AiFillCheckCircle className=' absolute right-4 top-3 text-green-500 text-xl' />
+							<CheckCircle size={32} />
 							)}
 						</div>
 						<label htmlFor='cpassword'>Confirm Password</label>
@@ -99,9 +98,9 @@ export default function Register()
 								value={cpassword}
 								onChange={(e) => setCPassword(e.target.value)}
 							/>
-							<AiTwotoneLock className=' absolute left-4 top-3 text-gray-300 text-xl' />
+							<Lock size={32} />
 							{password === cpassword && cpassword !== "" && (
-								<AiFillCheckCircle className=' absolute right-4 top-3 text-green-500 text-xl' />
+								<CheckCircle size={32} />
 							)}
 						</div>
 						{password !== cpassword && (
@@ -122,22 +121,12 @@ export default function Register()
 					</form>
 					<div className='absolute bottom-5 left-5'>
 						<p className='opacity-50 text-sm'>
-							<Link href='/'>EventTiz</Link> &copy; Copyright{" "}
+							
 							{new Date().getFullYear()}{" "}
 						</p>
 					</div>
 				</div>
-				<div className='register md:w-[40%] h-[100vh] relative'>
-					<div className='absolute bottom-5 right-5'>
-						<a
-							href='https://github.com/dha-stix'
-							target='_blank'
-							className='text-gray-100'
-						>
-							Built by David Asaolu
-						</a>
-					</div>
-				</div>
+				
 			</main>
 		</div>
 	)
