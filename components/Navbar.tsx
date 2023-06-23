@@ -2,6 +2,7 @@
 import Logo from "./Logo";
 import Link from "next/link";
 import BottomNav from "./BottomNav";
+import { ModeToggle } from "./ModeToggle";
 
 
 export default function Navbar() {
@@ -21,10 +22,11 @@ export default function Navbar() {
 	];
 	return (
 		<>
-			<nav className="nav-bar  flex bg-white dark:bg-slate-900/90 dark:backdrop-blur-xl lg:space-x-6">
-				<div className="flex w-full items-center justify-center md:justify-between">
+			<nav className="nav-bar  ">
+				<div className="flex w-full items-center justify-between">
 					{/* <!-- Logo --> */}
 					<Logo />
+					
 
 					{/* <!-- Nav List --> */}
 					<ul className="nav-links hidden justify-between text-slate-900 dark:text-white md:flex">
@@ -36,7 +38,7 @@ export default function Navbar() {
 							</li>
 						))}
 					</ul>
-			
+					<ModeToggle/>
 
 					<BottomNav />
 				</div>

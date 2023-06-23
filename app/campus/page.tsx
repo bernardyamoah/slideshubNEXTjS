@@ -4,8 +4,6 @@ import { getCampus } from '@/lib/functions';
 import { Suspense } from 'react';
 import Loading from '../../components/ui/Cloading';
 
-import Link from 'next/link';
-
 import toast, { Toaster } from 'react-hot-toast';
 
 import CampusCard from '@/components/CampusCard';
@@ -46,11 +44,7 @@ export default function CampusList() {
 
   return (
     <>
-    {/*
-  Heads up! 👋
 
-  This component comes with some `rtl` classes. Please remove them if they are not needed in your project.
-*/}
 
 <div
   className="overflow-hidden bg-[url('https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80')] bg-cover bg-top bg-no-repeat"

@@ -7,7 +7,7 @@ export default function Testimonials() {
 	
 	return (
 		<>
-			<section className="pattern bg-white py-10 dark:bg-slate-900/5">
+			<section className="pattern bg-white py-10 dark:bg-gray-900/5">
 				<div className="mx-auto max-w-7xl py-10">
 					<p className="text-xl font-medium text-emerald-500">Testimonials</p>
 

@@ -4,9 +4,10 @@ const withMT=require('@material-tailwind/react/utils/withMT')
 module.exports = withMT({
   darkMode: ["class"],
   content: [
-  
-    './components/**/*.{ts,tsx,js,jsx}',
-    './app/**/*.{ts,tsx,js,jsx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx,js}',
+    './src/**/*.{ts,tsx}',
 	],
   theme: {
     container: {
@@ -17,10 +18,9 @@ module.exports = withMT({
       },
     },
     colors: {
-      gray: colors.gray,
+      gray: colors.slate,
       emerald: colors.emerald,
-      indigo: colors.indigo,
-      yellow: colors.yellow,
+      yellow: colors.amber,
     },
     extend: {
       colors: {
@@ -86,6 +86,5 @@ module.exports = withMT({
     
     },
   },
-  plugins: [require("tailwindcss-animate"),
-  require('@tailwindcss/typography')],
+  plugins: [require("tailwindcss-animate")],
 })

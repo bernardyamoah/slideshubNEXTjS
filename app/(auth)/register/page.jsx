@@ -1,7 +1,8 @@
+'use client'
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { HiMail } from "react-icons/hi";
+
 import { BsPersonHeart } from "react-icons/bs";
 import { AiTwotoneLock, AiFillCheckCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
@@ -68,6 +69,7 @@ export default function Register()
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 							/>
+							<EnvelopeSimple size={32} className='bg-red-200' />
 							<HiMail className=' absolute left-4 top-3 text-gray-300 text-xl' />
 						</div>
 						<label htmlFor='password'>Password</label>
