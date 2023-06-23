@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { logOut } from "@/lib/functions";
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 ;
 
 interface AuthNavProps {

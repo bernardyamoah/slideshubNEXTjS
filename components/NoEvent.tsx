@@ -1,5 +1,5 @@
 import React from "react";
-import party from "@/public/party.svg";
+import party from "@/public/error.svg";
 import Image from "next/image";
 import Link from "next/link";
 
