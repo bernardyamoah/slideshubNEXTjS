@@ -43,7 +43,10 @@ import {
 import Image from 'next/image';
 import { UploadProgress } from 'appwrite';
 
-export default function AddCourse() {
+interface AddCourseProps {
+  user: any;
+}
+export default function AddCourse({ user }: AddCourseProps) {
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)
 	const [name, setName]=useState('')
@@ -161,7 +164,7 @@ const creditHours=[
 	fileId,
   image:imageUrl,
   year,
-	
+	user_id:user.id,
 	programId:programId
 	
 				
