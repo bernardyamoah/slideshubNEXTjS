@@ -463,16 +463,16 @@ export function bytesToSize(bytes: number) {
 
 
 // Sign-up function
-// export const signUp = async (name: string, email: string, password: string, router: any) => {
-//   try {
-//     await account.create(ID.unique(), email, password, name);
-//     successMessage("Account created! 🎉");
-//     router.push("/login");
-//   } catch (error) {
-//     errorMessage("Check your network / User already exists ❌");
-//     router.push("/login");
-//   }
-// };
+export const signUp = async (name: string, email: string, password: string, router: any) => {
+  try {
+    await account.create(ID.unique(), email, password, name);
+    successMessage("Account created! 🎉");
+    router.push("/login");
+  } catch (error) {
+    errorMessage("Check your network / User already exists ❌");
+    router.push("/login");
+  }
+};
 
 // Login function
 export const logIn = async (email: string, setEmail: (email: string) => void, password: string, setPassword: (password: string) => void, router: any) => {
