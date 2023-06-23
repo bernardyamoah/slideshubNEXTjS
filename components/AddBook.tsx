@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect,useState } from "react";
+import {useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCourses,bytesToSize, createSlide } from "@/lib/functions";
+import { getCourses,bytesToSize, createBook } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
@@ -41,22 +41,11 @@ export default function AddBook({ user }: AddBookProps) {
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)  
   const [currentFile, setCurrentFile] = useState<File | null>(null);
-const [courseId, setCourseId]=useState('')
 
+  const [bookcategory, setBookCategory]=useState('')
 const [courses, setCourses] = useState<any[]>([]);
 
-useEffect(() => {
-  async function fetchCourses() {
-    try {
-      const response = await getCourses();
-      setCourses(response);
-    } catch (error) {
-      console.log('Error fetching courses:', error);
-    }
-  }
 
-fetchCourses()
-}, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -71,7 +60,7 @@ fetchCourses()
         try {
           const file = currentFile;
           const uploader = await toast.promise(storage.createFile(
-            process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+            process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
             ID.unique(),
             file
           ),
@@ -85,7 +74,7 @@ fetchCourses()
   // Fetch file information from Appwrite
   const fileDetails = await toast.promise(
     storage.getFile(
-      process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+      process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
       fileId
     ),
     {
@@ -97,7 +86,7 @@ fetchCourses()
           const fileName = fileDetails.name || "";
 
           const fileUrlResponse = await storage.getFileDownload(
-            process.env.NEXT_PUBLIC_BOOK_STORAGE_ID!,
+            process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
             fileId
           );
           const uploadedFileUrl = fileUrlResponse.toString();
@@ -114,16 +103,16 @@ fetchCourses()
         const fileUrl = result;
         const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
         const fileName = currentFile.name;
-        const slideData = {
+        const bookData = {
           name: fileName.slice(0, fileName.lastIndexOf(".")),
           size: bytesToSize(currentFile.size),
           fileUrl: fileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
-          courseId,
+        bookcategory,
           user_id:user.id
         };
 
-        const response = await toast.promise(createSlide(slideData),
+        const response = await toast.promise(createBook(bookData),
         {
           loading: "Creating slide...",
           success: "Slide added successfully!",
@@ -143,8 +132,27 @@ fetchCourses()
   
     }
   };
-  const handleSelectChange = (selectedValue: string) => {
-    setCourseId(selectedValue);
+
+  const categories=[
+    {
+      id:'Engineering',
+      hour: 'Engineering'
+    },
+    {
+      id:'Health Science',
+      hour: 'Health Science'
+    },
+    {
+      id:'Psychology',
+      hour: 'Psychology'
+    },
+    {
+      id:'Mathematics',
+      hour: 'Mathematics'
+    },
+  ]
+  const handleBookCategoryChange = (selectedValue: string) => {
+    setBookCategory(selectedValue);
   
   };
   return (
@@ -154,54 +162,53 @@ fetchCourses()
           <Card className="lg:container">
             <CardHeader>
               <CardTitle>Add Book</CardTitle>
-              <CardDescription>Add a Book .</CardDescription>
+              <CardDescription>Add a Book document in one-click.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2 space-y-6">
                 <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="course">Courses</Label>
-              <Popover open={open1} onOpenChange={setOpen1}>
+                <Label htmlFor="credit">Credit Hours</Label>
+              <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
-          aria-expanded={open1}
-          className="w-full justify-between"
+          aria-expanded={open}
+          className="w-full justify-between  overflow-hidden no-wrap"
         >
-          {courseId
-            ? courses.find((course) => course.$id === courseId)?.name
-            : "Select Courses"}
+          {bookcategory
+            ? categories.find((category) => category.id === bookcategory)?.hour
+            : "Select Book Category"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command onValueChange={handleSelectChange}>
-          <CommandInput placeholder="Search course..." />
-          <CommandEmpty>No course found.</CommandEmpty>
+      <PopoverContent className="w-[200px] p-0">
+        <Command onValueChange={handleBookCategoryChange}>
+          <CommandInput placeholder="Search ..." />
+          <CommandEmpty>No category found.</CommandEmpty>
           <CommandGroup>
-            {courses.map((course) => (
+            {categories.map((category) => (
               <CommandItem
-                key={course.$id}
+                key={category.id}
                 onSelect={(currentValue) => {
-                  setCourseId(currentValue === courseId ? "" : course.$id)
-                  setOpen1(false)
+                  setBookCategory(currentValue === bookcategory ? "" : currentValue)
+                  setOpen(false)
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    courseId === course.$id ? "opacity-100" : "opacity-0"
+                    bookcategory === category.id ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {course.name}
+                {category.hour}
               </CommandItem>
             ))}
           </CommandGroup>
         </Command>
       </PopoverContent>
     </Popover>
-  
             </div>
                   <div className="grid w-full items-center gap-1.5">
                     <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />

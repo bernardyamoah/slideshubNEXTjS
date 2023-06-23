@@ -147,12 +147,15 @@ export const createProgram = async (programData: ProgramData) => {
   }
 };
 
+
+
+
 export const createBook=async (bookData: BooksData) => {
   try{
     // Retrieve all documents from the collection
 const responseCampus = await toast.promise(databases.listDocuments(
 process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
 ),
 {
   loading: 'Retrieving documents...',

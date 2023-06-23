@@ -42,9 +42,9 @@ interface SlidesData {
 interface BooksData {
 	name: string;
 	user_id:string;
-	category:string;
+	bookcategory:string;
 	size:string;
-	image:string;
+fileType:string;
 
 
 }
