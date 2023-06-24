@@ -1,7 +1,6 @@
 import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Inter } from 'next/font/google'
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from '@vercel/analytics/react';
 
@@ -38,8 +37,8 @@ export default function RootLayout({
 	<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <body className={inter.className} >
 
-        <Navbar />
-
+        
+		
 		<main className='px-2 md:pb-20 min-h-screen'>
             {children}
 				<Toaster />
