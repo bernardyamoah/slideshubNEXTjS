@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-import SideBar from "@/components/Sidebar";
+
 import { useRouter } from "next/navigation";
 import { checkAuthStatusDashboard } from "@/lib/functions";
 import Loading from "@/components/ui/Cloading";
@@ -40,7 +40,7 @@ console.log(user)
           <AuthNav user={user} />
           <div className="w-full flex items-center">
             <div className="md:w-[20%] md:block hidden">
-              <SideBar />
+              
             </div>
             <div className="md:w-[80%] w-full min-h-[90vh] py-10 px-4">
               <Suspense fallback={<Loading />}>
