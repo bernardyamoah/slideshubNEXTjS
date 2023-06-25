@@ -124,13 +124,7 @@ fetchCourses()
           user_id: user?.id
         };
 
-        const response = await toast.promise(createSlide(slideData),
-        {
-          loading: "Creating slide...",
-          success: "Slide added successfully!",
-          error: "Error occurred during slide creation.",
-        }
-      );
+        const response = await createSlide(slideData);
 
         // Reset form fields
         setCurrentFile(null);

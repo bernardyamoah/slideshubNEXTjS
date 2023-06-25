@@ -83,6 +83,13 @@ interface Slides {
   user_id:string
 	timePosted: string;
   }
+  interface UserSlidesCardProps {
+	name: string;
+  fileUrl:string
+  user_id:string
+	timePosted: string;
+	id:string;
+  }
   
   interface AuthNavProps {
 	user: User | null;
