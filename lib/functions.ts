@@ -620,8 +620,8 @@ export const deleteSlide = async (id:string) => {
 			id
 		);
     const fileID = extractIdFromUrl(getDoc.fileUrl);
-    console.log("🚀 ~ file: functions.ts:597 ~ deleteSlide ~ fileID:", fileID)
-    successMessage('this is the file Id '+fileID)
+  
+    
 		if (getDoc.$id === id && fileID !== null) {
       await storage.deleteFile(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileID);
 			await databases.deleteDocument(
@@ -637,7 +637,7 @@ window.location.reload();
 		}
 		successMessage("Ticket deleted! 🎉");
 	} catch (err) {
-		console.error(err); // Failure
+
 		errorMessage("Action declined ❌");
 	}
 };
