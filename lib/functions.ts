@@ -1,7 +1,7 @@
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import { databases, ID,Query,account } from "@/appwrite";
+import { databases, ID,Query,account, storage, client } from "@/appwrite";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -558,18 +558,44 @@ export const checkAuthStatusDashboard = async (
 
 
 
-const getUserSlides = async (id: string, setSlides: (slides: any[]) => void, setLoading: (loading: boolean) => void): Promise<any[]> => {
+const getUserSlides = async (
+  id: string,
+  setSlides: (slides: any[]) => void,
+  setLoading: (loading: boolean) => void
+): Promise<any[]> => {
   if (!databaseId) {
     throw new Error("Database ID is not defined");
   }
 
   try {
-    const response = await databases.listDocuments(
-      databaseId,
-      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-      [Query.equal("user_id", id)]
+    setLoading(true);
+
+    // Subscribe to changes in the slides collection for the specific user
+    client.subscribe(
+      [`collections.${process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID}.documents.${id}`],
+      async () => {
+        // Fetch the updated slides and update the state
+        try {
+          const response = await databases.listDocuments(
+            databaseId!,
+            process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+            [Query.equal("user_id", id)]
+          );
+          setSlides(response.documents);
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      }
     );
 
+    // Fetch the initial slides
+    const response = await databases.listDocuments(
+      databaseId!,
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+      [Query.equal("user_id", id)]
+    );
     setSlides(response.documents);
     setLoading(false);
 
@@ -578,5 +604,41 @@ const getUserSlides = async (id: string, setSlides: (slides: any[]) => void, set
     console.error(error);
     throw error;
   }
+};
+//👇🏻 extract file ID from the document
+const extractIdFromUrl = (url:string) => {
+	const regex = /files\/([^/]+)\//;
+	const match = url.match(regex);
+	return match ? match[1] : null;
+};
+//👇🏻 delete a ticket
+export const deleteSlide = async (id:string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			id
+		);
+    const fileID = extractIdFromUrl(getDoc.fileUrl);
+    console.log("🚀 ~ file: functions.ts:597 ~ deleteSlide ~ fileID:", fileID)
+    successMessage('this is the file Id '+fileID)
+		if (getDoc.$id === id && fileID !== null) {
+      await storage.deleteFile(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileID);
+			await databases.deleteDocument(
+        databaseId!,
+				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+				id
+			);
+// Page refresh after successful deletion
+window.location.reload();
+		} else {
+			
+		errorMessage('Failed to delete Slide ❌')
+		}
+		successMessage("Ticket deleted! 🎉");
+	} catch (err) {
+		console.error(err); // Failure
+		errorMessage("Action declined ❌");
+	}
 };
 

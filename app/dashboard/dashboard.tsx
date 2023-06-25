@@ -1,19 +1,17 @@
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
-import { checkAuthStatusDashboard } from "@/lib/functions";
+import { checkAuthStatusDashboard} from "@/lib/functions";
 import Loading from "@/components/ui/Cloading";
-
 import NoEvent from "@/components/NoEvent";
-import SlidesCard from "@/components/SlidesCard";
-
+import UserSlidesCard from "@/components/UserSlidesCard";
+import { client } from "@/appwrite";
 
 interface Slide {
   $id: string;
   name: string;
   fileUrl: string;
-  $createdAt: string; // Added semester property
+  $createdAt: string;
 }
 
 export default function Dashboard() {
@@ -21,7 +19,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [slides, setSlides] = useState<Slide[]>([]);
   const [user, setUser] = useState<UserWithId | null>(null);
-  
+
   const authenticateUser = useCallback(() => {
     checkAuthStatusDashboard(setUser, setLoading, setSlides, router);
   }, []);
@@ -30,36 +28,41 @@ export default function Dashboard() {
     authenticateUser();
   }, []);
 
+  useEffect(() => {
+    const subscription = client.subscribe(
+      [`collections.${process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID}.documents`],
+      async () => {
+        await authenticateUser();
+      }
+    );
+
+    return () => {
+      subscription();
+    };
+  }, []);
+
   if (loading) return <Loading />;
 
   return (
     <>
       <h1 className="text-5xl my-5 text-center font-bold">Dashboard</h1>
       <div className="max-w-screen">
-      
-        
-    
-          
-            
-            <main className="flex-1 w-full  py-10 px-4 mx-auto">
-              <Suspense fallback={<Loading />}>
-                {slides.length > 0 ? (
-                  slides.map((slide) => (
-                    <SlidesCard
-                      key={slide.$id}
-                      user_id={user?.id ?? ''} // Assigning the logged-in user's ID to user_id prop
-                      {...slide}
-                      timePosted={slide.$createdAt}
-                    />
-                  ))
-                ) : (
-                  <NoEvent user={user} />
-                )}
-              </Suspense>
-            </main>
-          </div>
-  
-
+        <main className="flex-1 w-full  py-10 px-4 mx-auto flex gap-4 flex-wrap justify-start">
+          {slides.length > 0 ? (
+            slides.map((slide) => (
+              <UserSlidesCard
+                key={slide.$id}
+                user_id={user?.id ?? ""}
+                {...slide}
+                timePosted={slide.$createdAt}
+                id={slide.$id}
+              />
+            ))
+          ) : (
+            <NoEvent user={user} />
+          )}
+        </main>
+      </div>
     </>
   );
 }
