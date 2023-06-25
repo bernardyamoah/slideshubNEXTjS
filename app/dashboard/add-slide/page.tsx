@@ -5,7 +5,7 @@ import { Metadata } from "next"
 import AddSlides from '@/components/AddSlides'
 const metadata: Metadata = {
   title: "Add Slides",
-  description: "Advanced form example using react-hook-form and Zod.",
+  description: "Add Slides to database",
 }
 function page() {
   return (
