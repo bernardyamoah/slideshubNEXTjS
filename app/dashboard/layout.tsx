@@ -8,8 +8,8 @@ import { useState, useEffect } from "react";
 
 
 type UserWithId = User<Preferences> & { id: string };
-export const metadata: Metadata = {
-  title: "Add Program",
+ const metadata: Metadata = {
+  title: "Slideshub",
   description: "Advanced form example using react-hook-form and Zod.",
 };
 
