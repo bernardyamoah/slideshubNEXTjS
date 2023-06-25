@@ -1,27 +1,36 @@
 'use client'
-
+import Link from "next/link";
 import Image from "next/image";
-
+import errorImage from '@/public/error.svg'
 
 
 export default function EmptyProgram() {
 	const content = (
 		<>
-			<section className="bg-white dark:bg-gray-900">
-				<div className="container px-6 py-8 mx-auto ">
-					{/* an Emptystate page */}
-					<Image src="" width={300} height={300} alt="" className="object-cover object-center"/>
-					<div className="flex items-center justify-center bg-gray-100">
-        				<div className="text-center">
-							<h1 className="text-3xl font-semibold text-gray-900 mb-2">Oops! Nothing here yet.</h1>
-							<p className="text-gray-600 mb-6">Campuses have not added here yet.</p>
+
+			<div className="grid h-screen px-4 bg-white dark:bg-inherit place-content-center">
+				<div className="text-center">
+
+					<Image src={errorImage} width={300} height={300} className='object-center object-cover w-full' alt='Not found' />
+					<div className="text-center">
+						<h1
+							className="mt-6 text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-emerald-400"
+						>
+							Oops! Nothing here yet.
+						</h1>
+
+						<p className="text-gray-600 mb-6">Campuses have not added here yet.</p>
 						<button className="bg-emerald-500 hover:bg-emerald-600 border rounded-lg text-white font-semibold  py-2 px-4">
-							Go Home
+							<Link href={'/'}>
+								Go Home
+							</Link>
 						</button>
-       				 </div>
-   					</div> 
+
+					</div>
+
 				</div>
-			</section>
+			</div>
+
 		</>
 	);
 	return content;

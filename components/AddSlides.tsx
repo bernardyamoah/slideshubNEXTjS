@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCourses,bytesToSize, createSlide } from "@/lib/functions";
+import { getCourses,bytesToSize, createSlide,getCurrentUserAndSetUser } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
@@ -31,17 +31,16 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
-interface AddSlidesProps {
-  user: any;
-}
 
 
-export default function AddSlides({ user }: AddSlidesProps) {
+
+export default function AddSlides() {
 
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)  
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 const [courseId, setCourseId]=useState('')
+const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
 
 const [courses, setCourses] = useState<any[]>([]);
 
@@ -49,6 +48,8 @@ useEffect(() => {
   async function fetchCourses() {
     try {
       const response = await getCourses();
+      const userId = await getCurrentUserAndSetUser(); // Call the getCurrentUser function
+      setUser(userId);
       setCourses(response);
     } catch (error) {
       console.log('Error fetching courses:', error);
@@ -120,7 +121,7 @@ fetchCourses()
           fileUrl: fileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
           courseId,
-          user_id:user.id
+          user_id: user?.id
         };
 
         const response = await toast.promise(createSlide(slideData),

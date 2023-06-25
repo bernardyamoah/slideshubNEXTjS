@@ -8,7 +8,7 @@ interface CourseData {
 	image:string;
 	programId: string;
 	year:string
-	user_id:string
+	user_id:string | undefined;
 }
 
 interface ProgramData {
@@ -16,6 +16,7 @@ interface ProgramData {
 	duration: string;
 	image: string;
 	campusId:string;
+	
 
 }
 
@@ -35,13 +36,13 @@ interface SlidesData {
 	name:string;
 	size:string;
 	fileType:string;
-	user_id:string;
+	user_id:string | undefined;
 	
 }
 
 interface BooksData {
 	name: string;
-	user_id:string;
+	user_id:string | undefined;
 	bookcategory:string;
 	size:string;
 fileType:string;
@@ -55,7 +56,8 @@ interface Slides {
 	fileUrl: string;
 	fileType:string;
 	size:string
-	courseId:string
+	courseId:string;
+	user_id:string | undefined;
 	
   }
 
@@ -88,3 +90,15 @@ interface Slides {
   interface UserNavProps {
 	user: User | null;
   }
+  interface User<Preferences> {
+	$id: string;
+	name: string;
+	email: string;
+	// Add any other properties specific to the User type
+  }
+  interface Preferences {
+	theme: string;
+	language: string;
+	// Add any other preferences properties
+  }
+  type UserWithId = User<Preferences> & { id: string };
