@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Books,GraduationCap,House } from "@phosphor-icons/react";
+import { Books, GraduationCap, House } from "@phosphor-icons/react";
 
 interface LinkItem {
   name: string;
@@ -24,7 +24,7 @@ const BottomNav: React.FC = () => {
       //     className="w-6 h-6 mb-1 text-gray-900 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500"
       //     fill="currentColor"
       //     strokeLinejoin="round"
-        
+
       //   >
       //     <rect width="7" height="7" x="3" y="3" rx="1"></rect>
       //     <rect width="7" height="7" x="14" y="3" rx="1"></rect>
@@ -42,11 +42,11 @@ const BottomNav: React.FC = () => {
     {
       name: "Books",
       link: "/books",
-      icon: 
+      icon:
         <Books size={32} weight="duotone" />,
     },
-  
-  
+
+
   ];
 
   return (

@@ -15,7 +15,7 @@ export default function Home() {
 					content="https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"
 				/>
 
-		
+
 
 				<title>SlidesHub</title>
 			</Head>

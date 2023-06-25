@@ -81,8 +81,8 @@ export default function SelectCampus() {
   )
 }
 
-  {/* Select campus */}
-                  
+{/* Select campus */ }
+
 //   <Label htmlFor="campus">Programs</Label>
 //   <Select   onValueChange={handleSelectChange}>
 // <SelectTrigger className="w-full">

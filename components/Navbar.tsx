@@ -26,7 +26,7 @@ export default function Navbar() {
 				<div className="flex w-full items-center justify-between">
 					{/* <!-- Logo --> */}
 					<Logo />
-					
+
 
 					{/* <!-- Nav List --> */}
 					<ul className="nav-links hidden justify-between text-slate-900 dark:text-white md:flex">
@@ -38,7 +38,7 @@ export default function Navbar() {
 							</li>
 						))}
 					</ul>
-					<ModeToggle/>
+					<ModeToggle />
 
 					<BottomNav />
 				</div>
