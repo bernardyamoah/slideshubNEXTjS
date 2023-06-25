@@ -1,5 +1,6 @@
+
 import * as React from "react";
-import {useState } from "react";
+import {useState,useEffect } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
@@ -8,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCourses,bytesToSize, createBook } from "@/lib/functions";
+import { getCourses,bytesToSize, createBook ,getCurrentUserAndSetUser } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
@@ -31,12 +32,10 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
-interface AddBookProps {
-  user: any;
-}
 
 
-export default function AddBook({ user }: AddBookProps) {
+export default function AddBook() {
+  const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
 
   const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)  
@@ -44,7 +43,14 @@ export default function AddBook({ user }: AddBookProps) {
 
   const [bookcategory, setBookCategory]=useState('')
 const [courses, setCourses] = useState<any[]>([]);
+useEffect(() => {
+  const fetchUser = async () => {
+    const user = await getCurrentUserAndSetUser();
+    setUser(user); // Set the user data in the state
+  };
 
+  fetchUser();
+}, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -109,10 +115,10 @@ const [courses, setCourses] = useState<any[]>([]);
           fileUrl: fileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
         bookcategory,
-          user_id:user.id
+          user_id:user?.$id
         };
 
-        const response = await toast.promise(createBook(bookData),
+        await toast.promise(createBook(bookData),
         {
           loading: "Creating slide...",
           success: "Slide added successfully!",
@@ -168,7 +174,7 @@ const [courses, setCourses] = useState<any[]>([]);
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2 space-y-6">
                 <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="credit">Credit Hours</Label>
+                <Label htmlFor="credit">Category</Label>
               <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
@@ -192,7 +198,7 @@ const [courses, setCourses] = useState<any[]>([]);
               <CommandItem
                 key={category.id}
                 onSelect={(currentValue) => {
-                  setBookCategory(currentValue === bookcategory ? "" : currentValue)
+                  setBookCategory(currentValue === bookcategory ? "" : category.id)
                   setOpen(false)
                 }}
               >

@@ -503,6 +503,33 @@ export const logOut = async (router: any) => {
   }
 };
 
+
+export const getCurrentUser = async () => {
+  try {
+    const UserId = await account.get();
+ return UserId
+  
+  } catch (error) {
+  
+  }
+};
+
+export const getCurrentUserAndSetUser = async (): Promise<UserWithId | null> => {
+  try {
+    const userdata = await getCurrentUser(); // Call the getCurrentUser function
+    const userWithId: UserWithId | null = userdata ? { ...userdata, id: userdata.$id } : null;
+    return userWithId;
+  } catch (error) {
+    // Handle the error
+    return null;
+  }
+};
+
+
+
+
+
+
 // Check authentication status function
 export const checkAuthStatus = async (setUser: (user: any) => void, setLoading: (loading: boolean) => void, router: any) => {
   try {

@@ -19,19 +19,21 @@ import {
 import { logOut } from "@/lib/functions";
 
 import { useRouter } from 'next/navigation';
+import { ModeToggle } from "./ModeToggle";
 ;
-export const UserNav: React.FC<UserNavProps> = ({ user }) =>  {
+export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   const firstName = user?.name?.split(' ')[0] || '';
   const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <Avatar className="h-10 w-10">
             <AvatarImage src="/avatars/01.png" alt="{user?.name?.split(' ')[0] || ' '}" />
             <AvatarFallback>{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
+
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
@@ -60,8 +62,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) =>  {
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            <span>New Team</span>
+
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
