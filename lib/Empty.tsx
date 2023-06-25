@@ -8,7 +8,7 @@ export  function EmptyCampus() {
 			<section className="bg-white dark:bg-gray-900">
 				<div className="">
 					{/* an Emptystate page */}
-					<img src="" alt="" />
+				
 					<div className="flex items-center justify-center">
         				<div className="text-center">
 							<h1 className="sm:text-3xl md:text-4xl   text-center mb-2">Oops! Nothing here yet.</h1>
@@ -30,7 +30,7 @@ export default function EmptyBooks() {
 			<section className="bg-white dark:bg-gray-900">
 				<div className="">
 					{/* an Emptystate page */}
-					<img src="" alt="" />
+				
 					<div className="flex items-center justify-center">
         				<div className="text-center">
 							<h1 className="sm:text-3xl md:text-4xl   text-center mb-2">Oops! Nothing here yet.</h1>
@@ -53,7 +53,7 @@ export  function EmptySlides() {
 			<section className="bg-white dark:bg-gray-900">
 				<div className=" ">
 					{/* an Emptystate page */}
-					<img src="" alt="" />
+					
 					<div className="flex items-center justify-center">
         				<div className="text-center">
 							<h1 className="sm:text-3xl md:text-4xl   text-center mb-2">Oops! Nothing here yet.</h1>

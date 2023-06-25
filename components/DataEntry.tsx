@@ -1,5 +1,5 @@
 'use client'
-import  { useState } from 'react';
+import { useState } from 'react';
 
 import {
   Tabs,
@@ -16,30 +16,30 @@ import AddSlides from '@/components/AddSlides';
 import AddBook from '@/components/AddBook';
 interface ButtonItem {
   name: string;
- 
+
 }
 
-export default function DataEntry({ user }: { user: User }) {
+export default function DataEntry() {
   let Buttons: ButtonItem[] = [
     {
       name: "Course",
-      
+
     },
     {
       name: "Campus",
-    
+
     },
     {
       name: "Program",
-     
+
     },
     {
       name: "Slides",
-    
+
     },
     {
       name: "Book",
-    
+
     },
   ];
 
@@ -51,35 +51,35 @@ export default function DataEntry({ user }: { user: User }) {
 
   return (
     <>
-    
 
-    <Tabs value="Course" className='w-full'>
-    <TabsHeader className='max-w-xl mx-auto'>
-    {Buttons.map((button, index) => (
-          <Tab  key={index}
-          value={button.name}
-          onClick={() => handleTabChange(button.name)}>
-                {button.name}
-          </Tab>
+
+      <Tabs value="Course" className='w-full'>
+        <TabsHeader className='max-w-xl mx-auto'>
+          {Buttons.map((button, index) => (
+            <Tab key={index}
+              value={button.name}
+              onClick={() => handleTabChange(button.name)}>
+              {button.name}
+            </Tab>
           ))}
-          
-      
-      </TabsHeader>
-      <TabsBody>
-      {Buttons.map((button, index) => (
-          <TabPanel key={index} value={button.name}>
-          {button.name === 'Course' && <AddCourse user={user} />}
-            {button.name === 'Campus' && <AddCampus />}
-            {button.name === 'Program' && <AddProgram />}
-            {button.name === 'Slides' && <AddSlides user={user} />}
-            {button.name === 'Book' && <AddBook user={user}/>}
-            {/* Add other components for different tabs based on their names */}
-          </TabPanel>
-        ))}
-      </TabsBody>
-      
+
+
+        </TabsHeader>
+        <TabsBody>
+          {Buttons.map((button, index) => (
+            <TabPanel key={index} value={button.name}>
+              {button.name === 'Course' && <AddCourse />}
+              {button.name === 'Campus' && <AddCampus />}
+              {button.name === 'Program' && <AddProgram />}
+              {button.name === 'Slides' && <AddSlides />}
+              {button.name === 'Book' && <AddBook />}
+              {/* Add other components for different tabs based on their names */}
+            </TabPanel>
+          ))}
+        </TabsBody>
+
       </Tabs>
-    
+
     </>
   );
 }

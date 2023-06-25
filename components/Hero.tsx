@@ -5,9 +5,9 @@ import heroimage2 from '/assets/img/details-1.png'
 import Link from 'next/link'
 
 const Hero = () => {
-    return (
-        <>
-        <section className="  flex items-center  justify-center py-10">
+	return (
+		<>
+			<section className="  flex items-center  justify-center py-10">
 				<div className="mx-auto max-w-7xl text-center space-y-4">
 					<h1 className="  sm:text-3xl md:text-4xl">
 						What is Slideshub ?
@@ -20,19 +20,19 @@ const Hero = () => {
 						of high-quality content in just a few seconds
 					</p>
 					<Image
-									className=" sm:mx-auto w-full  h-full object-cover object-center "
-									src={heroimage2}
-									alt="Online Learning"
-									width={300}
-									height={300}
-								/>
-					
-				</div>
-		</section>
+						className=" sm:mx-auto w-full  h-full object-cover object-center "
+						src={heroimage2}
+						alt="Online Learning"
+						width={300}
+						height={300}
+					/>
 
-			
-        </>
-    )
+				</div>
+			</section>
+
+
+		</>
+	)
 }
 
 export default Hero

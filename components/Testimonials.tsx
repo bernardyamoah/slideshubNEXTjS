@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Testimonials() {
 
-	
+
 	return (
 		<>
 			<section className="pattern bg-white py-10 dark:bg-gray-900/5">
@@ -18,10 +18,10 @@ export default function Testimonials() {
 					<main className="relative z-20 mt-8 w-full md:flex md:items-center xl:mt-12">
 						<div className="absolute -z-10 w-full rounded-2xl bg-emerald-600 md:h-96"></div>
 						<div className=" mySwiper w-full rounded-2xl bg-gradient-to-bl from-red-500 via-red-600 to-red-700 p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12">
-						<div  >
-							
-								
-							{/* First slide*/ }
+							<div  >
+
+
+								{/* First slide*/}
 								<aside>
 									<div className="md:p-6 md:flex md:items-center md:space-x-10">
 										<div className="md:w-1/2">
@@ -50,9 +50,9 @@ export default function Testimonials() {
 										</div>
 									</div>
 								</aside>
-								</div>
-								</div>
-							
+							</div>
+						</div>
+
 					</main>
 				</div>
 			</section>
