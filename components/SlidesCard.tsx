@@ -33,7 +33,7 @@ user_id,
           <h3>
             <h1
             
-              className="font-medium sm:text-lg"
+              className="font-medium text-base"
             >
               {name}
             </h1>
