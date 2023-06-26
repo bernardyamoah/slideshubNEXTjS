@@ -78,16 +78,11 @@ useEffect(() => {
         );
           const fileId = uploader.$id;
   // Fetch file information from Appwrite
-  const fileDetails = await toast.promise(
+  const fileDetails = await 
     storage.getFile(
       process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
       fileId
-    ),
-    {
-      loading: 'Fetching file details...',
-      success:'File details fetched!',
-      error: 'Failed to fetch file details',
-    }
+    
   );
           const fileName = fileDetails.name || "";
 
