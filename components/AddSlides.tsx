@@ -88,7 +88,7 @@ fetchCourses()
     storage.getFile(
       process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
       fileId
-    ),
+    )
   
   ;
           const fileName = fileDetails.name || "";
