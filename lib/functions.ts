@@ -642,3 +642,35 @@ window.location.reload();
 	}
 };
 
+export const updateSlide = async (id: string, updatedAttributes: any) => {
+  try {
+    // Retrieve the document from the Appwrite database
+    const getDoc = await databases.getDocument(
+      databaseId!, // Replace with your database ID
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+      id
+    );
+
+    // Check if the retrieved document matches the provided ID
+    if (getDoc.$id === id) {
+      // Extract the file ID from the document's URL
+      const fileID = extractIdFromUrl(getDoc.fileUrl);
+
+
+      // Merge the updated attributes with the existing document attributes
+      const updatedDoc = { ...getDoc, ...updatedAttributes };
+
+      // Update the document with the merged attributes
+      await databases.updateDocument(
+        databaseId!, // Replace with your database ID
+        process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+        id,
+        updatedDoc
+      );
+    }
+  } catch (error) {
+    // Handle any errors that occur during the update process
+    console.error('Failed to update slide:', error);
+  }
+};
+
