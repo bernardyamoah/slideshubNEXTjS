@@ -81,7 +81,7 @@
  
 @layer base{
 body{
-  @apply   bg-cover dark:bg-gray-900 relative pattern
+  @apply   bg-cover dark:bg-gray-950 relative pattern
 }
 h1{
   @apply text-3xl font-bold text-black dark:text-white font-title
