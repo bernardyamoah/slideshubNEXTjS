@@ -41,11 +41,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+function DashboardLayout({ children }: DashboardLayoutProps) {
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
   useEffect(() => {
     // Fetch the current user from Appwrite
@@ -82,4 +78,4 @@ export default function RootLayout({
   );
 }
 
-
+export default DashboardLayout;
