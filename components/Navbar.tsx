@@ -1,9 +1,8 @@
-"use client";
+
 import Logo from "./Logo";
 import Link from "next/link";
-import BottomNav from "./BottomNav";
-import { ModeToggle } from "./ModeToggle";
 
+import { ModeToggle } from "./ModeToggle";
 
 export default function Navbar() {
 	let Links = [
@@ -40,7 +39,7 @@ export default function Navbar() {
 					</ul>
 					<ModeToggle />
 
-					<BottomNav />
+					
 				</div>
 			</nav>
 		</>
