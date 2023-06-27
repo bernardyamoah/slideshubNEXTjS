@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import {CloudArrowDownIcon,} from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
 
-import { EmptySlides } from '@/lib/Empty';
+import { EmptySlides } from '@/components/EmptySlides';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
