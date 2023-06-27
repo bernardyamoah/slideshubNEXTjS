@@ -1,23 +1,29 @@
+"use client"
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
+import book from '@/public/books.svg'
 export default function EmptyBooks() {
+	const router = useRouter();
 	const content = (
 		<>
-			<section className="bg-white dark:bg-gray-900">
-				<div className="container px-6 py-8 mx-auto ">
+			<div className="bg-white dark:bg-inherit w-full )">
+				<div className="container  mx-auto grid place-content-center">
 					{/* an Emptystate page */}
-					<Image src="" width={300} height={300} alt="" className="object-cover object-center" />
-					<div className="flex items-center justify-center bg-gray-100">
+					<Image className="object-cover object-center" width={900} height={600} src={book} alt="empty books"/>
+					<div className="flex items-center justify-center">
 						<div className="text-center">
 							<h1 className="text-3xl font-semibold text-gray-900 mb-2">Oops! Nothing here yet.</h1>
 							<p className="text-gray-600 mb-6">There are no books added here yet.</p>
-							<button className="bg-emerald-500 hover:bg-emerald-600 border rounded-lg text-white font-semibold  py-2 px-4">
-								Go Home
-							</button>
+							<button
+            className="bg-emerald-500 hover:bg-emerald-600 border rounded-lg text-white font-semibold py-2 px-4 mt-6"
+            onClick={() => router.push("/")}
+          >
+            Go Home
+          </button>
 						</div>
 					</div>
 				</div>
-			</section>
+			</div>
 		</>
 	);
 	return content;

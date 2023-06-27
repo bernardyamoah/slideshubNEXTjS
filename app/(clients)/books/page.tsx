@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
-import EmptyState from '@/lib/Empty';
+import EmptyBooks from '@/components/EmptyBooks';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
@@ -54,7 +54,7 @@ export default function FilesList() {
             ) : (
               <>
                 {filteredSlides.length > 0 ? (
-                  <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+                  <ul className="md:container max-w-5xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
                     <Suspense fallback={<Loading />}>
                       {filteredSlides.map((slide) => (
                         <aside
@@ -91,7 +91,7 @@ export default function FilesList() {
                   </ul>
                 ) : (
                   <div className="flex justify-center w-full">
-                    <EmptyState/>
+                    <EmptyBooks/>
                   </div>
                 )}
               </>
