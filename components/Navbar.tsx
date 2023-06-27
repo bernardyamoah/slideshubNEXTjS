@@ -64,7 +64,7 @@ export default function Navbar() {
 					</ul>
 					<div className="space-x-4 flex">
 					<ModeToggle />
-					<div className="lg:hidden">
+					<div className="lg:hidden flex items-center">
 					<MobileNav  items={Links[0].items}/>
 					</div>
 					</div>

@@ -7,6 +7,7 @@ import { TerminalWindow } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { ModeToggle } from "@/components/ModeToggle";
+import { PanelTopCloseIcon } from "lucide-react";
 interface MobileNavProps {
 
 
@@ -17,13 +18,15 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
   const pathname = usePathname()
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" className="p-2">
-          <TerminalWindow size={26} />
-        </Button>
+      <SheetTrigger className="flex items-center" asChild>
+      
+        <PanelTopCloseIcon className={cn(onclick ? "rotate-0 py-2"
+              : "hover:bg-transparent rotate-90 cursor-pointer hover:text-gray-600 duration-150",
+            "justify-start")} />
+      
       </SheetTrigger>
       <SheetContent side="left">
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 ">
         {items.map((item) => (
         <Link
           key={item.link}

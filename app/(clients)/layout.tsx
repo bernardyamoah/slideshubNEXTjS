@@ -19,7 +19,7 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
     <Navbar />
     
-            <div className="px-2">{children}</div>
+            <div className="">{children}</div>
 
             <Footer />
     </>
