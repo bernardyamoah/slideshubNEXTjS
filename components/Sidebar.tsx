@@ -9,9 +9,7 @@ import {
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
+
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
@@ -35,18 +33,7 @@ export default function SideBar() {
         </ListItem>
 
 
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Profile
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
+        
         <ListItem onClick={() => logOut(router)}>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
