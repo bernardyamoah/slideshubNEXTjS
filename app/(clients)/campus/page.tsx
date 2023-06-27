@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { getCampus } from '@/lib/functions';
 import { Suspense } from 'react';
-import Loading from '../../components/ui/Cloading';
+import Loading from '@/components/ui/Cloading';
 
 import toast, { Toaster } from 'react-hot-toast';
 

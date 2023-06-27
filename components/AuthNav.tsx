@@ -3,6 +3,7 @@ import Link from "next/link";
 import { UserNav } from "./user-nav";
 import { ModeToggle } from "./ModeToggle";
 import MobileNav from "@/app/dashboard/components/mobile-nav";
+import Logo from "./Logo";
 interface AuthNavProps {
   user: any;
   sidebarNavItems: { title: string; href: string }[]; // Add sidebarNavItems prop
@@ -12,7 +13,7 @@ const AuthNav: React.FC<AuthNavProps> = ({ user, sidebarNavItems }) => {
     <>
       <nav className="w-full px-8 py-4 border-b-[1px] flex items-center justify-between fixed top-0 bg-white z-40 dark:bg-gray-950">
         <Link href="/">
-          <h2 className="font-bold text-xl">Slideshub</h2>
+        <Logo/>
         </Link>
         <div className="flex items-center space-x-5 capitalize">
         

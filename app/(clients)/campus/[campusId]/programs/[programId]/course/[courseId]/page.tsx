@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getSlides, getCourseDetails } from '@/lib/functions';
 import Link from 'next/link';
-import Loading from '../../../../../../../components/ui/Cloading';
+import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
