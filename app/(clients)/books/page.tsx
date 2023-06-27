@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
 import EmptyBooks from '@/components/EmptyBooks';
+import Link from 'next/link';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
@@ -69,19 +70,15 @@ export default function FilesList() {
                                 variant="gradient"
                                 ripple={true}
                                 className="flex items-center gap-3 mt-0 sm:mt-4"
-                                onClick={() => {
-                                  toast('Download started!', {
-                                    icon: '📥',
-                                  });
-                                }}
+                                
                               >
-                                <a
+                                <Link
                                   href={slide.fileUrl}
                                   download={slide.fileUrl}
                                   className="flex items-center gap-2"
                                 >
                                   <CloudArrowDownIcon strokeWidth={2} className="h-5 w-5" /> Download
-                                </a>
+                                </Link>
                               </Button>
                             </div>
                           </div>
