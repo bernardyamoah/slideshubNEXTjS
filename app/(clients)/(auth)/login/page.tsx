@@ -1,17 +1,12 @@
-'use client'
-import React, { useState } from "react";
 import Link from "next/link";
-import { EnvelopeSimple, Lock,  } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
-import { logIn } from "@/lib/functions";
 import { Metadata } from "next"
 import Image from "next/image"
-import { Command } from "lucide-react"
+
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "../components/user-auth"; 
-import Logo from "@/components/Logo";
+
 
 export const metadata: Metadata = {
   title: "Authentication",
