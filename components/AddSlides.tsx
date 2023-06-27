@@ -35,8 +35,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 export default function AddSlides() {
-
-  const [open, setOpen] = React.useState(false)
   const [open1, setOpen1] = React.useState(false)  
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 const [courseId, setCourseId]=useState('')

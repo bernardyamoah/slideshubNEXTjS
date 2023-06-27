@@ -12,6 +12,7 @@ export default function Footer() {
                             href="https://web.facebook.com/bernard.amoah.334"
                             target="_blank"
                             className="footer_links"
+                            passHref
                         >
                             <span className="sr-only">Facebook</span>
 
@@ -20,6 +21,7 @@ export default function Footer() {
                             href="https://www.instagram.com/be_r_n_ard"
                             target="_blank"
                             className="footer_links"
+                            passHref
                         >
                             <span className="sr-only">Instagram</span>
 

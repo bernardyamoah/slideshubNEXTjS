@@ -30,7 +30,7 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
           className={cn(
             buttonVariants({ variant: "ghost" }),
             pathname === item.href
-              ? "bg-muted hover:bg-muted"
+              ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
               : "hover:bg-transparent hover:underline",
             "justify-start"
           )}
@@ -40,7 +40,7 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
       ))}
         </div>
 
-        <SheetFooter className="space-x-2 flex items-center !justify-start absolute bottom-6">  <p>Theme toggle</p> <ModeToggle /></SheetFooter>
+        <SheetFooter className="space-x-2 flex flex-row items-center !justify-start absolute bottom-6">  <p>Theme</p> <ModeToggle /></SheetFooter>
       </SheetContent>
     </Sheet>
   );

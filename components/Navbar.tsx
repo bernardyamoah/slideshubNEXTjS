@@ -31,7 +31,7 @@ export default function Navbar() {
 					<ul className="nav-links hidden justify-between text-slate-900 dark:text-white md:flex">
 						{Links.map((link, index) => (
 							<li key={index}>
-								<Link href={link.link} key={index}>
+								<Link href={link.link} key={index} passHref>
 									<span>{link.name}</span>
 								</Link>
 							</li>
