@@ -47,8 +47,8 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         <DropdownMenuSeparator />
   
         
-        <DropdownMenuItem className="text-red-600 hover:bg-red-100" onClick={() => logOut(router)}>
-          <LogOut className="mr-2 h-4 w-4 text-red-400" />
+        <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={() => logOut(router)}>
+          <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

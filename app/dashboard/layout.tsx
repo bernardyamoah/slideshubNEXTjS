@@ -5,6 +5,7 @@ import { SidebarNav } from "./components/sidebar-nav";
 import AuthNav from "@/components/AuthNav"; // Import the AuthNav component
 import { getCurrentUserAndSetUser } from "@/lib/functions";
 import { useState, useEffect } from "react";
+import Footer from "@/components/Footer";
 
 
 type UserWithId = User<Preferences> & { id: string };
@@ -62,18 +63,19 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     <>
       <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
 
-      <div className=" pb-16 md:block mt-[4.6rem] bg-gray-100">
+      <div className=" md:block mt-[4.6rem] bg-gray-50 dark:bg-inherit">
         <div className=" relative flex">
-          <aside className="hidden lg:flex w-[20%]  h-screen fixed dark:bg-gray-950">
+          <aside className="hidden lg:flex w-[15%]  h-screen fixed dark:bg-gray-950">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="lg:pl-[20%] w-full flex-1 min-h-screen">
+          <div className="lg:ml-[20%] w-full flex-1  max-w-screen-3xl mx-auto   lg:p-2">
 
-            <div className="">{children}</div>
+            <div className=" border-4 h-full rounded-md bg-white dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 
           </div>
         </div>
       </div>
+    
     </>
   );
 }

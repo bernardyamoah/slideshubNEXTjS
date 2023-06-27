@@ -41,7 +41,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Image from "next/image";
+
+import DocumentUpload from "./document-upload";
 
 
 export default function AddCourse() {
@@ -55,8 +56,7 @@ export default function AddCourse() {
   const [year, setYear] = useState("");
   const [fileId, setFileId] = useState("");
   const [programId, setprogramId] = React.useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
 
@@ -95,23 +95,28 @@ export default function AddCourse() {
     },
   ];
   // handle upload progress
-  const handleImageUpload = async () => {
-    if (imageFile) {
-      try {
-        const file = imageFile;
-        const uploader = await toast.promise(
-          storage.createFile(
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const handleImageUpload = async () => {
+        try {
+          if (!currentFile) {
+            throw new Error("No file selected");
+          }
+      
+          const file = currentFile as File;
+          const uploader = await toast.promise(storage.createFile(
             process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
             ID.unique(),
             file
           ),
           {
-            loading: "Uploading file",
-            success: "image uploaded! 🎉",
-            error: "Not authorized",
+            loading: 'Uploading file...',
+            success: 'File uploaded!',
+            error: 'Upload failed',
           }
         );
-
         const fileId = uploader.$id;
         const fileResponse = await storage.getFileView(
           process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
@@ -120,34 +125,17 @@ export default function AddCourse() {
         const imageUrl = fileResponse.toString();
 
         return imageUrl;
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
-    }
 
-    return "";
-  };
-  // Handle image change
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+
+        } catch (error) {
+          throw new Error("Upload failed");
+        }
       };
-      reader.readAsDataURL(file);
-    } else {
-      setImageFile(null);
-      setImagePreview(null);
-    }
-  };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
+
+
       const imageUrl = await handleImageUpload();
-
+    
       const courseData = {
         name,
         semester,
@@ -161,15 +149,19 @@ export default function AddCourse() {
         programId: programId,
       };
       await createCourse(courseData);
-      // reset Form field
-      setName(""),
-        setSemester(""),
-        setYear(""),
-        setCourseCode(""),
-        setCredit(""),
-        setLecturer(""),
-        setFileId(""),
-        setprogramId("");
+  
+ // Reset form fields
+ setName("");
+ setSemester("");
+ setYear("");
+ setCourseCode("");
+ setCredit("");
+ setCurrentFile(null);
+ setLecturer("");
+ setFileId("");
+ setprogramId("");
+            
+            
     } catch (error) {
       throw error;
     }
@@ -190,38 +182,10 @@ export default function AddCourse() {
 
   return (
     <>
-      <div className=" flex items-center mt-10">
-        <div className=" max-w-5xl grid md:grid-cols-2 sm:container w-full grid-cols-1 ">
-          {/* Display Program preview */}
-          {imagePreview && (
-            <aside className="place-center mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent">
-              <div className=" group">
-                <div className="card_image_wrapper">
-                  <Image
-                    className="card_image group-hover:scale-105"
-                    fill
-                    src={imagePreview}
-                    alt="Upload image"
-                  />
-                </div>
-                <div className="text_container">
-                  <h3 className="card_heading">{name}</h3>
-                  <div>
-                    <p className="text-gray-400 mr-2 text-sm">{semester}</p>
-                    <p className="text-gray-400 mr-2 text-sm">{courseCode}</p>
-                    {credit && (
-                      <p className="text-gray-400 mr-2 text-sm">
-                        {credit} hours
-                      </p>
-                    )}
-                    <p className="text-gray-400 mr-2 text-sm">{lecturer}</p>
-                  </div>
-                </div>
-              </div>
-            </aside>
-          )}
-
-          <Card className="lg:container  ">
+      <div className="relative flex items-center mt-10">
+        <div className=" w-full max-w-3xl mx-auto">
+      
+          <Card className="w-full  ">
             <CardHeader>
               <CardTitle>Add course</CardTitle>
               <CardDescription>
@@ -296,12 +260,22 @@ export default function AddCourse() {
 
                   <div className="grid  w-full items-center gap-1.5">
                     <Label htmlFor="picture">Picture</Label>
-                    <Input
-                      id="picture"
-                      type="file"
-                      onChange={handleImageChange}
-                    />
+                  
+                    <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile}  />
+                  
                   </div>
+
+
+
+
+
+
+
+
+
+
+
+
                   {/* Lecturer Name */}
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="lecturer">Lecturer Name</Label>
@@ -404,7 +378,7 @@ export default function AddCourse() {
                             placeholder="Select Semester"
                             className="text-xs"
                           />
-                          <SelectContent position="popper">
+                          <SelectContent position="item-aligned">
                             <SelectItem value="first semester">
                               First Semester
                             </SelectItem>
@@ -419,7 +393,7 @@ export default function AddCourse() {
 
                   <div className="mt-24 sm:flex sm:justify-end w-full">
                     {" "}
-                    <Button type="submit" className="w-full py-4">
+                    <Button type="submit" className="w-full lg:px-6 lg:w-fit font-normal py-4">
                       Add
                     </Button>
                   </div>

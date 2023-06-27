@@ -35,11 +35,11 @@ export default function RootLayout({
 		<html lang="en">
 			<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
 				<body className={inter.className}>
-					<main className="px-2 md:pb-20 min-h-screen">
+					<main className=" min-h-screen">
 						{children}
 						<Toaster />
 					</main>
-					<Footer />
+					
 					<Analytics />
 				</body>
 			</ThemeProvider>

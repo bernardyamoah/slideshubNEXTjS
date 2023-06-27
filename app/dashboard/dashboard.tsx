@@ -7,6 +7,7 @@ import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
 import { client } from "@/appwrite";
 
+
 interface Slide {
   $id: string;
   name: string;
@@ -48,6 +49,7 @@ export default function Dashboard() {
       <h1 className="text-5xl my-5 text-center font-bold">Dashboard</h1>
       <div className="max-w-screen">
         <main className="flex-1 w-full  py-10 px-4 mx-auto flex gap-4 flex-wrap justify-start">
+        <Suspense fallback={<Loading />}>
           {slides.length > 0 ? (
             slides.map((slide) => (
               <UserSlidesCard
@@ -61,6 +63,7 @@ export default function Dashboard() {
           ) : (
             <NoEvent user={user} />
           )}
+          </Suspense>
         </main>
       </div>
     </>

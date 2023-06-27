@@ -2,17 +2,18 @@ import { deleteSlide, formatTime } from '@/lib/functions';
 
 import {BookmarkSimple, Trash } from "@phosphor-icons/react";
 import { Card } from './ui/card';
-import { Button } from '@material-tailwind/react';
+import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+
 
 
 const UserSlidesCard: React.FC<UserSlidesCardProps> = ({
   name,
-fileUrl,
-user_id,
 id,
   timePosted,
 }) => {
   const formattedTime = formatTime(timePosted);
+
   return (
     <Card
   
@@ -70,19 +71,29 @@ id,
           <span className="text-[10px] font-medium sm:text-xs">{formattedTime}</span>
         </strong>
 
-        {/* Course Code */}
-        <Button
-          className="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-red-600 px-3 py-1.5 text-white"
-        >
-        
+      
 
-          
-                                                
-                                  <Trash size={20} onClick={() => {
+      <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">  <Trash size={20}/></Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-xs container !h-40 absolute top-[50%] -translate-y-1/2 p-4">
+        <DialogHeader>
+          <DialogTitle>Confirm</DialogTitle>
+          <DialogDescription className='mt-2'>
+          Are you sure you want t o delete {name} {}?
+          </DialogDescription>
+        </DialogHeader>
+      
+        <DialogFooter>
+          <Button type="button" className='text-red-600 font-normal dark:bg-red-400/10 bg-red-50 hover:bg-red-100 duration-300 focus:ring-2 focus:ring-red-500 dark:focus:ring-600/40' onClick={() => {
                               deleteSlide(id)
-                              }}/>
+                              }}>Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+          
 
-        </Button>
       </div>
     </Card>
   );

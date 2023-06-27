@@ -1,4 +1,5 @@
 'use client'
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
  const metadata: Metadata = {
@@ -16,9 +17,9 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
     <Navbar />
     
-            <div>{children}</div>
+            <div className="px-2">{children}</div>
 
-    
+            <Footer />
     </>
   );
 }
