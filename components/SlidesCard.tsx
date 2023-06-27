@@ -1,6 +1,5 @@
 import { formatTime } from '@/lib/functions';
-import Image from 'next/image'
-import Link from 'next/link';
+
 import {BookmarkSimple } from "@phosphor-icons/react";
 import { Card } from './ui/card';
 import { Button } from './ui/button';
