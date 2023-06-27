@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Metadata } from "next"
+
 import Image from "next/image"
 
 
@@ -8,10 +8,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "../components/user-auth"; 
 
 
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-}
+
 
 export default function Login() 
 	{
