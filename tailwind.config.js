@@ -7,7 +7,7 @@ module.exports = withMT({
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx,js}',
-    './public/**/*.{svg}',
+    './public/**/*.svg',
 	],
   theme: {
     container: {

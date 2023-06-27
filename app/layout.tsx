@@ -1,10 +1,10 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Inter } from "next/font/google";
-import Footer from "@/components/Footer";
+// import { Inter } from "next/font/google";
+
 import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "react-hot-toast";
 export const metadata = {
 	title: "Slideshub",
@@ -34,7 +34,8 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-				<body className={inter.className}>
+			{/* className={inter.className} */}
+				<body >
 					<main className=" min-h-screen">
 						{children}
 						<Toaster />
