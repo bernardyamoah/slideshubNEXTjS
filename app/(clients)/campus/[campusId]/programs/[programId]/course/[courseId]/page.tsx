@@ -6,7 +6,7 @@ import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
-import {CloudArrowDownIcon,} from "@heroicons/react/24/outline";
+import { CloudArrowDownIcon, } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
 
 import { EmptySlides } from '@/components/EmptySlides';
@@ -22,10 +22,10 @@ export default function FilesList() {
   useEffect(() => {
     async function fetchFiles() {
       try {
-      
+
 
         const response = await toast.promise(getSlides(), {
-          loading: `fetching Slides from database...`,
+          loading: `Fetching slides from database...`,
           success: <b>Successfully fetched slides</b>,
           error: <b>Failed to fetch slides.</b>,
         });
@@ -36,7 +36,7 @@ export default function FilesList() {
       setIsLoading(false); // Set loading state to false after fetching files
     }
 
-  fetchFiles();
+    fetchFiles();
   }, [courseId]);
 
   const filteredSlides = slides.filter((slide) => slide.courseId === courseId);
@@ -67,21 +67,21 @@ export default function FilesList() {
                         <div className="card_link group">
                           <div className="text_container gap-2  flex sm:block ">
                             <h3 className="card_heading  ">{slide.name}</h3>
-                          
-                            <Button size="sm"  variant="gradient" ripple={true} className="flex items-center gap-3 mt-0 sm:mt-4"onClick={() => {
-                                toast('Download started!', {
-                                  icon: '📥',
-                                });
-                              }}>
-                                  <a href={slide.fileUrl} download={slide.fileUrl} className='flex items-center gap-2'>                  
-        <CloudArrowDownIcon strokeWidth={2} className="h-5 w-5" /> Download</a>
-      </Button>
+
+                            <Button size="sm" variant="gradient" ripple={true} className="flex items-center gap-3 mt-0 sm:mt-4" onClick={() => {
+                              toast('Download started!', {
+                                icon: '📥',
+                              });
+                            }}>
+                              <a href={slide.fileUrl} download={slide.fileUrl} className='flex items-center gap-2'>
+                                <CloudArrowDownIcon strokeWidth={2} className="h-5 w-5" /> Download</a>
+                            </Button>
                           </div>
                         </div>
                       </aside>
                     ))
                   ) : (
-                <EmptySlides/>
+                    <EmptySlides />
                   )}
                 </Suspense>
               </ul>
