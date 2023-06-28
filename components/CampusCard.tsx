@@ -21,13 +21,10 @@ const CampusCard: React.FC<CampusCardProps> = ({
   timePosted,
 }) => {
   const formattedTime = formatTime(timePosted);
-  console.log(image)
+
   return (
     <Link
-      href={{
-        pathname: `/campus/${campusId}/programs/`,
-        query: { campusId: campusId, name: name, loc: location }
-      }}
+      href={`/campus/${campusId}/programs/`}
       shallow
       passHref
 
