@@ -6,7 +6,7 @@ import MobileNav from "@/app/dashboard/components/mobile-nav";
 import Logo from "./Logo";
 interface AuthNavProps {
   user: any;
-  sidebarNavItems: { title: string; href: string }[]; // Add sidebarNavItems prop
+  sidebarNavItems: { title: string; href: string, icon:JSX.Element }[]; // Add sidebarNavItems prop
 }
 const AuthNav: React.FC<AuthNavProps> = ({ user, sidebarNavItems }) => {
   return (

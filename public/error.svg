@@ -1,7 +1,8 @@
 <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 768"
-      className="w-auto h-56 mx-auto dark:fill-gray-300 text-black sm:h-64"
+      className="  w-auto h-56 mx-auto stroke-gray-300 text-black sm:h-64"
+      
     >
       <g fill="none" fillRule="evenodd">
         <g fill="#FF5678">

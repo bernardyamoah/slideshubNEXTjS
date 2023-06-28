@@ -30,7 +30,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage src="/avatars/01.png" alt="{user?.name?.split(' ')[0] || ' '}" />
-            <AvatarFallback>{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
+            <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
 

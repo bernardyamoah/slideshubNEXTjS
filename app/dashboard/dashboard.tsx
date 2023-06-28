@@ -29,18 +29,10 @@ export default function Dashboard() {
     authenticateUser();
   }, []);
 
-  useEffect(() => {
-    const subscription = client.subscribe(
-      [`collections.${process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID}.documents`],
-      async () => {
-        await authenticateUser();
-      }
-    );
 
-    return () => {
-      subscription();
-    };
-  }, []);
+
+
+
 
   if (loading) return <Loading />;
 

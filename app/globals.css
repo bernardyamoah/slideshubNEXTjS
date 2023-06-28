@@ -148,19 +148,12 @@ h1{
 .title-heading{
   @apply text-center text-xl md:text-3xl  font-extrabold text-gray-900 uppercase tracking-widest   mb-4 font-body
 }
- .program_wrapper{
-    @apply lg:px-10 mx-auto max-w-6xl sm:w-[100%] relative mb-60 sm:grid gap-8   sm:grid-cols-2 md:pt-12 lg:grid-cols-3 lg:gap-8  p-1
-  }
- .cards_container{
-  /* @apply relative mt-8 mb-20 grid grid-cols-1 gap-8 border-l border-gray-200 dark:border-gray-700 md:grid-cols-2 md:p-6 lg:grid-cols-3 xl:grid-cols-4  lg:border-none */
- @apply relative mb-60  sm:grid   sm:grid-cols-2 md:pt-12 lg:grid-cols-3  md:mx-auto md:w-[85%] gap-8
- }
+
+
  .text_container{
   @apply p-4 md:p-5 space-y-2  overflow-hidden flex-1
  }
-.card_link{
-    @apply  flex sm:flex-col overflow-hidden    transition 
-  }
+
   .card_image_wrapper{
     /* sm:pt-[60%] lg:pt-[80%] */
     @apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-full
@@ -203,9 +196,9 @@ h1{
 }
 
 .nav-bar {
-  left: 0;
+
   width: 100%;
-  padding: 20px 200px;
+  padding: 20px 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -230,7 +223,7 @@ h1{
 /* responsive */
 @media screen and (max-width: 1160px) {
   .nav-bar {
-    padding: 15px 100px;
+    padding: 15px 50px;
   }
 
 }

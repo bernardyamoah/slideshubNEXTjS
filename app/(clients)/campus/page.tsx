@@ -41,7 +41,7 @@ export default function CampusList() {
 
     fetchCampuses();
   }, []);
-
+console.log(campuses)
   return (
     <>
 
@@ -78,7 +78,7 @@ export default function CampusList() {
           {isLoading ? (
             <Loading />
           ) : (
-            <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+            <ul className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10 ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />

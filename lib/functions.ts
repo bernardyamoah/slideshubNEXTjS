@@ -570,10 +570,7 @@ const getUserSlides = async (
   try {
     setLoading(true);
 
-    // Subscribe to changes in the slides collection for the specific user
-    client.subscribe(
-      [`collections.${process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID}.documents.${id}`],
-      async () => {
+  
         // Fetch the updated slides and update the state
         try {
           const response = await databases.listDocuments(
@@ -587,8 +584,8 @@ const getUserSlides = async (
           console.error(error);
           throw error;
         }
-      }
-    );
+  
+    
 
     // Fetch the initial slides
     const response = await databases.listDocuments(

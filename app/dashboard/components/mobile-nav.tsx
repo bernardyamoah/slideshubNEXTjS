@@ -1,15 +1,16 @@
-import { Button } from "@/components/ui/button";
+
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
-import { TerminalWindow } from "@phosphor-icons/react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { ModeToggle } from "@/components/ModeToggle";
+import { PanelTopCloseIcon } from "lucide-react";
 interface MobileNavProps {
 
 
-  items: { title: string; href: string }[];
+  items: { title: string; href: string; icon:JSX.Element }[];
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
@@ -17,12 +18,13 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className="p-2">
-          <TerminalWindow size={32} />
-        </Button>
+
+        <PanelTopCloseIcon />
+      
+    
       </SheetTrigger>
-      <SheetContent side="left">
-        <div className="grid gap-4 py-4">
+      <SheetContent  side="left">
+        <div className="grid gap-4 py-16">
         {items.map((item) => (
         <Link
           key={item.href}
@@ -35,7 +37,10 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
             "justify-start"
           )}
         >
-          {item.title}
+          <span className="flex items-center space-x-3 ">
+      {item.icon}
+        <span className="text-base">  {item.title}</span>
+      </span>
         </Link>
       ))}
         </div>
