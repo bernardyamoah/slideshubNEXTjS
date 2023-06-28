@@ -156,48 +156,9 @@ export default function AddProgram() {
   return (
     <>
 
-      <div className="flex items-center mt-10">
-        <div className='max-w-5xl grid md:grid-cols-2 sm:container w-full p-2 '>
+      
 
-          {/* Display Program preview */}
-          <section className='bg-white '>
-            {imagePreview && (
-              <aside
-
-                className=" mb-10 mx-auto max-w-xs relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out  border-4 border-gray-200  hover:shadow-xl cursor-pointer dark:border-gray-600 rounded-3xl w-full bg-white dark:bg-transparent"
-              >
-                <div className=" group" >
-                  <div className="card_image_wrapper">
-                    <Image
-                      className="card_image group-hover:scale-105"
-                      fill
-                      src={imagePreview}
-                      alt="Upload image"
-
-
-                    />
-
-                  </div>
-                  <div className="text_container">
-                    <h3 className="card_heading">{name}</h3>
-                    <div>
-                      <p className='text-gray-400 mr-2 text-sm'>Duration:</p>
-                      <p className="course-code">{duration}</p>
-                    </div>
-
-
-                    <p className="course-code"><span className='text-gray-400 mr-2 sm:hidden'>Duration:</span> {duration}</p>
-
-                    <p className="course-code"><span className='text-gray-400 mr-2 sm:hidden'>Duration:</span> {duration}</p>
-                  </div>
-                </div>
-              </aside>
-
-            )}
-          </section>
-
-
-          <Card className="lg:container md:max-w-2xl  ">
+          <Card className="w-full max-w-3xl mx-auto   ">
             <CardHeader>
               <CardTitle>Add Program</CardTitle>
               <CardDescription>Deploy your new project in one-click.</CardDescription>
@@ -258,7 +219,7 @@ export default function AddProgram() {
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
 
-                  <div className='mt-24 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
+                  <div className='mt-8 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
                 </div>
               </form>
             </CardContent>
@@ -271,9 +232,9 @@ export default function AddProgram() {
               </CardFooter>
             )}
           </Card>
-        </div>
+      
         <Toaster />
-      </div>
+    
     </>
   );
 }

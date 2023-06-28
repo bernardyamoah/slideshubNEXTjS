@@ -182,10 +182,9 @@ export default function AddCourse() {
 
   return (
     <>
-      <div className="relative flex items-center mt-10">
-        <div className=" w-full max-w-3xl mx-auto">
+    
       
-          <Card className="w-full  ">
+          <Card className="w-full max-w-3xl mx-auto  ">
             <CardHeader>
               <CardTitle>Add course</CardTitle>
               <CardDescription>
@@ -401,10 +400,10 @@ export default function AddCourse() {
               </form>
             </CardContent>
           </Card>
-        </div>
+    
 
         <Toaster />
-      </div>
+    
     </>
   );
 }

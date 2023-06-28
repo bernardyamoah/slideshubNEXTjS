@@ -53,7 +53,7 @@ function page() {
       </CardContent>
     </Card>
       </DialogTrigger>
-      <DialogContent className="!container h-full">
+      <DialogContent className="!container !lg:max-w-3xl   md:!h-[100%]  relative">
         
       <AddSlides/>
       </DialogContent>
@@ -81,7 +81,7 @@ function page() {
       </CardContent>
     </Card>
       </DialogTrigger>
-      <DialogContent className="!container h-full">
+      <DialogContent className="!container !lg:max-w-3xl   md:!h-[100%]  relative">
         
       <AddBook/>
       </DialogContent>
@@ -108,7 +108,7 @@ function page() {
       </CardContent>
     </Card>
       </DialogTrigger>
-      <DialogContent className="!container h-full">
+      <DialogContent className="!container !lg:max-w-3xl !overflow-y-scroll  sm:!h-[100%]  relative">
         
       <AddCourse/>
       </DialogContent>
@@ -136,7 +136,7 @@ function page() {
       </CardContent>
     </Card>
       </DialogTrigger>
-      <DialogContent className="!container h-full">
+      <DialogContent className="!container !lg:max-w-3xl   lg:!h-[100%]  relative">
         
       <AddProgram/>
       </DialogContent>

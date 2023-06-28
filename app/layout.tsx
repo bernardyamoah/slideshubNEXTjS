@@ -39,9 +39,9 @@ export default function RootLayout({
 					<main className="h-screen">
 						{children}
 						<Toaster />
+					<Analytics />
 					</main>
 					
-					<Analytics />
 				</body>
 			</ThemeProvider>
 		</html>
