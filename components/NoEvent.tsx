@@ -12,7 +12,7 @@ export default function NoEvent({ user }: any) {
 			<h3 className='my-4 text-center'>You have no existing event tickets.</h3>
 
 			<Button>
-				<Link href={'/dashboard/add-slide/'}>
+				<Link href={'/dashboard/create'}>
 					Add Slides
 				</Link>
 			</Button>
