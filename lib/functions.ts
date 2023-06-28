@@ -470,7 +470,7 @@ export const signUp = async (name: string, email: string, password: string, rout
   try {
     await account.create(ID.unique(), email, password, name);
     successMessage("Account created! 🎉");
-    router.push("/dashboard");
+    router.push("/login");
   } catch (error) {
     errorMessage("Check your network / User already exists ❌");
     router.push("/login");
