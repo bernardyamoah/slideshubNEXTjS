@@ -6,7 +6,8 @@ import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/
 import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { ModeToggle } from "@/components/ModeToggle";
-import { PanelTopCloseIcon } from "lucide-react";
+
+import { PanelLeftOpen } from "lucide-react";
 interface MobileNavProps {
 
 
@@ -19,7 +20,7 @@ const MobileNav: React.FC<MobileNavProps> = ({  items }) => {
     <Sheet>
       <SheetTrigger asChild>
 
-        <PanelTopCloseIcon />
+      <PanelLeftOpen />
       
     
       </SheetTrigger>

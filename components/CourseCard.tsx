@@ -1,8 +1,9 @@
 import { formatTime } from '@/lib/functions';
 
 import Link from 'next/link';
-import { BookmarkSimple } from "@phosphor-icons/react";
+import { BookmarkSimple, Presentation } from "@phosphor-icons/react";
 import { Card } from './ui/card';
+import { Calendar, Clock2, FlaskConical } from 'lucide-react';
 interface CourseCardProps {
   name: string;
   image: string;
@@ -28,7 +29,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   const formattedTime = formatTime(timePosted);
   return (
-    <Card className='relative overflow-hidden'>
+    <Card className='relative overflow-hidden dark:bg-gray-800 border-4 dark:border-gray-700'>
 
 <Link
       href={{
@@ -50,7 +51,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
           passHref
 
           className="block shrink-0">
-          <BookmarkSimple size={30} weight="fill" />
+            <FlaskConical className='w-8 h-8 fill-black dark:fill-white' />
+          
         </Link>
         {/* Course Name */}
         <div>
@@ -63,48 +65,22 @@ const CourseCard: React.FC<CourseCardProps> = ({
               }}
               shallow
               passHref
-              className="font-medium sm:text-lg"
+              className="font-medium sm:text-lg dark:text-white "
             >
               {name}
             </Link>
           </h3>
 
-          <div className="mt-2 sm:flex sm:items-center sm:gap-2">
+          <div className="mt-2 flex items-center gap-2">
             {/* Semester */}
-            <div className="flex items-center gap-1 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                />
-              </svg>
+            <div className="flex items-center gap-1 text-gray-500 dark:text-gray-300">
+            <Calendar className='w-4 h-4' />
               <p className="text-xs capitalize">{semester}</p>
             </div>
 
             {/* Credit Hours */}
-            <div className="mt-1 sm:mt-0 flex items-center gap-1 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                />
-              </svg>
+            <div className=" flex items-center gap-1 text-gray-500 dark:text-gray-300">
+            <Clock2 className='w-4 h-4 dark:stroke' />
 
               <p className="text-xs capitalize">{credit} credit hours</p>
             </div>
@@ -117,15 +93,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-end">
         {/* Time Created */}
-        <strong
-          className="-mb-[2px] -me-[2px] inline-flex items-center gap-1  px-3 py-1.5 text-gray-400"
+        {/* <strong
+          className="-mb-[2px] -me-[2px] inline-flex items-center gap-1  px-3 py-1.5 text-gray-500"
         >
 
 
           <span className="text-[10px] font-medium sm:text-xs">{formattedTime}</span>
-        </strong>
+        </strong> */}
 
         {/* Course Code */}
         <strong

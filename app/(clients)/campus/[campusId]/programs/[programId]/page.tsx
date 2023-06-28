@@ -14,6 +14,8 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import CourseCard from '@/components/CourseCard';
+import EmptyProgram from '@/components/EmptyPrograms';
+import EmptyCourse from '@/components/EmptyCourse';
 
 interface Course {
   $id: string;
@@ -133,7 +135,7 @@ export default function CourseList() {
                               <CourseCard key={course.$id} courseId={course.$id} {...course} timePosted={course.$createdAt} />
                             ))
                         ) : (
-                          <p>No courses available for this level.</p>
+                          <EmptyCourse/>
                         )}
                       </Suspense>
                     </ul>

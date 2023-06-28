@@ -56,7 +56,7 @@ export default function FilesList() {
             {isLoading ? (
               <Loading /> // Render the loading UI when data is loading
             ) : (
-              <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+              <ul className="mx-auto max-w-7xl grid sm:flex flex-wrap gap-8 pb-10">
                 <Suspense fallback={<Loading />}>
                   {filteredSlides.length > 0 ? (
                     filteredSlides.map((slide) => (
