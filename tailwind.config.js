@@ -1,10 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const colors = require('tailwindcss/colors')
+const withMT=require('@material-tailwind/react/utils/withMT')
+module.exports = withMT({
   darkMode: ["class"],
   content: [
-  
-    './components/**/*.{ts,tsx,js,jsx}',
-    './app/**/*.{ts,tsx,js,jsx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx,js}',
+    './public/**/*.svg',
 	],
   theme: {
     container: {
@@ -13,6 +16,11 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    colors: {
+      gray: colors.slate,
+      emerald: colors.emerald,
+      yellow: colors.amber,
     },
     extend: {
       colors: {
@@ -78,6 +86,5 @@ module.exports = {
     
     },
   },
-  plugins: [require("tailwindcss-animate"),
-  require('@tailwindcss/typography')],
-}
+  plugins: [require("tailwindcss-animate")],
+})

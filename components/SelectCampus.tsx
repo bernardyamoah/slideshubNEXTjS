@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { getCampus } from "@/lib/getCampus"
+import { getCampus } from "@/lib/functions"
 
 export default function SelectCampus() {
   const [open, setOpen] = React.useState(false)
@@ -81,8 +81,8 @@ export default function SelectCampus() {
   )
 }
 
-  {/* Select campus */}
-                  
+{/* Select campus */ }
+
 //   <Label htmlFor="campus">Programs</Label>
 //   <Select   onValueChange={handleSelectChange}>
 // <SelectTrigger className="w-full">

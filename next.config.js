@@ -1,16 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'cloud.appwrite.io',
-            
-          },
-        ],
-      },
-}
+  images: {
+    domains: ['cloud.appwrite.io', 'images.unsplash.com','opendoodles.s3-us-west-1.amazonaws.com'],
+  },
+};
 
-module.exports = nextConfig
-    
-    
+module.exports = nextConfig;
