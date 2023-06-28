@@ -6,7 +6,7 @@ import AuthNav from "@/components/AuthNav"; // Import the AuthNav component
 import { getCurrentUserAndSetUser } from "@/lib/functions";
 import { useState, useEffect } from "react";
 
-import { Book, FileBarChart, GraduationCap, LayoutDashboard, PiSquare,Home, School } from "lucide-react";
+import { Book, FileBarChart, GraduationCap, LayoutDashboard, PiSquare,Home, School, PlusCircle } from "lucide-react";
 
 
 
@@ -28,6 +28,11 @@ const sidebarNavItems = [
     title: "Dashboard",
     href: "/dashboard",
     icon:<LayoutDashboard />,
+  },
+  {
+    title: "Create",
+    href: "/dashboard/create",
+    icon:<PlusCircle />,
   },
   {
     title: "Add Book",
@@ -77,12 +82,12 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     <>
       <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
 
-      <div className=" md:block mt-[4.6rem] bg-gray-50 dark:bg-inherit ">
-        <div className=" relative flex min-h-screen items-center ">
-          <aside className="hidden lg:flex w-[15%]  h-screen fixed dark:bg-gray-950">
+      <div className=" md:block mt-[4.6rem] bg-gray-50 dark:bg-inherit !h-full">
+        <div className=" relative flex  !h-full ">
+          <aside className="hidden lg:flex w-[13rem]  h-screen fixed dark:bg-gray-950">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="lg:ml-[15%] w-full flex-1  max-w-screen-3xl mx-auto  h-full lg:p-2">
+          <div className="lg:ml-[13rem] w-full flex-1  max-w-screen-3xl mx-auto  h-full lg:p-2">
 
             <div className="  h-full rounded-md  dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 

@@ -88,7 +88,7 @@ export default function ProgrammeList() {
             {isLoading ? (
               <Loading />
             ) : (
-              <ul className="md:container max-w-4xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+              <ul className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10 ">
    <Suspense fallback={<Loading />}>
                   {filteredPrograms.length > 0 ? (
                     filteredPrograms.map((program) => (

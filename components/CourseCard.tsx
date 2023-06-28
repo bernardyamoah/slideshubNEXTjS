@@ -1,7 +1,8 @@
 import { formatTime } from '@/lib/functions';
-import Image from 'next/image'
+
 import Link from 'next/link';
 import { BookmarkSimple } from "@phosphor-icons/react";
+import { Card } from './ui/card';
 interface CourseCardProps {
   name: string;
   image: string;
@@ -27,7 +28,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   const formattedTime = formatTime(timePosted);
   return (
-    <Link
+    <Card className='relative overflow-hidden'>
+
+<Link
       href={{
         pathname: `/campus/${campusId}/programs/${programId}/course/${courseId}`,
         query: { courseId: courseId, name: name }
@@ -35,7 +38,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
       shallow
       passHref
 
-      className="rounded-xl border-2 border-gray-200 bg-white max-w-xs">
+      className="overflow-hidden">
       <div className="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
         {/* Course Image */}
         <Link
@@ -147,6 +150,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </strong>
       </div>
     </Link>
+
+    </Card>
+  
   );
 };
 
