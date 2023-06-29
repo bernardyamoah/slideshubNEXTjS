@@ -14,7 +14,7 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import CourseCard from '@/components/CourseCard';
-import EmptyProgram from '@/components/EmptyPrograms';
+
 import EmptyCourse from '@/components/EmptyCourse';
 
 interface Course {
@@ -67,7 +67,7 @@ export default function CourseList() {
   const data = [
     {
       label: "Level 100",
-      value: "level 100",
+      value: "Level 100",
     },
     {
       label: "Level 200",
