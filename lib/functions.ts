@@ -281,6 +281,7 @@ export const getCourses = async (): Promise<any[]> => {
       databaseId,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
     );
+    console.log("🚀 getCourses ~ response:", response)
 
     return response.documents;
   } catch (error) {
@@ -362,7 +363,8 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-      [Query.equal("programId", programId)]);
+      [Query.equal("programId", programId),
+      Query.limit(100)]);
     console.log("🚀 ~ file: functions.ts:366 ~ getCoursesByProgramId ~ response:", response)
 
     // Return the courses data
@@ -596,7 +598,8 @@ const getUserSlides = async (
           const response = await databases.listDocuments(
             databaseId!,
             process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-            [Query.equal("user_id", id)]
+            [Query.equal("user_id", id),
+            Query.limit(100)]
           );
           setSlides(response.documents);
           setLoading(false);

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getCourses, getProgramDetails, getProgramName } from '@/lib/functions';
+import { getCoursesByProgramId, getProgramDetails, getProgramName } from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
@@ -34,6 +34,7 @@ interface Course {
 export default function CourseList() {
   const searchParams = useSearchParams();
   const [courses, setCourses] = useState<Course[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
   const programId = searchParams?.get('programId') ?? '';
   const programName = searchParams?.get('name');
@@ -46,7 +47,7 @@ export default function CourseList() {
         const programDetails = await getProgramDetails(programId);
         const campusId = programDetails?.campusId;
 
-        const response = await toast.promise(getCourses(), {
+        const response = await toast.promise(getCoursesByProgramId(programId), {
           loading: `Fetching courses from ${programName} database..`,
           success: <b>Successfully fetched courses</b>,
           error: <b>Failed to fetch courses {programName}.</b>,
@@ -62,7 +63,10 @@ export default function CourseList() {
     fetchCourses();
   }, [programId, programName]);
 
+  
   const filteredCourses = courses.filter((course) => course.programId === programId);
+  console.log("🚀 ~ file: page.tsx:68 ~ CourseList ~ filteredCourses:", filteredCourses)
+
 
   const data = [
     {
@@ -129,7 +133,7 @@ export default function CourseList() {
                     <ul className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10">
                       <Suspense fallback={<Loading />}>
                         {filteredCourses.filter((course) => course.year === value).length > 0 ? (
-                          filteredCourses
+                          courses
                             .filter((course) => course.year === value)
                             .map((course) => (
                               <CourseCard key={course.$id} courseId={course.$id} {...course} timePosted={course.$createdAt} />

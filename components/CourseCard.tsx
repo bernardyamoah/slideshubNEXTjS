@@ -2,13 +2,9 @@ import { formatTime } from '@/lib/functions';
 
 import Link from 'next/link';
 
-import { Card, CardContent, CardTitle } from './ui/card';
-import { Calendar, Clock2, Files, FlaskConical, Plus } from 'lucide-react';
-import { Dialog, DialogTrigger } from '@radix-ui/react-dialog';
-import { CardHeader } from '@material-tailwind/react';
-import { Button } from './ui/button';
-import AddSlides from './AddSlides';
-import { DialogContent } from './ui/dialog';
+import { Card } from './ui/card';
+import { Calendar, Clock2, FlaskConical} from 'lucide-react';
+
 interface CourseCardProps {
   name: string;
   image: string;
@@ -36,39 +32,28 @@ const CourseCard: React.FC<CourseCardProps> = ({
   return (
   
   <>
-    <div  className="group relative block  w-full  cursor-pointer ">
-  <span className="rounded-md absolute inset-0 border-2 border-dashed border-gray-400 dark:border-gray-800/80"></span>
-
-
-      <Card className='relative  h-full transform items-end  border-gray-400 dark:border-gray-800/80  bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2   border-4 dark:border-gray-700'>
-      
-<Link
-      href={{
+    <Link   href={{
         pathname: `/campus/${campusId}/programs/${programId}/course/${courseId}`,
         query: { courseId: courseId, name: name }
       }}
       shallow
       passHref
+ className="group relative block  w-full  cursor-pointer ">
+  <span className="rounded-md absolute inset-0 border-2 border-dashed border-gray-400 dark:border-gray-800/80"></span>
 
-      className="overflow-hidden">
-      <div className="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
+
+      <Card className='relative  h-full transform items-end  border-gray-400 dark:border-gray-800/80  bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2   border-4 dark:border-gray-700'>
+      
+
+      <div className="flex items-start gap-4 p-4  ">
         {/* Course Image */}
-        <Link
-          href={{
-            pathname: `/campus/${campusId}/programs/${programId}/course/${courseId}`,
-            query: { courseId: courseId, name: name }
-          }}
-          shallow
-          passHref
-
-          className="block shrink-0">
+        <p className="block shrink-0">
             <FlaskConical className='w-8 h-8 fill-gray-700 stroke-gray-700 dark:fill-white' />
-          
-        </Link>
+        </p>
         {/* Course Name */}
-        <div>
+        <div className='md:truncate text-ellipsis'>
 
-          <h3   className="font-medium sm:text-base capitalize dark:text-white md:truncate ">
+          <h3   className="font-medium sm:text-base capitalize dark:text-white  ">
           
               {name.toLocaleLowerCase()}
           
@@ -128,13 +113,14 @@ const CourseCard: React.FC<CourseCardProps> = ({
           <span className="text-[10px] font-medium sm:text-xs">{courseCode.toUpperCase()}</span>
         </strong>
       </div>
-    </Link>
+  
 
+
+    
 
     </Card>
     
-    
-</div>
+  </Link>
   </>
   );
 };

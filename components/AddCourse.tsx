@@ -41,7 +41,8 @@ export default function AddCourse() {
   const [courseCode, setCourseCode] = useState("");
   const [credit, setCredit] = useState("");
   const [lecturer, setLecturer] = useState("");
-  const [year, setYear] = useState("");
+  let [year, setYear] = useState("");
+  console.log("🚀 ~ file: AddCourse.tsx:45 ~ AddCourse ~ year:", year)
 
   const [fileId, setFileId] = useState("");
   const [programId, setprogramId] = React.useState("");
@@ -153,6 +154,8 @@ export default function AddCourse() {
 
 
       // const imageUrl = await handleImageUpload();
+      year = year.charAt(0).toUpperCase() + year.slice(1); // Convert first letter to uppercase
+    console.log("🚀 ~ file: AddCourse.tsx:157 ~ handleSubmit ~ year:", year)
     
       const courseData = {
         name,

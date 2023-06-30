@@ -34,26 +34,26 @@ const sidebarNavItems = [
     href: "/dashboard/create",
     icon:<PlusCircle />,
   },
-  {
-    title: "Add Book",
-    href: "/dashboard/add-book",
-    icon:<Book />,
-  },
-  {
-    title: "Add Slides",
-    href: "/dashboard/add-slide",
-    icon: <FileBarChart />,
-  },
-  {
-    title: "Add Course",
-    href: "/dashboard/add-course",
-    icon: <PiSquare />,
-  },
-  {
-    title: "Add Program",
-    href: "/dashboard/add-program",
-    icon:<GraduationCap />,
-  },
+  // {
+  //   title: "Add Book",
+  //   href: "/dashboard/add-book",
+  //   icon:<Book />,
+  // },
+  // {
+  //   title: "Add Slides",
+  //   href: "/dashboard/add-slide",
+  //   icon: <FileBarChart />,
+  // },
+  // {
+  //   title: "Add Course",
+  //   href: "/dashboard/add-course",
+  //   icon: <PiSquare />,
+  // },
+  // {
+  //   title: "Add Program",
+  //   href: "/dashboard/add-program",
+  //   icon:<GraduationCap />,
+  // },
 
 ];
 

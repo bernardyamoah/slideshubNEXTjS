@@ -33,7 +33,10 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+			
+			<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+
+		
 			{/* className={inter.className} */}
 				<body >
 					<main className="h-screen">
