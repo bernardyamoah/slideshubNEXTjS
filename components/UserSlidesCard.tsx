@@ -1,9 +1,11 @@
 import { deleteSlide, formatTime } from '@/lib/functions';
 
-import {BookmarkSimple, Trash } from "@phosphor-icons/react";
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+
+import { FolderOpen, ShieldCheck, Trash, View } from 'lucide-react';
+import Link from 'next/link';
+import { PresetActions } from '@/app/dashboard/components/preset-actions';
 
 
 
@@ -11,91 +13,44 @@ const UserSlidesCard: React.FC<UserSlidesCardProps> = ({
   name,
 id,
   timePosted,
+  previewUrl,
+  size,
+  fileType
+
 }) => {
   const formattedTime = formatTime(timePosted);
 
   return (
-    <Card
-  
-    
-   className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white max-w-xs dark:bg-gray-950/50">
-      <div className="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
-        {/* Course Image */}
-        <div
-              
-            
-               className="block shrink-0">
-          <BookmarkSimple size={30} weight="fill" />
-        </div>
-{/* Course Name */}
-        <div>
-          
-          <h3>
-            <h1
-            
-              className="font-medium text-base"
-            >
-              {name}
-            </h1>
-          </h3>
 
-          <div className="mt-2 sm:gap-2">
-            {/* Semester */}
-            <div className="flex items-center gap-1 text-gray-500">
-            
-            
-            </div>
 
-            {/* Credit Hours */}
-            <div className="mt-1  text-gray-500">
-          
-          
-              
-            </div>
-              
+<Card  className='relative ' >
+<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+  <CardTitle className=" font-medium capitalize">
+  {name} 
+  </CardTitle>
+  <PresetActions name={name} id={id}/>
 
-          
+</CardHeader>
+<CardContent >
 
-          
-          </div>
-        </div>
-      </div>
-    
-      <div className="flex justify-between">
-        {/* Time Created */}
-        <strong
-          className="-mb-[2px] -me-[2px] inline-flex items-center gap-1  px-3 py-1.5 text-gray-400"
-        >
-          
+<div className='flex items-center  mb-4 gap-4'>
 
-          <span className="text-[10px] font-medium sm:text-xs">{formattedTime}</span>
-        </strong>
+<aside className='flex gap-1 '>
+<div className="text-xs text-muted-foreground flex gap-1">
+<FolderOpen className='h-4 w-4 text-muted-foreground'/>  {size}
+</div>
 
-      
+<div className='text-xs text-muted-foreground flex gap-1'> <ShieldCheck className='h-4 w-4 text-muted-foreground'/><span className='text-xs'>{fileType}</span></div>
+</aside>
+<Link href={previewUrl} className='text-muted-foreground flex gap-1 items-center text-xs'><View className='w-4 h-4 text-muted-foreground'/>Preview</Link>
+</div>
 
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">  <Trash size={20}/></Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-xs container !h-40 absolute top-[50%] -translate-y-1/2 p-4">
-        <DialogHeader>
-          <DialogTitle>Confirm</DialogTitle>
-          <DialogDescription className='mt-2'>
-          Are you sure you want t o delete {name} {}?
-          </DialogDescription>
-        </DialogHeader>
-      
-        <DialogFooter>
-          <Button type="button" className='text-red-600 font-normal dark:bg-red-400/10 bg-red-50 hover:bg-red-100 duration-300 focus:ring-2 focus:ring-red-500 dark:focus:ring-600/40' onClick={() => {
-                              deleteSlide(id)
-                              }}>Confirm</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-          
+<div className=" text-xs text-muted-foreground flex gap-1">
+<FolderOpen className='h-4 w-4 text-muted-foreground'/>  {formattedTime}
+</div>
 
-      </div>
-    </Card>
+</CardContent>
+</Card>
   );
 };
 

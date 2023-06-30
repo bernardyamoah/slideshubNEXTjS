@@ -12,6 +12,10 @@ interface Slide {
   $id: string;
   name: string;
   fileUrl: string;
+  previewUrl:URL;
+  size:string;
+  fileType:string;
+  courseId:string;
   $createdAt: string;
 }
 

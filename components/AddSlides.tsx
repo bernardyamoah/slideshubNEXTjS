@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCourses,bytesToSize, createSlide,getCurrentUserAndSetUser } from "@/lib/functions";
+import {bytesToSize, createSlide, getPrograms, getCoursesByProgramId,getCurrentUserAndSetUser } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
@@ -36,26 +36,36 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function AddSlides() {
   const [open1, setOpen1] = React.useState(false)  
+  const [open, setOpen] = React.useState(false);
+
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 const [courseId, setCourseId]=useState('')
 const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+const [programId, setProgramId] = React.useState("");
 
+const [programs, setPrograms] = useState<any[]>([]); 
 const [courses, setCourses] = useState<any[]>([]);
 
 useEffect(() => {
   async function fetchCourses() {
     try {
-      const response = await getCourses();
+
+
       const userId = await getCurrentUserAndSetUser(); // Call the getCurrentUser function
       setUser(userId);
+      const programResponse = await getPrograms();
+      setPrograms(programResponse);
+      const response = await getCoursesByProgramId(programId);
+      
       setCourses(response);
     } catch (error) {
       console.log('Error fetching courses:', error);
     }
+
   }
 
 fetchCourses()
-}, []);
+}, [programId]);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -95,26 +105,29 @@ fetchCourses()
             process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
             fileId
           );
+          const filePreviewResponse= await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,   fileId);
           const uploadedFileUrl = fileUrlResponse.toString();
 
-          return uploadedFileUrl;
+          return {uploadedFileUrl, filePreviewResponse};
         } catch (error) {
-          throw new Error("Upload failed");
+          throw new Error("Upload failed" + error);
         }
       };
 
       const result = await handleFileUpload();
 
-      if (result !== "") {
-        const fileUrl = result;
+      if (result.uploadedFileUrl !== "") {
+        const { uploadedFileUrl, filePreviewResponse } = result;
         const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
         const fileName = currentFile.name;
         const slideData = {
           name: fileName.slice(0, fileName.lastIndexOf(".")),
           size: bytesToSize(currentFile.size),
-          fileUrl: fileUrl,
+          fileUrl: uploadedFileUrl,
           fileType:fileExtension ? fileExtension.toString() : "",
           courseId,
+        
+          previewUrl:filePreviewResponse,
           user_id: user?.id
         };
 
@@ -122,7 +135,8 @@ fetchCourses()
 
         // Reset form fields
         setCurrentFile(null);
-
+        setProgramId("");
+        setCourseId("");
     
       }
     } catch (error) {
@@ -136,6 +150,9 @@ fetchCourses()
     setCourseId(selectedValue);
   
   };
+  const handleProgramChange = (selectedValue: string) => {
+    setProgramId(selectedValue);
+  };
   return (
     <>
       <div className="flex items-center mt-10">
@@ -148,6 +165,57 @@ fetchCourses()
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2 space-y-6">
+                <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="programme">Programme</Label>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open1}
+                          className="w-full justify-between"
+                        >
+                          {programId
+                            ? programs.find(
+                              (program) => program.$id === programId
+                            )?.name
+                            : "Select Programme"}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command onValueChange={handleProgramChange}>
+                          <CommandInput placeholder="Search program..." />
+                          <CommandEmpty>No program found.</CommandEmpty>
+                          <CommandGroup>
+                            {programs.map((program) => (
+                              <CommandItem
+                                key={program.$id}
+                                onSelect={(currentValue) => {
+                                  setProgramId(
+                                    currentValue === programId
+                                      ? ""
+                                      : program.$id
+                                  );
+                                  setOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    programId === program.$id
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {program.name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 <div className="flex flex-col space-y-1.5">
               <Label htmlFor="course">Courses</Label>
               <Popover open={open1} onOpenChange={setOpen1}>
@@ -196,7 +264,7 @@ fetchCourses()
                     <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
                   </div>
                   <div className="mt-24 sm:flex sm:justify-end w-full">
-                    <Button type="submit" className="w-full py-4">
+                    <Button type="submit" className="w-full sm:w-fit px-6 py-4">
                       Add
                     </Button>
                   </div>

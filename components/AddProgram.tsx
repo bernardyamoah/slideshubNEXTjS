@@ -158,14 +158,8 @@ export default function AddProgram() {
 
       
 
-          <Card className="w-full max-w-3xl mx-auto   ">
-            <CardHeader>
-              <CardTitle>Add Program</CardTitle>
-              <CardDescription>Deploy your new project in one-click.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit}>
-                <div className="grid w-full items-center gap-4">
+              <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
+                <div className="grid w-full gap-4">
 
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Program Name</Label>
@@ -221,20 +215,17 @@ export default function AddProgram() {
 
                   <div className='mt-8 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
                 </div>
-              </form>
-            </CardContent>
-            {uploadProgress > 0 && (
-              <CardFooter className="flex justify-between">
-                <div className="w-full space-y-2">
-                  <div>Upload Progress: {uploadProgress}%</div>
-                  <Progress value={uploadProgress} />
-                </div>
-              </CardFooter>
-            )}
-          </Card>
-      
         <Toaster />
+              </form>
+
     
     </>
   );
 }
+// {uploadProgress > 0 && (
+//   <CardFooter className="flex justify-between">
+//     <div className="w-full space-y-2">
+//       <div>Upload Progress: {uploadProgress}%</div>
+//       <Progress value={uploadProgress} />
+//     </div>
+//   </CardFooter>

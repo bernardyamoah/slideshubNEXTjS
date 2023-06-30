@@ -36,6 +36,7 @@ interface SlidesData {
 	name:string;
 	size:string;
 	fileType:string;
+	previewUrl:URL;
 	user_id:string | undefined;
 	
 }
@@ -58,6 +59,7 @@ interface Slides {
 	size:string
 	courseId:string;
 	user_id:string | undefined;
+	previewUrl:URL;
 	
   }
 
@@ -89,6 +91,13 @@ interface Slides {
   user_id:string
 	timePosted: string;
 	id:string;
+	fileUrl: string;
+	fileType:string;
+	size:string;
+	courseId:string;
+	user_id:string | undefined;
+	previewUrl:URL;
+	
   }
   
   interface AuthNavProps {

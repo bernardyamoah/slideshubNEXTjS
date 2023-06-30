@@ -289,6 +289,26 @@ export const getCourses = async (): Promise<any[]> => {
   }
 };
 
+
+// export const getCoursesById = async (id): Promise<any[]> => {
+
+//   if (!databaseId) {
+//     throw new Error("Database ID is not defined");
+//   }
+
+//   try {
+//     const response = await  databases.listDocuments(
+//       databaseId,
+//       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+//     );
+
+//     return response.documents;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };
+
 // Get Programs
 export const getPrograms = async (): Promise<any[]> => {
 
@@ -341,9 +361,9 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
     // Fetch the courses by programId
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-       [Query.equal('programId',[programId])
-        ]);
+      process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+      [Query.equal("programId", programId)]);
+    console.log("🚀 ~ file: functions.ts:366 ~ getCoursesByProgramId ~ response:", response)
 
     // Return the courses data
     return response.documents;
@@ -353,14 +373,14 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 }
 
 
-export const getProgramsByCampusId = async (campusId: string) => {
+export const getProgramsByCampusId = async (id: string) => {
   try {
     
     // Fetch the courses by programId
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-      [ `campusId=${campusId}`], // Filter documents by the campus ID
+      [Query.equal("campusId", id)], // Filter documents by the campus ID
     );
 
 

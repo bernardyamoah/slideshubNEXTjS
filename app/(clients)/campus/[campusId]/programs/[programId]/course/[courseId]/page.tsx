@@ -6,10 +6,15 @@ import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
-import { CloudArrowDownIcon, } from "@heroicons/react/24/outline";
-import { Button } from "@material-tailwind/react";
+
 
 import { EmptySlides } from '@/components/EmptySlides';
+import {  Download, View} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FolderOpen } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 
 export default function FilesList() {
   const searchParams = useSearchParams();
@@ -56,29 +61,41 @@ export default function FilesList() {
             {isLoading ? (
               <Loading /> // Render the loading UI when data is loading
             ) : (
-              <ul className="mx-auto max-w-7xl grid sm:flex flex-wrap gap-8 pb-10">
+              <ul className="mx-auto max-w-7xl grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Suspense fallback={<Loading />}>
                   {filteredSlides.length > 0 ? (
                     filteredSlides.map((slide) => (
-                      <aside
-                        key={slide.$id}
-                        className="relative block shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 overflow-hidden duration-300 ease-in-out border-4 border-gray-200 hover:shadow-xl  dark:border-gray-600 rounded-md w-full bg-white dark:bg-transparent"
-                      >
-                        <div className="card_link group">
-                          <div className="text_container gap-2  flex sm:block ">
-                            <h3 className="card_heading  ">{slide.name}</h3>
+                      <Card  className='relative '  key={slide.$id}>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className=" font-medium capitalize">
+                        {slide.name}
+                        </CardTitle>
+                      
+                      </CardHeader>
+                      <CardContent >
+          
+                  <div className='flex items-center justify-between mb-4'>
 
-                            <Button size="sm" variant="gradient" ripple={true} className="flex items-center gap-3 mt-0 sm:mt-4" onClick={() => {
-                              toast('Download started!', {
-                                icon: '📥',
-                              });
-                            }}>
-                              <a href={slide.fileUrl} download={slide.fileUrl} className='flex items-center gap-2'>
-                                <CloudArrowDownIcon strokeWidth={2} className="h-5 w-5" /> Download</a>
-                            </Button>
-                          </div>
-                        </div>
-                      </aside>
+                  <aside className='flex gap-1 order-2'>
+                    <div className="text-xs text-muted-foreground flex gap-1">
+                    <FolderOpen className='h-4 w-4 text-muted-foreground'/>  {slide.size}
+                    </div>
+                    <div className='text-xs text-muted-foreground flex gap-1'> <ShieldCheck className='h-4 w-4 text-muted-foreground'/><span className='text-xs'>{slide.fileType}</span></div>
+                    </aside>
+                      <Link href={slide.previewUrl} className='text-muted-foreground flex gap-1 items-center '><View className='w-4 h-4 text-muted-foreground'/>Preview</Link>
+                  </div>
+              
+              <Link href={slide.fileUrl} download={slide.fileUrl}>
+                    <Button className='w-full'>
+              <Download className="mr-2 h-4 w-4" />
+                Download
+              </Button>
+              </Link>
+              
+                  </CardContent>
+                </Card>
+                    
+                  
                     ))
                   ) : (
                     <EmptySlides />

@@ -1,23 +1,9 @@
 "use client";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   createCourse,
@@ -25,7 +11,6 @@ import {
   getPrograms,
 } from "@/lib/functions";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { storage, ID } from "@/appwrite";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -47,13 +32,17 @@ import DocumentUpload from "./document-upload";
 
 export default function AddCourse() {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [name, setName] = useState("");
   const [semester, setSemester] = useState("");
+
   const [courseCode, setCourseCode] = useState("");
   const [credit, setCredit] = useState("");
   const [lecturer, setLecturer] = useState("");
   const [year, setYear] = useState("");
+
   const [fileId, setFileId] = useState("");
   const [programId, setprogramId] = React.useState("");
   const [currentFile, setCurrentFile] = useState<File | null>(null);
@@ -94,47 +83,76 @@ export default function AddCourse() {
       hour: "4",
     },
   ];
+  const Years = [
+    {
+      id: "level 100",
+      level: "Level 100",
+    },
+    {
+      id: "level 200",
+      level: "Level 200",
+    },
+    {
+      id: "level 300",
+      level: "Level 300",
+    },
+    {
+      id: "level 400",
+      level: "Level 400",
+    },
+  ];
+
+  const Semesters = [
+    {
+      id: "first semester",
+      semester: "First Semester",
+    },
+    {
+      id: "second semester",
+      semester: "Second Semester",
+    }
+  ];
   // handle upload progress
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const handleImageUpload = async () => {
-        try {
-          if (!currentFile) {
-            throw new Error("No file selected");
-          }
+      // const handleImageUpload = async () => {
+      //   // try {
+      //     // if (!currentFile) {
+      //     //   throw new Error("No file selected");
+      //     // }
       
-          const file = currentFile as File;
-          const uploader = await toast.promise(storage.createFile(
-            process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
-            ID.unique(),
-            file
-          ),
-          {
-            loading: 'Uploading file...',
-            success: 'File uploaded!',
-            error: 'Upload failed',
-          }
-        );
-        const fileId = uploader.$id;
-        const fileResponse = await storage.getFileView(
-          process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
-          fileId
-        );
-        const imageUrl = fileResponse.toString();
+      //     const file = currentFile as File;
+      //     const uploader = await toast.promise(storage.createFile(
+      //       process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
+      //       ID.unique(),
+      //       file
+      //     ),
+      //     {
+      //       loading: 'Uploading file...',
+      //       success: 'File uploaded!',
+      //       error: 'Upload failed',
+      //     }
+      //   );
+      //   const fileId = uploader.$id;
+      //   const fileResponse = await storage.getFileView(
+      //     process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
+      //     fileId
+      //   );
+      //   const imageUrl = fileResponse.toString();
 
-        return imageUrl;
-
-
-        } catch (error) {
-          throw new Error("Upload failed");
-        }
-      };
+      //   return imageUrl;
 
 
+      //   // } catch (error) {
+      //   //   throw new Error("Upload failed");
+      //   // }
+      // };
 
-      const imageUrl = await handleImageUpload();
+
+
+      // const imageUrl = await handleImageUpload();
     
       const courseData = {
         name,
@@ -143,7 +161,7 @@ export default function AddCourse() {
         credit,
         lecturer,
         fileId,
-        image: imageUrl,
+        image: '',
         year,
         user_id: user?.id,
         programId: programId,
@@ -184,15 +202,7 @@ export default function AddCourse() {
     <>
     
       
-          <Card className="w-full max-w-3xl mx-auto  ">
-            <CardHeader>
-              <CardTitle>Add course</CardTitle>
-              <CardDescription>
-                Deploy your new project in one-click.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 flex">
                 <div className="grid w-full items-center gap-2 space-y-6">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Course Name</Label>
@@ -296,24 +306,54 @@ export default function AddCourse() {
                         onChange={(e) => setCourseCode(e.target.value)}
                       />
                     </div>
+
+
+
                     {/* Year */}
-                    <div className="flex flex-col space-y-1.5 flex-1 w-full">
-                      <Label htmlFor="year">Year</Label>
-                      <Select onValueChange={handleYearChange}>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder="Select Level/Year"
-                            className="text-xs"
-                          />
-                          <SelectContent position="popper">
-                            <SelectItem value="Level 100">Level 100</SelectItem>
-                            <SelectItem value="Level 200">Level 200</SelectItem>
-                            <SelectItem value="Level 300">Level 300</SelectItem>
-                            <SelectItem value="Level 400">Level 400</SelectItem>
-                          </SelectContent>
-                        </SelectTrigger>
-                      </Select>
-                    </div>
+                  
+<div className="flex flex-col space-y-1.5 flex-1 w-full">
+  <Label htmlFor="year">Year</Label>
+  <Popover open={open2} onOpenChange={setOpen2}>
+    <PopoverTrigger asChild>
+      <Button
+        variant="outline"
+        role="combobox"
+        aria-expanded={open2}
+        className="w-full justify-between  overflow-hidden no-wrap"
+      >
+        {year
+          ? Years.find((level) => level.id === year)?.level
+          : "Select Level"}
+        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent className="w-[200px] p-0">
+      <Command onValueChange={handleYearChange}>
+        <CommandInput placeholder="Search ..." />
+        <CommandEmpty>No year found</CommandEmpty>
+        <CommandGroup>
+          {Years.map((level) => (
+            <CommandItem
+              key={level.id}
+              onSelect={(currentValue) => {
+                setYear(currentValue.toUpperCase() === year ? "" : currentValue);
+                setOpen2(false); // Updated from setOpen2(false)
+              }}
+            >
+              <Check
+                className={cn(
+                  "mr-2 h-4 w-4",
+                  year === level.id ? "opacity-100" : "opacity-0"
+                )}
+              />
+              {level.level}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </Command>
+    </PopoverContent>
+  </Popover>
+</div>
 
                     {/* Credit Hours */}
 
@@ -370,24 +410,48 @@ export default function AddCourse() {
                     </div>
                     {/* Semester */}
                     <div className="flex flex-col space-y-1.5 flex-1 w-full">
-                      <Label htmlFor="name">Semester</Label>
-                      <Select onValueChange={handleSemesterChange}>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder="Select Semester"
-                            className="text-xs"
-                          />
-                          <SelectContent position="item-aligned">
-                            <SelectItem value="first semester">
-                              First Semester
-                            </SelectItem>
-                            <SelectItem value="second semester">
-                              Second Semester
-                            </SelectItem>
-                          </SelectContent>
-                        </SelectTrigger>
-                      </Select>
-                    </div>
+  <Label htmlFor="year">Semester</Label>
+  <Popover open={open3} onOpenChange={setOpen3}>
+    <PopoverTrigger asChild>
+      <Button
+        variant="outline"
+        role="combobox"
+        aria-expanded={open2}
+        className="w-full justify-between  overflow-hidden no-wrap"
+      >
+        {semester
+          ? Semesters.find((sem) => sem.id === semester)?.semester
+          : "Select Semester"}
+        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent className="w-[200px] p-0">
+      <Command onValueChange={handleSemesterChange}>
+        <CommandInput placeholder="Search ..." />
+        <CommandEmpty>No semester found</CommandEmpty>
+        <CommandGroup>
+          {Semesters.map((sem) => (
+            <CommandItem
+              key={sem.id}
+              onSelect={(currentValue) => {
+                setSemester(currentValue.toUpperCase() === semester ? "" : currentValue);
+                setOpen2(false); // Updated from setOpen2(false)
+              }}
+            >
+              <Check
+                className={cn(
+                  "mr-2 h-4 w-4",
+                  semester === sem.id ? "opacity-100" : "opacity-0"
+                )}
+              />
+              {sem.semester}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </Command>
+    </PopoverContent>
+  </Popover>
+</div>
                   </div>
 
                   <div className="mt-24 sm:flex sm:justify-end w-full">
@@ -398,11 +462,8 @@ export default function AddCourse() {
                   </div>
                 </div>
               </form>
-            </CardContent>
-          </Card>
-    
 
-        <Toaster />
+
     
     </>
   );
