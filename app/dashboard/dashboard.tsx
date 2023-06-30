@@ -44,7 +44,7 @@ export default function Dashboard() {
     <>
       <h1 className="text-5xl my-5 text-center font-bold">Dashboard</h1>
       <div className="max-w-screen">
-        <main className="flex-1 w-full  py-10 px-4 mx-auto flex gap-4 flex-wrap justify-start">
+        <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10 p-6">
         <Suspense fallback={<Loading />}>
           {slides.length > 0 ? (
             slides.map((slide) => (

@@ -183,13 +183,13 @@ fetchCourses()
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-full p-0">
-                        <Command onValueChange={handleProgramChange}>
-                          <CommandInput placeholder="Search program..." />
+                      <PopoverContent className="w-full p-0" >
+                        <Command onValueChange={handleProgramChange} >
+                          <CommandInput required placeholder="Search program..." />
                           <CommandEmpty>No program found.</CommandEmpty>
-                          <CommandGroup>
+                          <CommandGroup >
                             {programs.map((program) => (
-                              <CommandItem
+                              <CommandItem 
                                 key={program.$id}
                                 onSelect={(currentValue) => {
                                   setProgramId(

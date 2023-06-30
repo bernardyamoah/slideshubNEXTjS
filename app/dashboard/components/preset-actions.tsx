@@ -40,7 +40,7 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="p-2 h-2">
+          <Button variant="outline" className="border-none p-2 h-2">
             <span className="sr-only ">Actions</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>

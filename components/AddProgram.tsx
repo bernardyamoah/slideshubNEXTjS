@@ -65,6 +65,7 @@ export default function AddProgram() {
   const handleSelectChange = (selectedValue: string) => {
     setValue(selectedValue);
   };
+
   // handle upload progress
   const handleImageUpload = async () => {
     if (imageFile) {
@@ -166,7 +167,7 @@ export default function AddProgram() {
                     <Input
                       id="name"
                       placeholder="BSc Materials Engineering"
-                      value={name}
+                      value={name} required
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
@@ -180,13 +181,13 @@ export default function AddProgram() {
                       </SelectTrigger>
 
 
-                      <SelectContent position="popper" >
+                      <SelectContent  position="item-aligned" >
 
 
-                        <SelectGroup>
+                        <SelectGroup >
                           <SelectLabel>Campus</SelectLabel>
                           {campuses.map((campus) => (
-                            <SelectItem key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
+                            <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
                           ))}
 
 
@@ -204,7 +205,7 @@ export default function AddProgram() {
                     <Input
                       id="duration"
                       placeholder="4 years"
-                      value={duration}
+                      value={duration} required
                       onChange={(e) => setDuration(e.target.value)}
                     />
                   </div>
