@@ -48,7 +48,7 @@ export default function FilesList() {
 
   return (
     <>
-      <main className="card_container">
+
         {/* <section className="heading-link">
           <h3>Slides</h3>
           <p>
@@ -56,12 +56,12 @@ export default function FilesList() {
           </p>
         </section> */}
 
-        <section className="container relative mx-auto flex flex-col items-center pb-10">
+        <section className="min-h-screen container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
             {isLoading ? (
               <Loading /> // Render the loading UI when data is loading
             ) : (
-              <ul className="mx-auto max-w-7xl grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <ul className="mx-auto max-w-7xl grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                 <Suspense fallback={<Loading />}>
                   {filteredSlides.length > 0 ? (
                     filteredSlides.map((slide) => (
@@ -106,7 +106,7 @@ export default function FilesList() {
           </div>
         </section>
         <Toaster />
-      </main>
+
     </>
   );
 }

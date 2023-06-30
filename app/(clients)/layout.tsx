@@ -18,9 +18,9 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
     <Navbar />
     
-            <div className="">{children}</div>
+            <div className="min-h-screen">{children}</div>
 
-            <Footer />
+            {/* <Footer /> */}
     </>
   );
 }
