@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Dialog } from "@radix-ui/react-dialog"
-import { Flag, MoreHorizontal, Trash } from "lucide-react"
+import { FileType, Flag, MoreHorizontal, Trash } from "lucide-react"
 
 import {
   AlertDialog,
@@ -29,9 +29,10 @@ import { deleteSlide } from "@/lib/functions"
 interface PresetActionsProps {
     name: string;
     id: string;
+    filetype:string;
   }
   
-export function PresetActions({name, id}:PresetActionsProps) {
+export function PresetActions({name, id,filetype}:PresetActionsProps) {
   const [open, setIsOpen] = React.useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
 
@@ -62,7 +63,7 @@ export function PresetActions({name, id}:PresetActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This preset will no longer be
+              This action cannot be undone. This file <span className="font-bold text-emerald-600">({name}.{filetype.toLocaleLowerCase()})</span> will no longer be
               accessible by you or others you&apos;ve shared it with.
             </AlertDialogDescription>
           </AlertDialogHeader>
