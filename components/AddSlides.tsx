@@ -238,7 +238,7 @@ fetchCourses()
           <CommandEmpty>No course found.</CommandEmpty>
           <CommandGroup>
             {courses.map((course) => (
-              <CommandItem
+              <CommandItem className="capitalized"
                 key={course.$id}
                 onSelect={(currentValue) => {
                   setCourseId(currentValue === courseId ? "" : course.$id)
