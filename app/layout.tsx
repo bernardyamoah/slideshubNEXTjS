@@ -32,21 +32,21 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			
-			<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
 		
 			{/* className={inter.className} */}
 				<body >
+			<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 					<main className="h-screen">
 						{children}
 						<Toaster />
 					<Analytics />
 					</main>
 					
-				</body>
 			</ThemeProvider>
+				</body>
 		</html>
 	);
 }
