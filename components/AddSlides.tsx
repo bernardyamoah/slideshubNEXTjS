@@ -251,7 +251,9 @@ fetchCourses()
                     courseId === course.$id ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {course.name.charAt(0).toUpperCase() + course.name.slice(1)}
+                {course.name.split(' ').map((word:string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+
+              
               </CommandItem>
             ))}
           </CommandGroup>
