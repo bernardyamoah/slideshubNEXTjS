@@ -68,7 +68,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         {/* Course Name */}
         <div>
 
-          <h3   className="font-medium sm:text-base capitalize dark:text-white truncate ">
+          <h3   className="font-medium sm:text-base capitalize dark:text-white md:truncate ">
           
               {name.toLocaleLowerCase()}
           
