@@ -251,7 +251,7 @@ fetchCourses()
                     courseId === course.$id ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {course.name}
+                {course.name.charAt(0).toUpperCase() + course.name.slice(1)}
               </CommandItem>
             ))}
           </CommandGroup>
