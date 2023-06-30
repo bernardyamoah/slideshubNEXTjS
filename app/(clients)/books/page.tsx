@@ -55,7 +55,7 @@ export default function FilesList() {
             ) : (
               <>
                 {filteredSlides.length > 0 ? (
-                  <ul className="md:container max-w-5xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
+                  <div className="md:container max-w-5xl grid sm:grid-cols-2 md:grid-cols-3 gap-8 pb-10">
                     <Suspense fallback={<Loading />}>
                       {filteredSlides.map((slide) => (
                         <aside
@@ -85,7 +85,7 @@ export default function FilesList() {
                         </aside>
                       ))}
                     </Suspense>
-                  </ul>
+                  </div>
                 ) : (
                   <div className="flex justify-center w-full">
                     <EmptyBooks/>

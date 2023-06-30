@@ -130,7 +130,7 @@ export default function CourseList() {
               <TabsBody>
                 {data.map(({ value }) => (
                   <TabPanel key={value} value={value}>
-                    <ul className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10">
+                    <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10">
                       <Suspense fallback={<Loading />}>
                         {filteredCourses.filter((course) => course.year === value).length > 0 ? (
                           courses
@@ -142,7 +142,7 @@ export default function CourseList() {
                           <EmptyCourse/>
                         )}
                       </Suspense>
-                    </ul>
+                    </div>
                   </TabPanel>
                 ))}
               </TabsBody>

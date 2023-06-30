@@ -78,7 +78,7 @@ console.log(campuses)
           {isLoading ? (
             <Loading />
           ) : (
-            <ul className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10 ">
+            <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10 ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
@@ -86,7 +86,7 @@ console.log(campuses)
               </Suspense>
 
 
-            </ul>
+            </div>
           )}
         </div>
       </section>
