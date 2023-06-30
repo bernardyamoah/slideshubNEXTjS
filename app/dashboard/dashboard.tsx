@@ -5,7 +5,6 @@ import { checkAuthStatusDashboard} from "@/lib/functions";
 import Loading from "@/components/ui/Cloading";
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
-import { client } from "@/appwrite";
 
 
 interface Slide {
