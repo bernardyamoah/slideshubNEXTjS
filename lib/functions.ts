@@ -600,7 +600,7 @@ const getUserSlides = async (
             databaseId!,
             process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
             [Query.equal("user_id", id),
-            Query.limit(100)]
+            Query.limit(400)]
           );
           setSlides(response.documents);
           setLoading(false);

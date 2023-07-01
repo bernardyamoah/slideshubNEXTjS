@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Dialog } from "@radix-ui/react-dialog"
-import { FileType, Flag, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, FileType, Flag, MoreHorizontal, Trash } from "lucide-react"
 
 import {
   AlertDialog,
@@ -35,7 +35,7 @@ interface PresetActionsProps {
 export function PresetActions({name, id,filetype}:PresetActionsProps) {
   const [open, setIsOpen] = React.useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
-
+  const [showUpdateDialog, setShowUpdateDialog] = React.useState(false)
   return (
     <>
       <DropdownMenu>
@@ -46,14 +46,20 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-         
+        <DropdownMenuItem
+            onSelect={() => setShowUpdateDialog(true)}
+            className="text-purple-600"
+          >
+            <Edit className="mr-2 h-4 w-4" />
+          Update File
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
             className="text-red-600"
           >
             <Trash className="mr-2 h-4 w-4" />
-            Delete preset
+            Delete File
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
