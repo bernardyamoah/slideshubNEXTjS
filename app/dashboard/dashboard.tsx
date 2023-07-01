@@ -49,7 +49,7 @@ export default function Dashboard() {
             slides.map((slide) => (
               <UserSlidesCard
                 key={slide.$id}
-                user_id={user?.id ?? ""}
+                user_id={user?.$id ?? ""}
                 {...slide}
                 timePosted={slide.$createdAt}
                 id={slide.$id}
