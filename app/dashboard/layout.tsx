@@ -103,7 +103,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     authenticateUser();
     fetchUser();
   }, []);
-  if (loading) return <Loading />;
+
   return (
     <>
       <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
