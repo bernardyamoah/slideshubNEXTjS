@@ -3,12 +3,10 @@ import { Metadata } from "next";
 
 import { SidebarNav } from "./components/sidebar-nav";
 import AuthNav from "@/components/AuthNav"; // Import the AuthNav component
-import { checkAuthStatusDashboard, getCurrentUserAndSetUser } from "@/lib/functions";
-import { useState, useEffect, useCallback } from "react";
+import { getCurrentUserAndSetUser } from "@/lib/functions";
+import { useState, useEffect } from "react";
 
-import { Book, FileBarChart, GraduationCap, LayoutDashboard, PiSquare,Home, School, PlusCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import Loading from "./loading";
+import {  LayoutDashboard,Home , PlusCircle } from "lucide-react";
 
 
 
@@ -58,16 +56,6 @@ const sidebarNavItems = [
   // },
 
 ];
-interface Slide {
-  $id: string;
-  name: string;
-  fileUrl: string;
-  previewUrl:URL;
-  size:string;
-  fileType:string;
-  courseId:string;
-  $createdAt: string;
-}
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -75,13 +63,6 @@ interface DashboardLayoutProps {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [slides, setSlides] = useState<Slide[]>([]);
-  
-
-
-
   useEffect(() => {
     // Fetch the current user from Appwrite
     const fetchUser = async () => {
@@ -94,7 +75,6 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
       }
     };
 
-  
     fetchUser();
   }, []);
 
