@@ -33,24 +33,14 @@ export default function ProgrammeList() {
   useEffect(() => {
     async function fetchPrograms() {
       try {
-        // Check if programs are already stored in local state
-        const cachedPrograms = localStorage.getItem('programs');
-        if (cachedPrograms) {
-          setPrograms(JSON.parse(cachedPrograms));
-          setIsLoading(false);
-        } else {
-          const response = await toast.promise(getPrograms(), {
-            loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
-            success: <b>Successfully fetched programs!</b>,
-            error: <b>Could not load campuses.</b>,
-          });
+        const response = await toast.promise(getPrograms(), {
+          loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
+          success: <b>Successfully fetched programs!</b>,
+          error: <b>Could not load campuses.</b>,
+        });
 
-          setPrograms(response);
-          setIsLoading(false);
-
-          // Cache the fetched programs in local storage
-          localStorage.setItem('programs', JSON.stringify(response));
-        }
+        setPrograms(response);
+        setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
       }
@@ -58,7 +48,6 @@ export default function ProgrammeList() {
 
     fetchPrograms();
   }, [campusId, campusLocation, campusinfo]);
-
 
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
 

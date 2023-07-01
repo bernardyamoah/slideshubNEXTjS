@@ -47,31 +47,22 @@ export default function CourseList() {
         const programDetails = await getProgramDetails(programId);
         const campusId = programDetails?.campusId;
 
-        // Check if courses are already stored in local state
-        const cachedCourses = localStorage.getItem('courses');
-        if (cachedCourses) {
-          setCourses(JSON.parse(cachedCourses));
-          setIsLoading(false);
-        } else {
-          const response = await toast.promise(getCoursesByProgramId(programId), {
-            loading: `Fetching courses from ${programName} database..`,
-            success: <b>Successfully fetched courses</b>,
-            error: <b>Failed to fetch courses {programName}.</b>,
-          });
+        const response = await toast.promise(getCoursesByProgramId(programId), {
+          loading: `Fetching courses from ${programName} database..`,
+          success: <b>Successfully fetched courses</b>,
+          error: <b>Failed to fetch courses {programName}.</b>,
+        });
 
-          setCourses(response);
-          setIsLoading(false);
-
-          // Cache the fetched courses in local storage
-          localStorage.setItem('courses', JSON.stringify(response));
-        }
+        setCourses(response);
+        setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
       }
     }
 
     fetchCourses();
-  }, [programId, programName]);
+  }, []);
+
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
   
@@ -179,35 +170,3 @@ export default function CourseList() {
          </>
   );
 }
-// export async function getServerSideProps() {
-//   const programId = ''; // Provide the program ID here
-//   let programName = '';
-
-//   try {
-//     programName = await getProgramName(programId);
-//     const programDetails = await getProgramDetails(programId);
-//     const campusId = programDetails?.campusId;
-
-//     const response = await toast.promise(getCoursesByProgramId(programId), {
-//       loading: `Fetching courses from ${programName} database..`,
-//       success: <b>Successfully fetched courses</b>,
-//       error: <b>Failed to fetch courses {programName}.</b>,
-//     });
-
-//     const courses = response || [];
-
-//     return {
-//       props: {
-//         courses,
-//         programName,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         courses: [],
-//         programName: '',
-//       },
-//     };
-//   }
-// }
