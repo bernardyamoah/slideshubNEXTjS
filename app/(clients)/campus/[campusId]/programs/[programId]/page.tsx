@@ -179,35 +179,35 @@ export default function CourseList() {
          </>
   );
 }
-export async function getServerSideProps() {
-  const programId = ''; // Provide the program ID here
-  let programName = '';
+// export async function getServerSideProps() {
+//   const programId = ''; // Provide the program ID here
+//   let programName = '';
 
-  try {
-    programName = await getProgramName(programId);
-    const programDetails = await getProgramDetails(programId);
-    const campusId = programDetails?.campusId;
+//   try {
+//     programName = await getProgramName(programId);
+//     const programDetails = await getProgramDetails(programId);
+//     const campusId = programDetails?.campusId;
 
-    const response = await toast.promise(getCoursesByProgramId(programId), {
-      loading: `Fetching courses from ${programName} database..`,
-      success: <b>Successfully fetched courses</b>,
-      error: <b>Failed to fetch courses {programName}.</b>,
-    });
+//     const response = await toast.promise(getCoursesByProgramId(programId), {
+//       loading: `Fetching courses from ${programName} database..`,
+//       success: <b>Successfully fetched courses</b>,
+//       error: <b>Failed to fetch courses {programName}.</b>,
+//     });
 
-    const courses = response || [];
+//     const courses = response || [];
 
-    return {
-      props: {
-        courses,
-        programName,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        courses: [],
-        programName: '',
-      },
-    };
-  }
-}
+//     return {
+//       props: {
+//         courses,
+//         programName,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         courses: [],
+//         programName: '',
+//       },
+//     };
+//   }
+// }
