@@ -602,6 +602,7 @@ const getUserSlides = async (
             [Query.equal("user_id", id),
             Query.limit(400)]
           );
+          console.log("🚀 ~ file: functions.ts:605 ~ response:", response.documents)
           setSlides(response.documents);
           setLoading(false);
         } catch (error) {
