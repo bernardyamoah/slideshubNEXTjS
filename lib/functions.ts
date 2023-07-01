@@ -539,8 +539,8 @@ export const getCurrentUser = async () => {
 export const getCurrentUserAndSetUser = async (): Promise<UserWithId | null> => {
   try {
     const userdata = await getCurrentUser(); // Call the getCurrentUser function
-    const userWithId: UserWithId | null = userdata ? { ...userdata, id: userdata.$id, } : null;
-    console.log("🚀 ~ file: functions.ts:544 ~ getCurrentUserAndSetUser ~ userWithId:", userWithId)
+    const userWithId: UserWithId | null = userdata ? { ...userdata, id: userdata.$id } : null;
+
     return userWithId;
   } catch (error) {
     // Handle the error
