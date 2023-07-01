@@ -20,7 +20,7 @@ interface Slide {
 
 export default function Dashboard() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [slides, setSlides] = useState<Slide[]>([]);
   const [user, setUser] = useState<UserWithId | null>(null);
 
