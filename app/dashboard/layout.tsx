@@ -78,13 +78,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [slides, setSlides] = useState<Slide[]>([]);
-  const authenticateUser = useCallback(() => {
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, router);
-  }, []);
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  
 
 
 
@@ -100,7 +94,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
       }
     };
 
-    authenticateUser();
+  
     fetchUser();
   }, []);
 
