@@ -563,6 +563,7 @@ export const checkAuthStatus = async (setUser: (user: any) => void, setLoading: 
     router.push("/");
   }
 };
+
 //👇🏻 Appwrite authenticate and get user's tickets
 export const checkAuthStatusDashboard = async (
   setUser: (user: any) => void,
@@ -578,8 +579,6 @@ export const checkAuthStatusDashboard = async (
     router.push("/");
   }
 };
-
-
 
 const getUserSlides = async (
   id: string,
@@ -600,7 +599,7 @@ const getUserSlides = async (
             databaseId!,
             process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
             [Query.equal("user_id", id),
-            Query.limit(400)]
+            Query.limit(100)]
           );
           console.log("🚀 ~ file: functions.ts:605 ~ response:", response.documents)
           setSlides(response.documents);
@@ -633,6 +632,7 @@ const extractIdFromUrl = (url:string) => {
 	const match = url.match(regex);
 	return match ? match[1] : null;
 };
+ 
 //👇🏻 delete a ticket
 export const deleteSlide = async (id:string) => {
 	try {

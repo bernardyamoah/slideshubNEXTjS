@@ -48,7 +48,7 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
         <DropdownMenuContent align="end">
         <DropdownMenuItem
             onSelect={() => setShowUpdateDialog(true)}
-            className="text-purple-600"
+        
           >
             <Edit className="mr-2 h-4 w-4" />
           Update File
@@ -56,7 +56,7 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
-            className="text-red-600"
+            className="!text-red-600 hover:!bg-red-200/10"
           >
             <Trash className="mr-2 h-4 w-4" />
             Delete File
