@@ -28,9 +28,9 @@ import { toast } from "@/components/ui/use-toast"
 import { deleteSlide } from "@/lib/functions"
 // import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-
+import { Card } from "@/components/ui/card"
 import AddSlides from "@/components/AddSlides"
-import { Button, Card, CardBody, CardHeader, Checkbox, Input, Typography,Dialog, DialogFooter, DialogHeader, CardFooter,  } from "@material-tailwind/react"
+import { Button, CardBody, CardHeader, Checkbox, Input, Typography,Dialog, DialogFooter, DialogHeader, CardFooter,  } from "@material-tailwind/react"
 import { DialogContent, DialogTitle } from "@/components/ui/dialog"
 interface PresetActionsProps {
     name: string;
