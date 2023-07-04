@@ -26,8 +26,8 @@ id,
 
 <Card  className='relative ' >
 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2 gap-2">
-  <CardTitle className=" font-medium capitalize text-sm">
-  {name} 
+  <CardTitle className=" font-bold font-title capitalize text-sm">
+  {name.replace(/_/g, ' ')}
   </CardTitle>
   <PresetActions name={name} id={id} filetype={fileType}/>
 
@@ -36,7 +36,7 @@ id,
 
 <div className='flex items-center mb-4 gap-4'>
 
-<aside className='flex gap-1 justify-between w-full '>
+<aside className='flex gap-3 justify-between  '>
 <div className="text-xs text-muted-foreground flex gap-1">
 <FolderOpen className='h-4 w-4 text-muted-foreground'/>  {size}
 </div>

@@ -74,7 +74,7 @@ export default function DocumentUpload({
             {currentFile ? (
               <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-gray-500">
                 <div>{fileIcon(currentFile.type)}</div>
-                <p>{currentFile.name}</p>
+                <p>{currentFile.name.replace(/_/g, ' ') }</p>
                 <p className="text-gray-500">{bytesToSize(currentFile.size)}</p>
               </div>
             ) : (

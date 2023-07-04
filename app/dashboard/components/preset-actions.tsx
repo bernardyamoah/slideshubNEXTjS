@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Edit, MoreHorizontal, Trash } from "lucide-react"
+import { Check, ChevronsUpDown, Edit, MoreHorizontal, Trash } from "lucide-react"
 
 import {
   AlertDialog,
@@ -22,49 +22,160 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import { updateSlide, getPrograms, getCoursesByProgramId } from "@/lib/functions";
+import { storage, ID } from "@/appwrite";
 
 import { toast } from "@/components/ui/use-toast"
-import { deleteSlide } from "@/lib/functions"
-// import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { bytesToSize, deleteSlide } from "@/lib/functions"
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 import { Card } from "@/components/ui/card"
-import AddSlides from "@/components/AddSlides"
-import { Button, CardBody, CardHeader, Checkbox, Input, Typography,Dialog, DialogFooter, DialogHeader, CardFooter,  } from "@material-tailwind/react"
-import { DialogContent, DialogTitle } from "@/components/ui/dialog"
+
+import { CardBody, Dialog, CardFooter } from "@material-tailwind/react"
+
+
+import { Button } from "@/components/ui/button"
 interface PresetActionsProps {
-    name: string;
-    id: string;
-    filetype:string;
-  }
-  
-export function PresetActions({name, id,filetype}:PresetActionsProps) {
+  name: string;
+  id: string;
+  filetype: string;
+}
+
+export function PresetActions({ name, id, filetype }: PresetActionsProps) {
+
+
+  const [programId, setProgramId] = React.useState("");
+
+  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
+  const [courseId, setCourseId] = React.useState('')
+  const [programs, setPrograms] = React.useState<any[]>([]);
+  const [courses, setCourses] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    async function fetchCourses() {
+      try {
 
 
 
+        // const programResponse = await getPrograms();
+        // setPrograms(programResponse);
 
 
+        // setCourses(response);
+      } catch (error) {
+        console.log('Error fetching courses:', error);
+      }
+
+    }
+
+    fetchCourses()
+  }, [programId]);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    // Check if the file is chosen
+    if (!currentFile) {
+      toast({
+        description: "Please Select a file ",
+      });
+      return;
+    }
+
+    try {
+      const handleFileUpload = async () => {
+        try {
+          const file = currentFile;
+          const uploader = await storage.createFile(
+            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+            ID.unique(),
+            file
+
+          );
+          const fileId = uploader.$id;
+          // Fetch file information from Appwrite
+          const fileDetails = await
+            storage.getFile(
+              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+              fileId
+            )
+
+            ;
+          const fileName = fileDetails.name || "";
+
+          const fileUrlResponse = await storage.getFileDownload(
+            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+            fileId
+          );
+          const filePreviewResponse = await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
+          const uploadedFileUrl = fileUrlResponse.toString();
+
+          return { uploadedFileUrl, filePreviewResponse };
+        } catch (error) {
+          throw new Error("Upload failed" + error);
+        }
+      };
+
+      const result = await handleFileUpload();
+
+      if (result.uploadedFileUrl !== "") {
+        const { uploadedFileUrl, filePreviewResponse } = result;
+        const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
+        const fileName = currentFile.name;
+        const slideData = {
+          name: fileName.slice(0, fileName.lastIndexOf(".")),
+          size: bytesToSize(currentFile.size),
+          fileUrl: uploadedFileUrl,
+          fileType: fileExtension ? fileExtension.toString() : "",
+          courseId,
+
+          previewUrl: filePreviewResponse,
+
+        };
+
+
+
+        // Reset form fields
+        setCurrentFile(null);
+        setProgramId("");
+        setCourseId("");
+
+      }
+    } catch (error) {
+      console.error("Error handling form submission:", error);
+      setCurrentFile(null);
+
+
+    }
+  };
+  const handleSelectChange = (selectedValue: string) => {
+    setCourseId(selectedValue);
+
+  };
+  const handleProgramChange = (selectedValue: string) => {
+    setProgramId(selectedValue);
+  };
 
   const [open, setOpen] = React.useState(false);
+
   const handleOpen = () => setOpen((cur) => !cur);
-  
+
   // const [open, setIsOpen] = React.useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
   const [showUpdateDialog, setShowUpdateDialog] = React.useState(false)
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu > 
         <DropdownMenuTrigger asChild>
-          <Button className="border-none p-2 h-2">
+          <Button className="border-none p-2 h-2  bg-transparent text-gray-700 dark:text-gray-100 hover:bg-transparent">
             <span className="sr-only ">Actions</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={handleOpen}
+          <DropdownMenuItem onSelect={handleOpen}
           >
             <Edit className="mr-2 h-4 w-4" />
-          Update File
+            Update File
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -78,13 +189,13 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
       </DropdownMenu>
 
       <Dialog
-        
+
         open={open}
         handler={handleOpen}
-        className="bg-transparent shadow-none w-full max-w-4xl p-2"
+        className="bg-transparent shadow-none w-full max-w-4xl lg:w-full p-2"
       >
-        <Card className="mx-auto w-full !max-w-[24rem]">
-          <CardHeader
+        <Card className="mx-auto w-full lg:w-2/3">
+          {/* <CardHeader
             variant="gradient"
             color="blue"
             className="mb-4 grid h-28 place-items-center"
@@ -92,31 +203,13 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
             <Typography variant="h3" color="white">
               Sign In
             </Typography>
-          </CardHeader>
+          </CardHeader> */}
           <CardBody className="flex flex-col gap-4">
-            <Input label="Email" size="lg" />
-            <Input label="Password" size="lg" />
-            <div className="-ml-2.5">
-              <Checkbox label="Remember Me" />
-            </div>
+
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" onClick={handleOpen} fullWidth>
-              Sign In
-            </Button>
-            <Typography variant="small" className="mt-6 flex justify-center">
-              Don&apos;t have an account?
-              <Typography
-                as="a"
-                href="#signup"
-                variant="small"
-                color="blue"
-                className="ml-1 font-bold"
-                onClick={handleOpen}
-              >
-                Sign up
-              </Typography>
-            </Typography>
+
+
           </CardFooter>
         </Card>
       </Dialog>
@@ -161,7 +254,7 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog> */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <AlertDialog  open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
@@ -170,20 +263,20 @@ export function PresetActions({name, id,filetype}:PresetActionsProps) {
               accessible by you or others you&apos;ve shared it with.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="gap-3 mt-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button
-            
+
               onClick={() => {
                 setShowDeleteDialog(false)
                 deleteSlide(id)
                 toast({
-                  description: "This preset has been deleted.",
+                  description: "This file has been deleted.",
                 })
               }}
             >
-                
-                    
+
+
               Delete
             </Button>
           </AlertDialogFooter>

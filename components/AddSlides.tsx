@@ -119,7 +119,7 @@ fetchCourses()
       if (result.uploadedFileUrl !== "") {
         const { uploadedFileUrl, filePreviewResponse } = result;
         const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
-        const fileName = currentFile.name;
+        const fileName = currentFile.name.replace(/_/g, ' ');
         const slideData = {
           name: fileName.slice(0, fileName.lastIndexOf(".")),
           size: bytesToSize(currentFile.size),

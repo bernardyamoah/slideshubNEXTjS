@@ -22,10 +22,10 @@ const AuthNav: React.FC<AuthNavProps> = ({ user, sidebarNavItems }) => {
           <UserNav user={user} />
           
     {/* dark mode button for tablets and laptops */}
-          <div className="md:block hidden">
+          <div className="xl:block hidden">
           <ModeToggle />
           </div>
-            <div className="md:hidden">
+            <div className="xl:hidden">
           <MobileNav  items={sidebarNavItems} />
           </div>
         </div>

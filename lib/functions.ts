@@ -364,7 +364,7 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
       [Query.equal("programId", programId),
-      Query.limit(100)]);
+      Query.limit(99)]);
     console.log("🚀 ~ file: functions.ts:366 ~ getCoursesByProgramId ~ response:", response)
 
     // Return the courses data
