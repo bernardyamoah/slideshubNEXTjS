@@ -573,7 +573,11 @@ export const checkAuthStatusDashboard = async (
 ) => {
   try {
     const request = await account.get();
-    getUserSlides(request.$id, setSlides, setLoading);
+    const userId = request.$id;
+    const page = 1; // Initial page
+    const perPage = 8; // Number of slides per page
+    const sort = "createdAt.desc"; // Sorting order
+    getUserSlides(userId, page, perPage, sort, setSlides, setLoading);
     setUser(request)
   } catch (err) {
     router.push("/");
@@ -581,10 +585,13 @@ export const checkAuthStatusDashboard = async (
 };
 
 const getUserSlides = async (
-  id: string,
+  userId: string,
+  page: number,
+  perPage: number,
+  sort: string,
   setSlides: (slides: any[]) => void,
   setLoading: (loading: boolean) => void
-): Promise<any[]> => {
+  ): Promise<any[]> => {
   if (!databaseId) {
     throw new Error("Database ID is not defined");
   }
@@ -592,35 +599,29 @@ const getUserSlides = async (
   try {
     setLoading(true);
 
-  
-        // Fetch the updated slides and update the state
-        try {
-          const response = await databases.listDocuments(
-            databaseId!,
-            process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-            [Query.equal("user_id", id),
-            Query.limit(100)]
-          );
-          console.log("🚀 ~ file: functions.ts:605 ~ response:", response.documents)
-          setSlides(response.documents);
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-          throw error;
-        }
-  
-    
+    try {
+      const response = await databases.listDocuments(
+        databaseId!,
+        process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+        [
+          Query.equal("user_id", userId),
+          Query.limit(perPage),
+          Query.offset((page - 1) * perPage),
+        
+        ]
+      );
+      console.log("🚀 ~ response:", response.documents);
+      setSlides(response.documents);
+      setLoading(false);
+      return response.documents; // Add this return statement
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
 
-    // Fetch the initial slides
-    const response = await databases.listDocuments(
-      databaseId!,
-      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-      [Query.equal("user_id", id)]
-    );
-    setSlides(response.documents);
     setLoading(false);
+    return []; // Fallback return statement (empty array)
 
-    return response.documents;
   } catch (error) {
     console.error(error);
     throw error;
