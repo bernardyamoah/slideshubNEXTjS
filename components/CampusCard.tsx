@@ -51,7 +51,7 @@ const CampusCard: React.FC<CampusCardProps> = ({
       </strong>
       
       <strong
-        className="absolute right-4 bottom-0   text-[10px] font-normal text-gray-200"
+        className="absolute right-4 bottom-1   text-[10px] font-normal text-gray-200"
       >
     {formattedTime}
       </strong>
