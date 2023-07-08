@@ -27,14 +27,14 @@ import { storage, ID } from "@/appwrite";
 
 import { toast } from "@/components/ui/use-toast"
 import { bytesToSize, deleteSlide } from "@/lib/functions"
-import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 import { Card } from "@/components/ui/card"
 
-import { CardBody, Dialog, CardFooter } from "@material-tailwind/react"
+import { CardBody, Dialog, CardFooter, Typography, Input } from "@material-tailwind/react"
 
 
 import { Button } from "@/components/ui/button"
+import DocumentUpload from "@/components/document-upload"
 interface PresetActionsProps {
   name: string;
   id: string;
@@ -195,17 +195,23 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
         className="bg-transparent shadow-none w-full max-w-4xl lg:w-full p-2"
       >
         <Card className="mx-auto w-full lg:w-2/3">
-          {/* <CardHeader
-            variant="gradient"
-            color="blue"
-            className="mb-4 grid h-28 place-items-center"
-          >
-            <Typography variant="h3" color="white">
-              Sign In
-            </Typography>
-          </CardHeader> */}
+        
           <CardBody className="flex flex-col gap-4">
-
+          <Typography variant="h4" color="blue-gray">
+        Sign Up
+      </Typography>
+    
+      <form className="mt-8 mb-2 w-full ">
+        <div className="mb-4 flex flex-col gap-6">
+          <Input size="lg" label="Name" />
+        <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
+        </div>
+      
+        <Button className="mt-6 w-full sm:w-auto mr-0" >
+        Update 
+        </Button>
+      
+      </form>
           </CardBody>
           <CardFooter className="pt-0">
 
@@ -216,44 +222,6 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* <Dialog open={open} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Content filter preferences</DialogTitle>
-            <DialogDescription>
-              The content filter flags text that may violate our content policy.
-              It&apos;s powered by our moderation endpoint which is free to use
-              to moderate your OpenAI API traffic. Learn more.
-            </DialogDescription>
-          </DialogHeader>
-        <AddSlides/>
-          <DialogFooter>
-            <Button variant="secondary" onClick={() => setIsOpen(false)}>
-              Close
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog> */}
       <AlertDialog  open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>

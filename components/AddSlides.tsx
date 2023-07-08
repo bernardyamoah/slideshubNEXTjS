@@ -157,12 +157,7 @@ fetchCourses()
     <>
       <div className="flex items-center mt-10">
         <div className="max-w-3xl mx-auto w-full">
-          <Card className="lg:container">
-            <CardHeader>
-              <CardTitle>Add Slide</CardTitle>
-              <CardDescription>Add a slide document in one-click.</CardDescription>
-            </CardHeader>
-            <CardContent>
+      
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2 space-y-6">
                 <div className="flex flex-col space-y-1.5">
@@ -272,8 +267,7 @@ fetchCourses()
                   </div>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+          
         </div>
         <Toaster />
       </div>

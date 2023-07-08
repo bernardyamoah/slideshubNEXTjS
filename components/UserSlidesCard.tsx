@@ -26,7 +26,7 @@ id,
 
 <Card  className='relative ' >
 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2 gap-2">
-  <CardTitle className=" font-bold font-title capitalize text-sm">
+  <CardTitle className=" leading-2 tracking-wider capitalize text-sm">
   {name.replace(/_/g, ' ')}
   </CardTitle>
   <PresetActions name={name} id={id} filetype={fileType}/>
@@ -46,8 +46,8 @@ id,
 {/* <Link href={previewUrl} className='text-muted-foreground flex gap-1 items-center text-xs'><View className='w-4 h-4 text-muted-foreground'/>Preview</Link> */}
 </div>
 
-<div className="  dark:bg-emerald-800/10 items-center text-[10px] text-muted-foreground p-2 flex gap-1 bottom-0 absolute right-0 rounded-sm dark:text-emerald-400 text-emerald-600">
-<Clock className='h-3 w-3 '/>  {formattedTime}
+<div className="text-gray-400/90  dark:bg-emerald-800/10 items-center text-xs  p-2 flex gap-1 bottom-0 absolute right-0 rounded-sm dark:text-emerald-400 ">
+<Clock className='h-4 w-4 '/>  {formattedTime}
 </div>
 
 </CardContent>

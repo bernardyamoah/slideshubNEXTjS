@@ -81,7 +81,7 @@ function page() {
       </CardContent>
     </Card>
       </DialogTrigger>
-      <DialogContent className="!container !lg:max-w-3xl   md:!h-[100%]  relative">
+      <DialogContent className=" relative">
         
       <AddBook/>
       </DialogContent>
