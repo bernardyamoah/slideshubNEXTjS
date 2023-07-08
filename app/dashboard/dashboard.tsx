@@ -63,7 +63,7 @@ const handlePageChange = (page: number) => {
   return (
     <>
       <h1 className="text-xl my-5 text-center font-bold border-b-2 pb-2">Welcome Back, {user?.name}</h1>
-      <div className="max-w-screen">
+      <div className="max-w-screen grid place-content-center">
         <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 p-6">
           <Suspense fallback={<Loading />}>
             {slides.length > 0 ? (
@@ -79,7 +79,7 @@ const handlePageChange = (page: number) => {
             ) : (
               <NoEvent user={user} />
             )}
-            {slides.length ? (
+            {/* {slides.length ? (
           //    <div className="gap-4 flex items-center justify-center mx-auto absolute bottom-0 left-1/2 -translate-1/2 ">
           //    <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
           //      Previous
@@ -89,14 +89,16 @@ const handlePageChange = (page: number) => {
           //      Next
           //    </Button>
           //  </div>   
-          <Pagination
+          
+            ) : null} */}
+          </Suspense>
+          
+        </main>
+        <Pagination 
           pageCount={totalPages}
           activePage={currentPage}
           onPageChange={handlePageChange}
         />
-            ) : null}
-          </Suspense>
-        </main>
       </div>
     </>
   );

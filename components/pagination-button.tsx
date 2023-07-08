@@ -22,7 +22,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 mt-10 mx-auto max-w-2xl">
       <Button
         variant="text"
         color="blue-gray"
