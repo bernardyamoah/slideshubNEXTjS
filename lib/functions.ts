@@ -569,6 +569,7 @@ export const checkAuthStatusDashboard = async (
   setUser: (user: any) => void,
   setLoading: (loading: boolean) => void,
   setSlides: (slides: any[]) => void,
+  setTotalPages: (totalPages: number) => void, // Add setTotalPages function
   router: any,
   page: number, // Dynamically set page number
 ) => {
@@ -576,15 +577,39 @@ export const checkAuthStatusDashboard = async (
     const request = await account.get();
     const userId = request.$id;
 
-    const perPage = 8; // Number of slides per page
+    const perPage = 10; // Number of slides per page
+
+    const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
 
     getUserSlides(userId, page, perPage, setSlides, setLoading);
-    setUser(request)
+    setUser(request);
+    setTotalPages(totalPages); // Set the total number of pages
   } catch (err) {
     router.push("/");
   }
 };
 
+const getTotalPages = async (userId: string, perPage: number): Promise<number> => {
+  if (!databaseId) {
+    throw new Error("Database ID is not defined");
+  }
+
+  try {
+    const response = await databases.listDocuments(
+      databaseId!,
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+      [Query.equal("user_id", userId)]
+    );
+
+    const totalSlides = response.documents.length;
+    const totalPages = Math.ceil(totalSlides / perPage);
+
+    return totalPages;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 const getUserSlides = async (
   userId: string,
   page: number,

@@ -1,192 +1,59 @@
-import * as React from "react"
-import { type AppRouterInstance } from "next/dist/shared/lib/app-router-context"
+import React from "react";
+import { Button, IconButton } from "@material-tailwind/react";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-import { ChevronLeft, ChevronLeftIcon, ChevronRight, ChevronRightIcon } from "lucide-react"
-
-interface PaginationButtonProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
-  pageCount: number
-  page: string
-  per_page?: string
-
-  createQueryString: (params: Record<string, string | number | null>) => string
-  router: AppRouterInstance
-  pathname: string
-  isPending: boolean
-  startTransition: React.TransitionStartFunction
-  siblingCount?: number
+interface PaginationProps {
+  pageCount: number;
+  activePage: number;
+  onPageChange: (page: number) => void;
 }
 
-export function PaginationButton({
-  pageCount,
-  page,
-  per_page,
+export default function Pagination({ pageCount, activePage, onPageChange }: PaginationProps) {
+  const prev = () => {
+    if (activePage === 1) return;
 
-  createQueryString,
-  router,
-  pathname,
-  isPending,
-  startTransition,
-  siblingCount = 1,
-  className,
-  ...props
-}: PaginationButtonProps) {
-  // Memoize pagination range to avoid unnecessary re-renders
-  const paginationRange = React.useMemo(() => {
-    const delta = siblingCount + 2
+    onPageChange(activePage - 1);
+  };
 
-    const range = []
-    for (
-      let i = Math.max(2, Number(page) - delta);
-      i <= Math.min(pageCount - 1, Number(page) + delta);
-      i++
-    ) {
-      range.push(i)
-    }
+  const next = () => {
+    if (activePage === pageCount) return;
 
-    if (Number(page) - delta > 2) {
-      range.unshift("...")
-    }
-    if (Number(page) + delta < pageCount - 1) {
-      range.push("...")
-    }
-
-    range.unshift(1)
-    if (pageCount !== 1) {
-      range.push(pageCount)
-    }
-
-    return range
-  }, [pageCount, page, siblingCount])
+    onPageChange(activePage + 1);
+  };
 
   return (
-    <div
-      className={cn(
-        "flex flex-wrap items-center justify-center gap-2",
-        className
-      )}
-      {...props}
-    >
+    <div className="flex items-center gap-4">
       <Button
-        variant="outline"
-    
-        className="h-8 w-8"
-        onClick={() => {
-          startTransition(() => {
-            router.push(
-              `${pathname}?${createQueryString({
-                page: 1,
-                per_page: per_page ?? null,
-                
-              })}`
-            )
-          })
-        }}
-        disabled={Number(page) === 1 || isPending}
+        variant="text"
+        color="blue-gray"
+        className="flex items-center gap-2"
+        onClick={prev}
+        disabled={activePage === 1}
       >
-        <ChevronLeft className="h-5 w-5"  />
-        <span className="sr-only">First page</span>
+        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
       </Button>
-      <Button
-        variant="outline"
-        
-        className="h-8 w-8"
-        onClick={() => {
-          startTransition(() => {
-            router.push(
-              `${pathname}?${createQueryString({
-                page: Number(page) - 1,
-                per_page: per_page ?? null,
-                
-              })}`
-            )
-          })
-        }}
-        disabled={Number(page) === 1 || isPending}
-      >
-        <ChevronLeftIcon className="h-5 w-5"  />
-        <span className="sr-only">Previous page</span>
-      </Button>
-      {paginationRange.map((pageNumber, i) =>
-        pageNumber === "..." ? (
-          <Button
-            aria-label="Page separator"
-            key={i}
-            variant="outline"
-            
-            className="h-8 w-8"
-            disabled
+      <div className="flex items-center gap-2">
+        {Array.from({ length: pageCount }, (_, index) => (
+          <IconButton
+            key={index + 1}
+            variant={activePage === index + 1 ? "filled" : "text"}
+            color={activePage === index + 1 ? "blue" : "blue-gray"}
+            onClick={() => onPageChange(index + 1)}
           >
-            ...
-          </Button>
-        ) : (
-          <Button
-            aria-label={`Page ${pageNumber}`}
-            key={i}
-            variant={Number(page) === pageNumber ? "default" : "outline"}
-            
-            className="h-8 w-8"
-            onClick={() => {
-              startTransition(() => {
-                router.push(
-                  `${pathname}?${createQueryString({
-                    page: pageNumber,
-                    per_page: per_page ?? null,
-                    
-                  })}`
-                )
-              })
-            }}
-            disabled={isPending}
-          >
-            {pageNumber}
-          </Button>
-        )
-      )}
+            {index + 1}
+          </IconButton>
+        ))}
+      </div>
       <Button
-        variant="outline"
-    
-        className="h-8 w-8"
-        onClick={() => {
-          startTransition(() => {
-            router.push(
-              `${pathname}?${createQueryString({
-                page: Number(page) + 1,
-                per_page: per_page ?? null,
-                
-              })}`
-            )
-          })
-        }}
-        disabled={Number(page) === (pageCount ?? 10) || isPending}
+        variant="text"
+        color="blue-gray"
+        className="flex items-center gap-2"
+        onClick={next}
+        disabled={activePage === pageCount}
       >
-        <ChevronRightIcon className="h-5 w-5" />
-        <span className="sr-only">Next page</span>
-      </Button>
-      <Button
-        variant="outline"
-    
-        className="h-8 w-8"
-        onClick={() => {
-          router.push(
-            `${pathname}?${createQueryString({
-              page: pageCount ?? 10,
-              per_page: per_page ?? null,
-              
-            })}`
-          )
-        }}
-        disabled={Number(page) === (pageCount ?? 10) || isPending}
-      >
-        <ChevronRight className="h-5 w-5" aria-hidden="true" />
-        <span className="sr-only">Last page</span>
+        Next
+        <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
       </Button>
     </div>
-  )
+  );
 }

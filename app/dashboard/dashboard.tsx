@@ -5,8 +5,8 @@ import { checkAuthStatusDashboard } from "@/lib/functions";
 import Loading from "@/components/ui/Cloading";
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
-import { PaginationButton } from "@/components/pagination-button";
-import { Button } from "@/components/ui/button";
+import Pagination from "@/components/pagination-button";
+
 
 interface Slide {
   $id: string;
@@ -21,6 +21,7 @@ interface Slide {
 
 interface UserWithId {
   $id: string;
+  name:string;
 }
 
 export default function Dashboard() {
@@ -30,22 +31,27 @@ export default function Dashboard() {
   const [user, setUser] = useState<UserWithId | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [isPending, startTransition] = React.useTransition();
 
 
- // Pagination handlers
- const goToPreviousPage = () => {
-  setCurrentPage((prevPage) => prevPage - 1);
-};
 
-const goToNextPage = () => {
-  setCurrentPage((prevPage) => prevPage + 1);
+  
+//  // Pagination handlers
+//  const goToPreviousPage = () => {
+//   setCurrentPage((prevPage) => prevPage - 1);
+// };
+
+// const goToNextPage = () => {
+//   setCurrentPage((prevPage) => prevPage + 1);
+// };
+
+
+const handlePageChange = (page: number) => {
+  setCurrentPage(page);
 };
 
   const authenticateUser = useCallback(() => {
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, router,currentPage);
+    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage); // Update function signature
+
   }, [router,currentPage]);
 
   useEffect(() => {
@@ -56,7 +62,7 @@ const goToNextPage = () => {
 
   return (
     <>
-      <h1 className="text-5xl my-5 text-center font-bold">Dashboard</h1>
+      <h1 className="text-xl my-5 text-center font-bold border-b-2 pb-2">Welcome Back, {user?.name}</h1>
       <div className="max-w-screen">
         <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 p-6">
           <Suspense fallback={<Loading />}>
@@ -74,15 +80,20 @@ const goToNextPage = () => {
               <NoEvent user={user} />
             )}
             {slides.length ? (
-             <div className="gap-4 flex items-center justify-center mx-auto absolute bottom-0 left-1/2 -translate-1/2 ">
-             <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
-               Previous
-             </Button>
-             <span>{currentPage}</span>
-             <Button onClick={goToNextPage} disabled={currentPage === totalPages}>
-               Next
-             </Button>
-           </div>   
+          //    <div className="gap-4 flex items-center justify-center mx-auto absolute bottom-0 left-1/2 -translate-1/2 ">
+          //    <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
+          //      Previous
+          //    </Button>
+          //    <span>{currentPage}</span>
+          //    <Button onClick={goToNextPage} disabled={currentPage === totalPages}>
+          //      Next
+          //    </Button>
+          //  </div>   
+          <Pagination
+          pageCount={totalPages}
+          activePage={currentPage}
+          onPageChange={handlePageChange}
+        />
             ) : null}
           </Suspense>
         </main>
