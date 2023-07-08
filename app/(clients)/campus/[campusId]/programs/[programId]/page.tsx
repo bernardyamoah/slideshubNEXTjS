@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { getCoursesByProgramId, getProgramDetails, getProgramName } from '@/lib/functions';
 
-import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
@@ -16,6 +15,7 @@ import {
 import CourseCard from '@/components/CourseCard';
 
 import EmptyCourse from '@/components/EmptyCourse';
+import SlidesLoading from '@/components/ui/slidesLoading';
 
 interface Course {
   $id: string;
@@ -125,7 +125,7 @@ export default function CourseList() {
         <section className="md:container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
           {isLoading ? (
-              <Loading />
+              <SlidesLoading />
             ) : (
               <>
                 <Tabs value={data[0].value}>
@@ -148,7 +148,7 @@ export default function CourseList() {
                         .filter((course) => course.year === value)
                         .length > 0 ? (
                         <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10">
-                          <Suspense fallback={<Loading />}>
+                          <Suspense fallback={<SlidesLoading />}>
                           {filteredCourses
                               .filter((course) => course.year === value)
                               .map((course) => (

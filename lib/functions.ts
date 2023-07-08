@@ -569,15 +569,16 @@ export const checkAuthStatusDashboard = async (
   setUser: (user: any) => void,
   setLoading: (loading: boolean) => void,
   setSlides: (slides: any[]) => void,
-  router: any
+  router: any,
+  page: number, // Dynamically set page number
 ) => {
   try {
     const request = await account.get();
     const userId = request.$id;
-    const page = 1; // Initial page
+
     const perPage = 8; // Number of slides per page
-    const sort = "createdAt.desc"; // Sorting order
-    getUserSlides(userId, page, perPage, sort, setSlides, setLoading);
+
+    getUserSlides(userId, page, perPage, setSlides, setLoading);
     setUser(request)
   } catch (err) {
     router.push("/");
@@ -588,7 +589,7 @@ const getUserSlides = async (
   userId: string,
   page: number,
   perPage: number,
-  sort: string,
+
   setSlides: (slides: any[]) => void,
   setLoading: (loading: boolean) => void
   ): Promise<any[]> => {

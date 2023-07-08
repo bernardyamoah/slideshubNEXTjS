@@ -6,6 +6,7 @@ import Loading from "@/components/ui/Cloading";
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
 import { PaginationButton } from "@/components/pagination-button";
+import { Button } from "@/components/ui/button";
 
 interface Slide {
   $id: string;
@@ -27,35 +28,25 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [slides, setSlides] = useState<Slide[]>([]);
   const [user, setUser] = useState<UserWithId | null>(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = React.useTransition();
 
-  // Search params
-  const page = searchParams?.get("page") ?? "1";
-  const per_page = searchParams?.get("per_page") ?? "8";
-  const sort = searchParams?.get("sort") ?? "createdAt.desc";
-  const store_ids = searchParams?.get("store_ids");
-  const store_page = searchParams?.get("store_page") ?? "1";
 
-
-  const pageCount = Math.ceil(slides.length / parseInt(per_page));
-
-const createQueryString = (): string => {
-  const params = new URLSearchParams();
-  params.set("page", page);
-  params.set("per_page", per_page);
-  params.set("sort", sort);
-  if (store_ids) {
-    params.set("store_ids", store_ids);
-  }
-  params.set("store_page", store_page);
-  return params.toString();
+ // Pagination handlers
+ const goToPreviousPage = () => {
+  setCurrentPage((prevPage) => prevPage - 1);
 };
+
+const goToNextPage = () => {
+  setCurrentPage((prevPage) => prevPage + 1);
+};
+
   const authenticateUser = useCallback(() => {
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, router);
-  }, [router]);
+    checkAuthStatusDashboard(setUser, setLoading, setSlides, router,currentPage);
+  }, [router,currentPage]);
 
   useEffect(() => {
     authenticateUser();
@@ -83,17 +74,15 @@ const createQueryString = (): string => {
               <NoEvent user={user} />
             )}
             {slides.length ? (
-              <PaginationButton
-                pageCount={pageCount}
-                page={page}
-                per_page={per_page}
-                sort={sort}
-                createQueryString={createQueryString}
-                router={router}
-                pathname={pathname}
-                isPending={isPending}
-                startTransition={startTransition}
-              />
+             <div className="gap-4 flex items-center justify-center mx-auto absolute bottom-0 left-1/2 -translate-1/2 ">
+             <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
+               Previous
+             </Button>
+             <span>{currentPage}</span>
+             <Button onClick={goToNextPage} disabled={currentPage === totalPages}>
+               Next
+             </Button>
+           </div>   
             ) : null}
           </Suspense>
         </main>

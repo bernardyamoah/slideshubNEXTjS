@@ -118,3 +118,8 @@ interface Slides {
 	// Add any other preferences properties
   }
   type UserWithId = User<Preferences> & { id: string };
+
+  interface SlideResponse {
+	slides: Models.Document[];
+	totalCount: number;
+  }
