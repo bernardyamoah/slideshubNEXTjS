@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, IconButton } from "@material-tailwind/react";
+import { IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-
+import { Button } from "./ui/button";
 interface PaginationProps {
   pageCount: number;
   activePage: number;
@@ -24,7 +24,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
   return (
     <div className="flex items-center gap-4 mt-10 mx-auto max-w-2xl">
       <Button
-        variant="text"
+      
         color="blue-gray"
         className="flex items-center gap-2"
         onClick={prev}
@@ -37,7 +37,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
           <IconButton
             key={index + 1}
             variant={activePage === index + 1 ? "filled" : "text"}
-            color={activePage === index + 1 ? "blue" : "blue-gray"}
+            className={activePage === index + 1 ? "bg-emerald-500" : "text-emerald-500"}
             onClick={() => onPageChange(index + 1)}
           >
             {index + 1}
@@ -45,7 +45,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
         ))}
       </div>
       <Button
-        variant="text"
+      
         color="blue-gray"
         className="flex items-center gap-2"
         onClick={next}

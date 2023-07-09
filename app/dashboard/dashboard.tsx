@@ -63,7 +63,7 @@ const handlePageChange = (page: number) => {
   return (
     <>
       <h1 className="text-xl my-5 text-center font-bold border-b-2 pb-2">Welcome Back, {user?.name}</h1>
-      <div className="max-w-screen grid place-content-center">
+      <div className="max-w-screen ">
         <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 p-6">
           <Suspense fallback={<Loading />}>
             {slides.length > 0 ? (

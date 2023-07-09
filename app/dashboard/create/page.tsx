@@ -38,7 +38,7 @@ function page() {
   <div  className="group relative block h-52  w-full  aspect-square cursor-pointer ">
   <span className="absolute inset-0 border-2 border-dashed border-gray-400 dark:border-gray-800/80"></span>
 
-<Dialog >
+<Dialog>
       <DialogTrigger asChild>
       <Card className='relative  h-full transform items-end border-2 border-gray-400 dark:border-gray-800/80  bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2'>
       <CardHeader className='space-y-3 flex flex-col justify-center'>
@@ -59,7 +59,6 @@ function page() {
       </DialogContent>
     </Dialog>
 
-    
 </div>
 
 

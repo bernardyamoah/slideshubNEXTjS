@@ -1,14 +1,8 @@
-
+'use client'
 import * as React from "react";
 import {useState,useEffect } from "react";
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { getCourses,bytesToSize, createBook ,getCurrentUserAndSetUser } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";

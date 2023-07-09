@@ -502,12 +502,6 @@ export function bytesToSize(bytes: number) {
 
 
 
-
-
-
-
-
-
 // Sign-up function
 export const signUp = async (name: string, email: string, password: string, router: any) => {
   try {
@@ -524,12 +518,12 @@ export const signUp = async (name: string, email: string, password: string, rout
 export const logIn = async (email: string, setEmail: (email: string) => void, password: string, setPassword: (password: string) => void, router: any) => {
   try {
     await account.createEmailSession(email, password);
-    successMessage("Welcome back! 🎉");
     setEmail("");
     setPassword("");
+    successMessage("Welcome back! 🎉");
     router.push("/dashboard");
   } catch (error) {
-    console.error(error);
+
     errorMessage("Invalid credentials ❌");
   }
 };
@@ -598,7 +592,7 @@ export const checkAuthStatusDashboard = async (
     const request = await account.get();
     const userId = request.$id;
 
-    const perPage = 10; // Number of slides per page
+    const perPage = 12; // Number of slides per page
 
     const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
 
@@ -619,10 +613,13 @@ const getTotalPages = async (userId: string, perPage: number): Promise<number> =
     const response = await databases.listDocuments(
       databaseId!,
       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-      [Query.equal("user_id", userId)]
+      [Query.equal("user_id", userId),
+      
+    ]
     );
 
-    const totalSlides = response.documents.length;
+    const totalSlides = response.total;
+    
     const totalPages = Math.ceil(totalSlides / perPage);
 
     return totalPages;
@@ -652,12 +649,13 @@ const getUserSlides = async (
         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
         [
           Query.equal("user_id", userId),
+          Query.orderDesc("$createdAt"),
           Query.limit(perPage),
           Query.offset((page - 1) * perPage),
         
         ]
       );
-      console.log("🚀 ~ response:", response.documents);
+      
       setSlides(response.documents);
       setLoading(false);
       return response.documents; // Add this return statement
@@ -712,7 +710,7 @@ window.location.reload();
 	}
 };
 
-export const updateSlide = async (id: string, updatedAttributes: any) => {
+export const updateSlide = async (id: string, updatedAttributes: any) => { 
   try {
     // Retrieve the document from the Appwrite database
     const getDoc = await databases.getDocument(
@@ -723,10 +721,6 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
 
     // Check if the retrieved document matches the provided ID
     if (getDoc.$id === id) {
-      // Extract the file ID from the document's URL
-      const fileID = extractIdFromUrl(getDoc.fileUrl);
-
-
       // Merge the updated attributes with the existing document attributes
       const updatedDoc = { ...getDoc, ...updatedAttributes };
 
@@ -737,10 +731,13 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
         id,
         updatedDoc
       );
+    } else {
+      throw new Error("Slide document not found");
     }
   } catch (error) {
     // Handle any errors that occur during the update process
     console.error('Failed to update slide:', error);
+    throw error;
   }
 };
 
