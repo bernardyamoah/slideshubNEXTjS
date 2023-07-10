@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Check, ChevronsUpDown, Edit, MoreHorizontal, Trash } from "lucide-react"
+import {  Edit, MoreHorizontal, Trash } from "lucide-react"
 
 import {
   AlertDialog,
@@ -22,19 +22,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { updateSlide, getPrograms, getCoursesByProgramId } from "@/lib/functions";
-import { storage, ID } from "@/appwrite";
 
-import { toast } from "@/components/ui/use-toast"
-import { bytesToSize, deleteSlide } from "@/lib/functions"
+import { updateSlide, deleteSlide, errorMessage, successMessage } from "@/lib/functions";
+import { Card } from "@/components/ui/card";
+import { CardBody, Dialog, CardFooter, Typography, Input } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
+import DocumentUpload from "@/components/document-upload";
+import { toast } from "react-hot-toast"
 
-import { Card } from "@/components/ui/card"
-
-import { CardBody, Dialog, CardFooter, Typography, Input } from "@material-tailwind/react"
-
-
-import { Button } from "@/components/ui/button"
-import DocumentUpload from "@/components/document-upload"
 interface PresetActionsProps {
   name: string;
   id: string;
@@ -47,25 +42,11 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
   const [programId, setProgramId] = React.useState("");
 
   const [currentFile, setCurrentFile] = React.useState<File | null>(null);
-  const [courseId, setCourseId] = React.useState('')
-  const [programs, setPrograms] = React.useState<any[]>([]);
-  const [courses, setCourses] = React.useState<any[]>([]);
 
+  const [updatedName, setUpdatedName] = React.useState(name);
   React.useEffect(() => {
     async function fetchCourses() {
-      try {
-
-
-
-        // const programResponse = await getPrograms();
-        // setPrograms(programResponse);
-
-
-        // setCourses(response);
-      } catch (error) {
-        console.log('Error fetching courses:', error);
-      }
-
+    
     }
 
     fetchCourses()
@@ -73,95 +54,42 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Check if the file is chosen
-    if (!currentFile) {
-      toast({
-        description: "Please Select a file ",
-      });
-      return;
-    }
-
     try {
-      const handleFileUpload = async () => {
-        try {
-          const file = currentFile;
-          const uploader = await storage.createFile(
-            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-            ID.unique(),
-            file
-
-          );
-          const fileId = uploader.$id;
-          // Fetch file information from Appwrite
-          const fileDetails = await
-            storage.getFile(
-              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-              fileId
-            )
-
-            ;
-          const fileName = fileDetails.name || "";
-
-          const fileUrlResponse = await storage.getFileDownload(
-            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-            fileId
-          );
-          const filePreviewResponse = await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
-          const uploadedFileUrl = fileUrlResponse.toString();
-
-          return { uploadedFileUrl, filePreviewResponse };
-        } catch (error) {
-          throw new Error("Upload failed" + error);
-        }
-      };
-
-      const result = await handleFileUpload();
-
-      if (result.uploadedFileUrl !== "") {
-        const { uploadedFileUrl, filePreviewResponse } = result;
-        const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
-        const fileName = currentFile.name;
-        const slideData = {
-          name: fileName.slice(0, fileName.lastIndexOf(".")),
-          size: bytesToSize(currentFile.size),
-          fileUrl: uploadedFileUrl,
-          fileType: fileExtension ? fileExtension.toString() : "",
-          courseId,
-
-          previewUrl: filePreviewResponse,
-
-        };
-
-
-
-        // Reset form fields
-        setCurrentFile(null);
-        setProgramId("");
-        setCourseId("");
-
+      // Perform the update
+      const updatedAttributes: { name?: string; file?: File } = {};
+      if (updatedName !== name) {
+        updatedAttributes.name = updatedName;
       }
-    } catch (error) {
-      console.error("Error handling form submission:", error);
+
+      if (currentFile) {
+        updatedAttributes.file = currentFile;
+      }
+
+      await updateSlide(id, updatedAttributes);
+
+      // Reset form fields
       setCurrentFile(null);
+      setUpdatedName('');
 
-
+      // Close the dialog
+      setOpen(false);
+    } catch (error) {
+      console.error("Error updating slide:", error);
+      setCurrentFile(null);
     }
-  };
-  const handleSelectChange = (selectedValue: string) => {
-    setCourseId(selectedValue);
-
-  };
-  const handleProgramChange = (selectedValue: string) => {
-    setProgramId(selectedValue);
   };
 
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen((cur) => !cur);
-
+  const handleDeleteSlide = () => {
+    deleteSlide(id);
+    setShowDeleteDialog(false);
+    successMessage("Slide deleted successfully!");
+  };
   // const [open, setIsOpen] = React.useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
-  const [showUpdateDialog, setShowUpdateDialog] = React.useState(false)
+
   return (
     <>
       <DropdownMenu > 
@@ -194,29 +122,32 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
         handler={handleOpen}
         className="bg-transparent shadow-none w-full max-w-4xl lg:w-full p-2"
       >
-        <Card className="mx-auto w-full lg:w-2/3">
-        
+    <Card className="mx-auto w-full lg:w-2/3">
           <CardBody className="flex flex-col gap-4">
-          <Typography variant="h4" color="blue-gray">
-        Sign Up
-      </Typography>
-    
-      <form className="mt-8 mb-2 w-full ">
-        <div className="mb-4 flex flex-col gap-6">
-          <Input size="lg" label="Name" />
-        <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
-        </div>
-      
-        <Button className="mt-6 w-full sm:w-auto mr-0" >
-        Update 
-        </Button>
-      
-      </form>
+            <Typography variant="h4" color="blue-gray">
+              Update {name}
+            </Typography>
+
+            <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit}>
+              <div className="mb-4 flex flex-col gap-6">
+                <Input
+                  size="lg"
+                  label="Name"
+                  value={updatedName}
+                  onChange={(event) => setUpdatedName(event.target.value)}
+                />
+                <DocumentUpload
+                  currentFile={currentFile}
+                  setCurrentFile={setCurrentFile}
+                />
+              </div>
+
+              <button type="submit" className="mt-6 w-full sm:w-auto mr-0">
+                Update
+              </button>
+            </form>
           </CardBody>
-          <CardFooter className="pt-0">
-
-
-          </CardFooter>
+          
         </Card>
       </Dialog>
 
@@ -235,13 +166,7 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button
 
-              onClick={() => {
-                setShowDeleteDialog(false)
-                deleteSlide(id)
-                toast({
-                  description: "This file has been deleted.",
-                })
-              }}
+onClick={handleDeleteSlide}
             >
 
 

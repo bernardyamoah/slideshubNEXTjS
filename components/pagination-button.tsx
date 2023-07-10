@@ -1,4 +1,4 @@
-import React from "react";
+
 import { IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
@@ -22,7 +22,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
   };
 
   return (
-    <div className="flex items-center gap-4 mt-10 mx-auto max-w-2xl">
+    <div className="flex items-center gap-4 my-10 justify-center mx-auto max-w-2xl">
       <Button
       
         color="blue-gray"
@@ -32,7 +32,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
       >
         <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
       </Button>
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         {Array.from({ length: pageCount }, (_, index) => (
           <IconButton
             key={index + 1}
@@ -43,7 +43,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
             {index + 1}
           </IconButton>
         ))}
-      </div>
+      </div> */}
       <Button
       
         color="blue-gray"

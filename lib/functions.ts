@@ -468,17 +468,17 @@ export const formatTime = (timePosted: string) => {
   const yearsDiff = Math.floor(monthsDiff / 12);
 
   if (yearsDiff > 0) {
-    return `${yearsDiff} ${yearsDiff === 1 ? 'year' : 'years'} ago`;
+    return `${yearsDiff} ${yearsDiff === 1 ? 'yr' : 'yrs'} ago`;
   } else if (monthsDiff > 0) {
-    return `${monthsDiff} ${monthsDiff === 1 ? 'month' : 'months'} ago`;
+    return `${monthsDiff} ${monthsDiff === 1 ? 'mth' : 'mths'} ago`;
   } else if (daysDiff > 0) {
-    return `${daysDiff} ${daysDiff === 1 ? 'day' : 'days'} ago`;
+    return `${daysDiff} ${daysDiff === 1 ? 'day' : 'd'} ago`;
   } else if (hoursDiff > 0) {
-    return `${hoursDiff} ${hoursDiff === 1 ? 'hour' : 'hours'} ago`;
+    return `${hoursDiff} ${hoursDiff === 1 ? 'hr' : 'h'} ago`;
   } else if (minutesDiff > 0) {
-    return `${minutesDiff} ${minutesDiff === 1 ? 'minute' : 'minutes'} ago`;
+    return `${minutesDiff} ${minutesDiff === 1 ? 'min' : 'mins'} ago`;
   } else {
-    return `${secondsDiff} ${secondsDiff === 1 ? 'second' : 'seconds'} ago`;
+    return `${secondsDiff} ${secondsDiff === 1 ? 'sec' : 'ses'} ago`;
   }
 };
 
@@ -703,14 +703,45 @@ window.location.reload();
 			
 		errorMessage('Failed to delete Slide ❌')
 		}
-		successMessage("Ticket deleted! 🎉");
+		successMessage("Slide deleted! 🎉");
 	} catch (err) {
 
 		errorMessage("Action declined ❌");
 	}
 };
 
-export const updateSlide = async (id: string, updatedAttributes: any) => { 
+// export const updateSlide = async (id: string, updatedAttributes: any) => { 
+//   try {
+//     // Retrieve the document from the Appwrite database
+//     const getDoc = await databases.getDocument(
+//       databaseId!, // Replace with your database ID
+//       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+//       id
+//     );
+
+//     // Check if the retrieved document matches the provided ID
+//     if (getDoc.$id === id) {
+//       // Merge the updated attributes with the existing document attributes
+//       const updatedDoc = { ...getDoc, ...updatedAttributes };
+
+//       // Update the document with the merged attributes
+//       await databases.updateDocument(
+//         databaseId!, // Replace with your database ID
+//         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+//         id,
+//         updatedDoc
+//       );
+//     } else {
+//       throw new Error("Slide document not found");
+//     }
+//   } catch (error) {
+//     // Handle any errors that occur during the update process
+//     console.error('Failed to update slide:', error);
+//     throw error;
+//   }
+// };
+
+export const updateSlide = async (id: string, updatedAttributes: any) => {
   try {
     // Retrieve the document from the Appwrite database
     const getDoc = await databases.getDocument(
@@ -721,8 +752,10 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
 
     // Check if the retrieved document matches the provided ID
     if (getDoc.$id === id) {
+      console.log("🚀 ~ file: functions.ts:755 ~ updateSlide ~ getDoc:", getDoc)
       // Merge the updated attributes with the existing document attributes
       const updatedDoc = { ...getDoc, ...updatedAttributes };
+      console.log("🚀 ~ file: functions.ts:757 ~ updateSlide ~ updatedDoc:", updatedDoc)
 
       // Update the document with the merged attributes
       await databases.updateDocument(
@@ -731,8 +764,7 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
         id,
         updatedDoc
       );
-    } else {
-      throw new Error("Slide document not found");
+      successMessage('Successfully updated slide')
     }
   } catch (error) {
     // Handle any errors that occur during the update process
@@ -740,4 +772,3 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
     throw error;
   }
 };
-
