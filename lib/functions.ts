@@ -472,13 +472,13 @@ export const formatTime = (timePosted: string) => {
   } else if (monthsDiff > 0) {
     return `${monthsDiff} ${monthsDiff === 1 ? 'mth' : 'mths'} ago`;
   } else if (daysDiff > 0) {
-    return `${daysDiff} ${daysDiff === 1 ? 'day' : 'd'} ago`;
+    return `${daysDiff} ${daysDiff === 1 ? 'd' : 'd'} ago`;
   } else if (hoursDiff > 0) {
-    return `${hoursDiff} ${hoursDiff === 1 ? 'hr' : 'h'} ago`;
+    return `${hoursDiff} ${hoursDiff === 1 ? 'h' : 'h'} ago`;
   } else if (minutesDiff > 0) {
-    return `${minutesDiff} ${minutesDiff === 1 ? 'min' : 'mins'} ago`;
+    return `${minutesDiff} ${minutesDiff === 1 ? 'm' : 'm'} ago`;
   } else {
-    return `${secondsDiff} ${secondsDiff === 1 ? 'sec' : 'ses'} ago`;
+    return `${secondsDiff} ${secondsDiff === 1 ? 's' : 's'} ago`;
   }
 };
 
