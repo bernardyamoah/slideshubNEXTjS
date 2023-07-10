@@ -39,38 +39,38 @@ const CourseCard: React.FC<CourseCardProps> = ({
       shallow
       passHref
  className="group relative block  w-full  cursor-pointer ">
-  <span className="rounded-md absolute inset-0 border-2 border-dashed border-gray-400 dark:border-gray-800/80"></span>
+  <span className="rounded-md absolute inset-0 border-2 border-dashed border-gray-300 dark:border-gray-800/80"></span>
 
 
-      <Card className='relative  h-full transform items-end  border-gray-400 dark:border-gray-800/80  bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2   border-4 dark:border-gray-700'>
+      <Card className='relative  h-full transform items-end  border-gray-300 dark:border-gray-800/80  bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2   border-2 dark:border-gray-700'>
       
 
       <div className="flex items-start gap-4 p-4  ">
         {/* Course Image */}
-        <p className="block shrink-0">
-            <FlaskConical className='w-8 h-8 fill-gray-700 stroke-gray-700 dark:fill-white' />
+        <p className="shrink-0 hidden lg:block">
+            <FlaskConical className='w-8 h-8 fill-gray-700 stroke-gray-700 dark:fill-gray-700' />
         </p>
         {/* Course Name */}
-        <div className='md:truncate text-ellipsis'>
+        <div className='md:truncate '>
 
-          <h3   className="font-medium sm:text-base capitalize dark:text-white  ">
+          <h3   className="font-bold sm:text-base capitalize dark:text-white text-gray-700 ">
           
               {name.toLocaleLowerCase()}
           
           </h3>
 
-          <div className="mt-2 flex items-center gap-2">
+          <div className="mt-2 sm:block sm:space-y-2 md:space-y-0 flex md:flex items-center gap-2 ">
             {/* Semester */}
-            <div className="flex items-center gap-1 text-gray-500 dark:text-gray-300">
+            <div className="flex items-center font-light gap-1 text-gray-500 dark:text-gray-400">
             <Calendar className='w-4 h-4' />
               <p className="text-xs capitalize">{semester}</p>
             </div>
 
             {/* Credit Hours */}
-            <div className=" flex items-center gap-1 text-gray-500 dark:text-gray-300">
+            <div className=" flex items-center gap-1 font-light text-gray-500 dark:text-gray-400">
             <Clock2 className='w-4 h-4 dark:stroke' />
 
-              <p className="text-xs capitalize">{credit} credit hours</p>
+              <p className="text-xs capitalize font-light">{credit} credit hours</p>
             </div>
 
 

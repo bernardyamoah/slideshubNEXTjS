@@ -82,7 +82,7 @@ export default function Navbar() {
 
 
 					{/* <!-- Nav List --> */}
-					<ul className=" hidden justify-between text-slate-900 dark:text-white md:flex">
+					<ul className=" hidden justify-between text-slate-900 dark:text-white lg:flex">
 					{Links[0].items.map((link, index) => (
             <li key={index}>
               <Link href={link.link} passHref

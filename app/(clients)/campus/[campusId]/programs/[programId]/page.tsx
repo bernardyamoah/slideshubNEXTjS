@@ -147,7 +147,7 @@ export default function CourseList() {
                         {filteredCourses
                         .filter((course) => course.year === value)
                         .length > 0 ? (
-                        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 pb-10">
+                        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 lg:gap-12 pb-10">
                           <Suspense fallback={<SlidesLoading />}>
                           {filteredCourses
                               .filter((course) => course.year === value)

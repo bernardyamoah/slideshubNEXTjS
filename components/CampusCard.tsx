@@ -35,26 +35,27 @@ const CampusCard: React.FC<CampusCardProps> = ({
       duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-44    dark:border-gray-600
        relative  overflow-hidden  group  bg-cover bg-center bg-no-repeat mx-auto flex items-center">
 <Image src={image} className='w-full absolute inset-0 object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name'/>
-      <div className="absolute inset-0 bg-black/60  "></div>
+      <div className="absolute inset-0 bg-black/80  "></div>
 
-      <div className="relative flex items-start justify-between p-4 sm:p-6 flex-1">
-        <div className=" pt-12 text-white  flex-1">
-          <h3 className="text-base font-bold ">{name}</h3>
-          <p className="text-xs text-gray-200 ">Campus</p>
+      <div className="relative flex items-center  justify-center p-4 sm:p-6 flex-1 h-full">
+        <div className=" pt-1 text-white text-center">
+      
+          <span className="text-3xl font-bold tracking-widest ">{name}</span>
         </div>
-        {/* Time Created */}
+        
+        {/* Location */}
         <strong
-        className="absolute right-4 top-0 flex items-center gap-1 rounded border border-emerald-500 bg-emerald-500 px-3 py-1.5 text-[12px] font-medium text-white"
+        className="-mb-[2px] tracking-wide -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-600 px-3 py-1.5 text-white bottom-0 right-0 absolute   text-[12px] font-bold "
       >
         <MapPin className='w-4 h-4 '/>
       {location}
       </strong>
-      
-      <strong
-        className="absolute right-4 bottom-1   text-[10px] font-normal text-gray-200"
+      <p className="absolute left-4 bottom-2 text-xs text-gray-300 "><strong
+        className="   text-[10px] font-normal "
       >
     {formattedTime}
-      </strong>
+      </strong></p>
+    
 
     
     

@@ -94,12 +94,12 @@ export default function ProgrammeList() {
           </p>
         </section> */}
             
-        <section className="mt-20 relative mx-auto flex flex-col items-center pb-10 px-2">
+        <section className="mt-20 relative mx-auto flex flex-col items-center pb-10 px-4">
           <div id="myUL">
             {isLoading ? (
               <Loading />
             ) : (
-              <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10 ">
+              <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 ">
    <Suspense fallback={<Loading />}>
                   {filteredPrograms.length > 0 ? (
                     filteredPrograms.map((program) => (

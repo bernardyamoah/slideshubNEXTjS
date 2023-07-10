@@ -64,7 +64,7 @@ export default function FilesList() {
             <>
 
               {filteredSlides.length > 0 ? (
-                <div className="mx-auto max-w-7xl grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mx-auto max-w-7xl grid gap-12 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                   <Suspense fallback={<Loading />}>
 
                     {filteredSlides.map((slide) => (
@@ -86,7 +86,7 @@ export default function FilesList() {
                               </div>
                               <div className='text-xs text-muted-foreground flex gap-1'> <ShieldCheck className='h-4 w-4 text-muted-foreground' /><span className='text-xs'>{slide.fileType}</span></div>
                             </aside>
-                            <Link href={slide.previewUrl} className='text-muted-foreground flex gap-1 items-center '><View className='w-4 h-4 text-muted-foreground' />Preview</Link>
+                            {/* <Link href={slide.previewUrl} className='text-muted-foreground flex gap-1 items-center '><View className='w-4 h-4 text-muted-foreground' />Preview</Link> */}
                           </div>
 
                           <Link href={slide.fileUrl} download={slide.fileUrl}>
