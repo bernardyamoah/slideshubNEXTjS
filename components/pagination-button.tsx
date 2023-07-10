@@ -32,10 +32,11 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
       >
         <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
       </Button>
-      {/* <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         {Array.from({ length: pageCount }, (_, index) => (
           <IconButton
             key={index + 1}
+            size="sm"
             variant={activePage === index + 1 ? "filled" : "text"}
             className={activePage === index + 1 ? "bg-emerald-500" : "text-emerald-500"}
             onClick={() => onPageChange(index + 1)}
@@ -43,7 +44,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
             {index + 1}
           </IconButton>
         ))}
-      </div> */}
+      </div>
       <Button
       
         color="blue-gray"
