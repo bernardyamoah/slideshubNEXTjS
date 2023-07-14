@@ -60,10 +60,10 @@ const componentData = [
   },
 ];
 function page() {
-  const [openDialog, setOpenDialog] = React.useState<string | null>(null);
+  // const [openDialog, setOpenDialog] = React.useState<string | null>(null);
 
-  const handleOpenDialog = (key:string) => () => setOpenDialog(key);
-  const handleCloseDialog = () => setOpenDialog(null);
+  // const handleOpenDialog = (key:string) => () => setOpenDialog(key);
+  // const handleCloseDialog = () => setOpenDialog(null);
   return (
   <>
   <div className='max-w-2xl mx-auto my-10 sm:h-24 text-center'>
@@ -81,9 +81,13 @@ function page() {
               <Dialog  >
               {/* <Dialog size="xs" open={openDialog === key} handler={handleCloseDialog}> */}
               <DialogTrigger asChild>
-              <div
+              {/* <div
                 className="relative h-full transform items-end border-2 border-gray-300 dark:border-gray-800/80 bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2"
                 onClick={handleOpenDialog(key)}
+              > */}
+              <div
+                className="relative h-full transform items-end border-2 border-gray-300 dark:border-gray-800/80 bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2"
+               
               >
                 <div className="space-y-3 flex flex-col justify-center">
                   {icon}
