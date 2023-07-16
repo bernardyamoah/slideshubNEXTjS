@@ -142,9 +142,9 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
                 />
               </div>
 
-              <button type="submit" className="mt-6 w-full sm:w-auto mr-0">
+              <Button type="submit" className="mt-6 w-full sm:w-auto mr-0">
                 Update
-              </button>
+              </Button>
             </form>
           </CardBody>
           
