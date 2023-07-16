@@ -28,7 +28,7 @@ import { Card } from "@/components/ui/card";
 import { CardBody, Dialog, CardFooter, Typography, Input } from "@material-tailwind/react";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "@/components/document-upload";
-import { toast } from "react-hot-toast"
+
 
 interface PresetActionsProps {
   name: string;
@@ -53,24 +53,24 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
   }, [programId]);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     try {
       // Perform the update
       const updatedAttributes: { name?: string; file?: File } = {};
       if (updatedName !== name) {
         updatedAttributes.name = updatedName;
       }
-
-      if (currentFile) {
+  
+      if (currentFile !== null) { // Check if currentFile is not null or undefined
         updatedAttributes.file = currentFile;
       }
-
+  
       await updateSlide(id, updatedAttributes);
-
+  
       // Reset form fields
       setCurrentFile(null);
       setUpdatedName('');
-
+  
       // Close the dialog
       setOpen(false);
     } catch (error) {
@@ -78,7 +78,7 @@ export function PresetActions({ name, id, filetype }: PresetActionsProps) {
       setCurrentFile(null);
     }
   };
-
+  
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen((cur) => !cur);

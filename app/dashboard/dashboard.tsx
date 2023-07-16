@@ -1,8 +1,8 @@
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {useRouter} from "next/navigation";
 import { checkAuthStatusDashboard } from "@/lib/functions";
-import Loading from "@/components/ui/Cloading";
+
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
 import Pagination from "@/components/pagination-button";
@@ -38,15 +38,6 @@ export default function Dashboard() {
 
 
   
-//  // Pagination handlers
-//  const goToPreviousPage = () => {
-//   setCurrentPage((prevPage) => prevPage - 1);
-// };
-
-// const goToNextPage = () => {
-//   setCurrentPage((prevPage) => prevPage + 1);
-// };
-
 
 const handlePageChange = (page: number) => {
   setCurrentPage(page);
@@ -58,7 +49,7 @@ const handlePageChange = (page: number) => {
   }, [router,currentPage]);
 
   useEffect(() => {
-    authenticateUser();
+    authenticateUser( );
   }, [authenticateUser]);
 
   if (loading) return <LoadingScreen />;

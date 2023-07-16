@@ -743,32 +743,38 @@ window.location.reload();
 
 export const updateSlide = async (id: string, updatedAttributes: any) => {
   try {
-    // Retrieve the document from the Appwrite database
+    // // Retrieve the document from the Appwrite database
     const getDoc = await databases.getDocument(
       databaseId!, // Replace with your database ID
       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
       id
-    );
-
+    )
     // Check if the retrieved document matches the provided ID
     if (getDoc.$id === id) {
-      console.log("🚀 ~ file: functions.ts:755 ~ updateSlide ~ getDoc:", getDoc)
-      // Merge the updated attributes with the existing document attributes
-      const updatedDoc = { ...getDoc, ...updatedAttributes };
-      console.log("🚀 ~ file: functions.ts:757 ~ updateSlide ~ updatedDoc:", updatedDoc)
-
+      
+  
       // Update the document with the merged attributes
       await databases.updateDocument(
         databaseId!, // Replace with your database ID
         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
         id,
-        updatedDoc
+        updatedAttributes
       );
-      successMessage('Successfully updated slide')
+
+      
+      successMessage('Successfully updated slide');
     }
+    else {
+      // Handle the case when the document is not found with the provided ID
+      errorMessage('Slide not found');
+    }
+
+    
+
+
   } catch (error) {
     // Handle any errors that occur during the update process
-    console.error('Failed to update slide:', error);
-    throw error;
+    errorMessage('Failed to update slide:'+ error);
+
   }
 };
