@@ -6,6 +6,9 @@ import Loading from "@/components/ui/Cloading";
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
 import Pagination from "@/components/pagination-button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import LoadingScreen from "./components/LoadingScreen";
 
 
 interface Slide {
@@ -58,14 +61,36 @@ const handlePageChange = (page: number) => {
     authenticateUser();
   }, [authenticateUser]);
 
-  if (loading) return <Loading />;
+  if (loading) return <LoadingScreen />;
 
   return (
     <>
-      <h1 className="text-xl my-5 text-center font-bold border-b-2 pb-2">Welcome Back, {user?.name}</h1>
+  
+<header className="">
+  <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <div className="mt-8">
+      <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+        Welcome Back, {user?.name}!
+      </h1>
+
+      <p className="mt-1.5 text-sm text-gray-500">
+          Let's upload a new slide! 🎉
+        </p>
+    </div>
+    <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
+    
+
+        <Button
+          >
+          <Link href={'dashboard/create'}>Create a Slide</Link>
+        </Button>
+      </div>
+  </div>
+</header>
       <div className="max-w-screen ">
-        <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 p-6">
-          <Suspense fallback={<Loading />}>
+        <main className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 p-6  min-h-screen auto-rows-max">
+          <Suspense fallback={<LoadingScreen />}>
             {slides.length > 0 ? (
               slides.map((slide) => (
                 <UserSlidesCard
@@ -79,18 +104,7 @@ const handlePageChange = (page: number) => {
             ) : (
               <NoEvent user={user} />
             )}
-            {/* {slides.length ? (
-          //    <div className="gap-4 flex items-center justify-center mx-auto absolute bottom-0 left-1/2 -translate-1/2 ">
-          //    <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
-          //      Previous
-          //    </Button>
-          //    <span>{currentPage}</span>
-          //    <Button onClick={goToNextPage} disabled={currentPage === totalPages}>
-          //      Next
-          //    </Button>
-          //  </div>   
-          
-            ) : null} */}
+        
           </Suspense>
           
         </main>

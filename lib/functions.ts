@@ -468,17 +468,17 @@ export const formatTime = (timePosted: string) => {
   const yearsDiff = Math.floor(monthsDiff / 12);
 
   if (yearsDiff > 0) {
-    return `${yearsDiff} ${yearsDiff === 1 ? 'yr' : 'yrs'} ago`;
+    return `${yearsDiff} ${yearsDiff === 1 ? 'year' : 'yrs'} ago`;
   } else if (monthsDiff > 0) {
-    return `${monthsDiff} ${monthsDiff === 1 ? 'mth' : 'mths'} ago`;
+    return `${monthsDiff} ${monthsDiff === 1 ? 'month' : 'mths'} ago`;
   } else if (daysDiff > 0) {
-    return `${daysDiff} ${daysDiff === 1 ? 'd' : 'd'} ago`;
+    return `${daysDiff} ${daysDiff === 1 ? 'day' : 'd'} ago`;
   } else if (hoursDiff > 0) {
-    return `${hoursDiff} ${hoursDiff === 1 ? 'h' : 'h'} ago`;
+    return `${hoursDiff} ${hoursDiff === 1 ? 'hour' : 'hrs'} ago`;
   } else if (minutesDiff > 0) {
-    return `${minutesDiff} ${minutesDiff === 1 ? 'm' : 'm'} ago`;
+    return `${minutesDiff} ${minutesDiff === 1 ? 'min' : 'mins'} ago`;
   } else {
-    return `${secondsDiff} ${secondsDiff === 1 ? 's' : 's'} ago`;
+    return `${secondsDiff} ${secondsDiff === 1 ? 'sec' : 'secs'} ago`;
   }
 };
 
