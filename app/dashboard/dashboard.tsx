@@ -66,7 +66,7 @@ const handlePageChange = (page: number) => {
       </h1>
 
       <p className="mt-1.5 text-sm text-gray-500">
-          Let's upload a new slide! 🎉
+          Let&apos;s upload a new slide! 🎉
         </p>
     </div>
     <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
