@@ -53,7 +53,7 @@ const handlePageChange = (page: number) => {
   }, [authenticateUser]);
 
   if (loading) return <LoadingScreen />;
-  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"; // Determine the number of columns
+  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-screen" : "grid-cols-1 "; // Determine the number of columns
   return (
     <>
   
@@ -80,7 +80,7 @@ const handlePageChange = (page: number) => {
   </div>
 </header>
       <div className="max-w-screen ">
-        <main className={`mx-auto max-w-7xl grid gap-8 pb-10 p-6 min-h-screen auto-rows-max ${mainClassName}`}>
+        <main className={`mx-auto max-w-7xl grid gap-8 pb-10 p-6  auto-rows-max ${mainClassName}`}>
           <Suspense fallback={<LoadingScreen />}>
             {slides.length > 0 ? (
               slides.map((slide) => (
