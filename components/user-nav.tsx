@@ -20,6 +20,7 @@ import { logOut } from "@/lib/functions";
 
 import { useRouter } from 'next/navigation';
 import { ModeToggle } from "./ModeToggle";
+import Link from "next/link";
 ;
 export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   const firstName = user?.name?.split(' ')[0] || '';
@@ -38,12 +39,12 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
+          <Link href={'/dashboard/profile'} className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user?.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}
             </p>
-          </div>
+          </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
   

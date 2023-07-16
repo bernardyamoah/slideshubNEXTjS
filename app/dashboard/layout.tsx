@@ -7,6 +7,7 @@ import { getCurrentUserAndSetUser } from "@/lib/functions";
 import { useState, useEffect } from "react";
 
 import {  LayoutDashboard,Home , PlusCircle } from "lucide-react";
+import { User } from "lucide-react";
 
 
 
@@ -34,11 +35,11 @@ const sidebarNavItems = [
     href: "/dashboard/create",
     icon:<PlusCircle />,
   },
-  // {
-  //   title: "Add Book",
-  //   href: "/dashboard/add-book",
-  //   icon:<Book />,
-  // },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon:<User />,
+  },
   // {
   //   title: "Add Slides",
   //   href: "/dashboard/add-slide",
