@@ -778,3 +778,18 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
 
   }
 };
+
+export const handleGoogleSignIn = async () => {
+  try {
+     // Define the redirect URL based on the environment
+     const redirectUrl =
+     process.env.NODE_ENV === 'production'
+       ? 'https://slideshub.vercel.app/dashboard'
+       : 'http://localhost:3000/dashboard';
+
+    // Go to OAuth provider login page (Google)
+    await account.createOAuth2Session('google', redirectUrl);
+  } catch (error) {
+    errorMessage('Error initiating Google OAuth:'+ error);
+  }
+};
