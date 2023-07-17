@@ -11,16 +11,6 @@ import { UserAuthForm } from "../components/user-auth";
 
 
 export default function Login() 
-	
-// const handleGithubSignIn = async () => {
-//     const account = new Account(client);
-//     const baseUrl =
-//       process.env.NODE_ENV === 'production'
-//         ? 'https://glitch.zone'
-//         : 'http://localhost:3000';
-//     setGithubLoading(true);
-//     account.createOAuth2Session('github', baseUrl, `${baseUrl}/login`);
-//   };
 
 {
 	
@@ -43,7 +33,7 @@ export default function Login()
           className="hidden dark:block"
         />
       </div>
-      <div className="container backdrop-blur-lg relative h-screen lg:h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container backdrop-blur-lg relative h-screen  flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/register"
           className={cn(

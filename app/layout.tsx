@@ -39,7 +39,7 @@ export default function RootLayout({
 			{/* className={inter.className} */}
 				<body >
 			<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-					<main className="h-screen">
+					<main className="">
 						{children}
 						<Toaster />
 					<Analytics />

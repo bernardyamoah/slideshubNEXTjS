@@ -53,7 +53,7 @@ const handlePageChange = (page: number) => {
   }, [authenticateUser]);
 
   if (loading) return <LoadingScreen />;
-  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-screen" : "grid-cols-1 "; // Determine the number of columns
+  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 "; // Determine the number of columns
   return (
     <>
   
@@ -65,22 +65,22 @@ const handlePageChange = (page: number) => {
         Welcome Back, {user?.name}!
       </h1>
 
-      <p className="mt-1.5 text-sm text-gray-500">
+      <p className="mt-1.5 text-sm text-gray-500 sm:text-base lg:text-lg">
           Let&apos;s upload a new slide! 🎉
         </p>
     </div>
-    <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
+    {/* <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
     
 
         <Button
           >
           <Link href={'dashboard/create'}>Create a Slide</Link>
         </Button>
-      </div>
+      </div> */}
   </div>
 </header>
       <div className="max-w-screen ">
-        <main className={`mx-auto max-w-7xl grid gap-8 pb-10 p-6  auto-rows-max ${mainClassName}`}>
+        <main className={`mx-auto max-w-7xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
           <Suspense fallback={<LoadingScreen />}>
             {slides.length > 0 ? (
               slides.map((slide) => (
@@ -99,7 +99,7 @@ const handlePageChange = (page: number) => {
           </Suspense>
           
         </main>
-        {slides.length > 10 && (  
+        {slides.length > 0 && (  
           <Pagination
             pageCount={totalPages}
             activePage={currentPage}

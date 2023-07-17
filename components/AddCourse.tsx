@@ -10,7 +10,7 @@ import {
   getCurrentUserAndSetUser,
   getPrograms,
 } from "@/lib/functions";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, CogIcon, UserIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,8 @@ import {
 } from "@/components/ui/popover";
 
 import DocumentUpload from "./document-upload";
+import { CardHeader, Step, Stepper } from "@material-tailwind/react";
+import { Building } from "lucide-react";
 
 
 export default function AddCourse() {
@@ -42,13 +44,15 @@ export default function AddCourse() {
   const [credit, setCredit] = useState("");
   const [lecturer, setLecturer] = useState("");
   let [year, setYear] = useState("");
-  console.log("🚀 ~ file: AddCourse.tsx:45 ~ AddCourse ~ year:", year)
 
   const [fileId, setFileId] = useState("");
   const [programId, setprogramId] = React.useState("");
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
 
   useEffect(() => {
     async function fetchPrograms() {
@@ -123,7 +127,7 @@ export default function AddCourse() {
       //     // if (!currentFile) {
       //     //   throw new Error("No file selected");
       //     // }
-      
+
       //     const file = currentFile as File;
       //     const uploader = await toast.promise(storage.createFile(
       //       process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
@@ -155,8 +159,8 @@ export default function AddCourse() {
 
       // const imageUrl = await handleImageUpload();
       year = year.charAt(0).toUpperCase() + year.slice(1); // Convert first letter to uppercase
-    console.log("🚀 ~ file: AddCourse.tsx:157 ~ handleSubmit ~ year:", year)
-    
+      console.log("🚀 ~ file: AddCourse.tsx:157 ~ handleSubmit ~ year:", year)
+
       const courseData = {
         name,
         semester,
@@ -170,19 +174,19 @@ export default function AddCourse() {
         programId: programId,
       };
       await createCourse(courseData);
-  
- // Reset form fields
- setName("");
- setSemester("");
- setYear("");
- setCourseCode("");
- setCredit("");
- setCurrentFile(null);
- setLecturer("");
- setFileId("");
- setprogramId("");
-            
-            
+
+      // Reset form fields
+      setName("");
+      setSemester("");
+      setYear("");
+      setCourseCode("");
+      setCredit("");
+      setCurrentFile(null);
+      setLecturer("");
+      setFileId("");
+      setprogramId("");
+
+
     } catch (error) {
       throw error;
     }
@@ -200,274 +204,368 @@ export default function AddCourse() {
   const handleSemesterChange = (selectedValue: string) => {
     setSemester(selectedValue);
   };
+  const handleNext = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!isLastStep) {
+      setActiveStep((currentStep) => currentStep + 1);
+      setIsFirstStep(false);
+    }
+  };
 
+  const handlePrev = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!isFirstStep) {
+      setActiveStep((currentStep) => currentStep - 1);
+      setIsLastStep(false);
+    }
+  };
   return (
     <>
-    
-      
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 flex">
-                <div className="grid w-full items-center gap-2 space-y-6">
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Course Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="Algebra"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="programme">Programme</Label>
-                    <Popover open={open1} onOpenChange={setOpen1}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={open1}
-                          className="w-full justify-between"
+
+
+      <form onSubmit={handleSubmit} className="w-full mx-auto  flex">
+        <div className="grid w-full items-center gap-2 space-y-6">
+        {activeStep === 0 && (
+            <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Course Name</Label>
+            <Input
+              id="name"
+              placeholder="Algebra"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+        
+          )}
+
+          {/* Select Programme */}
+        {activeStep === 1 && (
+            
+        <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="programme">Programme</Label>
+            <Popover open={open1} onOpenChange={setOpen1}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open1}
+                  className="w-full justify-between"
+                >
+                  {programId
+                    ? programs.find(
+                      (program) => program.$id === programId
+                    )?.name
+                    : "Select Programme"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command onValueChange={handleSelectChange}>
+                  <CommandInput placeholder="Search program..." />
+                  <CommandEmpty>No program found.</CommandEmpty>
+                  <CommandGroup>
+                    {programs.map((program) => (
+                      <CommandItem
+                        key={program.$id}
+                        onSelect={(currentValue) => {
+                          setprogramId(
+                            currentValue === programId
+                              ? ""
+                              : program.$id
+                          );
+                          setOpen1(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            programId === program.$id
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {program.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+          )}
+
+
+{/* Image selection */}
+        {activeStep === 2 && (
+          
+          <div className="grid  w-full items-center gap-1.5">
+          <Label htmlFor="picture">Picture</Label>
+
+          <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
+
+        </div>
+        
+          
+          )}
+
+
+{/* Lecturer Name */}
+        {activeStep === 3 && (
+          <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="lecturer">Lecturer Name</Label>
+          <Input
+            id="lecturer"
+            placeholder="Dr. Martinson"
+            value={lecturer}
+            onChange={(e) => setLecturer(e.target.value)}
+          />
+        </div>
+          )}
+
+
+        {activeStep === 4 && (
+            <div className="gap-4 md:gap-8 grid grid-cols-2">
+            {/* Course code */}
+            <div className="flex flex-col space-y-1.5 w-full ">
+              <Label htmlFor="coursecode">Course Code</Label>
+              <Input
+                id="coursecode"
+                placeholder="MSE 4324"
+                value={courseCode}
+                onChange={(e) => setCourseCode(e.target.value)}
+              />
+            </div>
+
+
+
+            {/* Year */}
+
+            <div className="flex flex-col space-y-1.5 flex-1 w-full">
+              <Label htmlFor="year">Year</Label>
+              <Popover open={open2} onOpenChange={setOpen2}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open2}
+                    className="w-full justify-between  overflow-hidden no-wrap"
+                  >
+                    {year
+                      ? Years.find((level) => level.id === year)?.level
+                      : "Select Level"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command onValueChange={handleYearChange}>
+                    <CommandInput placeholder="Search ..." />
+                    <CommandEmpty>No year found</CommandEmpty>
+                    <CommandGroup>
+                      {Years.map((level) => (
+                        <CommandItem
+                          key={level.id}
+                          onSelect={(currentValue) => {
+                            setYear(currentValue.toUpperCase() === year ? "" : currentValue);
+                            setOpen2(false); // Updated from setOpen2(false)
+                          }}
                         >
-                          {programId
-                            ? programs.find(
-                              (program) => program.$id === programId
-                            )?.name
-                            : "Select Programme"}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-full p-0">
-                        <Command onValueChange={handleSelectChange}>
-                          <CommandInput placeholder="Search program..." />
-                          <CommandEmpty>No program found.</CommandEmpty>
-                          <CommandGroup>
-                            {programs.map((program) => (
-                              <CommandItem
-                                key={program.$id}
-                                onSelect={(currentValue) => {
-                                  setprogramId(
-                                    currentValue === programId
-                                      ? ""
-                                      : program.$id
-                                  );
-                                  setOpen1(false);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    programId === program.$id
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {program.name}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              year === level.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {level.level}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
 
-                  {/* Image selection */}
+            {/* Credit Hours */}
 
-                  <div className="grid  w-full items-center gap-1.5">
-                    <Label htmlFor="picture">Picture</Label>
-                  
-                    <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile}  />
-                  
-                  </div>
+            <div className="flex flex-col space-y-1.5 w-full flex-1 ">
+              <Label htmlFor="credit">Credit Hours</Label>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between  overflow-hidden no-wrap"
+                  >
+                    {credit
+                      ? creditHours.find(
+                        (creditHour) => creditHour.id === credit
+                      )?.hour
+                      : "Select credit hour"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command onValueChange={handleCreditHourChange}>
+                    <CommandInput placeholder="Search ..." />
+                    <CommandEmpty>No credit hour found.</CommandEmpty>
+                    <CommandGroup>
+                      {creditHours.map((creditHour) => (
+                        <CommandItem
+                          key={creditHour.id}
+                          onSelect={(currentValue) => {
+                            setCredit(
+                              currentValue === credit
+                                ? ""
+                                : currentValue
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              credit === creditHour.id
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {creditHour.hour}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            {/* Semester */}
+            <div className="flex flex-col space-y-1.5 flex-1 w-full">
+              <Label htmlFor="year">Semester</Label>
+              <Popover open={open3} onOpenChange={setOpen3}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open2}
+                    className="w-full justify-between  overflow-hidden no-wrap"
+                  >
+                    {semester
+                      ? Semesters.find((sem) => sem.id === semester)?.semester
+                      : "Select Semester"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command onValueChange={handleSemesterChange}>
+                    <CommandInput placeholder="Search ..." />
+                    <CommandEmpty>No semester found</CommandEmpty>
+                    <CommandGroup>
+                      {Semesters.map((sem) => (
+                        <CommandItem
+                          key={sem.id}
+                          onSelect={(currentValue) => {
+                            setSemester(currentValue.toUpperCase() === semester ? "" : currentValue);
+                            setOpen2(false); // Updated from setOpen2(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              semester === sem.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {sem.semester}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+        
+          
+          )}
 
 
 
-
-
-
-
-
-
-
-
-
-                  {/* Lecturer Name */}
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="lecturer">Lecturer Name</Label>
-                    <Input
-                      id="lecturer"
-                      placeholder="Dr. Martinson"
-                      value={lecturer}
-                      onChange={(e) => setLecturer(e.target.value)}
-                    />
-                  </div>
-                  <div className="gap-4 md:gap-8 grid grid-cols-2">
-                    {/* Course code */}
-                    <div className="flex flex-col space-y-1.5 w-full ">
-                      <Label htmlFor="coursecode">Course Code</Label>
-                      <Input
-                        id="coursecode"
-                        placeholder="MSE 4324"
-                        value={courseCode}
-                        onChange={(e) => setCourseCode(e.target.value)}
-                      />
-                    </div>
-
-
-
-                    {/* Year */}
-                  
-<div className="flex flex-col space-y-1.5 flex-1 w-full">
-  <Label htmlFor="year">Year</Label>
-  <Popover open={open2} onOpenChange={setOpen2}>
-    <PopoverTrigger asChild>
-      <Button
-        variant="outline"
-        role="combobox"
-        aria-expanded={open2}
-        className="w-full justify-between  overflow-hidden no-wrap"
-      >
-        {year
-          ? Years.find((level) => level.id === year)?.level
-          : "Select Level"}
-        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent className="w-[200px] p-0">
-      <Command onValueChange={handleYearChange}>
-        <CommandInput placeholder="Search ..." />
-        <CommandEmpty>No year found</CommandEmpty>
-        <CommandGroup>
-          {Years.map((level) => (
-            <CommandItem
-              key={level.id}
-              onSelect={(currentValue) => {
-                setYear(currentValue.toUpperCase() === year ? "" : currentValue);
-                setOpen2(false); // Updated from setOpen2(false)
-              }}
-            >
-              <Check
-                className={cn(
-                  "mr-2 h-4 w-4",
-                  year === level.id ? "opacity-100" : "opacity-0"
-                )}
-              />
-              {level.level}
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </Command>
-    </PopoverContent>
-  </Popover>
-</div>
-
-                    {/* Credit Hours */}
-
-                    <div className="flex flex-col space-y-1.5 w-full flex-1 ">
-                      <Label htmlFor="credit">Credit Hours</Label>
-                      <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={open}
-                            className="w-full justify-between  overflow-hidden no-wrap"
-                          >
-                            {credit
-                              ? creditHours.find(
-                                (creditHour) => creditHour.id === credit
-                              )?.hour
-                              : "Select credit hour"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command onValueChange={handleCreditHourChange}>
-                            <CommandInput placeholder="Search ..." />
-                            <CommandEmpty>No credit hour found.</CommandEmpty>
-                            <CommandGroup>
-                              {creditHours.map((creditHour) => (
-                                <CommandItem
-                                  key={creditHour.id}
-                                  onSelect={(currentValue) => {
-                                    setCredit(
-                                      currentValue === credit
-                                        ? ""
-                                        : currentValue
-                                    );
-                                    setOpen(false);
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      credit === creditHour.id
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                  {creditHour.hour}
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    {/* Semester */}
-                    <div className="flex flex-col space-y-1.5 flex-1 w-full">
-  <Label htmlFor="year">Semester</Label>
-  <Popover open={open3} onOpenChange={setOpen3}>
-    <PopoverTrigger asChild>
-      <Button
-        variant="outline"
-        role="combobox"
-        aria-expanded={open2}
-        className="w-full justify-between  overflow-hidden no-wrap"
-      >
-        {semester
-          ? Semesters.find((sem) => sem.id === semester)?.semester
-          : "Select Semester"}
-        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent className="w-[200px] p-0">
-      <Command onValueChange={handleSemesterChange}>
-        <CommandInput placeholder="Search ..." />
-        <CommandEmpty>No semester found</CommandEmpty>
-        <CommandGroup>
-          {Semesters.map((sem) => (
-            <CommandItem
-              key={sem.id}
-              onSelect={(currentValue) => {
-                setSemester(currentValue.toUpperCase() === semester ? "" : currentValue);
-                setOpen2(false); // Updated from setOpen2(false)
-              }}
-            >
-              <Check
-                className={cn(
-                  "mr-2 h-4 w-4",
-                  semester === sem.id ? "opacity-100" : "opacity-0"
-                )}
-              />
-              {sem.semester}
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </Command>
-    </PopoverContent>
-  </Popover>
-</div>
-                  </div>
-
-                  <div className="mt-24 sm:flex sm:justify-end w-full">
-                    {" "}
-                    <Button type="submit" className="w-full lg:px-6 lg:w-fit font-normal py-4">
-                      Add
+<div className="mt-16 flex justify-between">
+                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
+                    Prev
+                  </Button>
+                  {isLastStep ? (
+                    <Button type="submit"  >
+                      Submit
                     </Button>
-                  </div>
+                  ) : (
+                    <Button type="button" onClick={handleNext}>
+                      Next
+                    </Button>
+                  )}
                 </div>
-              </form>
+        </div>
+      </form>
 
+      <div className="max-w-sm mx-auto py-4 relative bottom-4 mt-10">
+      <Stepper
+        activeStep={activeStep}
+        isLastStep={(value) => setIsLastStep(value)}
+        isFirstStep={(value) => setIsFirstStep(value)}
+      >
+        <Step onClick={() => setActiveStep(0)}>
+          <UserIcon className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+      
+          <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
 
+              Personal Details
+          </p>
+          </div>
+        </Step>
+        <Step onClick={() => setActiveStep(1)}>
+          <CogIcon className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+      
+          <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
+
+            Security
+          </p>
+          </div>
+        </Step>
+        <Step onClick={() => setActiveStep(2)}>
+          <Building className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+      
+      <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
+
+         Details
+      </p>
+      </div>
+        </Step>
+        <Step onClick={() => setActiveStep(3)}>
+          <Building className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+      
+      <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
+
+         Update
+      </p>
+      </div>
+        </Step>
+
+        <Step onClick={() => setActiveStep(4)}>
+          <Building className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+      
+      <p className={activeStep === 4 ? "text-blue-500" : "text-gray-500"}>
+
+         Finish
+      </p>
+      </div>
+        </Step>
+      </Stepper>
     
+    </div>
+
     </>
   );
 }

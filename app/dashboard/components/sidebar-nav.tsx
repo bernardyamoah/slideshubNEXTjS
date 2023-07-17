@@ -33,13 +33,13 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
             buttonVariants({ variant: "ghost" }),
             pathname === item.href
               ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
-              : "",
+              : " text-gray-600",
             "justify-start"
           )}
         >
       <span className="flex items-center space-x-3 ">
       {item.icon}
-        <span className="text-base">  {item.title}</span>
+        <span className="text-base ">  {item.title}</span>
       </span>
         </Link>
       ))}

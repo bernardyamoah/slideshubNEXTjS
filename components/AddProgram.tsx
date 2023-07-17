@@ -3,15 +3,7 @@ import * as React from "react"
 import { useEffect, useState } from "react"
 import { storage, ID } from '@/appwrite';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -30,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
+import { CardHeader, Step, Stepper } from "@material-tailwind/react";
 
 interface AddProgramProps {
   user: any;
@@ -46,6 +39,9 @@ export default function AddProgram() {
   const [value, setValue] = React.useState("")
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
 
   useEffect(() => {
     async function fetchCampuses() {
@@ -153,7 +149,21 @@ export default function AddProgram() {
       // Handle error
     }
   };
+  const handleNext = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!isLastStep) {
+      setActiveStep((currentStep) => currentStep + 1);
+      setIsFirstStep(false);
+    }
+  };
 
+  const handlePrev = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!isFirstStep) {
+      setActiveStep((currentStep) => currentStep - 1);
+      setIsLastStep(false);
+    }
+  };
   return (
     <>
 
@@ -162,7 +172,11 @@ export default function AddProgram() {
               <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
                 <div className="grid w-full gap-4">
 
-                  <div className="flex flex-col space-y-1.5">
+
+
+                {activeStep === 0 && (
+            
+          <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Program Name</Label>
                     <Input
                       id="name"
@@ -171,54 +185,88 @@ export default function AddProgram() {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
-                  <div className="flex flex-col space-y-1.5">
-                    {/* Select campus */}
+        
+          )}
 
-                    <Label htmlFor="campus">Campus</Label>
-                    <Select onValueChange={handleSelectChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select campus" />
-                      </SelectTrigger>
+                {activeStep === 1 && (
+            
+            <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="duration">Duration</Label>
+            <Input
+              id="duration"
+              placeholder="4 years"
+              value={duration} required
+              onChange={(e) => setDuration(e.target.value)}
+            />
+          </div>
+        
+          )}
 
-
-                      <SelectContent  position="item-aligned" >
-
-
-                        <SelectGroup >
-                          <SelectLabel>Campus</SelectLabel>
-                          {campuses.map((campus) => (
-                            <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
-                          ))}
-
-
-                        </SelectGroup>
-
-                      </SelectContent>
-
-                    </Select>
-
-
-                  </div>
-
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="duration">Duration</Label>
-                    <Input
-                      id="duration"
-                      placeholder="4 years"
-                      value={duration} required
-                      onChange={(e) => setDuration(e.target.value)}
-                    />
-                  </div>
-                  <div className="grid  w-full items-center gap-1.5">
+                {activeStep === 2 && (
+            
+            <div className="grid  w-full items-center gap-1.5">
                     <Label htmlFor="picture">Picture</Label>
                     <Input id="picture" type="file" onChange={handleImageChange} />
                   </div>
 
-                  <div className='mt-8 sm:flex sm:justify-end w-full'>  <Button type="submit" className='w-full py-4'>Add</Button></div>
+        
+          )}
+
+
+                
+                  
+
+                
+<div className="mt-16 flex justify-between">
+                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
+                    Prev
+                  </Button>
+                  {isLastStep ? (
+                    <Button type="submit"  >
+                      Submit
+                    </Button>
+                  ) : (
+                    <Button type="button" onClick={handleNext}>
+                      Next
+                    </Button>
+                  )}
                 </div>
+              
+</div>
+
         <Toaster />
               </form>
+              <CardHeader floated={false} variant="gradient" color="blue" className="mx-0 grid h-24 mt-10 place-items-center">
+          <div className="w-full lg:px-20  p-4">
+        <Stepper
+          activeStep={activeStep}
+          isLastStep={(value) => setIsLastStep(value)}
+          isFirstStep={(value) => setIsFirstStep(value)}
+          lineClassName="bg-white/50"
+          activeLineClassName="bg-white"
+        >
+          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(0)}>
+          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
+          <Label >Na</Label>
+              </div>
+          </Step>
 
+          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(1)} >
+          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
+          <Label >Duration</Label>
+              </div>
+          </Step>
+
+          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(2)}>
+          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
+          <Label >Final</Label>
+              
+              </div>
+          </Step>
+          {/* Add other steps as needed */}
+        </Stepper>
+        </div>
+        </CardHeader>
     
     </>
   );
