@@ -31,8 +31,10 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
     async function fetchAvatarUrl() {
       try {
         const currentUser = await getCurrentUser();
-        const result = await getUserInitials(user?.name); // Make sure to implement this function
-        setAvatarUrl(result);
+        if (currentUser) {
+          const result = await getUserInitials(currentUser.name);
+          setAvatarUrl(result);
+        }
       } catch (error) {
         console.log(error);
       }
