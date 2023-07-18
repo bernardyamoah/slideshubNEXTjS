@@ -13,16 +13,15 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { Edit } from "lucide-react";
-import DocumentUpload from "@/components/document-upload";
-import { avatars } from "@/appwrite";
-import { getUserInitials } from "@/lib/functions";
+
+import { getCurrentUser, getUserInitials } from "@/lib/functions";
 
 interface UserData {
   name: string;
   email: string;
   bio: string;
   coverPhotoUrl: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
 }
 
 const ProfilePage = () => {
@@ -64,16 +63,38 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    async function setAvatarUrl() {
-      const initialsUrl = await getUserInitials();
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        avatarUrl: initialsUrl, // Set the avatar URL with the fetched initials URL
-      }));
-    }
+// getCurrentUser().then((user) => {
+//       if (user) {
+//         const initialsUrl = getUserInitials(user?.name);
+//         setUserData((prevUserData) => ({
+//           ...prevUserData,
+//           name: user.name,
+//           email: user.email,
+//           avatarUrl: initialsUrl,
+          
+//         }));
+//       }
+//     });
+async function fetchData() {
+  const currentUser = await getCurrentUser();
+  if (currentUser) {
+    const initialsUrl = await getUserInitials(currentUser?.name);
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      name: currentUser.name,
+      email: currentUser.email,
+      avatarUrl: initialsUrl ,
+    }));
+  }
+}
 
-    setAvatarUrl();
+fetchData();
+    
   }, []);
+    // Check if user data is available
+    if (!userData) {
+      return <div>Loading...</div>;
+    }
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8 gap-4">
       {/* Cover Photo */}
@@ -88,7 +109,7 @@ const ProfilePage = () => {
 
       <label htmlFor="avatar" className="cursor-pointer">
         <img
-          src={userData.avatarUrl}
+          src={userData.avatarUrl || "https://avatars.githubusercontent.com/u/8186664?v=4"}
           alt="Avatarf"
           className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg mx-auto -mt-10"
         />
