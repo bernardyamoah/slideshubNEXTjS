@@ -110,7 +110,7 @@ interface Slides {
 	$id: string;
 	name: string;
 	email: string;
-	avatarUrl:string;
+	
 	// Add any other properties specific to the User type
   }
   interface Preferences {
