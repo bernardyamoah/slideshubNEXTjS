@@ -1,4 +1,4 @@
-import { CreditCard, LogOut, PlusCircle, Settings, User } from "lucide-react"
+import { LogOut, User } from "lucide-react"
 
 import {
   Avatar,
@@ -30,7 +30,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   useEffect(() => {
     async function fetchAvatarUrl() {
       try {
-        const result = await getUserInitials();
+        const result = await getUserInitials(user?.name); // Make sure to implement this function
         setAvatarUrl(result);
       } catch (error) {
         console.log(error);

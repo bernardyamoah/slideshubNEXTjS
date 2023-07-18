@@ -839,11 +839,17 @@ export const handleMicrosoftSignIn = async () => {
 
 
 // Get Avatars
-export const getUserInitials =async () => {
-  const result = avatars.getInitials().href.toString();  
-  return result;
-}
-
+// Function to get the user's initials avatar URL
+export const getUserInitials = async (name:string) => {
+  try {
+    const result = await avatars.getInitials(name);
+    console.log("🚀 ~ file: functions.ts:846 ~ getUserInitials ~ result:", result)
+    return result.href.toString();
+  } catch (error) {
+    console.log("Error fetching user initials:", error);
+    return null;
+  }
+};
 
 
 const getUserID = async (): Promise<string> => {

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Metadata } from "next"
 import { Book, Files, GraduationCap, PiSquare, Plus } from "lucide-react"
 
@@ -64,17 +64,19 @@ const componentData = [
 export default function Page()  {
   
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
-  console.log("🚀 ~ file: page.tsx:67 ~ Page ~ userInTeam:", userInTeam)
+  
+
+  // Memoize the checkTeamMembership function using useCallback
+  const checkTeamMembership = useCallback(async () => {
+    const userIsInTeam = await checkUserInTeam();
+    setUserInTeam(userIsInTeam);
+  }, []);
 
   useEffect(() => {
-    // Call the checkUserInTeam function to determine if the user is in the team
-    const checkTeamMembership = async () => {
-      
-      const userIsInTeam = await checkUserInTeam();
-      setUserInTeam(userIsInTeam);
-    };
+    // Call the memoized checkTeamMembership function
     checkTeamMembership();
-  }, []);
+  }, [checkTeamMembership]); // Pass checkTeamMembership as a dependency to useEffect
+
 
   return (
   <>
