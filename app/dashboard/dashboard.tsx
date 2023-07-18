@@ -1,14 +1,15 @@
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import {useRouter} from "next/navigation";
-import { checkAuthStatusDashboard } from "@/lib/functions";
+import { checkAuthStatusDashboard} from "@/lib/functions";
 
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
 import Pagination from "@/components/pagination-button";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
+
 import LoadingScreen from "./components/LoadingScreen";
+
 
 
 interface Slide {
@@ -34,7 +35,7 @@ export default function Dashboard() {
   const [user, setUser] = useState<UserWithId | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
+  const [isUserInTeam, setIsUserInTeam] = useState<boolean | null>(null);
 
 
   
@@ -42,15 +43,21 @@ export default function Dashboard() {
 const handlePageChange = (page: number) => {
   setCurrentPage(page);
 };
+const authenticateUser = useCallback(async () => {
+  // Fetch user data and slides
+  checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage);
+  
 
-  const authenticateUser = useCallback(() => {
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage); // Update function signature
+}, [router, currentPage]);
 
-  }, [router,currentPage]);
+  
 
   useEffect(() => {
-    authenticateUser( );
-  }, [authenticateUser]);
+    authenticateUser();
+
+            }, 
+
+  [authenticateUser]);
 
   if (loading) return <LoadingScreen />;
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 "; // Determine the number of columns

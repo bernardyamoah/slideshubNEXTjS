@@ -40,21 +40,7 @@ const sidebarNavItems = [
     href: "/dashboard/profile",
     icon:<User />,
   },
-  // {
-  //   title: "Add Slides",
-  //   href: "/dashboard/add-slide",
-  //   icon: <FileBarChart />,
-  // },
-  // {
-  //   title: "Add Course",
-  //   href: "/dashboard/add-course",
-  //   icon: <PiSquare />,
-  // },
-  // {
-  //   title: "Add Program",
-  //   href: "/dashboard/add-program",
-  //   icon:<GraduationCap />,
-  // },
+
 
 ];
 
@@ -64,12 +50,15 @@ interface DashboardLayoutProps {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+  
+  const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
+
   useEffect(() => {
     // Fetch the current user from Appwrite
     const fetchUser = async () => {
       try {
         const request = await getCurrentUserAndSetUser();
-        setUser(request)
+        setUser(request);
         // Call the getCurrentUser function
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -77,8 +66,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     };
 
     fetchUser();
-  }, []);
-
+  }, [user]);
   return (
     <>
       <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}

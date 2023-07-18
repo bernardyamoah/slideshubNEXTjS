@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -14,6 +14,8 @@ import {
 } from "@material-tailwind/react";
 import { Edit } from "lucide-react";
 import DocumentUpload from "@/components/document-upload";
+import { avatars } from "@/appwrite";
+import { getUserInitials } from "@/lib/functions";
 
 interface UserData {
   name: string;
@@ -61,8 +63,19 @@ const ProfilePage = () => {
     setEditing(false);
   };
 
+  useEffect(() => {
+    async function setAvatarUrl() {
+      const initialsUrl = await getUserInitials();
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        avatarUrl: initialsUrl, // Set the avatar URL with the fetched initials URL
+      }));
+    }
+
+    setAvatarUrl();
+  }, []);
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
+    <div className="container mx-auto max-w-4xl px-4 py-8 gap-4">
       {/* Cover Photo */}
       <img
         src={userData.coverPhotoUrl}
@@ -71,10 +84,12 @@ const ProfilePage = () => {
       />
 
       {/* Avatar */}
+    
+
       <label htmlFor="avatar" className="cursor-pointer">
         <img
           src={userData.avatarUrl}
-          alt="Avatar"
+          alt="Avatarf"
           className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg mx-auto -mt-10"
         />
       </label>
@@ -100,7 +115,7 @@ const ProfilePage = () => {
         <p className="text-gray-600 mb-4">{userData.email}</p>
       </div>
 
-      <div className="bg-gray-100 p-4 rounded-lg mb-4">
+      <div className="bg-gray-100 p-4 rounded-lg mb-4  dark:bg-gray-800">
         <p>{userData.bio}</p>
       </div>
 

@@ -19,20 +19,37 @@ import {
 import { logOut } from "@/lib/functions";
 
 import { useRouter } from 'next/navigation';
-import { ModeToggle } from "./ModeToggle";
+
 import Link from "next/link";
 ;
+import { getUserInitials } from "@/lib/functions";
+import { useEffect, useState } from "react";
 export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   const firstName = user?.name?.split(' ')[0] || '';
-  
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  useEffect(() => {
+    async function fetchAvatarUrl() {
+      try {
+        const result = await getUserInitials();
+        setAvatarUrl(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchAvatarUrl();
+  }, []);
   const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="/avatars/01.png" alt="{user?.name?.split(' ')[0] || ' '}" />
-            <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
+          {avatarUrl ? (
+              <AvatarImage src={avatarUrl} alt={user?.name?.split(' ')[0] || ' '} />
+            ) : (
+              <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
+            )}
           </Avatar>
         </Button>
 
@@ -47,7 +64,14 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
           </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-  
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={()=> router.push('/dashboard/profile')}>
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+    
+        </DropdownMenuGroup>
         
         <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={() => logOut(router)}>
           <LogOut className="mr-2 h-4 w-4" />

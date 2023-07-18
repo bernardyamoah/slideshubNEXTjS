@@ -1,7 +1,7 @@
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import { databases, ID,Query,account, storage, client } from "@/appwrite";
+import { databases, ID,Query,account, storage, client,avatars,teams } from "@/appwrite";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -281,7 +281,6 @@ export const getCourses = async (): Promise<any[]> => {
       databaseId,
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
     );
-    console.log("🚀 getCourses ~ response:", response)
 
     return response.documents;
   } catch (error) {
@@ -291,24 +290,6 @@ export const getCourses = async (): Promise<any[]> => {
 };
 
 
-// export const getCoursesById = async (id): Promise<any[]> => {
-
-//   if (!databaseId) {
-//     throw new Error("Database ID is not defined");
-//   }
-
-//   try {
-//     const response = await  databases.listDocuments(
-//       databaseId,
-//       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
-//     );
-
-//     return response.documents;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// };
 
 // Get Programs
 export const getPrograms = async (): Promise<any[]> => {
@@ -498,7 +479,6 @@ export function bytesToSize(bytes: number) {
   }
   return `${Math.round(sizeInCurrentUnit)} ${sizes[i]}`;
 }
-
 
 
 
@@ -779,6 +759,8 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
   }
 };
 
+
+// OAuth functions
 export const handleGoogleSignIn = async () => {
   try {
      // Define the redirect URL based on the environment
@@ -793,3 +775,100 @@ export const handleGoogleSignIn = async () => {
     errorMessage('Error initiating Google OAuth:'+ error);
   }
 };
+
+export const handleFacebookSignIn = async () => {
+  try {
+     // Define the redirect URL based on the environment
+     const redirectUrl =
+     process.env.NODE_ENV === 'production'
+       ? 'https://slideshub.vercel.app/dashboard'
+       : 'http://localhost:3000/dashboard';
+
+    // Go to OAuth provider login page (Facebook)
+    await account.createOAuth2Session('facebook', redirectUrl);
+  } catch (error) {
+    errorMessage('Error initiating Facebook OAuth:'+ error);
+  }
+}
+
+export const handleGithubSignIn = async () => {
+  try {
+     // Define the redirect URL based on the environment
+     const redirectUrl =
+     process.env.NODE_ENV === 'production'
+       ? 'https://slideshub.vercel.app/dashboard'
+       : 'http://localhost:3000/dashboard';
+
+    // Go to OAuth provider login page (Github)
+    await account.createOAuth2Session('github', redirectUrl);
+  } catch (error) {
+    errorMessage('Error initiating Github OAuth:'+ error);
+  }
+}
+
+export const handleAppleSignIn = async () => {
+  try {
+     // Define the redirect URL based on the environment
+     const redirectUrl =
+     process.env.NODE_ENV === 'production'
+       ? 'https://slideshub.vercel.app/dashboard'
+       : 'http://localhost:3000/dashboard';
+
+    // Go to OAuth provider login page (Apple)
+    await account.createOAuth2Session('apple', redirectUrl);
+  } catch (error) {
+    errorMessage('Error initiating Apple OAuth:'+ error);
+  }
+}
+
+export const handleMicrosoftSignIn = async () => {
+  try {
+     // Define the redirect URL based on the environment
+     const redirectUrl =
+     process.env.NODE_ENV === 'production'
+       ? 'https://slideshub.vercel.app/dashboard'
+       : 'http://localhost:3000/dashboard';
+
+    // Go to OAuth provider login page (Microsoft)
+    await account.createOAuth2Session('microsoft', redirectUrl);
+  } catch (error) {
+    errorMessage('Error initiating Microsoft OAuth:'+ error);
+  }
+}
+
+
+
+// Get Avatars
+export const getUserInitials =async () => {
+  const result = avatars.getInitials().href.toString();  
+  return result;
+}
+
+
+
+const getUserID = async (): Promise<string> => {
+  try {
+    const request = await account.get();
+    return request.$id;
+  } catch (error) {
+    throw new Error("Error fetching user ID: " + error);
+  }
+};
+
+export const checkUserInTeam = async () => {
+  try {
+    const response = await teams.listMemberships(process.env.NEXT_PUBLIC_TEAM_ID!);
+    const userId = await getUserID();
+    // Check if the user's ID exists in the list of team members
+    const isUserInTeam = response.memberships.some(
+      (membership: any) => membership.userId === userId
+    );
+    console.log("🚀 ~ file: functions.ts:865 ~ checkUserInTeam ~ isUserInTeam:", isUserInTeam)
+    return isUserInTeam;
+  } catch (error) {
+    console.error("Error checking team membership:", error);
+    return false;
+  }
+};
+
+
