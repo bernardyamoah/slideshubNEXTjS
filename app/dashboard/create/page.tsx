@@ -38,7 +38,6 @@ const metadata: Metadata = {
   title: "Create",
   description: "Add Slides to database",
 }
-type UserWithId = User<Preferences> & { id: string };
 
 const componentData = [
   {
@@ -63,7 +62,7 @@ const componentData = [
   },
 ];
 function page() {
-  const [user, setUser] = useState<UserWithId | null>(null); 
+  
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
 
   useEffect(() => {
