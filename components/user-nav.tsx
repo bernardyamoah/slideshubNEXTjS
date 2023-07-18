@@ -16,7 +16,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { logOut } from "@/lib/functions";
+import { getCurrentUser, logOut } from "@/lib/functions";
 
 import { useRouter } from 'next/navigation';
 
@@ -30,6 +30,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   useEffect(() => {
     async function fetchAvatarUrl() {
       try {
+        const currentUser = await getCurrentUser();
         const result = await getUserInitials(user?.name); // Make sure to implement this function
         setAvatarUrl(result);
       } catch (error) {

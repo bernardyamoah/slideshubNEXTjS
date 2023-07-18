@@ -12,9 +12,10 @@ import {
   
   Textarea,
 } from "@material-tailwind/react";
-import { Edit } from "lucide-react";
+import { CheckCircle, CheckIcon, Edit, XCircle } from "lucide-react";
 
 import { getCurrentUser, getUserInitials } from "@/lib/functions";
+import { Badge } from "@/components/ui/badge";
 
 interface UserData {
   name: string;
@@ -22,6 +23,7 @@ interface UserData {
   bio: string;
   coverPhotoUrl: string;
   avatarUrl: string | null;
+  status:string;
 }
 
 const ProfilePage = () => {
@@ -31,6 +33,7 @@ const ProfilePage = () => {
     bio: "Hello, I'm John! I love coding and building cool things with React.",
     coverPhotoUrl: "https://images.unsplash.com/photo-1689464090276-50bed9a6798f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60",
     avatarUrl: "https://avatars.githubusercontent.com/u/8186664?v=4",
+    status:'',
   });
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [editing, setEditing] = useState(false);
@@ -77,6 +80,7 @@ const ProfilePage = () => {
 //     });
 async function fetchData() {
   const currentUser = await getCurrentUser();
+  console.log("🚀 ~ file: page.tsx:82 ~ fetchData ~ currentUser:", currentUser)
   if (currentUser) {
     const initialsUrl = await getUserInitials(currentUser?.name);
     setUserData((prevUserData) => ({
@@ -84,6 +88,7 @@ async function fetchData() {
       name: currentUser.name,
       email: currentUser.email,
       avatarUrl: initialsUrl ,
+      status: currentUser.status.toString(),
     }));
   }
 }
@@ -133,7 +138,19 @@ fetchData();
       {/* User Info */}
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-1">{userData.name}</h2>
-        <p className="text-gray-600 mb-4">{userData.email}</p>
+        <p className="text-gray-600 mb-1">{userData.email}</p>
+        {userData.status ? (
+       <Badge className="mb-4  inline-flex items-center">
+        Verified
+      <CheckIcon className="ml-1 h-4 w-4" strokeWidth={2.5} />
+     </Badge>
+      ) : (
+      
+        <Badge className="mb-4  inline-flex items-center">
+        Verified
+        <XCircle className="ml-1 h-4 w-4 text-red-500" />
+     </Badge>
+      )}
       </div>
 
       <div className="bg-gray-100 p-4 rounded-lg mb-4  dark:bg-gray-800">
