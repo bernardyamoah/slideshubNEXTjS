@@ -64,6 +64,7 @@ const componentData = [
 export default function Page()  {
   
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
+  console.log("🚀 ~ file: page.tsx:67 ~ Page ~ userInTeam:", userInTeam)
 
   useEffect(() => {
     // Call the checkUserInTeam function to determine if the user is in the team

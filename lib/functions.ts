@@ -511,7 +511,7 @@ export const logIn = async (email: string, setEmail: (email: string) => void, pa
 // Logout function
 export const logOut = async (router: any) => {
   try {
-    await account.deleteSession("current");
+    await account.deleteSessions();
     router.push("/");
     successMessage("See you later! 🎉");
   } catch (error) {
