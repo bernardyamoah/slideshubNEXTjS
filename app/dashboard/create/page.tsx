@@ -61,7 +61,7 @@ const componentData = [
     component: <AddProgram />,
   },
 ];
-function page() {
+function Page() {
   
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
 
@@ -204,7 +204,7 @@ function page() {
 }
 
 
-export default page
+export default Page
 
 
 
