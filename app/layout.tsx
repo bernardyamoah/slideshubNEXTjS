@@ -3,12 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 // import { Inter } from "next/font/google";
 
 import { Analytics } from "@vercel/analytics/react";
-import {
-	QueryClient,
-	QueryClientProvider,
-	useQuery,
-} from '@tanstack/react-query'
-// const inter = Inter({ subsets: ["latin"] });
+
 import { Toaster } from "react-hot-toast";
 export const metadata = {
 	title: "Slideshub",
@@ -42,16 +37,16 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const queryClient = new QueryClient()
+
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body >
 				<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 					<main className="">
-						<QueryClientProvider client={queryClient}>
+		
 							{children}
 							<Toaster />
-						</QueryClientProvider>
+						
 					</main>
 					<Analytics />
 				</ThemeProvider>
