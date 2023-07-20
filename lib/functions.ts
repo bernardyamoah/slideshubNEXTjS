@@ -341,8 +341,6 @@ export const getSlides = async (): Promise<any[]> => {
   }
 };
 export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
-
-
   if (!databaseId) {
     throw new Error("Database ID is not defined");
   }
@@ -356,7 +354,7 @@ export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
       Query.equal("courseId", courseId),
     ]
     )
-    console.log("🚀 ~ file: functions.ts:328 ~ getSlides ~ response:", response)
+
 
     return response.documents;
   } catch (error) {
