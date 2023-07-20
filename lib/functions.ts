@@ -321,10 +321,42 @@ export const getSlides = async (): Promise<any[]> => {
   }
 
   try {
+    const courseId="649f010f1822a87164d1"
     const response = await databases.listDocuments(
       databaseId,
-      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID! // Replace with your collection ID
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+      [
+        
+        Query.limit(99),
+    
+        Query.orderDesc("$createdAt"),
+    ]
     )
+    console.log("🚀 ~ file: functions.ts:328 ~ getSlides ~ response:", response)
+
+    return response.documents;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
+
+
+  if (!databaseId) {
+    throw new Error("Database ID is not defined");
+  }
+
+  try {
+    const response = await databases.listDocuments(
+      databaseId,
+      process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
+      [
+        Query.limit(99),
+      Query.equal("courseId", courseId),
+    ]
+    )
+    console.log("🚀 ~ file: functions.ts:328 ~ getSlides ~ response:", response)
 
     return response.documents;
   } catch (error) {

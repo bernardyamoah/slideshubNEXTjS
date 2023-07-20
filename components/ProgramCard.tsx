@@ -35,11 +35,11 @@ const ProgramCard: React.FC<ProgramCardProps> = ({
        relative  overflow-hidden  group  bg-cover bg-center bg-no-repeat mx-auto flex items-center">
 
 <Image src={image} className='w-full absolute inset-0 object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name'/>
-      <div className="absolute inset-0 bg-black/80  "></div>
+      <div className="absolute inset-0 bg-black/60  "></div>
 
       <div className="relative flex items-center justify-center p-4 sm:p-5 flex-1 h-full ">
         <div className="  text-white  flex-1 text-center">
-          <h3 className="text-2xl font-bold ">{name}</h3>
+          <h3 className="text-lg font-bold ">{name}</h3>
 
         </div>
       {/* Duration */}

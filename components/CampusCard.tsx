@@ -40,7 +40,7 @@ const CampusCard: React.FC<CampusCardProps> = ({
       <div className="relative flex items-center  justify-center p-4 sm:p-6 flex-1 h-full">
         <div className=" pt-1 text-white text-center">
       
-          <span className="text-3xl font-bold tracking-widest ">{name}</span>
+          <span className="text-lg font-bold tracking-widest ">{name}</span>
         </div>
         
         {/* Location */}
