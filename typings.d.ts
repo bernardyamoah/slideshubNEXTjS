@@ -113,7 +113,11 @@ interface Slides {
 	
 	// Add any other properties specific to the User type
   }
-
+  interface Preferences {
+	theme: string;
+	language: string;
+	// Add any other preferences properties
+  }
   type UserWithId = User<Preferences> & { id: string };
 
   interface SlideResponse {
