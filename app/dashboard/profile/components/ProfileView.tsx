@@ -15,6 +15,7 @@ interface ProfileViewProps {
   country: string;
   verified: boolean;
 registration:string;
+profileImage:string;
   coverImageUrl: string;
   countryFlagEmoji: string;
   handleOpen: () => void;
@@ -29,6 +30,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   verified,
   registration,
   coverImageUrl,
+  profileImage,
   countryFlagEmoji,
   handleOpen,
 }) => {
@@ -58,7 +60,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     <p className="block shrink-0">
       <img
         alt="Speaker"
-        src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+        src={profileImage}
         className="h-14 w-14 rounded-lg object-cover"
       />
     </p>

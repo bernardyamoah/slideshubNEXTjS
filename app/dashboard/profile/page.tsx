@@ -35,6 +35,7 @@ const ModernProfilePage: React.FC = () => {
             phoneNumber: userPrefs.prefs.phoneNumber,
             country: userPrefs.prefs.country,
             countryFlagEmoji: userPrefs.prefs.countryFlagEmoji,
+            profileImage: userPrefs.prefs.profileImage,
           },
           status: userPrefs.status,
           registration: userPrefs.registration,
@@ -88,7 +89,7 @@ const ModernProfilePage: React.FC = () => {
       
         name={userData.name}
         email={userData.email}
-  
+
         prefs={userData.prefs}
         status={userData.status}
         registration={userData.registration}
@@ -101,11 +102,14 @@ const ModernProfilePage: React.FC = () => {
         phoneNumber={userData.prefs.phoneNumber}
         country={userData.prefs.country}
         bio={userData.prefs.bio}
+        profileImage={userData.prefs.profileImage}
         verified={userData.emailVerification}
         registration={userData.registration}
         coverImageUrl={userData.prefs.coverPhotoUrl}
         countryFlagEmoji={userData.prefs.countryFlagEmoji}
+  
         handleOpen={handleOpen} 
+
       />
       )}
     

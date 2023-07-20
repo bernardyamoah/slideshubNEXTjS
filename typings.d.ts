@@ -113,11 +113,7 @@ interface Slides {
 	
 	// Add any other properties specific to the User type
   }
-  interface Preferences {
-	theme: string;
-	language: string;
-	// Add any other preferences properties
-  }
+
   type UserWithId = User<Preferences> & { id: string };
 
   interface SlideResponse {
@@ -135,7 +131,7 @@ interface Slides {
     phoneNumber: string;
     country: string;
 	countryFlagEmoji: string; // Pass the countryIcon to the prefs object
-	
+	profileImage:string;
   };
   status: boolean;
   registration: string;
@@ -155,7 +151,9 @@ interface ProfileData {
     coverPhotoUrl: string;
 	country: string;
 	phoneNumber: string;
-	countryFlagEmoji: string; // Pass the countryIcon to the prefs object
+	countryFlagEmoji: string;
+	profileImage:string;
+	// Pass the countryIcon to the prefs object
     // Add more prefs properties as needed
   };
   status: boolean;

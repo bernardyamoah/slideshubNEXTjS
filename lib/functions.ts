@@ -909,7 +909,7 @@ export const getUserData = async () => {
         phoneNumber: response.prefs?.phoneNumber || '',
         country: countryName || '',
         countryFlagEmoji: country_icon || '',
-        
+        profileImage: response.prefs?.profileImage || '',
         // Pass the countryIcon to the prefs object
       
       },

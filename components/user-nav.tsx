@@ -32,7 +32,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
       try {
         const currentUser = await getCurrentUser();
         if (currentUser) {
-          const result = await getUserInitials(currentUser.name);
+          const result = currentUser.prefs.profileImage;
           setAvatarUrl(result);
         }
       } catch (error) {
