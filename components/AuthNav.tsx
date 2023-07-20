@@ -12,9 +12,9 @@ const AuthNav: React.FC<AuthNavProps> = ({ user, sidebarNavItems }) => {
   return (
     <>
       <nav className="w-full px-8 py-4 border-b-[1px] flex items-center justify-between fixed top-0 bg-white z-40 dark:bg-gray-950">
-        <Link href="/">
+        
         <Logo/>
-        </Link>
+      
         <div className="flex items-center space-x-5 capitalize">
         
         </div>

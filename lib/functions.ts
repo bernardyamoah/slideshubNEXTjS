@@ -346,7 +346,7 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
       process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
       [Query.equal("programId", programId),
       Query.limit(99)]);
-    console.log("🚀 ~ file: functions.ts:366 ~ getCoursesByProgramId ~ response:", response)
+    
 
     // Return the courses data
     return response.documents;
@@ -463,7 +463,12 @@ export const formatTime = (timePosted: string) => {
   }
 };
 
-
+export const formatUserTime = (timePosted: string) => {
+  return new Date(timePosted).toLocaleString('en-US', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+};
 
 
 
@@ -511,7 +516,9 @@ export const logIn = async (email: string, setEmail: (email: string) => void, pa
 // Logout function
 export const logOut = async (router: any) => {
   try {
-    await account.deleteSessions();
+    const sessID = (await account.getSession('current')).$id;
+
+    await account.deleteSession(sessID);
     router.push("/");
     successMessage("See you later! 🎉");
   } catch (error) {
@@ -843,10 +850,10 @@ export const handleMicrosoftSignIn = async () => {
 export const getUserInitials = async (name:string) => {
   try {
     const result = await avatars.getInitials(name);
-    console.log("🚀 ~ file: functions.ts:846 ~ getUserInitials ~ result:", result)
+
     return result.href.toString();
   } catch (error) {
-    console.log("Error fetching user initials:", error);
+  
     return null;
   }
 };
@@ -865,16 +872,120 @@ export const checkUserInTeam = async () => {
   try {
     const response = await teams.listMemberships(process.env.NEXT_PUBLIC_TEAM_ID!);
     const userId = await getUserID();
-    // Check if the user's ID exists in the list of team members
-    const isUserInTeam = response.memberships.some(
-      (membership: any) => membership.userId === userId
-    );
-    console.log("🚀 ~ file: functions.ts:865 ~ checkUserInTeam ~ isUserInTeam:", isUserInTeam)
-    return isUserInTeam;
-  } catch (error) {
-    console.error("Error checking team membership:", error);
-    return false;
-  }
+    console.log("🚀 ~ file: functions.ts:870 ~ checkUserInTeam ~ userId:", userId)
+
+ // Check if the user's ID exists in the list of team members
+ const userIds = response.memberships.map((membership: any) => membership.userId);
+ const isUserInTeam = userIds.includes(userId);
+ console.log("Is user in team:", isUserInTeam);
+ return isUserInTeam;
+} catch (error) {
+ console.error("Error checking team membership:", error);
+ return false;
+}
 };
 
 
+export const getUserData = async () => {
+  try {
+    // Get the current user's information
+    
+    const response = await account.get();
+    console.log("🚀 ~ file: functions.ts:894 ~ getUserData ~ response:", response)
+    const logistics= await account.getSession('current');
+    const {countryName, countryCode,...userSessionData} = logistics;
+    const country_icon= await avatars.getFlag(countryCode).href.toString();
+
+
+    // Extract the user data from the response and return it
+    const userData:UserData = {
+      id: response.$id,
+      name: response.name,
+      email: response.email,
+      prefs: {
+        bio: response.prefs?.bio || '',
+        avatarUrl: response.prefs?.avatarUrl || '',
+        coverPhotoUrl: response.prefs?.coverPhotoUrl || '',
+        phoneNumber: response.prefs?.phoneNumber || '',
+        country: countryName || '',
+        countryFlagEmoji: country_icon || '',
+        
+        // Pass the countryIcon to the prefs object
+      
+      },
+      status: response.status,
+      registration: response.registration,
+      emailVerification: response.emailVerification,
+      
+      // Add more fields as needed
+    };
+
+    return userData;
+  } catch (error) {
+    // Handle any errors that occurred during the data retrieval
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+// Function to update user data
+export const updateUserData = async (updatedUserData: ProfileData) => {
+  try {
+    // Get the current user's information
+    const response = await account.get();
+
+    // Merge the updated user data with the existing user data
+    const userData = { ...response, ...updatedUserData };
+
+// Destructure the userData object to get the individual properties
+const { prefs } = userData;
+
+// Update the user's preferences if prefs exist
+if (prefs) {
+  // Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
+  const updatedPrefs: Partial<ProfileData['prefs']> = {};
+
+  if (prefs.bio) {
+    // Update the bio
+    updatedPrefs.bio = prefs.bio;
+  }
+
+  if (prefs.avatarUrl) {
+    // Update the avatarUrl
+    updatedPrefs.avatarUrl = prefs.avatarUrl;
+  }
+
+  if (prefs.coverPhotoUrl) {
+    // Update the coverPhotoUrl
+    updatedPrefs.coverPhotoUrl = prefs.coverPhotoUrl;
+  }
+
+  if (prefs.phoneNumber) {
+    // Update the phoneNumber
+    updatedPrefs.phoneNumber = prefs.phoneNumber;
+  }
+
+  if (prefs.country) {
+    // Update the country
+    updatedPrefs.country = prefs.country;
+  }
+
+  // Add more prefs properties as needed
+
+  // Now update the user's preferences in the API
+
+
+  await toast.promise(account.updatePrefs(updatedPrefs),
+  {
+    loading: 'updating..',
+    success: 'Done! 🎉',
+    error: 'Failed! Try again',
+  })
+}
+
+  } catch (error) {
+    // Handle any errors that occurred during the update process
+    console.error("Error updating user data:", error);
+    throw error;
+  }
+}
