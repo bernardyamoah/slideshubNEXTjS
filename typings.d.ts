@@ -136,6 +136,7 @@ interface Slides {
     country: string;
 	countryFlagEmoji: string; // Pass the countryIcon to the prefs object
 	profileImage:string;
+	profileImageId:string;
   };
   status: boolean;
   registration: string;
@@ -157,6 +158,7 @@ interface ProfileData {
 	phoneNumber: string;
 	countryFlagEmoji: string;
 	profileImage:string;
+	profileImageId:string;
 	// Pass the countryIcon to the prefs object
     // Add more prefs properties as needed
   };

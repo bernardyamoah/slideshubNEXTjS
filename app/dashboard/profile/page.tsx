@@ -2,13 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { getUserData, updateUserData } from "@/lib/functions";
 
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import ProfileView from "./components/ProfileView";
 import ProfileEditor from "./components/ProfileEditor";
-import { Button } from "@material-tailwind/react";
-import { Edit } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 import SlidesLoading from "@/components/ui/slidesLoading";
 import LoadingScreen from "../components/LoadingScreen";
 
@@ -36,6 +34,7 @@ const ModernProfilePage: React.FC = () => {
             country: userPrefs.prefs.country,
             countryFlagEmoji: userPrefs.prefs.countryFlagEmoji,
             profileImage: userPrefs.prefs.profileImage,
+            profileImageId: userPrefs.prefs.profileImageId,
           },
           status: userPrefs.status,
           registration: userPrefs.registration,
@@ -74,46 +73,46 @@ const ModernProfilePage: React.FC = () => {
   };
 
   if (!userData) {
-    return <LoadingScreen/>
+    return <LoadingScreen />
   }
 
   return (
     <div className="p-2">
-      
+
       {editing ? (
         <ProfileEditor
-        id={userData.id}
-        coverImageUrl={userData.prefs.coverPhotoUrl}
-        onSave={handleSaveProfile}
-        onCancel={handleCancelEdit}
-      
-        name={userData.name}
-        email={userData.email}
+          id={userData.id}
+          coverImageUrl={userData.prefs.coverPhotoUrl}
+          onSave={handleSaveProfile}
+          onCancel={handleCancelEdit}
 
-        prefs={userData.prefs}
-        status={userData.status}
-        registration={userData.registration}
-        emailVerification={userData.emailVerification}
+          name={userData.name}
+          email={userData.email}
+
+          prefs={userData.prefs}
+          status={userData.status}
+          registration={userData.registration}
+          emailVerification={userData.emailVerification}
         />
       ) : (
         <ProfileView
-        name={userData.name}
-        email={userData.email}
-        phoneNumber={userData.prefs.phoneNumber}
-        country={userData.prefs.country}
-        bio={userData.prefs.bio}
-        profileImage={userData.prefs.profileImage}
-        verified={userData.emailVerification}
-        registration={userData.registration}
-        coverImageUrl={userData.prefs.coverPhotoUrl}
-        countryFlagEmoji={userData.prefs.countryFlagEmoji}
-  
-        handleOpen={handleOpen} 
+          name={userData.name}
+          email={userData.email}
+          phoneNumber={userData.prefs.phoneNumber}
+          country={userData.prefs.country}
+          bio={userData.prefs.bio}
+          profileImage={userData.prefs.profileImage}
+          verified={userData.emailVerification}
+          registration={userData.registration}
+          coverImageUrl={userData.prefs.coverPhotoUrl}
+          countryFlagEmoji={userData.prefs.countryFlagEmoji}
 
-      />
+          handleOpen={handleOpen}
+
+        />
       )}
-    
-      
+
+
 
     </div>
   );
