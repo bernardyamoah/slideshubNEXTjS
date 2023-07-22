@@ -108,7 +108,7 @@ export default function ProgrammeList() {
             {isLoading ? (
               <Loading />
             ) : filteredPrograms.length > 0 ? ( // Check the length of filteredPrograms instead of programs
-              <div className={`mx-auto max-w-7xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
+              <div className={`mx-auto max-w-7xl grid gap-8   auto-rows-max ${mainClassName}`}>
                 {filteredPrograms.map((program) => (
                   <ProgramCard key={program.$id} programId={program.$id} {...program} timePosted={program.$createdAt} />
                 ))}
