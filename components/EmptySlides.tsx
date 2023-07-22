@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import noFile from '@/public/undraw_documents_re_isxv.svg'
 import { Button } from "./ui/button";
-import { ChevronsLeftIcon, ChevronsLeftRightIcon } from "lucide-react";
+import { ChevronsLeftIcon } from "lucide-react";
 
 export function EmptySlides() {
 	const router = useRouter();
