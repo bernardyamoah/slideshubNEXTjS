@@ -48,7 +48,7 @@ export default function CampusList() {
 
 
       <div
-        className="overflow-hidden bg-[url('https://media.istockphoto.com/id/1160970394/photo/back-of-university-student-with-backpack-while-going-to-college-by-walking-from-street.jpg?s=612x612&w=0&k=20&c=Uk0twlMLZTPVyMExQN2bvLyzuBfqkTSSnYZKG3hkwUV=')] bg-cover bg-top bg-no-repeat"
+        className="overflow-hidden bg-[url('https://media.istockphoto.com/id/1160970394/photo/back-of-university-student-with-backpack-while-going-to-college-by-walking-from-street.jpg?s=612x612&w=0&k=20&c=Uk0twlMLZTPVyMExQN2bvLyzuBfqkTSSnYZKG3hkwUV=80')] bg-cover bg-top bg-no-repeat"
       >
         <div className="bg-black/60 p-8 md:p-12 lg:px-16 lg:py-24">
           <div className="text-center ltr:sm:text-left rtl:sm:text-right">
@@ -57,7 +57,7 @@ export default function CampusList() {
             </h2>
 
             <p
-              className="hidden max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
+              className=" max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
             >
               Select your campus to access the offered programmes
             </p>
