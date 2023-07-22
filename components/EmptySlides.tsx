@@ -9,13 +9,13 @@ export function EmptySlides() {
 	const router = useRouter();
 	return (
 
-		<div className="dark:bg-inherit w-full">
-			<div className="container  mx-auto grid place-content-center h-screen">
+		<div className="dark:bg-inherit w-full mt-10">
+			<div className="container  mx-auto grid place-content-center ">
 				{/* an Emptystate page */}
 				<Image className="object-cover object-center" width={400} height={400} src={noFile} alt="empty books" />
 				<div className="flex items-center justify-center mt-16">
 					<div className="text-center">
-						<h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-6">Oops! Nothing here yet.</h1>
+						<h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-6">Oops! No slides here yet.</h1>
 
 						<Button
 

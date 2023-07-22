@@ -80,14 +80,14 @@ export default function ProgrammeList() {
             className="rounded-md object-cover w-full h-full absolute -z-10"
           />
 
-          <div className="bg-black/60 p-4 md:p-10 lg:px-16 lg:py-24 h-full flex items-center justify-center">
+          <div className="bg-black/80 p-4 md:p-10 lg:px-16 lg:py-24 h-full flex items-center justify-center">
             <div className="text-center ltr:sm:text-left rtl:sm:text-right">
               <h2 className="text-xl font-bold text-white md:text-5xl">
-                {campusinfo} - {campusLocation}
+                {campusinfo}
               </h2>
 
               <p
-                className=" max-w-lg text-gray-200 dark:text-gray-300 mt-8 md:block text-sm md:text-base md:leading-relaxed text-center mx-auto lg:text-lg"
+                className=" max-w-lg text-gray-200 dark:text-gray-300 mt-6 md:block text-sm md:text-base md:leading-relaxed text-center mx-auto lg:text-lg"
               >
                 Select yor programme to access the course slides
               </p>

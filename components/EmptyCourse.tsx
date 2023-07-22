@@ -16,7 +16,7 @@ export default function EmptyCourse() {
 
 
 		<div className="dark:bg-inherit w-full">
-			<div className="container  mx-auto grid place-content-center h-screen">
+			<div className="container  mx-auto grid place-content-center ">
 				{/* an Emptystate page */}
 				<Image className="object-cover object-center" width={400} height={400} src={noCourse} alt="empty books" />
 				<div className="flex items-center justify-center mt-16">

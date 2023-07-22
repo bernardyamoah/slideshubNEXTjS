@@ -16,6 +16,7 @@ import CourseCard from '@/components/CourseCard';
 
 import EmptyCourse from '@/components/EmptyCourse';
 import SlidesLoading from '@/components/ui/slidesLoading';
+import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
 
 interface Course {
   $id: string;
@@ -125,7 +126,8 @@ export default function CourseList() {
         <section className="md:container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
             {isLoading ? (
-              <SlidesLoading />
+              <LoadingScreen
+              />
             ) : (
               <>
                 <Tabs value={data[0].value}>

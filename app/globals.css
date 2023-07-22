@@ -72,7 +72,7 @@
  
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border antialiased sm:subpixel-antialiased;
   }
   body {
     @apply bg-background text-foreground font-body;
