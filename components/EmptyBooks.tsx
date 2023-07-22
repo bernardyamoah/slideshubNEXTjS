@@ -1,4 +1,4 @@
-
+'use client'
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import book from '@/public/no books.svg'
