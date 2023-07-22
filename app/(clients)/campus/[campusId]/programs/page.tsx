@@ -87,7 +87,7 @@ export default function ProgrammeList() {
               </h2>
 
               <p
-                className=" max-w-lg text-gray-200 dark:text-gray-300 md:mt-6 md:block text-sm md:text-base md:leading-relaxed text-center mx-auto lg:text-lg"
+                className=" max-w-lg text-gray-200 dark:text-gray-300 mt-8 md:block text-sm md:text-base md:leading-relaxed text-center mx-auto lg:text-lg"
               >
                 Select yor programme to access the course slides
               </p>

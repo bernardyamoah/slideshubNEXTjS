@@ -25,7 +25,7 @@ const CampusCard: React.FC<CampusCardProps> = ({
 
   return (
 
-    <Card className='h-44'>
+    <Card className='h-44 overflow-hidden'>
       <Link
         href={{
           pathname: `/campus/${campusId}/programs/`,
@@ -41,9 +41,8 @@ const CampusCard: React.FC<CampusCardProps> = ({
         <Image src={image} className='w-full absolute inset-0 object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name' />
         <div className="absolute inset-0 bg-black/80  "></div>
         <div className="relative flex items-center  justify-center p-4 sm:p-6 flex-1 h-full">
-          <div className=" pt-1 text-white text-center">
-
-            <span className="text-lg font-bold tracking-widest ">{name}</span>
+          <div className=" pt-1 text-white text-center text-lg font-bold uppercase">
+            {name}
           </div>
 
           {/* Location */}

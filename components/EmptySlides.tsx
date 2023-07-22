@@ -1,3 +1,4 @@
+'use client '
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import noFile from '@/public/undraw_documents_re_isxv.svg'
