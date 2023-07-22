@@ -1,7 +1,7 @@
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-import {useRouter} from "next/navigation";
-import { checkAuthStatusDashboard} from "@/lib/functions";
+import { useRouter } from "next/navigation";
+import { checkAuthStatusDashboard } from "@/lib/functions";
 
 import NoEvent from "@/components/NoEvent";
 import UserSlidesCard from "@/components/UserSlidesCard";
@@ -25,7 +25,7 @@ interface Slide {
 
 interface UserWithId {
   $id: string;
-  name:string;
+  name: string;
 }
 
 export default function Dashboard() {
@@ -38,45 +38,45 @@ export default function Dashboard() {
   const [isUserInTeam, setIsUserInTeam] = useState<boolean | null>(null);
 
 
-  
 
-const handlePageChange = (page: number) => {
-  setCurrentPage(page);
-};
-const authenticateUser = useCallback(async () => {
-  // Fetch user data and slides
-  checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage);
-  
 
-}, [router, currentPage]);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  const authenticateUser = useCallback(async () => {
+    // Fetch user data and slides
+    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage);
 
-  
+
+  }, [router, currentPage]);
+
+
 
   useEffect(() => {
     authenticateUser();
 
-            }, 
+  },
 
-  [authenticateUser]);
+    [authenticateUser]);
 
   if (loading) return <LoadingScreen />;
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 "; // Determine the number of columns
   return (
     <>
-  
-<header className="">
-  <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <div className="mt-8">
-      <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-        Welcome Back, {user?.name}!
-      </h1>
+      <header className="">
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
 
-      <p className="mt-1.5 text-sm text-gray-500 sm:text-base lg:text-lg">
-          Let&apos;s upload a new slide! 🎉
-        </p>
-    </div>
-    {/* <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
+          <div className="mt-8">
+            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+              Welcome Back, {user?.name}!
+            </h1>
+
+            <p className="mt-1.5 text-sm text-gray-500 sm:text-base lg:text-lg">
+              Let&apos;s upload a new slide! 🎉
+            </p>
+          </div>
+          {/* <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
     
 
         <Button
@@ -84,8 +84,8 @@ const authenticateUser = useCallback(async () => {
           <Link href={'dashboard/create'}>Create a Slide</Link>
         </Button>
       </div> */}
-  </div>
-</header>
+        </div>
+      </header>
       <div className="max-w-screen ">
         <main className={`mx-auto max-w-7xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
           <Suspense fallback={<LoadingScreen />}>
@@ -102,11 +102,11 @@ const authenticateUser = useCallback(async () => {
             ) : (
               <NoEvent user={user} />
             )}
-        
+
           </Suspense>
-          
+
         </main>
-        {slides.length > 0 && (  
+        {slides.length > 0 && (
           <Pagination
             pageCount={totalPages}
             activePage={currentPage}

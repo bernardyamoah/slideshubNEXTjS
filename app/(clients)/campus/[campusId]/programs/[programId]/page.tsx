@@ -74,7 +74,7 @@ export default function CourseList() {
   }, [programId, programName]);
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
-  
+
 
 
   const data = [
@@ -124,7 +124,7 @@ export default function CourseList() {
 
         <section className="md:container relative mx-auto flex flex-col items-center pb-10">
           <div id="myUL">
-          {isLoading ? (
+            {isLoading ? (
               <SlidesLoading />
             ) : (
               <>
@@ -143,71 +143,39 @@ export default function CourseList() {
                   <TabsBody>
                     {data.map(({ value }) => (
                       <TabPanel key={value} value={value}>
-                        
-                        {filteredCourses
-                        .filter((course) => course.year === value)
-                        .length > 0 ? (
-                        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 lg:gap-12 pb-10">
-                          <Suspense fallback={<SlidesLoading />}>
-                          {filteredCourses
-                              .filter((course) => course.year === value)
-                              .map((course) => (
-                                  <CourseCard key={course.$id} courseId={course.$id} {...course} timePosted={course.$createdAt} />
-                                
-                  ))}  
 
-                                </Suspense>
-                      
-                              
-                              </div>
-                              ):(
-                                <div className="flex justify-center w-full">
-                                <EmptyCourse />
-                              </div>
-                              )}
-                            </TabPanel>
-                        
-                         ))}
-                       </TabsBody>
-                     </Tabs>
-                   </>
-                 )}
-               </div>
-             </section>
-             <Toaster />
-           </main>
-         </>
+                        {filteredCourses
+                          .filter((course) => course.year === value)
+                          .length > 0 ? (
+                          <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 lg:gap-12 pb-10">
+                            <Suspense fallback={<SlidesLoading />}>
+                              {filteredCourses
+                                .filter((course) => course.year === value)
+                                .map((course) => (
+                                  <CourseCard key={course.$id} courseId={course.$id} {...course} timePosted={course.$createdAt} />
+
+                                ))}
+
+                            </Suspense>
+
+
+                          </div>
+                        ) : (
+                          <div className="flex justify-center w-full">
+                            <EmptyCourse />
+                          </div>
+                        )}
+                      </TabPanel>
+
+                    ))}
+                  </TabsBody>
+                </Tabs>
+              </>
+            )}
+          </div>
+        </section>
+        <Toaster />
+      </main>
+    </>
   );
 }
-// export async function getServerSideProps() {
-//   const programId = ''; // Provide the program ID here
-//   let programName = '';
-
-//   try {
-//     programName = await getProgramName(programId);
-//     const programDetails = await getProgramDetails(programId);
-//     const campusId = programDetails?.campusId;
-
-//     const response = await toast.promise(getCoursesByProgramId(programId), {
-//       loading: `Fetching courses from ${programName} database..`,
-//       success: <b>Successfully fetched courses</b>,
-//       error: <b>Failed to fetch courses {programName}.</b>,
-//     });
-
-//     const courses = response || [];
-
-//     return {
-//       props: {
-//         courses,
-//         programName,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         courses: [],
-//         programName: '',
-//       },
-//     };
-//   }
-// }

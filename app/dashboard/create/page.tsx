@@ -1,7 +1,7 @@
 'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Metadata } from "next"
-import { Book, Files, GraduationCap, PiSquare, Plus } from "lucide-react"
+import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react"
 
 
 import {
@@ -12,24 +12,19 @@ import {
 import {
   Card,
   CardContent,
-
+  CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import {
 
-
-  CardHeader,
-  Typography,
-  
-
-} from '@material-tailwind/react'
+import { Typography } from '@material-tailwind/react'
 
 import AddSlides from '@/components/AddSlides'
 import AddBook from '@/components/AddBook'
 import AddProgram from '@/components/AddProgram'
 import AddCourse from '@/components/AddCourse'
 import { checkUserInTeam } from '@/lib/functions'
+import AddCampus from '@/components/AddCampus'
+import { Label } from '@/components/ui/label'
 
 
 
@@ -42,29 +37,35 @@ const metadata: Metadata = {
 const componentData = [
   {
     key: "slides",
-    icon: <Files className="mx-auto w-10 h-10 stroke-blue-gray-300" />,
+    icon: <Files className="mx-auto w-10 h-10 " />,
     component: <AddSlides />,
   },
   {
     key: "book",
-    icon: <Book className="mx-auto w-10 h-10 stroke-blue-gray-300" />,
+    icon: <Book className="mx-auto w-10 h-10 " />,
     component: <AddBook />,
   },
   {
     key: "course",
-    icon: <PiSquare className="mx-auto w-10 h-10 stroke-blue-gray-300" />,
+    icon: <PiSquare className="mx-auto w-10 h-10 " />,
     component: <AddCourse />,
   },
   {
     key: "program",
-    icon: <GraduationCap className="mx-auto w-10 h-10 stroke-blue-gray-300" />,
+    icon: <GraduationCap className="mx-auto w-10 h-10 " />,
     component: <AddProgram />,
   },
+  {
+    key: "campus",
+    icon: <School className="mx-auto w-10 h-10 " />,
+    component: <AddCampus />,
+  },
 ];
-export default function Page()  {
-  
+export default function Page() {
+
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
-  
+
+
 
   // Memoize the checkTeamMembership function using useCallback
   const checkTeamMembership = useCallback(async () => {
@@ -79,11 +80,12 @@ export default function Page()  {
 
 
   return (
-  <>
-  <div className='max-w-2xl mx-auto my-10 sm:h-24 text-center'>
-        <h1>Create a slide</h1>
+    <>
+      <div className="max-w-2xl mx-auto my-10 sm:h-24 text-center">
+        <h1>Create a Slide</h1>
+        {/* Add subtext or description here if needed */}
       </div>
-      <aside className="mx-auto grid max-w-2xl gap-8 md:grid-cols-2 p-8">
+      <aside className="mx-auto grid container gap-8 md:flex flex-wrap p-8 justify-center">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -91,34 +93,28 @@ export default function Page()  {
             return (
               <div
                 key={key}
-                className="group relative block h-52 w-full aspect-square cursor-pointer"
+                className="group relative block h-52 max-w-fit aspect-square cursor-pointer"
               >
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div
-                      className="relative h-full transform items-end border-2 border-gray-300 dark:border-gray-800/80 bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2"
-                    >
-                      <div className="space-y-3 flex flex-col justify-center">
+                    <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
+                      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="absolute top-4 left-4 ">
                         {icon}
-                        <CardTitle className="text-center">{`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}</CardTitle>
                       </div>
-                      <CardContent className="grid place-content-center">
-                        <Button variant="outline" className="p-2 w-10 rounded-full">
-                          <Plus className="w-5 h-5 sm:w-8 sm:h-8 stroke-gray-500" />
-                        </Button>
-                      </CardContent>
-                    </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Label className=" text-lg ">
+                          {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
+                        </Label>
+                      </div>
+                    </Card>
                   </DialogTrigger>
                   <DialogContent>
                     <Card className="mx-auto w-full border-none">
-                      <CardHeader
-                        variant="gradient"
-                        color="blue"
-                        className="mb-4 grid h-28 place-items-center"
-                      >
-                        <Typography variant="h3" color="white">
+                      <CardHeader>
+                        <CardTitle>
                           {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
-                        </Typography>
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="flex flex-col gap-4">
                         {component}
@@ -135,23 +131,24 @@ export default function Page()  {
             <div className="group relative block h-52 w-full aspect-square cursor-pointer">
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="relative h-full transform items-end border-2 border-gray-300 dark:border-gray-800/80 bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
-                    <div className="space-y-3 flex flex-col justify-center">
-                      <Files className="mx-auto w-10 h-10 stroke-blue-gray-300" />
-                      <CardTitle className="text-center">Add Slides</CardTitle>
+
+
+                  <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
+                    <div className="absolute inset-0 bg-gry-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute top-4 left-4 ">
+                      <Files className="mx-auto w-10 h-10 " />
                     </div>
-                    <CardContent className="grid place-content-center">
-                      <Button variant="outline" className="p-2 w-10 rounded-full">
-                        <Plus className="w-5 h-5 sm:w-8 sm:h-8 stroke-gray-500" />
-                      </Button>
-                    </CardContent>
-                  </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Label className=" text-lg ">
+                        Add Slides
+                      </Label>
+                    </div>
+                  </Card>
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="mx-auto w-full border-none">
                     <CardHeader
-                      variant="gradient"
-                      color="blue"
+
                       className="mb-4 grid h-28 place-items-center"
                     >
                       <Typography variant="h3" color="white">
@@ -169,28 +166,30 @@ export default function Page()  {
             <div className="group relative block h-52 w-full aspect-square cursor-pointer">
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="relative h-full transform items-end border-2 border-gray-300 dark:border-gray-800/80 bg-white dark:bg-gray-900 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
-                    <div className="space-y-3 flex flex-col justify-center">
-                      <Book className="mx-auto w-10 h-10 stroke-blue-gray-300" />
-                      <CardTitle className="text-center">Add Book</CardTitle>
+
+
+                  <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
+                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute top-4 left-4 ">
+                      <Book className="mx-auto w-10 h-10 " />
                     </div>
-                    <CardContent className="grid place-content-center">
-                      <Button variant="outline" className="p-2 w-10 rounded-full">
-                        <Plus className="w-5 h-5 sm:w-8 sm:h-8 stroke-gray-500" />
-                      </Button>
-                    </CardContent>
-                  </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Label className=" text-lg ">
+                        Add Book
+                      </Label>
+                    </div>
+                  </Card>
+
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="mx-auto w-full border-none">
                     <CardHeader
-                      variant="gradient"
-                      color="blue"
+
                       className="mb-4 grid h-28 place-items-center"
                     >
-                      <Typography variant="h3" color="white">
+                      <CardTitle color="white">
                         Add Book
-                      </Typography>
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                       <AddBook />
