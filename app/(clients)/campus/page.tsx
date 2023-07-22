@@ -7,6 +7,7 @@ import Loading from '@/components/ui/Cloading';
 import toast, { Toaster } from 'react-hot-toast';
 
 import CampusCard from '@/components/CampusCard';
+import { Card } from '@/components/ui/card';
 
 
 interface Campus {
@@ -41,7 +42,7 @@ export default function CampusList() {
 
     fetchCampuses();
   }, []);
-console.log(campuses)
+
   return (
     <>
 
@@ -71,12 +72,12 @@ console.log(campuses)
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>
         </p>
       </section> */}
-      <section className="mt-10 relative mx-auto flex flex-col items-center pb-10 px-2">
-        <div id="myUL">
+      <section className="h-full relative mx-auto flex flex-col items-center pb-10 px-2 bg-inherit">
+        <div className='w-full'>
           {isLoading ? (
             <Loading />
           ) : (
-            <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 ">
+            <div className="max-w-4xl mx-auto w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 bg-none ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />

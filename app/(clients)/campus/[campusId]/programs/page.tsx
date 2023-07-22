@@ -103,7 +103,7 @@ export default function ProgrammeList() {
           </p>
         </section> */}
 
-        <section className="mt-20 relative mx-auto flex flex-col items-center pb-10 px-4">
+        <section className="pt-20 relative mx-auto flex flex-col items-center pb-10 px-4">
           <div id="myUL">
             {isLoading ? (
               <Loading />

@@ -1,4 +1,4 @@
-"use client"
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import book from '@/public/no books.svg'
@@ -7,7 +7,7 @@ export default function EmptyBooks() {
 	const router = useRouter();
 	const content = (
 		<>
-			<div className="bg-white dark:bg-inherit w-full">
+			<div className="dark:bg-inherit w-full">
 				<div className="container  mx-auto grid place-content-center h-screen">
 					{/* an Emptystate page */}
 					<Image className="object-cover object-center" width={400} height={400} src={book} alt="empty books" />
