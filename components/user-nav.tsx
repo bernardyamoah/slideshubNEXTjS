@@ -32,7 +32,12 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
       try {
         const currentUser = await getCurrentUser();
         if (currentUser) {
-          const result = await getUserInitials(currentUser.name);
+          const result = currentUser.prefs.profileImage;
+
+          const initials = await getUserInitials(currentUser.name);
+          if (result === '') {
+            setAvatarUrl(initials);
+          }
           setAvatarUrl(result);
         }
       } catch (error) {
@@ -48,7 +53,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-          {avatarUrl ? (
+            {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={user?.name?.split(' ')[0] || ' '} />
             ) : (
               <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
@@ -68,14 +73,14 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={()=> router.push('/dashboard/profile')}>
+          <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
-    
+
         </DropdownMenuGroup>
-        
+
         <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={() => logOut(router)}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

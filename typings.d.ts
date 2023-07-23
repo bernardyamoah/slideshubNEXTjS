@@ -124,3 +124,46 @@ interface Slides {
 	slides: Models.Document[];
 	totalCount: number;
   }
+  interface UserData {
+	id: string;
+  name: string;
+  email: string;
+  prefs: {
+    bio: string;
+    avatarUrl: string;
+    coverPhotoUrl: string;
+    phoneNumber: string;
+    country: string;
+	countryFlagEmoji: string; // Pass the countryIcon to the prefs object
+	profileImage:string;
+	profileImageId:string;
+  };
+  status: boolean;
+  registration: string;
+  emailVerification: boolean;
+  
+}
+	
+
+interface ProfileData {
+  id: string;
+  name: string;
+  email: string;
+  
+  prefs: {
+    bio: string;
+    avatarUrl: string;
+    coverPhotoUrl: string;
+	country: string;
+	phoneNumber: string;
+	countryFlagEmoji: string;
+	profileImage:string;
+	profileImageId:string;
+	// Pass the countryIcon to the prefs object
+    // Add more prefs properties as needed
+  };
+  status: boolean;
+  registration: string;
+  emailVerification: boolean;
+  
+}

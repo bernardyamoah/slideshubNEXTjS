@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import toast, { Toaster } from 'react-hot-toast';
-import { CardHeader, Step, Stepper, Typography } from "@material-tailwind/react";
+import { Step, Stepper, } from "@material-tailwind/react";
 
 
 
@@ -175,117 +175,117 @@ export default function AddSlides() {
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2 space-y-6">
 
-            {activeStep === 0 && (
-            
-            <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="programme">Programme</Label>
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open1}
-                  className="w-full justify-between"
-                >
-                  {programId
-                    ? programs.find(
-                      (program) => program.$id === programId
-                    )?.name
-                    : "Select Programme"}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0" >
-                <Command onValueChange={handleProgramChange} >
-                  <CommandInput required placeholder="Search program..." />
-                  <CommandEmpty>No program found.</CommandEmpty>
-                  <CommandGroup >
-                    {programs.map((program) => (
-                      <CommandItem
-                        key={program.$id}
-                        onSelect={(currentValue) => {
-                          setProgramId(
-                            currentValue === programId
-                              ? ""
-                              : program.$id
-                          );
-                          setOpen(false);
-                        }}
+              {activeStep === 0 && (
+
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="programme">Programme</Label>
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open1}
+                        className="w-full justify-between"
                       >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            programId === program.$id
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        {program.name}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </div>
-          )}
-      
-            {activeStep === 1 && (
-              <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="course">Courses</Label>
-              <Popover open={open1} onOpenChange={setOpen1}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open1}
-                    className="w-full justify-between"
-                  >
-                    {courseId
-                      ? courses.find((course) => course.$id === courseId)?.name
-                      : "Select Courses"}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full p-0">
-                  <Command onValueChange={handleSelectChange}>
-                    <CommandInput placeholder="Search course..." />
-                    <CommandEmpty>No course found.</CommandEmpty>
-                    <CommandGroup>
-                      {courses.map((course) => (
-                        <CommandItem className="capitalize"
-                          key={course.$id}
-                          onSelect={(currentValue) => {
-                            setCourseId(currentValue === courseId ? "" : course.$id)
-                            setOpen1(false)
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              courseId === course.$id ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {course.name.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                        {programId
+                          ? programs.find(
+                            (program) => program.$id === programId
+                          )?.name
+                          : "Select Programme"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0" >
+                      <Command onValueChange={handleProgramChange} >
+                        <CommandInput required placeholder="Search program..." />
+                        <CommandEmpty>No program found.</CommandEmpty>
+                        <CommandGroup >
+                          {programs.map((program) => (
+                            <CommandItem
+                              key={program.$id}
+                              onSelect={(currentValue) => {
+                                setProgramId(
+                                  currentValue === programId
+                                    ? ""
+                                    : program.$id
+                                );
+                                setOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  programId === program.$id
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {program.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
+
+              {activeStep === 1 && (
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="course">Courses</Label>
+                  <Popover open={open1} onOpenChange={setOpen1}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open1}
+                        className="w-full justify-between"
+                      >
+                        {courseId
+                          ? courses.find((course) => course.$id === courseId)?.name
+                          : "Select Courses"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0">
+                      <Command onValueChange={handleSelectChange}>
+                        <CommandInput placeholder="Search course..." />
+                        <CommandEmpty>No course found.</CommandEmpty>
+                        <CommandGroup>
+                          {courses.map((course) => (
+                            <CommandItem className="capitalize"
+                              key={course.$id}
+                              onSelect={(currentValue) => {
+                                setCourseId(currentValue === courseId ? "" : course.$id)
+                                setOpen1(false)
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  courseId === course.$id ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {course.name.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
 
 
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
 
-            </div>
-          )}
+                </div>
+              )}
 
 
-            {activeStep === 2 && (
-          <div className="grid w-full items-center gap-1.5">
-          <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
-        </div>
-          )}
-              
+              {activeStep === 2 && (
+                <div className="grid w-full items-center gap-1.5">
+                  <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
+                </div>
+              )}
+
 
 
               <div className="w-full py-4 px-8">
@@ -304,51 +304,51 @@ export default function AddSlides() {
                   )}
                 </div>
               </div>
-        </div>
+            </div>
           </form>
-        
-      <div className="max-w-sm mx-auto py-4 relative bottom-4 mt-10">
-      <Stepper
-        activeStep={activeStep}
-        isLastStep={(value) => setIsLastStep(value)}
-        isFirstStep={(value) => setIsFirstStep(value)}
-      >
-        <Step onClick={() => setActiveStep(0)}>
-          <UserIcon className="h-5 w-5" />
-          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-      
-          <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
 
-              Personal Details
-          </p>
+          <div className="max-w-sm mx-auto py-4 relative bottom-4 mt-10">
+            <Stepper
+              activeStep={activeStep}
+              isLastStep={(value) => setIsLastStep(value)}
+              isFirstStep={(value) => setIsFirstStep(value)}
+            >
+              <Step onClick={() => setActiveStep(0)}>
+                <UserIcon className="h-5 w-5" />
+                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+                  <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
+
+                    Personal Details
+                  </p>
+                </div>
+              </Step>
+              <Step onClick={() => setActiveStep(1)}>
+                <CogIcon className="h-5 w-5" />
+                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+                  <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
+
+                    Security
+                  </p>
+                </div>
+              </Step>
+              <Step onClick={() => setActiveStep(2)}>
+                <Building className="h-5 w-5" />
+                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+                  <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
+
+                    Details
+                  </p>
+                </div>
+              </Step>
+            </Stepper>
+
           </div>
-        </Step>
-        <Step onClick={() => setActiveStep(1)}>
-          <CogIcon className="h-5 w-5" />
-          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-      
-          <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-
-            Security
-          </p>
-          </div>
-        </Step>
-        <Step onClick={() => setActiveStep(2)}>
-          <Building className="h-5 w-5" />
-          <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-      
-      <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-
-         Details
-      </p>
-      </div>
-        </Step>
-      </Stepper>
-    
-    </div>
         </div>
         <Toaster />
-      
+
       </div>
     </>
   );

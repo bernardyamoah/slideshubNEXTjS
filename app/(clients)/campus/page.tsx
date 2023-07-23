@@ -7,6 +7,7 @@ import Loading from '@/components/ui/Cloading';
 import toast, { Toaster } from 'react-hot-toast';
 
 import CampusCard from '@/components/CampusCard';
+import { Card } from '@/components/ui/card';
 
 
 interface Campus {
@@ -41,13 +42,13 @@ export default function CampusList() {
 
     fetchCampuses();
   }, []);
-console.log(campuses)
+
   return (
     <>
 
 
       <div
-        className="overflow-hidden bg-[url('https://media.istockphoto.com/id/1160970394/photo/back-of-university-student-with-backpack-while-going-to-college-by-walking-from-street.jpg?s=612x612&w=0&k=20&c=Uk0twlMLZTPVyMExQN2bvLyzuBfqkTSSnYZKG3hkwUV=')] bg-cover bg-top bg-no-repeat"
+        className="overflow-hidden bg-[url('https://media.istockphoto.com/id/1160970394/photo/back-of-university-student-with-backpack-while-going-to-college-by-walking-from-street.jpg?s=612x612&w=0&k=20&c=Uk0twlMLZTPVyMExQN2bvLyzuBfqkTSSnYZKG3hkwUV=80')] bg-cover bg-top bg-no-repeat"
       >
         <div className="bg-black/60 p-8 md:p-12 lg:px-16 lg:py-24">
           <div className="text-center ltr:sm:text-left rtl:sm:text-right">
@@ -56,7 +57,7 @@ console.log(campuses)
             </h2>
 
             <p
-              className="hidden max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
+              className=" max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
             >
               Select your campus to access the offered programmes
             </p>
@@ -71,12 +72,12 @@ console.log(campuses)
           <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link>
         </p>
       </section> */}
-      <section className="mt-10 relative mx-auto flex flex-col items-center pb-10 px-2">
-        <div id="myUL">
+      <section className="h-full relative mx-auto flex flex-col items-center pb-10 px-2 bg-inherit">
+        <div className='w-full'>
           {isLoading ? (
             <Loading />
           ) : (
-            <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 ">
+            <div className="max-w-4xl mx-auto w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 bg-none ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />

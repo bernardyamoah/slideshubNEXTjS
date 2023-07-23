@@ -9,6 +9,8 @@ import { useSearchParams } from 'next/navigation';
 
 import EmptyProgram from '@/components/EmptyPrograms';
 import ProgramCard from '@/components/ProgramCard';
+import Image from 'next/image';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 interface Program {
   $id: string;
@@ -17,7 +19,7 @@ interface Program {
   name: string;
   description: string;
   duration: string;
-  $createdAt:string;
+  $createdAt: string;
 }
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +29,7 @@ export default function ProgrammeList() {
   const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
   const campusId = searchParams?.get('campusId');
-  const campusinfo = searchParams?.get('name');
+  const campusinfo = searchParams?.get('name')?.toString();
   const campusLocation = searchParams?.get('loc');
 
   useEffect(() => {
@@ -59,56 +61,61 @@ export default function ProgrammeList() {
     fetchPrograms();
   }, [campusId, campusLocation, campusinfo]);
 
-
+  const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
 
   return (
     <>
       <main className="card_container">
-        
-<div
-  className="min-h-44 overflow-hidden bg-[url('https://media.istockphoto.com/id/657110928/photo/girls-in-computer-lab-coding-on-laptops.jpg?s=612x612&w=0&k=20&c=4sIAAyLfj44r2OHbF5nBfYDJj5So79W9HATlPvBzQzQ=')] bg-cover bg-top bg-no-repeat"
->
-  <div className="bg-black/60 p-8 md:p-12 lg:px-16 lg:py-24">
-    <div className="text-center ltr:sm:text-left rtl:sm:text-right">
-      <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
-      {campusinfo} - {campusLocation} Programmes
-      </h2>
 
-      <p
-        className="hidden max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
-      >
-        Select yor programme to access the course slides
-      </p>
+        <div
+          className="h-64 overflow-hidden relative "
+        >
 
-    
-    </div>
-  </div>
-</div>
+          <Image
+            src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xhc3N8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            alt='campus image'
+            width={500}
+            height={400}
+            className="rounded-md object-cover w-full h-full absolute -z-10"
+          />
+
+          <div className="bg-black/80 p-4 md:p-10 lg:px-16 lg:py-24 h-full flex items-center justify-center">
+            <div className="text-center ltr:sm:text-left rtl:sm:text-right">
+              <h2 className="text-xl font-bold text-white md:text-5xl">
+                {campusinfo}
+              </h2>
+
+              <p
+                className=" max-w-lg text-gray-200 dark:text-gray-300 mt-6 md:block text-sm md:text-base md:leading-relaxed text-center mx-auto lg:text-lg"
+              >
+                Select yor programme to access the course slides
+              </p>
+
+
+            </div>
+          </div>
+        </div>
         {/* <section className="heading-link">
           <h3>Programmes</h3>
           <p>
             <Link href="/">home</Link> / <Link href={`/campus/`}>Campus</Link> / Programs
           </p>
         </section> */}
-            
-        <section className="mt-20 relative mx-auto flex flex-col items-center pb-10 px-4">
+
+        <section className="pt-20 relative mx-auto flex flex-col items-center pb-10 px-4">
           <div id="myUL">
             {isLoading ? (
               <Loading />
+            ) : filteredPrograms.length > 0 ? ( // Check the length of filteredPrograms instead of programs
+              <div className={`mx-auto max-w-7xl grid gap-8   auto-rows-max ${mainClassName}`}>
+                {filteredPrograms.map((program) => (
+                  <ProgramCard key={program.$id} programId={program.$id} {...program} timePosted={program.$createdAt} />
+                ))}
+              </div>
             ) : (
-              <div className="md:container max-w-4xl grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 ">
-   <Suspense fallback={<Loading />}>
-                  {filteredPrograms.length > 0 ? (
-                    filteredPrograms.map((program) => (
-                      <ProgramCard key={program.$id} programId={program.$id} {...program} timePosted={program.$createdAt} />
-                    ))
-                  ) : (
-                    <div className="flex justify-center w-full">
-                    <EmptyProgram/>
-                  </div>
-                  )}
-                </Suspense>
+              <div className="flex justify-center w-full">
+                <EmptyProgram />
               </div>
             )}
           </div>

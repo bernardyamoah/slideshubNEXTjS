@@ -1,22 +1,27 @@
-'use client'
-import Link from "next/link";
-import Image from "next/image";
-import errorImage from '@/public/error.svg'
 
+
+import Image from "next/image";
+import noProgram from '@/public/undraw_no_data_re_kwbl.svg'
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { ChevronsLeftIcon } from "lucide-react";
 
 export default function EmptyProgram() {
+	const router = useRouter();
 	return (
-		
-		<div className='w-full  flex flex-col items-center justify-center p-4'>
-			<h1 className='my-4 text-center text-base font-bold sm:text-2xl'>Oops! There are no Programs here!</h1>
-			<Image src={'https://opendoodles.s3-us-west-1.amazonaws.com/reading.svg'} alt='Create an event' width={500} height={500} />
 
-			{/* <Button>
-				<Link href={'/campus'}>
-					Add Slides
-				</Link>
-			</Button> */}
-	</div>
+		<div className='w-full  flex flex-col items-center justify-center p-4'>
+			<Image src={noProgram} alt='Create an event' width={200} height={300} />
+			<h1 className='mt-10 text-center text-base font-bold sm:text-2xl'>Oops! There are no Programs here!</h1>
+			<Button
+
+				onClick={() => router.back()}
+			>
+				<ChevronsLeftIcon className="w-4 h-4 mr-2" aria-hidden="true" />
+				Go Back
+			</Button>
+
+		</div>
 	)
 
 }

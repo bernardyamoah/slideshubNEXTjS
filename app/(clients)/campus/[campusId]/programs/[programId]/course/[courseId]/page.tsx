@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getSlides, getCourseDetails } from '@/lib/functions';
+import { getSlides, getCourseDetails, getSlidesByCourseId } from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
@@ -22,14 +22,14 @@ export default function FilesList() {
   const [isLoading, setIsLoading] = useState(true);
 
   const programName = searchParams?.get('name');
-  let courseId = searchParams?.get('courseId'); // Use the correct parameter name
+  let courseId = searchParams?.get('courseId')?.toString(); // Use the correct parameter name
 
   useEffect(() => {
     async function fetchFiles() {
       try {
 
-
-        const response = await toast.promise(getSlides(), {
+console.log('courseId', courseId);
+        const response = await toast.promise(getSlidesByCourseId(courseId), {
           loading: `Fetching slides from database...`,
           success: <b>Successfully fetched slides</b>,
           error: <b>Failed to fetch slides.</b>,
@@ -44,8 +44,7 @@ export default function FilesList() {
     fetchFiles();
   }, [courseId]);
 
-  const filteredSlides = slides.filter((slide) => slide.courseId === courseId);
-
+  
   return (
     <>
 
@@ -63,11 +62,11 @@ export default function FilesList() {
           ) : (
             <>
 
-              {filteredSlides.length > 0 ? (
+              {slides.length > 0 ? (
                 <div className="mx-auto max-w-7xl grid gap-12 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                   <Suspense fallback={<Loading />}>
 
-                    {filteredSlides.map((slide) => (
+                    {slides.map((slide) => (
 
                       <Card className='relative ' key={slide.$id}>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
