@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
 import { CardHeader, Step, Stepper } from "@material-tailwind/react";
+import { BookOpen, CalendarCheck, CheckCircle, GraduationCap } from "lucide-react";
 
 interface AddProgramProps {
   user: any;
@@ -167,107 +168,117 @@ export default function AddProgram() {
   return (
     <>
 
-      
-
-              <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
-                <div className="grid w-full gap-4">
 
 
+      <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
+        <div className="grid w-full gap-4">
 
-                {activeStep === 0 && (
-            
-          <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Program Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="BSc Materials Engineering"
-                      value={name} required
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-        
-          )}
 
-                {activeStep === 1 && (
-            
+
+          {activeStep === 0 && (
+
             <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="duration">Duration</Label>
-            <Input
-              id="duration"
-              placeholder="4 years"
-              value={duration} required
-              onChange={(e) => setDuration(e.target.value)}
-            />
-          </div>
-        
+              <Label htmlFor="name">Program Name</Label>
+              <Input
+                id="name"
+                placeholder="BSc Materials Engineering"
+                value={name} required
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+
           )}
 
-                {activeStep === 2 && (
-            
+          {activeStep === 1 && (
+
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="duration">Duration</Label>
+              <Input
+                id="duration"
+                placeholder="4 years"
+                value={duration} required
+                onChange={(e) => setDuration(e.target.value)}
+              />
+            </div>
+
+          )}
+
+          {activeStep === 2 && (
+
             <div className="grid  w-full items-center gap-1.5">
-                    <Label htmlFor="picture">Picture</Label>
-                    <Input id="picture" type="file" onChange={handleImageChange} />
-                  </div>
+              <Label htmlFor="picture">Picture</Label>
+              <Input id="picture" type="file" onChange={handleImageChange} />
+            </div>
 
-        
+
           )}
 
 
-                
-                  
 
-                
-<div className="mt-16 flex justify-between">
-                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
-                    Prev
-                  </Button>
-                  {isLastStep ? (
-                    <Button type="submit"  >
-                      Submit
-                    </Button>
-                  ) : (
-                    <Button type="button" onClick={handleNext}>
-                      Next
-                    </Button>
-                  )}
-                </div>
-              
-</div>
+
+
+
+          <div className="mt-16 flex justify-between">
+            <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
+              Prev
+            </Button>
+            {isLastStep ? (
+              <Button type="submit"  >
+                Submit
+              </Button>
+            ) : (
+              <Button type="button" onClick={handleNext}>
+                Next
+              </Button>
+            )}
+          </div>
+
+        </div>
 
         <Toaster />
-              </form>
-              <CardHeader floated={false} variant="gradient" color="blue" className="mx-0 grid h-24 mt-10 place-items-center">
-          <div className="w-full lg:px-20  p-4">
+      </form>
+
+      <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
         <Stepper
           activeStep={activeStep}
           isLastStep={(value) => setIsLastStep(value)}
           isFirstStep={(value) => setIsFirstStep(value)}
-          lineClassName="bg-white/50"
-          activeLineClassName="bg-white"
         >
-          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(0)}>
-          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
-          <Label >Na</Label>
-              </div>
-          </Step>
+          <Step onClick={() => setActiveStep(0)}>
+            <BookOpen className="h-5 w-5" />
+            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 
-          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(1)} >
-          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
-          <Label >Duration</Label>
-              </div>
-          </Step>
+              <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
 
-          <Step  className="h-4 w-4 !bg-blue-gray-50 text-white/75 cursor-pointer" activeClassName="ring-0 !bg-white text-white" onClick={() => setActiveStep(2)}>
-          <div className="absolute -bottom-[2.3rem] w-max text-center text-xs">
-          <Label >Final</Label>
-              
-              </div>
+                Programme
+              </p>
+            </div>
           </Step>
-          {/* Add other steps as needed */}
+          <Step onClick={() => setActiveStep(1)}>
+            <CalendarCheck className="h-5 w-5" />
+            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+              <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
+
+                Duration
+              </p>
+            </div>
+          </Step>
+          <Step onClick={() => setActiveStep(2)}>
+            <CheckCircle className="h-5 w-5" />
+            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+              <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
+
+                Finish
+              </p>
+            </div>
+          </Step>
         </Stepper>
-        </div>
-        </CardHeader>
-    
+
+      </div>
+
+
     </>
   );
 }

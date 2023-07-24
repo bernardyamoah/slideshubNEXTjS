@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getSlides, getCourseDetails, getSlidesByCourseId } from '@/lib/functions';
+import { getSlidesByCourseId } from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
@@ -9,16 +9,16 @@ import { useSearchParams } from 'next/navigation';
 
 
 import { EmptySlides } from '@/components/EmptySlides';
-import { Download, View } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FolderOpen } from 'lucide-react';
-import { ShieldCheck } from 'lucide-react';
-import Link from 'next/link';
+
+
+import SlidesCard from '@/components/SlidesCard';
+
 
 export default function FilesList() {
   const searchParams = useSearchParams();
   const [slides, setSlides] = useState<Slides[]>([]);
+
+
   const [isLoading, setIsLoading] = useState(true);
 
   const programName = searchParams?.get('name');
@@ -28,7 +28,7 @@ export default function FilesList() {
     async function fetchFiles() {
       try {
 
-console.log('courseId', courseId);
+        console.log('courseId', courseId);
         const response = await toast.promise(getSlidesByCourseId(courseId), {
           loading: `Fetching slides from database...`,
           success: <b>Successfully fetched slides</b>,
@@ -44,7 +44,7 @@ console.log('courseId', courseId);
     fetchFiles();
   }, [courseId]);
 
-  
+
   return (
     <>
 
@@ -55,65 +55,37 @@ console.log('courseId', courseId);
           </p>
         </section> */}
 
-      <section className="min-h-screen container relative mx-auto flex flex-col items-center pb-10">
-        <div id="myUL">
-          {isLoading ? (
-            <Loading /> // Render the loading UI when data is loading
-          ) : (
-            <>
+      <section className=" w-full  relative mx-auto flex flex-col items-center pb-10">
 
+        {isLoading ? (
+          <Loading /> // Render the loading UI when data is loading
+        ) : (
+          <>
+
+            <Suspense fallback={<Loading />}>
               {slides.length > 0 ? (
-                <div className="mx-auto max-w-7xl grid gap-12 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                  <Suspense fallback={<Loading />}>
+                <div className="mx-auto  grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
 
-                    {slides.map((slide) => (
+                  {slides.map((slide) => (
 
-                      <Card className='relative ' key={slide.$id}>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className=" font-medium capitalize">
-                            {slide.name}
-                          </CardTitle>
+                    <SlidesCard key={slide.$id} {...slide} timePosted={slide.$createdAt} user_id={slide.user_id} />
+                  ))}
 
-                        </CardHeader>
-                        <CardContent >
 
-                          <div className='flex items-center justify-between mb-4'>
+                </div>
+              ) : (
+                <div className="flex justify-center w-full">
+                  <EmptySlides />
+                </div>
+              )}
+            </Suspense>
+          </>
+        )}
 
-                            <aside className='flex gap-1 order-2'>
-                              <div className="text-xs text-muted-foreground flex gap-1">
-                                <FolderOpen className='h-4 w-4 text-muted-foreground' />  {slide.size}
-                              </div>
-                              <div className='text-xs text-muted-foreground flex gap-1'> <ShieldCheck className='h-4 w-4 text-muted-foreground' /><span className='text-xs'>{slide.fileType}</span></div>
-                            </aside>
-                            {/* <Link href={slide.previewUrl} className='text-muted-foreground flex gap-1 items-center '><View className='w-4 h-4 text-muted-foreground' />Preview</Link> */}
-                          </div>
+      </section>
 
-                          <Link href={slide.fileUrl} download={slide.fileUrl}>
-                            <Button className='w-full'>
-                              <Download className="mr-2 h-4 w-4" />
-                              Download
-                            </Button>
-                          </Link>
+      <Toaster />
 
-                        </CardContent>
-                      </Card>
-
-                  ))}  
-
-                  </Suspense>
-                  </div>
-                  ):(
-                  <div className="flex justify-center w-full">
-                    <EmptySlides />
-                  </div>
-                  )}
-                  </>
-                )}
-              </div>
-            </section>
-      
-          <Toaster />
-
-        </>
-        );
+    </>
+  );
 }
