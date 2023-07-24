@@ -10,7 +10,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
     href: string
     title: string
-    icon:JSX.Element
+    icon: JSX.Element
   }[]
 }
 
@@ -33,14 +33,14 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
             buttonVariants({ variant: "ghost" }),
             pathname === item.href
               ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
-              : " text-gray-600",
+              : " text-gray-600 dark:text-500",
             "justify-start"
           )}
         >
-      <span className="flex items-center space-x-3 ">
-      {item.icon}
-        <span className="text-base ">  {item.title}</span>
-      </span>
+          <span className="flex items-center space-x-3 ">
+            {item.icon}
+            <span className="text-base ">  {item.title}</span>
+          </span>
         </Link>
       ))}
     </nav>
