@@ -36,13 +36,13 @@ const CampusCard: React.FC<CampusCardProps> = ({
 
         className="   backdrop-blur-md transition-all  
         duration-300 ease-in-out   w-full h-full overflow-hidden
-           group flex items-center p-2">
+           group flex items-center">
 
-        <Image src={image} className='w-full hidden object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name' />
-        <div className="absolute hidden inset-0 bg-black/80  "></div>
-        <div className="relative flex items-center justify-center p-4  flex-1 h-full">
-          <div className=" pt-1 text-white text-center text-2xl
-            uppercase font-title tracking-widest ">
+        <Image src={image} className='w-full absolute object-cover object-center group-hover:scale-105  hidden duration-300' width={300} height={300} alt='name' />
+        <div className="absolute  inset-0 bg-gradient-to-t from-black to-black/60 group-hover:backdrop-blur-sm tansistion-all duration-300 "></div>
+        <div className="relative flex items-center justify-center p-4  flex-1 h-full z-10">
+          <div className=" text-white text-center text-base font-medium
+            uppercase font-title tracking-wide">
             {name}
           </div>
 
