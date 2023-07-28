@@ -14,7 +14,7 @@ export const metadata = {
 	site_name: "Slideshub",
 	author: "Slideshub",
 	// twitter_username: '@slideshub',
-	
+
 	og: {
 		title: "Slideshub",
 		type: "website",
@@ -43,10 +43,10 @@ export default function RootLayout({
 			<body >
 				<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 					<main className="">
-		
-							{children}
-							<Toaster />
-						
+
+						{children}
+						<Toaster />
+
 					</main>
 					<Analytics />
 				</ThemeProvider>

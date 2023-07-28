@@ -30,6 +30,7 @@ import {
 import DocumentUpload from "./document-upload";
 import { CardHeader, Step, Stepper } from "@material-tailwind/react";
 import { Building } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 
 export default function AddCourse() {
@@ -53,6 +54,7 @@ export default function AddCourse() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
+  const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     async function fetchPrograms() {
@@ -121,6 +123,47 @@ export default function AddCourse() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    // Check if any required fields are empty
+    const errors: { [key: string]: string } = {};
+    if (!name) {
+      errors.name = "Course name is required.";
+    }
+    if (!semester) {
+      errors.semester = "Semester is required.";
+    }
+    if (!courseCode) {
+      errors.courseCode = "Course code is required.";
+    }
+    if (!credit) {
+      errors.credit = "Credit hours are required.";
+    }
+    // if (!lecturer) {
+    //   errors.lecturer = "Lecturer name is required.";
+    // }
+    if (!year) {
+      errors.year = "Year is required.";
+    }
+    if (!programId) {
+      errors.programId = "Programme is required.";
+    }
+
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+
+      // Show error toast notification for validation errors
+      Object.values(errors).forEach((errorMsg) => {
+        toast.error(errorMsg);
+      });
+      // toast({
+      //   variant: "destructive",
+      //   title: "Please fill in all required fields.",
+      //   description: "The following fields are required: " + Object.keys(errors).join(", "),
+      //   action: <ToastAction altText="Got it">Got it</ToastAction>,
+      // });
+
+      return;
+    }
     try {
       // const handleImageUpload = async () => {
       //   // try {
@@ -170,7 +213,7 @@ export default function AddCourse() {
         fileId,
         image: '',
         year,
-        user_id: user?.id,
+        user_id: user?.name ?? "",
         programId: programId,
       };
       await createCourse(courseData);
@@ -487,7 +530,14 @@ export default function AddCourse() {
           )}
 
 
-
+          {/* Show validation errors */}
+          {Object.keys(validationErrors).length > 0 && (
+            <div className="text-red-500">
+              {Object.values(validationErrors).map((error, index) => (
+                <p key={index}>{error}</p>
+              ))}
+            </div>
+          )}
           <div className="mt-16 flex justify-between">
             <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
               Prev
