@@ -17,8 +17,12 @@ import CourseCard from '@/components/CourseCard';
 import EmptyCourse from '@/components/EmptyCourse';
 import SlidesLoading from '@/components/ui/slidesLoading';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
-
-
+import { Metadata } from 'next';
+import Head from 'next/head';
+interface CourseListProps {
+  programName: string;
+  programId: string;
+}
 interface Course {
   $id: string;
   campusId: string;
@@ -32,15 +36,16 @@ interface Course {
   $createdAt: string // Added semester property
 }
 
-
-export default function CourseList() {
+export default function CourseList({ programName, programId }: CourseListProps) {
   const searchParams = useSearchParams();
   const [courses, setCourses] = useState<Course[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const programId = searchParams?.get('programId') ?? '';
-  const programName = searchParams?.get('name');
+  // const programId = searchParams?.get('programId') ?? '';
+  // const programName = searchParams?.get('name');
   let campusId = searchParams?.get('campusId');
+  const pageTitle = `${programName} Courses`;
+  const pageDescription = `Browse courses for ${programName} at your campus.`;
 
   useEffect(() => {
     async function fetchCourses() {
@@ -66,6 +71,7 @@ export default function CourseList() {
     }
 
     fetchCourses();
+    console.count('fetched courses')
   }, [programId, programName]);
 
   const filteredCourses = courses.filter((course) => course.programId === programId);
@@ -93,6 +99,10 @@ export default function CourseList() {
 
   return (
     <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+      </Head>
       <main className="card_container">
         <div
           className="h-64 overflow-hidden bg-[url('https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80')] bg-cover bg-top bg-no-repeat"
