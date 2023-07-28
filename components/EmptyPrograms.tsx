@@ -14,10 +14,10 @@ export default function EmptyProgram() {
 			<Image src={noProgram} alt='Create an event' width={200} height={300} />
 			<h1 className='mt-10 text-center text-base font-bold sm:text-2xl'>Oops! There are no Programs here!</h1>
 			<Button
-
+				className="mt-6"
 				onClick={() => router.back()}
 			>
-				<ChevronsLeftIcon className="w-4 h-4 mr-2" aria-hidden="true" />
+				<ChevronsLeftIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
 				Go Back
 			</Button>
 

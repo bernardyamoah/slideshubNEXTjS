@@ -5,12 +5,14 @@ import { getPrograms, getProgramName } from '@/lib/functions';
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import EmptyProgram from '@/components/EmptyPrograms';
 import ProgramCard from '@/components/ProgramCard';
 import Image from 'next/image';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
+import { ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react';
 
 interface Program {
   $id: string;
@@ -35,24 +37,14 @@ export default function ProgrammeList() {
   useEffect(() => {
     async function fetchPrograms() {
       try {
-        // Check if programs are already stored in local state
-        const cachedPrograms = localStorage.getItem('programs');
-        if (cachedPrograms) {
-          setPrograms(JSON.parse(cachedPrograms));
-          setIsLoading(false);
-        } else {
-          const response = await toast.promise(getPrograms(), {
-            loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
-            success: <b>Successfully fetched programs!</b>,
-            error: <b>Could not load campuses.</b>,
-          });
+        const response = await toast.promise(getPrograms(), {
+          loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
+          success: <b>Successfully fetched programs!</b>,
+          error: <b>Could not load campuses.</b>,
+        });
 
-          setPrograms(response);
-          setIsLoading(false);
-
-          // Cache the fetched programs in local storage
-          localStorage.setItem('programs', JSON.stringify(response));
-        }
+        setPrograms(response);
+        setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
       }
@@ -63,8 +55,9 @@ export default function ProgrammeList() {
 
   const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
-
+  const router = useRouter();
   return (
+
     <>
       <main className="card_container">
 
@@ -119,7 +112,24 @@ export default function ProgrammeList() {
               </div>
             )}
           </div>
+
         </section>
+        <div className='flex max-w-xl mx-auto justify-between mt-10 p-4 pb-10'>
+          <Button
+            className="mt-6"
+            onClick={() => router.back()}
+          >
+            <ChevronsLeftIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
+            Go Back
+          </Button>
+          <Button
+            className="mt-6"
+            onClick={() => router.forward()}
+          >
+            Go Forward
+            <ChevronsRightIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
+          </Button>
+        </div>
         <Toaster />
       </main>
     </>

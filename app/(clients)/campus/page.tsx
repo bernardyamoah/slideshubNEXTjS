@@ -8,6 +8,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import CampusCard from '@/components/CampusCard';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 
 interface Campus {
@@ -42,7 +45,7 @@ export default function CampusList() {
 
     fetchCampuses();
   }, []);
-
+  const router = useRouter();
   return (
     <>
 
@@ -57,7 +60,7 @@ export default function CampusList() {
             </h2>
 
             <p
-              className=" max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
+              className=" max-w-lg text-muted-foreground md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
             >
               Select your campus to access the offered programmes
             </p>
@@ -77,7 +80,7 @@ export default function CampusList() {
           {isLoading ? (
             <Loading />
           ) : (
-            <div className="max-w-4xl mx-auto w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 bg-none ">
+            <div className="max-w-5xl mx-auto w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 bg-none place-content-center">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
@@ -89,6 +92,22 @@ export default function CampusList() {
           )}
         </div>
       </section>
+      <div className='flex max-w-xl mx-auto justify-between mt-10 p-4 pb-10'>
+        <Button
+          className="mt-6"
+          onClick={() => router.back()}
+        >
+          <ChevronsLeftIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
+          Go Back
+        </Button>
+        <Button
+          className="mt-6"
+          onClick={() => router.forward()}
+        >
+          Go Forward
+          <ChevronsRightIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
+        </Button>
+      </div>
       <Toaster />
 
     </>
