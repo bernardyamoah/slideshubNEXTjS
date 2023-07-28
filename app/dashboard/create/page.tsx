@@ -1,38 +1,25 @@
-'use client'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Metadata } from "next"
-import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react"
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
+import { Metadata } from "next";
+import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react";
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Typography } from "@material-tailwind/react";
 
-import { Typography } from '@material-tailwind/react'
-
-import AddSlides from '@/components/AddSlides'
-import AddBook from '@/components/AddBook'
-import AddProgram from '@/components/AddProgram'
-import AddCourse from '@/components/AddCourse'
-import { checkUserInTeam } from '@/lib/functions'
-import AddCampus from '@/components/AddCampus'
-import { Label } from '@/components/ui/label'
-
-
-
+import AddSlides from "@/components/AddSlides";
+import AddBook from "@/components/AddBook";
+import AddProgram from "@/components/AddProgram";
+import AddCourse from "@/components/AddCourse";
+import { checkUserInTeam } from "@/lib/functions";
+import AddCampus from "@/components/AddCampus";
+import { Label } from "@/components/ui/label";
 
 const metadata: Metadata = {
   title: "Create",
   description: "Add Slides to database",
-}
+};
 
 const componentData = [
   {
@@ -62,10 +49,7 @@ const componentData = [
   },
 ];
 export default function Page() {
-
   const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
-
-
 
   // Memoize the checkTeamMembership function using useCallback
   const checkTeamMembership = useCallback(async () => {
@@ -78,14 +62,13 @@ export default function Page() {
     checkTeamMembership();
   }, [checkTeamMembership]); // Pass checkTeamMembership as a dependency to useEffect
 
-
   return (
     <>
-      <div className="max-w-2xl mx-auto my-10 sm:h-24 text-center">
+      <div className=" mx-auto m-10 sm:h-20 text-center">
         <h1>Create a Slide</h1>
         {/* Add subtext or description here if needed */}
       </div>
-      <aside className="mx-auto grid container gap-8 md:flex flex-wrap p-8 justify-center">
+      <aside className="grid container sm:grid-cols-2 md:grid-cols-3 gap-8 place-items-center pb-10">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -93,15 +76,13 @@ export default function Page() {
             return (
               <div
                 key={key}
-                className="group relative block h-52 max-w-fit aspect-square cursor-pointer"
+                className="group relative block h-72   w-full mx-auto cursor-pointer"
               >
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
-                      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                      <div className="absolute top-4 left-4 ">
-                        {icon}
-                      </div>
+                    <Card className="relative h-full w-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
+                      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                      <div className="absolute top-4 left-4 ">{icon}</div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Label className=" text-lg ">
                           {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
@@ -131,26 +112,19 @@ export default function Page() {
             <div className="group relative block h-52 w-full aspect-square cursor-pointer">
               <Dialog>
                 <DialogTrigger asChild>
-
-
                   <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
                     <div className="absolute inset-0 bg-gry-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div className="absolute top-4 left-4 ">
                       <Files className="mx-auto w-10 h-10 " />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Label className=" text-lg ">
-                        Add Slides
-                      </Label>
+                      <Label className=" text-lg ">Add Slides</Label>
                     </div>
                   </Card>
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="mx-auto w-full border-none">
-                    <CardHeader
-
-                      className="mb-4 grid h-28 place-items-center"
-                    >
+                    <CardHeader className="mb-4 grid h-28 place-items-center">
                       <Typography variant="h3" color="white">
                         Add Slides
                       </Typography>
@@ -166,30 +140,20 @@ export default function Page() {
             <div className="group relative block h-52 w-full aspect-square cursor-pointer">
               <Dialog>
                 <DialogTrigger asChild>
-
-
                   <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
-                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-5 transition-opacity"></div>
                     <div className="absolute top-4 left-4 ">
                       <Book className="mx-auto w-10 h-10 " />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Label className=" text-lg ">
-                        Add Book
-                      </Label>
+                      <Label className=" text-lg ">Add Book</Label>
                     </div>
                   </Card>
-
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="mx-auto w-full border-none">
-                    <CardHeader
-
-                      className="mb-4 grid h-28 place-items-center"
-                    >
-                      <CardTitle color="white">
-                        Add Book
-                      </CardTitle>
+                    <CardHeader className="mb-4 grid h-28 place-items-center">
+                      <CardTitle color="white">Add Book</CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                       <AddBook />
@@ -202,13 +166,5 @@ export default function Page() {
         )}
       </aside>
     </>
-  )
+  );
 }
-
-
-
-
-
-
-
-

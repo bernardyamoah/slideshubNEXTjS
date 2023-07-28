@@ -62,7 +62,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         </Button>
 
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56 z-[100]" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <Link href={'/dashboard/profile'} className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user?.name}</p>

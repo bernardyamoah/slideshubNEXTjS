@@ -28,7 +28,7 @@ const CampusCard: React.FC<CampusCardProps> = ({
     <Card className='h-44 overflow-hidden'>
       <Link
         href={{
-          pathname: `/campus/${campusId}/programs/`,
+          pathname: `/campus/${name}${location}/programs/`,
           query: { campusId: campusId, name: name, loc: location }
         }}
         shallow
@@ -38,20 +38,21 @@ const CampusCard: React.FC<CampusCardProps> = ({
         duration-300 ease-in-out   w-full h-full overflow-hidden
            group flex items-center">
 
-        <Image src={image} className='w-full absolute inset-0 object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name' />
-        <div className="absolute inset-0 bg-black/80  "></div>
-        <div className="relative flex items-center  justify-center p-4 sm:p-6 flex-1 h-full">
-          <div className=" pt-1 text-white text-center text-lg font-bold uppercase">
+        <Image src={image} className='w-full absolute object-cover object-center group-hover:scale-105  hidden duration-300' width={300} height={300} alt='name' />
+        <div className="absolute  inset-0 bg-gradient-to-t from-black to-black/60 group-hover:backdrop-blur-sm tansistion-all duration-300 "></div>
+        <div className="relative flex items-center justify-center p-4  flex-1 h-full z-10">
+          <div className=" text-white text-center text-base font-medium
+            uppercase font-title tracking-wide">
             {name}
           </div>
 
           {/* Location */}
-          <strong
-            className="-mb-[2px] tracking-wide -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-600 px-3 py-1.5 text-white bottom-0 right-0 absolute   text-[12px] font-bold "
+          <span
+            className="-mb-[2px] tracking-wide -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-600 px-3 py-1.5 text-white bottom-0 right-0 absolute   text-[12px] "
           >
             <MapPin className='w-4 h-4 ' />
             {location}
-          </strong>
+          </span>
           <p className="absolute left-4 bottom-2 text-xs text-gray-300 "><strong
             className="   text-[10px] font-normal "
           >

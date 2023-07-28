@@ -71,14 +71,14 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     <>
       <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
 
-      <div className=" lg:block mt-[4.6rem] bg-gray-50 dark:bg-gray-950 ">
+      <div className=" lg:block mt-[4.6rem] bg-gray-50 dark:bg-black ">
         <div className=" relative flex  !h-full ">
-          <aside className="hidden xl:flex w-[13rem]  h-screen fixed dark:bg-gray-950">
+          <aside className="hidden xl:flex w-[13rem]  h-screen fixed dark:bg-black">
             <SidebarNav items={sidebarNavItems} />
           </aside>
           <div className="xl:ml-[13rem] w-full flex-1  max-w-screen-3xl mx-auto  h-full lg:p-2">
 
-            <div className="  h-screen rounded-md  dark:bg-inherit dark:border-none lg:p-5">{children}</div>
+            <div className=" rounded-md  dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 
           </div>
         </div>

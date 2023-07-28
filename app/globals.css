@@ -1,5 +1,7 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap'); 
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -83,7 +85,7 @@
  
 @layer base{
 body{
-  @apply   bg-cover dark:bg-gray-950 relative pattern 
+  @apply   bg-cover dark:bg-black relative pattern 
 }
 h1{
   @apply text-3xl font-bold text-black dark:text-white font-title
@@ -94,14 +96,14 @@ h1{
 @layer components{
   
 .header{
-  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white/[.8] md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md  lg:border-b  dark:bg-gray-900
+  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md   dark:bg-black border-b border-gray-300 dark:border-gray-600
 }
 .heading{
   @apply text-center mb-12 capitalize text-2xl md:text-3xl text-gray-800 dark:text-gray-50 font-bold;
 }
 
 .nav-bar{
-  @apply font-body font-bold  flex dark:bg-gray-900 bg-white   lg:space-x-6 relative
+  @apply font-body font-bold  flex dark:bg-black bg-white   lg:space-x-6 relative border-b border-gray-200 dark:border-gray-800
 }
 .navbar_item{
   @apply  font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400

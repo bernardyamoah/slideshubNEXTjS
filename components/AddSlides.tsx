@@ -7,7 +7,7 @@ import { bytesToSize, createSlide, getPrograms, getCoursesByProgramId, getCurren
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
-import { Building, Check, ChevronsUpDown, CogIcon, UserIcon } from "lucide-react"
+import { BookOpen, Building, Check, CheckCircle, ChevronsUpDown, CogIcon, UserIcon } from "lucide-react"
 import {
   Command,
   CommandEmpty,
@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import toast, { Toaster } from 'react-hot-toast';
 import { Step, Stepper, } from "@material-tailwind/react";
+import { GraduationCap } from "lucide-react";
 
 
 
@@ -307,39 +308,39 @@ export default function AddSlides() {
             </div>
           </form>
 
-          <div className="max-w-sm mx-auto py-4 relative bottom-4 mt-10">
+          <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
             <Stepper
               activeStep={activeStep}
               isLastStep={(value) => setIsLastStep(value)}
               isFirstStep={(value) => setIsFirstStep(value)}
             >
               <Step onClick={() => setActiveStep(0)}>
-                <UserIcon className="h-5 w-5" />
+                <BookOpen className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 
                   <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
 
-                    Personal Details
+                    Programme
                   </p>
                 </div>
               </Step>
               <Step onClick={() => setActiveStep(1)}>
-                <CogIcon className="h-5 w-5" />
+                <GraduationCap className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 
                   <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
 
-                    Security
+                    Course
                   </p>
                 </div>
               </Step>
               <Step onClick={() => setActiveStep(2)}>
-                <Building className="h-5 w-5" />
+                <CheckCircle className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 
                   <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
 
-                    Details
+                    Finish
                   </p>
                 </div>
               </Step>

@@ -14,7 +14,14 @@ export default function Home() {
 					content="https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"
 				/>
 
+			<meta name="description" content=""/>
+				{/* <!--Your description--> */}
+			<meta name="author" content="Bernard Yamoah"/>
 
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="twitter:title" content="Your Page Title" />
+			<meta name="twitter:description" content="Description of your page" />
 
 				<title>SlidesHub</title>
 			</Head>

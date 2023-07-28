@@ -921,6 +921,7 @@ export const getUserData = async () => {
 	}
 };
 
+
 // Function to update user data
 export const updateUserData = async (updatedUserData: ProfileData) => {
 	try {

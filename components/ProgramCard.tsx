@@ -4,14 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { Card } from './ui/card';
 
-interface ProgramCardProps {
-  name: string;
-  image: string;
-  campusId: string;
-  programId: string;
-  timePosted: string;
-  duration: string
-}
+
 
 const ProgramCard: React.FC<ProgramCardProps> = ({
   name,
