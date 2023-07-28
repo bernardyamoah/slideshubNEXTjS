@@ -18,6 +18,7 @@ import EmptyCourse from '@/components/EmptyCourse';
 import SlidesLoading from '@/components/ui/slidesLoading';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
 
+
 interface Course {
   $id: string;
   campusId: string;
@@ -48,24 +49,17 @@ export default function CourseList() {
         const programDetails = await getProgramDetails(programId);
         const campusId = programDetails?.campusId;
 
-        // Check if courses are already stored in local state
-        const cachedCourses = localStorage.getItem('courses');
-        if (cachedCourses) {
-          setCourses(JSON.parse(cachedCourses));
-          setIsLoading(false);
-        } else {
-          const response = await toast.promise(getCoursesByProgramId(programId), {
-            loading: `Fetching courses from ${programName} database..`,
-            success: <b>Successfully fetched courses</b>,
-            error: <b>Failed to fetch courses {programName}.</b>,
-          });
+        const response = await toast.promise(getCoursesByProgramId(programId), {
+          loading: `Fetching courses from ${programName} database..`,
+          success: <b>Successfully fetched courses</b>,
+          error: <b>Failed to fetch courses {programName}.</b>,
+        });
 
-          setCourses(response);
-          setIsLoading(false);
+        setCourses(response);
+        setIsLoading(false);
 
-          // Cache the fetched courses in local storage
-          localStorage.setItem('courses', JSON.stringify(response));
-        }
+
+
       } catch (error) {
         setIsLoading(false);
       }

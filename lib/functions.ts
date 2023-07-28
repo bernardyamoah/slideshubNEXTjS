@@ -270,7 +270,8 @@ export const getCourses = async (): Promise<any[]> => {
 	try {
 		const response = await databases.listDocuments(
 			databaseId,
-			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			[Query.limit(99), Query.orderDesc("$createdAt")]
 		);
 
 		return response.documents;
@@ -306,7 +307,7 @@ export const getSlides = async (): Promise<any[]> => {
 	}
 
 	try {
-		const courseId = "649f010f1822a87164d1";
+		
 		const response = await databases.listDocuments(
 			databaseId,
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
