@@ -1,16 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getPrograms, getProgramName } from '@/lib/functions';
+import { getPrograms } from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
-import { Suspense } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+
+import toast from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import EmptyProgram from '@/components/EmptyPrograms';
 import ProgramCard from '@/components/ProgramCard';
 import Image from 'next/image';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+
 import { Button } from '@/components/ui/button';
 import { ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react';
 import Head from 'next/head';

@@ -25,7 +25,7 @@ const CampusCard: React.FC<CampusCardProps> = ({
 
   return (
 
-    <Card className='h-44 overflow-hidden'>
+    <Card className='overflow-hidden  relative'>
       <Link
         href={{
           pathname: `/campus/${name}${location}/programs/`,
@@ -34,9 +34,8 @@ const CampusCard: React.FC<CampusCardProps> = ({
         shallow
         passHref
 
-        className="   backdrop-blur-md transition-all  
-        duration-300 ease-in-out   w-full h-full overflow-hidden
-           group flex items-center">
+        className=" duration-300 ease-in-out   cursor-pointer w-full h-44    
+        group  bg-cover bg-center bg-no-repeat mx-auto flex items-center">
 
         <Image src={image} className='w-full absolute object-cover object-center group-hover:scale-105  hidden duration-300' width={300} height={300} alt='name' />
         <div className="absolute  inset-0 bg-gradient-to-t from-black to-black/60 group-hover:backdrop-blur-sm tansistion-all duration-300 "></div>
