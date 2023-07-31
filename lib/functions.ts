@@ -324,6 +324,7 @@ export const getSlides = async (): Promise<any[]> => {
 		throw error;
 	}
 };
+
 export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
@@ -392,6 +393,28 @@ export async function getProgramName(programId: string) {
 		throw error;
 	}
 }
+
+export async function getCourseName(CourseId: string) {
+	try {
+		// Fetch the program document from Appwrite database
+		const Course = await databases.getDocument(
+			process.env.NEXT_PUBLIC_DATABASE_ID!,
+
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			CourseId
+		);
+
+		
+		// Extract and return the program name
+		return Course.name;
+
+	} catch (error) {
+		console.error("Failed to fetch course name:", error);
+		throw error;
+	}
+	
+}
+
 export async function getProgramDetails(programId: string) {
 	try {
 		// Fetch the program document from Appwrite database
