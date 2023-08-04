@@ -178,9 +178,16 @@ export default function AddSlides() {
           setActiveStep(0);
           setIsLastStep(false);
           setIsFirstStep(false);
+          setUploadProgress(0);
+
+          uploadProgress > 0 && setUploadProgress(0);
+
+
         }
       } catch (error) {
-        console.error("Error handling form submission:", error);
+        // File upload failed, handle the error
+        console.error("Upload failed", error);
+        toast.error("Upload failed. Please try again later.");
         setCurrentFile(null);
       }
     };
@@ -398,7 +405,16 @@ export default function AddSlides() {
               </div>
             </div>
           </form>
+          {uploadProgress > 0 && (
 
+            <div className="w-full space-y-2 my-6">
+              <div>Upload Progress: {uploadProgress}%</div>
+              <Progress value={uploadProgress} />
+            </div>
+
+          )
+
+          }
           <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
             <Stepper
               activeStep={activeStep}
@@ -439,14 +455,7 @@ export default function AddSlides() {
               </Step>
             </Stepper>
           </div>
-          {uploadProgress > 0 && (
-            <CardFooter className="flex justify-between">
-              <div className="w-full space-y-2">
-                <div>Upload Progress: {uploadProgress}%</div>
-                <Progress value={uploadProgress} />
-              </div>
-            </CardFooter>
-          )}
+
         </div>
         <Toaster />
       </div>
