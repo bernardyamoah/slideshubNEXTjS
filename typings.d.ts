@@ -58,8 +58,6 @@ interface Slides {
 	previewUrl: URL;
 }
 
-
-
 interface User {
 	id: string;
 	name?: string;
@@ -182,4 +180,8 @@ interface Course {
 	$id: string;
 	name: string;
 	// Add other properties if required
+}
+interface CourseListProps {
+	programName: string;
+	programId: string;
 }

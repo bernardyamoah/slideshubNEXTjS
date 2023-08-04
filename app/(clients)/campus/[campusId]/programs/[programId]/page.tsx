@@ -19,10 +19,7 @@ import SlidesLoading from '@/components/ui/slidesLoading';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
 import { Metadata } from 'next';
 import Head from 'next/head';
-interface CourseListProps {
-  programName: string;
-  programId: string;
-}
+
 interface Course {
   $id: string;
   campusId: string;
