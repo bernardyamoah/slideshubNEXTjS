@@ -1,8 +1,16 @@
 import { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import { ArrowUpTrayIcon, DocumentIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { DocumentTextIcon, PresentationChartBarIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowUpTrayIcon,
+  DocumentIcon,
+  PhotoIcon,
+} from "@heroicons/react/24/outline";
+import {
+  DocumentTextIcon,
+  PresentationChartBarIcon,
+} from "@heroicons/react/20/solid";
 import { bytesToSize } from "@/lib/functions";
+import { VideoIcon } from "lucide-react";
 
 function fileIcon(fileType: string) {
   switch (fileType) {
@@ -18,6 +26,11 @@ function fileIcon(fileType: string) {
     case "application/vnd.ms-powerpoint":
     case "application/msword":
       return <PresentationChartBarIcon className="h-6 w-6 mx-auto" />;
+    case "video/mp4": // Add video/mp4 to handle .mp4 files
+    case "video/webm": // Add video/webm to handle .webm files
+    case "video/avi": // Add video/avi to handle .avi files
+      return <VideoIcon className="h-6 w-6 mx-auto" />; // Replace 'VideoIcon' with the appropriate video icon component
+
     default:
       return <DocumentIcon className="h-6 w-6 mx-auto" />;
   }
@@ -33,6 +46,7 @@ export default function DocumentUpload({
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+      "video/*": [".mp4", ".webm", ".avi"], // Video formats added here
       "application/pdf": [], // ".pdf"
       "application/msword": [], // ".doc"
       "application/vnd.ms-powerpoint": [], // ".ppt"
@@ -74,7 +88,7 @@ export default function DocumentUpload({
             {currentFile ? (
               <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-gray-500">
                 <div>{fileIcon(currentFile.type)}</div>
-                <p>{currentFile.name.replace(/_/g, ' ') }</p>
+                <p>{currentFile.name.replace(/_/g, " ")}</p>
                 <p className="text-gray-500">{bytesToSize(currentFile.size)}</p>
               </div>
             ) : (
