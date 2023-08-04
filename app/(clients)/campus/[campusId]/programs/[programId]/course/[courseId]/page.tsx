@@ -1,17 +1,31 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getSlidesByCourseId } from '@/lib/functions';
+import { getCoursesByProgramId, getSlidesByCourseId , getCourseName} from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
 
+import { Metadata, ResolvingMetadata } from 'next'
+ 
+
+
 
 import { EmptySlides } from '@/components/EmptySlides';
 
 
 import SlidesCard from '@/components/SlidesCard';
+
+//Metadata part
+
+
+
+
+
+
+
+
 
 
 export default function FilesList() {

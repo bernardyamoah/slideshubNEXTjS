@@ -58,15 +58,6 @@ interface Slides {
 	previewUrl: URL;
 }
 
-interface Program {
-	$id: string;
-	campusId: string;
-	image: string;
-	name: string;
-	description: string;
-	duration: string;
-}
-
 interface User {
 	id: string;
 	name?: string;
@@ -87,8 +78,8 @@ interface ProgramCardProps {
 	campusId: string;
 	programId: string;
 	timePosted: string;
-	duration: string
-  }
+	duration: string;
+}
 interface UserSlidesCardProps {
 	name: string;
 	fileUrl: string;
@@ -166,4 +157,31 @@ interface ProfileData {
 	status: boolean;
 	registration: string;
 	emailVerification: boolean;
+}
+
+interface Campus {
+	id: string;
+	name: string;
+	location: string;
+	// Add other properties if required
+}
+
+interface Program {
+	id: string;
+	name: string;
+	campusId: string;
+	image: string;
+	description: string;
+	duration: string;
+	// Add other properties if required
+}
+
+interface Course {
+	$id: string;
+	name: string;
+	// Add other properties if required
+}
+interface CourseListProps {
+	programName: string;
+	programId: string;
 }

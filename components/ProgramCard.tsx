@@ -17,7 +17,7 @@ const ProgramCard: React.FC<ProgramCardProps> = ({
   const formattedTime = formatTime(timePosted);
   return (
     <>
-      <Card className='overflow-hidden @container border-4 relative '>
+      <Card className='overflow-hidden  relative '>
 
         <Link
           href={{

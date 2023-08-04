@@ -1,18 +1,19 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getPrograms, getProgramName } from '@/lib/functions';
+import { getPrograms } from '@/lib/functions';
 
 import Loading from '@/components/ui/Cloading';
-import { Suspense } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+
+import toast from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import EmptyProgram from '@/components/EmptyPrograms';
 import ProgramCard from '@/components/ProgramCard';
 import Image from 'next/image';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+
 import { Button } from '@/components/ui/button';
 import { ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react';
+import Head from 'next/head';
 
 interface Program {
   $id: string;
@@ -33,32 +34,45 @@ export default function ProgrammeList() {
   const campusId = searchParams?.get('campusId');
   const campusinfo = searchParams?.get('name')?.toString();
   const campusLocation = searchParams?.get('loc');
+  async function fetchPrograms() {
+    try {
+      const response = await toast.promise(getPrograms(), {
+        loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
+        success: <b>Successfully fetched programs!</b>,
+        error: <b>Could not load campuses.</b>,
+      });
 
-  useEffect(() => {
-    async function fetchPrograms() {
-      try {
-        const response = await toast.promise(getPrograms(), {
-          loading: `Fetching programs from ${campusinfo} - ${campusLocation} database...`,
-          success: <b>Successfully fetched programs!</b>,
-          error: <b>Could not load campuses.</b>,
-        });
-
-        setPrograms(response);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
+      setPrograms(response);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
+  }
+  useEffect(() => {
+
 
     fetchPrograms();
+    console.count('Programs fetched');
   }, [campusId, campusLocation, campusinfo]);
 
   const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);
   const router = useRouter();
+  const pageTitle = campusinfo ? `${campusinfo} Programs` : "Programs";
+
+
+  const pageDescription = campusinfo
+    ? `Browse programs available at ${campusinfo} campus.`
+    : "Browse all available programs.";
   return (
 
     <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+      </Head>
+
+
       <main className="card_container">
 
         <div
@@ -130,7 +144,7 @@ export default function ProgrammeList() {
             <ChevronsRightIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
           </Button>
         </div>
-        <Toaster />
+
       </main>
     </>
   );

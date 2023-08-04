@@ -1,12 +1,9 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserData, updateUserData } from "@/lib/functions";
 
-
-import "react-toastify/dist/ReactToastify.css";
 import ProfileView from "./components/ProfileView";
 import ProfileEditor from "./components/ProfileEditor";
-
 import SlidesLoading from "@/components/ui/slidesLoading";
 import LoadingScreen from "../components/LoadingScreen";
 

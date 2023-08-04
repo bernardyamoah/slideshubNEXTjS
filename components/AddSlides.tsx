@@ -1,161 +1,216 @@
 'use client'
-import * as React from "react";
-import { useEffect, useState } from "react";
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState, useCallback } from "react";
 
-import { bytesToSize, createSlide, getPrograms, getCoursesByProgramId, getCurrentUserAndSetUser } from "@/lib/functions";
+import { Step, Stepper } from "@material-tailwind/react";
+import { GraduationCap } from "lucide-react";
+import toast, { Toaster } from 'react-hot-toast';
+import { bytesToSize, createSlide, getCampus, getProgramsByCampusId, getCoursesByProgramId, getCurrentUserAndSetUser } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "./document-upload";
-import { BookOpen, Building, Check, CheckCircle, ChevronsUpDown, CogIcon, UserIcon } from "lucide-react"
+import { BookOpen, Building, Check, CheckCircle, ChevronsUpDown } from "lucide-react";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
-import toast, { Toaster } from 'react-hot-toast';
-import { Step, Stepper, } from "@material-tailwind/react";
-import { GraduationCap } from "lucide-react";
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
+import { cn } from "@/lib/utils";
+import { on } from "events";
+import { UploadProgress } from "appwrite";
+import { CardFooter } from "./ui/card";
+import { Progress } from "./ui/progress";
 
+// Replace this with the actual UserWithId interface or type
+interface UserWithId {
+  id: string;
+  // Add other properties if required
+}
+function isStepValid(activeStep: number, campusId: string, programId: string, courseId: string, currentFile: File | null) {
+  if (activeStep === 0 && !campusId) {
+    return "Please select a campus before proceeding.";
+  } else if (activeStep === 1 && !programId) {
+    return "Please select a program before proceeding.";
+  } else if (activeStep === 2 && !courseId) {
+    return "Please select a course before proceeding.";
+  } else if (activeStep === 3 && !currentFile) {
+    return "Please upload a document before proceeding.";
+  }
 
-
-
-
+  return "";
+}
 
 export default function AddSlides() {
-  const [open1, setOpen1] = React.useState(false)
-  const [open, setOpen] = React.useState(false);
-
   const [currentFile, setCurrentFile] = useState<File | null>(null);
-  const [courseId, setCourseId] = useState('')
-  const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
-  const [programId, setProgramId] = React.useState("");
+  const [courseId, setCourseId] = useState<string>('');
+  const [user, setUser] = useState<UserWithId | null>(null);
+  const [programId, setProgramId] = useState<string>("");
+  const currentTime = new Date();
+  const [campuses, setCampuses] = useState<any[]>([]);
 
+  console.log(currentTime, "🚀 ~ file: AddSlides.tsx:40 ~ AddSlides ~ campuses:", campuses)
+  const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const [programs, setPrograms] = useState<any[]>([]);
+
   const [courses, setCourses] = useState<any[]>([]);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isLastStep, setIsLastStep] = React.useState(false);
-  const [isFirstStep, setIsFirstStep] = React.useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [isLastStep, setIsLastStep] = useState(false);
+  const [isFirstStep, setIsFirstStep] = useState(false);
+  const [isProgramPopoverOpen, setIsProgramPopoverOpen] = useState(false); // Renamed from 'open' to 'isProgramPopoverOpen'
+  const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
+  const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
+  const handleProgress = (progress: UploadProgress) => {
+    // Update the progress bar with the progress value (0-100)
+    const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
+    console.log('Upload progress:', uploadprogress);
+    setUploadProgress(uploadprogress);
+  };
 
   useEffect(() => {
-    async function fetchCourses() {
+    async function fetchData() {
       try {
-
-
-        const userId = await getCurrentUserAndSetUser(); // Call the getCurrentUser function
+        const campusList = await getCampus();
+        setCampuses(campusList);
+        const userId = await getCurrentUserAndSetUser();
         setUser(userId);
-        const programResponse = await getPrograms();
-        setPrograms(programResponse);
-        const response = await getCoursesByProgramId(programId);
-
-        setCourses(response);
       } catch (error) {
-        console.log('Error fetching courses:', error);
+        console.log('Error fetching data:', error);
       }
-
     }
 
-    fetchCourses()
-  }, [programId]);
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchProgramsAndCourses() {
+      if (campusId) {
+        const response = await getProgramsByCampusId(campusId);
+        setPrograms(response);
+      }
+      if (programId) {
+        const response = await getCoursesByProgramId(programId);
+        setCourses(response);
+      }
+    }
+
+    fetchProgramsAndCourses();
+  }, [campusId, programId]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Check if the file is chosen
-    if (!currentFile) {
-      toast.error("Please select a file to upload.");
+    const errorMessage = isStepValid(activeStep, campusId, programId, courseId, currentFile);
+    if (errorMessage) {
+      toast.error(errorMessage);
       return;
     }
+    if (currentFile) {
+      try {
+        const handleFileUpload = async () => {
+          try {
+            const file = currentFile;
+            const uploader = await toast.promise(storage.createFile(
+              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+              ID.unique(),
+              file,
+              undefined,
+              (progress: UploadProgress) => {
+                // Update the progress bar with the progress value (0-100)
+                const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
+                console.log('Upload progress:', uploadprogress);
+                setUploadProgress(uploadprogress);
+              }
 
-    try {
-      const handleFileUpload = async () => {
-        try {
-          const file = currentFile;
-          const uploader = await toast.promise(storage.createFile(
-            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-            ID.unique(),
-            file
-          ),
-            {
+            ), {
               loading: 'Uploading file...',
               success: 'File uploaded!',
               error: 'Upload failed',
-            }
-          );
-          const fileId = uploader.$id;
-          // Fetch file information from Appwrite
-          const fileDetails = await
-            storage.getFile(
+            });
+
+            const fileId = uploader.$id;
+            const fileDetails = await storage.getFile(
               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
               fileId
-            )
+            );
+            const fileName = fileDetails.name || "";
+            const fileUrlResponse = await storage.getFileDownload(
+              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+              fileId
+            );
+            const filePreviewResponse = await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
+            const uploadedFileUrl = fileUrlResponse.toString();
 
-            ;
-          const fileName = fileDetails.name || "";
-
-          const fileUrlResponse = await storage.getFileDownload(
-            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-            fileId
-          );
-          const filePreviewResponse = await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
-          const uploadedFileUrl = fileUrlResponse.toString();
-
-          return { uploadedFileUrl, filePreviewResponse };
-        } catch (error) {
-          throw new Error("Upload failed" + error);
-        }
-      };
-
-      const result = await handleFileUpload();
-
-      if (result.uploadedFileUrl !== "") {
-        const { uploadedFileUrl, filePreviewResponse } = result;
-        const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
-        const fileName = currentFile.name.replace(/_/g, ' ');
-        const slideData = {
-          name: fileName.slice(0, fileName.lastIndexOf(".")),
-          size: bytesToSize(currentFile.size),
-          fileUrl: uploadedFileUrl,
-          fileType: fileExtension ? fileExtension.toString() : "",
-          courseId,
-
-          previewUrl: filePreviewResponse,
-          user_id: user?.id
+            return { uploadedFileUrl, filePreviewResponse };
+          } catch (error) {
+            throw new Error("Upload failed" + error);
+          }
         };
 
-        const response = await createSlide(slideData);
+        const result = await handleFileUpload();
 
-        // Reset form fields
+        if (result.uploadedFileUrl !== "") {
+          const { uploadedFileUrl, filePreviewResponse } = result;
+          const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
+          const fileName = currentFile.name.replace(/_/g, ' ');
+          const slideData = {
+            name: fileName.slice(0, fileName.lastIndexOf(".")),
+            size: bytesToSize(currentFile.size),
+            fileUrl: uploadedFileUrl,
+            fileType: fileExtension ? fileExtension.toString() : "",
+            courseId,
+            previewUrl: filePreviewResponse,
+            user_id: user?.id
+          };
+
+          const response = await createSlide(slideData);
+          setCurrentFile(null);
+          setProgramId("");
+          setCourseId("");
+          setActiveStep(0);
+          setIsLastStep(false);
+          setIsFirstStep(false);
+          setUploadProgress(0);
+
+          uploadProgress > 0 && setUploadProgress(0);
+
+
+        }
+      } catch (error) {
+        // File upload failed, handle the error
+        console.error("Upload failed", error);
+        toast.error("Upload failed. Please try again later.");
         setCurrentFile(null);
-        setProgramId("");
-        setCourseId("");
-
       }
-    } catch (error) {
-      console.error("Error handling form submission:", error);
-      setCurrentFile(null);
+    };
+  }
 
-
-    }
-  };
-  const handleSelectChange = (selectedValue: string) => {
+  const handleSelectCourseChange = useCallback((selectedValue: string) => {
     setCourseId(selectedValue);
+  }, []);
 
-  };
-  const handleProgramChange = (selectedValue: string) => {
+  const handleProgramChange = useCallback(async (selectedValue: string) => {
     setProgramId(selectedValue);
-  };
+  }, []);
+
+  const handleCampusChange = useCallback(async (selectedValue: string) => {
+    setCampusId(selectedValue);
+  }, []);
+
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!isLastStep) {
+    const errorMessage = isStepValid(activeStep, campusId, programId, courseId, currentFile);
+    if (errorMessage) {
+      toast.error(errorMessage);
+    } else {
       setActiveStep((currentStep) => currentStep + 1);
       setIsFirstStep(false);
     }
@@ -168,39 +223,88 @@ export default function AddSlides() {
       setIsLastStep(false);
     }
   };
+
   return (
     <>
-      <div className=" my-10">
+      <div className="my-10">
         <div className="max-w-3xl mx-auto w-full">
-
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2 space-y-6">
-
               {activeStep === 0 && (
 
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="programme">Programme</Label>
-                  <Popover open={open} onOpenChange={setOpen}>
+                  <Label htmlFor="Campus">Campuses</Label>
+                  <Popover open={isCampusPopoverOpen} onOpenChange={setIsCampusPopoverOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         role="combobox"
-                        aria-expanded={open1}
+                        aria-expanded={isCampusPopoverOpen}
+                        className="w-full justify-between"
+                      >
+                        {campusId
+                          ? campuses.find((campus) => campus.$id === campusId)?.name
+                          : "Select Campus"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0">
+                      <Command onValueChange={handleCampusChange}>
+                        <CommandInput required placeholder="Search University campus..." />
+                        <CommandEmpty>No Campus found.</CommandEmpty>
+                        <CommandGroup>
+                          {campuses.map((campus) => (
+                            <CommandItem
+                              key={campus.$id}
+                              onSelect={(currentValue) => {
+                                setCampusId(
+                                  currentValue === campusId
+                                    ? ""
+                                    : campus.$id
+                                );
+                                setIsCampusPopoverOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  campusId === campus.$id
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {campus.name},{campus.location}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
+
+              {activeStep === 1 && (
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="programme">Programme</Label>
+                  <Popover open={isProgramPopoverOpen} onOpenChange={setIsProgramPopoverOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={isProgramPopoverOpen}
                         className="w-full justify-between"
                       >
                         {programId
-                          ? programs.find(
-                            (program) => program.$id === programId
-                          )?.name
+                          ? programs.find((program) => program.$id === programId)?.name
                           : "Select Programme"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-full p-0" >
-                      <Command onValueChange={handleProgramChange} >
+                    <PopoverContent className="w-full p-0">
+                      <Command onValueChange={handleProgramChange}>
                         <CommandInput required placeholder="Search program..." />
                         <CommandEmpty>No program found.</CommandEmpty>
-                        <CommandGroup >
+                        <CommandGroup>
                           {programs.map((program) => (
                             <CommandItem
                               key={program.$id}
@@ -210,7 +314,7 @@ export default function AddSlides() {
                                     ? ""
                                     : program.$id
                                 );
-                                setOpen(false);
+                                setIsProgramPopoverOpen(false);
                               }}
                             >
                               <Check
@@ -231,15 +335,15 @@ export default function AddSlides() {
                 </div>
               )}
 
-              {activeStep === 1 && (
+              {activeStep === 2 && (
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="course">Courses</Label>
-                  <Popover open={open1} onOpenChange={setOpen1}>
+                  <Popover open={isCoursePopoverOpen} onOpenChange={setIsCoursePopoverOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         role="combobox"
-                        aria-expanded={open1}
+                        aria-expanded={isCoursePopoverOpen}
                         className="w-full justify-between"
                       >
                         {courseId
@@ -249,7 +353,7 @@ export default function AddSlides() {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-full p-0">
-                      <Command onValueChange={handleSelectChange}>
+                      <Command onValueChange={handleSelectCourseChange}>
                         <CommandInput placeholder="Search course..." />
                         <CommandEmpty>No course found.</CommandEmpty>
                         <CommandGroup>
@@ -257,8 +361,8 @@ export default function AddSlides() {
                             <CommandItem className="capitalize"
                               key={course.$id}
                               onSelect={(currentValue) => {
-                                setCourseId(currentValue === courseId ? "" : course.$id)
-                                setOpen1(false)
+                                setCourseId(currentValue === courseId ? "" : course.$id);
+                                setIsCoursePopoverOpen(false);
                               }}
                             >
                               <Check
@@ -268,26 +372,20 @@ export default function AddSlides() {
                                 )}
                               />
                               {course.name.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-
-
                             </CommandItem>
                           ))}
                         </CommandGroup>
                       </Command>
                     </PopoverContent>
                   </Popover>
-
                 </div>
               )}
 
-
-              {activeStep === 2 && (
+              {activeStep === 3 && (
                 <div className="grid w-full items-center gap-1.5">
                   <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
                 </div>
               )}
-
-
 
               <div className="w-full py-4 px-8">
                 <div className="mt-16 flex justify-between">
@@ -295,7 +393,7 @@ export default function AddSlides() {
                     Prev
                   </Button>
                   {isLastStep ? (
-                    <Button type="submit"  >
+                    <Button type="submit">
                       Submit
                     </Button>
                   ) : (
@@ -307,7 +405,16 @@ export default function AddSlides() {
               </div>
             </div>
           </form>
+          {uploadProgress > 0 && (
 
+            <div className="w-full space-y-2 my-6">
+              <div>Upload Progress: {uploadProgress}%</div>
+              <Progress value={uploadProgress} />
+            </div>
+
+          )
+
+          }
           <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
             <Stepper
               activeStep={activeStep}
@@ -315,41 +422,42 @@ export default function AddSlides() {
               isFirstStep={(value) => setIsFirstStep(value)}
             >
               <Step onClick={() => setActiveStep(0)}>
-                <BookOpen className="h-5 w-5" />
+                <Building className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
                   <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-
-                    Programme
+                    Campus
                   </p>
                 </div>
               </Step>
               <Step onClick={() => setActiveStep(1)}>
-                <GraduationCap className="h-5 w-5" />
+                <BookOpen className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
                   <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-
-                    Course
+                    Programme
                   </p>
                 </div>
               </Step>
               <Step onClick={() => setActiveStep(2)}>
+                <GraduationCap className="h-5 w-5" />
+                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+                  <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
+                    Course
+                  </p>
+                </div>
+              </Step>
+              <Step onClick={() => setActiveStep(3)}>
                 <CheckCircle className="h-5 w-5" />
                 <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-                  <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-
+                  <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
                     Finish
                   </p>
                 </div>
               </Step>
             </Stepper>
-
           </div>
+
         </div>
         <Toaster />
-
       </div>
     </>
   );

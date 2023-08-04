@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
 import { CardHeader, Step, Stepper } from "@material-tailwind/react";
-import { BookOpen, CalendarCheck, CheckCircle, GraduationCap } from "lucide-react";
+import { BookOpen, Building, CalendarCheck, CheckCircle, GraduationCap } from "lucide-react";
 
 interface AddProgramProps {
   user: any;
@@ -61,6 +61,7 @@ export default function AddProgram() {
 
   const handleSelectChange = (selectedValue: string) => {
     setValue(selectedValue);
+    
   };
 
   // handle upload progress
@@ -174,7 +175,6 @@ export default function AddProgram() {
         <div className="grid w-full gap-4">
 
 
-
           {activeStep === 0 && (
 
             <div className="flex flex-col space-y-1.5">
@@ -191,6 +191,40 @@ export default function AddProgram() {
 
           {activeStep === 1 && (
 
+<div className="flex flex-col space-y-1.5">
+{/* Select campus */}
+
+<Label htmlFor="campus">Campus</Label>
+<Select onValueChange={handleSelectChange}>
+  <SelectTrigger className="w-full">
+    <SelectValue placeholder="Select campus" />
+  </SelectTrigger>
+
+
+  <SelectContent  position="item-aligned" >
+
+
+    <SelectGroup >
+      <SelectLabel>Campus</SelectLabel>
+      {campuses.map((campus) => (
+        <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
+      ))}
+
+
+    </SelectGroup>
+
+  </SelectContent>
+
+</Select>
+
+
+</div>
+
+          )}
+
+
+          {activeStep === 2 && (
+
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="duration">Duration</Label>
               <Input
@@ -203,7 +237,7 @@ export default function AddProgram() {
 
           )}
 
-          {activeStep === 2 && (
+          {activeStep === 3 && (
 
             <div className="grid  w-full items-center gap-1.5">
               <Label htmlFor="picture">Picture</Label>
@@ -251,6 +285,16 @@ export default function AddProgram() {
               <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
 
                 Programme
+              </p>
+            </div>
+          </Step>
+          <Step onClick={() => setActiveStep(0)}>
+            <Building className="h-5 w-5" />
+            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+
+              <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
+
+              Campus
               </p>
             </div>
           </Step>

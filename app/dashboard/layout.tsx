@@ -9,13 +9,13 @@ import { useState, useEffect } from "react";
 import { LayoutDashboard, Home, PlusCircle } from "lucide-react";
 import { User } from "lucide-react";
 
-
+import { MyContextProvider } from '../../components/MyContext'
 
 
 type UserWithId = User<Preferences> & { id: string };
 const metadata: Metadata = {
-  title: "Slideshub",
-  description: "Advanced form example using react-hook-form and Zod.",
+  title: "Slideshub | Dashboard",
+  description: "Slideshub is a platform for sharing slides and documents.",
 };
 
 const sidebarNavItems = [
@@ -69,21 +69,22 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   }, [user]);
   return (
     <>
-      <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
+      <MyContextProvider>
+        <AuthNav user={user} sidebarNavItems={sidebarNavItems} /> {/* Include the AuthNav component */}
 
-      <div className=" lg:block mt-[4.6rem] bg-gray-50 dark:bg-black ">
-        <div className=" relative flex  !h-full ">
-          <aside className="hidden xl:flex w-[13rem]  h-screen fixed dark:bg-black">
-            <SidebarNav items={sidebarNavItems} />
-          </aside>
-          <div className="xl:ml-[13rem] w-full flex-1  max-w-screen-3xl mx-auto  h-full lg:p-2">
+        <div className=" lg:block mt-[4.6rem] bg-gray-50 dark:bg-black ">
+          <div className=" relative flex  !h-full ">
+            <aside className="hidden xl:flex w-[13rem]  h-screen fixed dark:bg-black">
+              <SidebarNav items={sidebarNavItems} />
+            </aside>
+            <div className="xl:ml-[13rem] w-full flex-1  max-w-screen-3xl mx-auto  h-full lg:p-2">
 
-            <div className=" rounded-md  dark:bg-inherit dark:border-none lg:p-5">{children}</div>
+              <div className=" rounded-md  dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 
+            </div>
           </div>
         </div>
-      </div>
-
+      </MyContextProvider>
     </>
   );
 }
