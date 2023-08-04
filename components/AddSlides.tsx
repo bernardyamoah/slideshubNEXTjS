@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useState } from "react";
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState, useCallback } from "react";
+
 import { Step, Stepper } from "@material-tailwind/react";
 import { GraduationCap } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
@@ -51,9 +51,8 @@ export default function AddSlides() {
   const [programId, setProgramId] = useState<string>("");
   const currentTime = new Date();
   const [campuses, setCampuses] = useState<any[]>([]);
-  console.log(currentTime);
 
-  console.log("🚀 ~ file: AddSlides.tsx:40 ~ AddSlides ~ campuses:", campuses)
+  console.log(currentTime, "🚀 ~ file: AddSlides.tsx:40 ~ AddSlides ~ campuses:", campuses)
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const [programs, setPrograms] = useState<any[]>([]);
 
@@ -70,17 +69,30 @@ export default function AddSlides() {
       try {
         const campusList = await getCampus();
         setCampuses(campusList);
-
         const userId = await getCurrentUserAndSetUser();
         setUser(userId);
-
       } catch (error) {
         console.log('Error fetching data:', error);
       }
     }
 
     fetchData();
-  }, [campusId, programId]); // Added campusId and programId as dependencies
+  }, []);
+
+  useEffect(() => {
+    async function fetchProgramsAndCourses() {
+      if (campusId) {
+        const response = await getProgramsByCampusId(campusId);
+        setPrograms(response);
+      }
+      if (programId) {
+        const response = await getCoursesByProgramId(programId);
+        setCourses(response);
+      }
+    }
+
+    fetchProgramsAndCourses();
+  }, [campusId, programId]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -155,24 +167,17 @@ export default function AddSlides() {
     };
   }
 
-  const handleSelectCourseChange = (selectedValue: string) => {
+  const handleSelectCourseChange = useCallback((selectedValue: string) => {
     setCourseId(selectedValue);
-  };
+  }, []);
 
-
-  const handleProgramChange = async (selectedValue: string) => {
+  const handleProgramChange = useCallback(async (selectedValue: string) => {
     setProgramId(selectedValue);
-    // Fetch courses for the selected program
-    const response = await getCoursesByProgramId(selectedValue);
-    setCourses(response);
-  };
-  const handleCampusChange = async (selectedValue: string) => {
-    console.log(selectedValue)
+  }, []);
 
-    // Fetch courses for the selected program
-    const response = await getProgramsByCampusId(selectedValue);
-    setPrograms(response);
-  };
+  const handleCampusChange = useCallback(async (selectedValue: string) => {
+    setCampusId(selectedValue);
+  }, []);
 
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
