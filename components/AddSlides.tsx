@@ -24,6 +24,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 import { cn } from "@/lib/utils";
+import { on } from "events";
+import { UploadProgress } from "appwrite";
+import { CardFooter } from "./ui/card";
+import { Progress } from "./ui/progress";
 
 // Replace this with the actual UserWithId interface or type
 interface UserWithId {
@@ -57,13 +61,20 @@ export default function AddSlides() {
   const [programs, setPrograms] = useState<any[]>([]);
 
   const [courses, setCourses] = useState<any[]>([]);
-
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStep, setIsLastStep] = useState(false);
   const [isFirstStep, setIsFirstStep] = useState(false);
   const [isProgramPopoverOpen, setIsProgramPopoverOpen] = useState(false); // Renamed from 'open' to 'isProgramPopoverOpen'
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
+  const handleProgress = (progress: UploadProgress) => {
+    // Update the progress bar with the progress value (0-100)
+    const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
+    console.log('Upload progress:', uploadprogress);
+    setUploadProgress(uploadprogress);
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -110,7 +121,15 @@ export default function AddSlides() {
             const uploader = await toast.promise(storage.createFile(
               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
               ID.unique(),
-              file
+              file,
+              undefined,
+              (progress: UploadProgress) => {
+                // Update the progress bar with the progress value (0-100)
+                const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
+                console.log('Upload progress:', uploadprogress);
+                setUploadProgress(uploadprogress);
+              }
+
             ), {
               loading: 'Uploading file...',
               success: 'File uploaded!',
@@ -420,6 +439,14 @@ export default function AddSlides() {
               </Step>
             </Stepper>
           </div>
+          {uploadProgress > 0 && (
+            <CardFooter className="flex justify-between">
+              <div className="w-full space-y-2">
+                <div>Upload Progress: {uploadProgress}%</div>
+                <Progress value={uploadProgress} />
+              </div>
+            </CardFooter>
+          )}
         </div>
         <Toaster />
       </div>
