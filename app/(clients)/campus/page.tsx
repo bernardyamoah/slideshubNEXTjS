@@ -51,22 +51,20 @@ export default function CampusList() {
 
 
       <div
-        className="overflow-hidden bg-[url('https://media.istockphoto.com/id/1160970394/photo/back-of-university-student-with-backpack-while-going-to-college-by-walking-from-street.jpg?s=612x612&w=0&k=20&c=Uk0twlMLZTPVyMExQN2bvLyzuBfqkTSSnYZKG3hkwUV=80')] bg-cover bg-top bg-no-repeat"
+        className="overflow-hidden "
       >
-        <div className="bg-black/60 p-8 md:p-12 lg:px-16 lg:py-24">
-          <div className="text-center ltr:sm:text-left rtl:sm:text-right">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
-              Campus
-            </h2>
+        <div className="text-center p-8 md:p-12 lg:px-16 lg:py-24">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
+            Campus
+          </h2>
 
-            <p
-              className=" max-w-lg text-muted-foreground md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
-            >
-              Select your campus to access the offered programmes
-            </p>
+          <p
+            className=" max-w-lg text-muted-foreground md:mt-6 md:block md:text-lg md:leading-relaxed text-center mx-auto"
+          >
+            Select your campus to access the offered programmes
+          </p>
 
 
-          </div>
         </div>
       </div>
       {/* <section className="heading-link">
@@ -80,7 +78,7 @@ export default function CampusList() {
           {isLoading ? (
             <Loading />
           ) : (
-            <div className="max-w-5xl mx-auto w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10 bg-none place-content-center">
+            <div className=" md:max-w-5xl mx-auto w-full md:flex flex-wrap justify-center grid grid-cols-1 place-content-center gap-8 pb-10 ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />

@@ -79,14 +79,7 @@ export default function ProgrammeList() {
           className="h-64 overflow-hidden relative "
         >
 
-          <Image
-            src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xhc3N8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
-            alt='campus image'
-            width={500}
-            height={400}
-            className="rounded-md object-cover w-full h-full absolute -z-10"
-          />
-
+    
           <div className="bg-black/80 p-4 md:p-10 lg:px-16 lg:py-24 h-full flex items-center justify-center">
             <div className="text-center ltr:sm:text-left rtl:sm:text-right">
               <h2 className="text-xl font-bold text-white md:text-5xl">
