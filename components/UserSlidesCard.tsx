@@ -45,8 +45,7 @@ id,
 </div>
 
 <div className="text-gray-400/90  items-center text-xs  p-2 flex gap-1 bottom-0 absolute right-6 rounded-sm dark:text-gray-500/90 ">
-  {/* <span className=' text-base'>&#xB7;</span> 
-  {formattedTime} */}
+
   <aside className='flex gap-3 justify-between  '>
 <div className="text-xs text-muted-foreground flex gap-1">
 <FolderOpen className='h-4 w-4 text-muted-foreground'/>  {size}

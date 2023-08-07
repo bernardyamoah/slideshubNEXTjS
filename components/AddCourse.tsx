@@ -10,7 +10,7 @@ import {
   getCurrentUserAndSetUser,
   getPrograms,
 } from "@/lib/functions";
-import { BookOpen, Check, CheckCircle, ChevronsUpDown, CogIcon, File, FileBadge, GraduationCap, UserCheck, UserIcon } from "lucide-react";
+import { BookOpen, Check, CheckCircle, ChevronsUpDown, GraduationCap, UserCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import DocumentUpload from "./document-upload";
-import { CardHeader, Step, Stepper } from "@material-tailwind/react";
-import { Building } from "lucide-react";
+import {  Step, Stepper } from "@material-tailwind/react";
+
 import { toast } from "react-hot-toast";
 
 
@@ -48,7 +47,7 @@ export default function AddCourse() {
 
   const [fileId, setFileId] = useState("");
   const [programId, setprogramId] = React.useState("");
-  const [currentFile, setCurrentFile] = useState<File | null>(null);
+
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
   const [activeStep, setActiveStep] = React.useState(0);
@@ -202,7 +201,7 @@ export default function AddCourse() {
 
       // const imageUrl = await handleImageUpload();
       year = year.charAt(0).toUpperCase() + year.slice(1); // Convert first letter to uppercase
-      console.log("🚀 ~ file: AddCourse.tsx:157 ~ handleSubmit ~ year:", year)
+
 
       const courseData = {
         name,
@@ -224,10 +223,13 @@ export default function AddCourse() {
       setYear("");
       setCourseCode("");
       setCredit("");
-      setCurrentFile(null);
+
       setLecturer("");
       setFileId("");
       setprogramId("");
+      setActiveStep(0);
+      setIsLastStep(false);
+      setIsFirstStep(false);
 
 
     } catch (error) {
@@ -338,22 +340,10 @@ export default function AddCourse() {
           )}
 
 
-          {/* Image selection */}
-          {activeStep === 2 && (
-
-            <div className="grid  w-full items-center gap-1.5">
-              <Label htmlFor="picture">Picture</Label>
-
-              <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
-
-            </div>
-
-
-          )}
 
 
           {/* Lecturer Name */}
-          {activeStep === 3 && (
+          {activeStep === 2 && (
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="lecturer">Lecturer Name</Label>
               <Input
@@ -366,7 +356,7 @@ export default function AddCourse() {
           )}
 
 
-          {activeStep === 4 && (
+          {activeStep === 3 && (
             <div className="gap-4 md:gap-8 grid grid-cols-2">
               {/* Course code */}
               <div className="flex flex-col space-y-1.5 w-full ">
@@ -581,17 +571,8 @@ export default function AddCourse() {
               </p>
             </div>
           </Step>
+
           <Step onClick={() => setActiveStep(2)}>
-            <FileBadge className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-
-                File
-              </p>
-            </div>
-          </Step>
-          <Step onClick={() => setActiveStep(3)}>
             <UserCheck className="h-5 w-5" />
             <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 
@@ -602,7 +583,7 @@ export default function AddCourse() {
             </div>
           </Step>
 
-          <Step onClick={() => setActiveStep(4)}>
+          <Step onClick={() => setActiveStep(3)}>
             <CheckCircle className="h-5 w-5" />
             <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
 

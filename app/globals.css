@@ -1,277 +1,261 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap'); 
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
- 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
- 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
- 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
- 
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
- 
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
- 
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: ;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
- 
-    --ring: 217.9 10.6% 64.9%;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
- 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
- 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
- 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
- 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
- 
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
- 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
- 
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: ;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
- 
-    --ring: 215 27.9% 16.9%;
-  }
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 224 71.4% 4.1%;
+
+		--muted: 220 14.3% 95.9%;
+		--muted-foreground: 220 8.9% 46.1%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 224 71.4% 4.1%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 224 71.4% 4.1%;
+
+		--border: 220 13% 91%;
+		--input: 220 13% 91%;
+
+		--primary: 220.9 39.3% 11%;
+		--primary-foreground: 210 20% 98%;
+
+		--secondary: 220 14.3% 95.9%;
+		--secondary-foreground: 220.9 39.3% 11%;
+
+		--accent: 220 14.3% 95.9%;
+		--accent-foreground: ;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 210 20% 98%;
+
+		--ring: 217.9 10.6% 64.9%;
+
+		--radius: 0.5rem;
+	}
+
+	.dark {
+		--background: 224 71.4% 4.1%;
+		--foreground: 210 20% 98%;
+
+		--muted: 215 27.9% 16.9%;
+		--muted-foreground: 217.9 10.6% 64.9%;
+
+		--popover: 224 71.4% 4.1%;
+		--popover-foreground: 210 20% 98%;
+
+		--card: 224 71.4% 4.1%;
+		--card-foreground: 210 20% 98%;
+
+		--border: 215 27.9% 16.9%;
+		--input: 215 27.9% 16.9%;
+
+		--primary: 210 20% 98%;
+		--primary-foreground: 220.9 39.3% 11%;
+
+		--secondary: 215 27.9% 16.9%;
+		--secondary-foreground: 210 20% 98%;
+
+		--accent: 215 27.9% 16.9%;
+		--accent-foreground: ;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 85.7% 97.3%;
+
+		--ring: 215 27.9% 16.9%;
+	}
 }
- 
+
 @layer base {
-  * {
-    @apply border-border antialiased sm:subpixel-antialiased;
-  }
-  body {
-    @apply bg-background text-foreground font-body;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+	* {
+		@apply border-border antialiased sm:subpixel-antialiased;
+	}
+	body {
+		@apply bg-background text-foreground font-body;
+		font-feature-settings: "rlig" 1, "calt" 1;
+	}
 }
 
- 
-@layer base{
-body{
-  @apply   bg-cover dark:bg-black relative pattern 
-}
-h1{
-  @apply text-3xl font-bold text-black dark:text-white font-title
-}
-}
-
-
-@layer components{
-  
-.header{
-  @apply fixed top-0 inset-x-0 flex flex-wrap bg-white md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md   dark:bg-black border-b border-gray-300 dark:border-gray-600
-}
-.heading{
-  @apply text-center mb-12 capitalize text-2xl md:text-3xl text-gray-800 dark:text-gray-50 font-bold;
+@layer base {
+	body {
+		@apply dark:bg-black relative;
+	}
+	h1 {
+		@apply text-3xl font-bold text-black dark:text-white font-title;
+	}
 }
 
-.nav-bar{
-  @apply font-body font-bold  flex dark:bg-black bg-white   lg:space-x-6 relative border-b border-gray-200 dark:border-gray-800
+@layer components {
+	.header {
+		@apply fixed top-0 inset-x-0 flex flex-wrap bg-white md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md   dark:bg-black border-b border-gray-300 dark:border-gray-600;
+	}
+	.heading {
+		@apply text-center mb-12 capitalize text-2xl md:text-3xl text-gray-800 dark:text-gray-50 font-bold;
+	}
+
+	.nav-bar {
+		@apply font-body font-bold  flex dark:bg-black bg-white   lg:space-x-6 relative border-b border-gray-200 dark:border-gray-800;
+	}
+	.navbar_item {
+		@apply font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400;
+	}
+
+	/* --------------- logo -------------------- */
+
+	.logo_icon_dark {
+		@apply hidden h-8 w-8 object-cover dark:block md:h-10 md:w-10;
+	}
+	.logo_icon_light {
+		@apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10;
+	}
+	.logo_text {
+		@apply text-xl font-bold text-gray-900 dark:text-white md:text-xl font-title;
+	}
+	/* ------------------------------------------------ */
+	/* ========  FEATURE SECTION -==================== */
+	.aside_card {
+		@apply block    p-8 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 
+  duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-full    dark:border-gray-600;
+	}
+	.aside_icon {
+		@apply text-emerald-500  transition-transform  ease-in-out w-12 h-12 rounded-md p-3;
+	}
+
+	.feature_heading {
+		@apply mt-4 text-xl font-bold text-gray-950 dark:text-white font-title  md:text-2xl;
+	}
+	.feature_description {
+		@apply mt-1 text-sm md:text-base font-medium text-gray-600 lg:text-xl dark:text-gray-400;
+	}
+
+	/* TIMELINE */
+
+	#myUL {
+		@apply w-full;
+	}
+
+	/* --------------PROGRAM--------------- */
+
+	.title-heading {
+		@apply text-center text-xl md:text-3xl  font-extrabold text-gray-900 uppercase tracking-widest   mb-4 font-body;
+	}
+
+	.text_container {
+		@apply p-4 md:p-5 space-y-2  overflow-hidden flex-1;
+	}
+
+	.card_image_wrapper {
+		/* sm:pt-[60%] lg:pt-[80%] */
+		@apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-full;
+	}
+	.card_image {
+		@apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out;
+	}
+	.course-code {
+		@apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600;
+	}
+	.card_heading {
+		@apply lg:text-lg font-bold  text-sm  text-gray-800 dark:text-white capitalize font-title text-left w-full md:w-5/6 align-middle;
+	}
+
+	.footer_copyright {
+		@apply text-center text-xs sm:text-sm md:text-base leading-6;
+	}
+	section {
+		@apply bg-white/90 dark:bg-inherit;
+	}
 }
-.navbar_item{
-  @apply  font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400
-}
 
+.pattern {
+	background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png");
+	background-position-x: center;
 
-
-/* --------------- logo -------------------- */
-
-.logo_icon_dark{
-  @apply hidden h-8 w-8 object-cover dark:block md:h-10 md:w-10
-}
-.logo_icon_light{
-  @apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10
-}
-.logo_text{
-  @apply text-xl font-bold text-gray-900 dark:text-white md:text-xl font-title
-}
-/* ------------------------------------------------ */
-/* ========  FEATURE SECTION -==================== */
-.aside_card{
-  @apply block    p-8 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 
-  duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-full    dark:border-gray-600
-  
- }
- .aside_icon{
-  @apply text-emerald-500  transition-transform  ease-in-out w-12 h-12 rounded-md p-3
- }
-        
-.feature_heading{
-  @apply mt-4 text-xl font-bold text-gray-950 dark:text-white font-title  md:text-2xl
-}
-.feature_description{
-  @apply mt-1 text-sm md:text-base font-medium text-gray-600 lg:text-xl dark:text-gray-400}
-
-/* TIMELINE */
-
-
-
-#myUL{
-  @apply w-full
-}
-
- /* --------------PROGRAM--------------- */
-
-.title-heading{
-  @apply text-center text-xl md:text-3xl  font-extrabold text-gray-900 uppercase tracking-widest   mb-4 font-body
-}
-
-
- .text_container{
-  @apply p-4 md:p-5 space-y-2  overflow-hidden flex-1
- }
-
-  .card_image_wrapper{
-    /* sm:pt-[60%] lg:pt-[80%] */
-    @apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-full
-  }
-.card_image{
-  @apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out 
-  }
-  .course-code{
-    @apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600
-  }
-.card_heading{
-    @apply lg:text-lg font-bold  text-sm  text-gray-800 dark:text-white capitalize font-title text-left w-full md:w-5/6 align-middle
-  }
-
-  .footer_copyright{
-    @apply  text-center text-xs sm:text-sm md:text-base leading-6
-  }
-  section{
-    @apply bg-white/90 dark:bg-inherit
-  }
-}
-
-.pattern{
-  background-image: url('https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png');
-  background-position-x: center;
-  
-    background-size: initial;
-  background-repeat: repeat;
+	background-size: initial;
+	background-repeat: repeat;
 }
 
 .nav-bar {
-
-  width: 100%;
-  padding: 20px 50px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	padding: 20px 50px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-bar .logo {
-  font-size: 22px;
-  font-weight: 500;
+	font-size: 22px;
+	font-weight: 500;
 }
 .nav-bar .nav-links {
-  column-gap: 20px;
-  list-style: none;
-  
+	column-gap: 20px;
+	list-style: none;
 }
 .nav-bar .nav-links a {
-  transition: all 0.2s linear;
-  font-size: 1.2rem;
+	transition: all 0.2s linear;
+	font-size: 1.2rem;
 }
 .nav-bar .nav-links a:hover {
-  color:#15c095;
+	color: #15c095;
 }
-
 
 /* responsive */
 @media screen and (max-width: 1160px) {
-  .nav-bar {
-    padding: 15px 50px;
-  }
-
+	.nav-bar {
+		padding: 15px 50px;
+	}
 }
 @media screen and (max-width: 950px) {
-  .nav-bar {
-    padding: 15px 50px;
-  }
+	.nav-bar {
+		padding: 15px 50px;
+	}
 }
 @media screen and (max-width: 768px) {
-  .nav-bar {
-    padding: 15px 20px;
-  }
+	.nav-bar {
+		padding: 15px 20px;
+	}
 }
 
 section {
-  padding: 5rem 2%;
-
+	padding: 5rem 2%;
 }
 
 .heading-link {
-  text-align: center;
-  background: url('../assets/img/heading-bg.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
+	text-align: center;
+	background: url("../assets/img/heading-bg.jpg") no-repeat;
+	background-size: cover;
+	background-position: center;
 }
 
 .heading-link h3 {
-  font-size: 2rem;
-  text-transform: capitalize;
-  color: #444;
+	font-size: 2rem;
+	text-transform: capitalize;
+	color: #444;
 }
 
 .heading-link p {
-  font-size: 1.2rem;
-  line-height: 2;
-  color: #777;
+	font-size: 1.2rem;
+	line-height: 2;
+	color: #777;
 }
 
 .heading-link p a {
-  color: #0eb582;
+	color: #0eb582;
 }
 
 .heading-link p a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 @media (max-width: 1200px) {
-  section {
-    padding: 3rem 3%;
-  }
+	section {
+		padding: 3rem 3%;
+	}
 }
 
 @media (max-width: 991px) {
-  
-  section {
-    padding: 3rem 0.5rem;
-  }
+	section {
+		padding: 3rem 0.5rem;
+	}
 }
