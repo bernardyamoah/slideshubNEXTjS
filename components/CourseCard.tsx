@@ -3,7 +3,7 @@ import { formatTime } from '@/lib/functions';
 import Link from 'next/link';
 
 import { Card } from './ui/card';
-import { Calendar, Clock2, FlaskConical } from 'lucide-react';
+import { Calendar, Clock2} from 'lucide-react';
 
 interface CourseCardProps {
   name: string;
@@ -15,6 +15,7 @@ interface CourseCardProps {
   courseId: string;
   semester: string;
   timePosted: string;
+
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({

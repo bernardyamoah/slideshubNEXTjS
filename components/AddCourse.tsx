@@ -10,7 +10,7 @@ import {
   getCurrentUserAndSetUser,
   getPrograms,
 } from "@/lib/functions";
-import { BookOpen, Check, CheckCircle, ChevronsUpDown, GraduationCap, UserCheck, } from "lucide-react";
+import { BookOpen, Check, CheckCircle, ChevronsUpDown, GraduationCap, UserCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { CardHeader, Step, Stepper } from "@material-tailwind/react";
+import {  Step, Stepper } from "@material-tailwind/react";
 
 import { toast } from "react-hot-toast";
 

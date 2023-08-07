@@ -70,6 +70,10 @@ interface SlidesCardProps {
 	fileUrl: string;
 	user_id: string | undefined;
 	timePosted: string | undefined;
+	fileType: string;
+	previewUrl: URL;
+	fileType: string;
+	size: string;
 }
 
 interface ProgramCardProps {
