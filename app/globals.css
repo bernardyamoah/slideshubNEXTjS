@@ -75,14 +75,14 @@
 		@apply border-border antialiased sm:subpixel-antialiased;
 	}
 	body {
-		@apply bg-background text-foreground font-body;
+		@apply text-foreground font-body bg-gray-50 dark:bg-gray-950;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }
 
 @layer base {
 	body {
-		@apply dark:bg-black relative;
+		@apply relative;
 	}
 	h1 {
 		@apply text-3xl font-bold text-black dark:text-white font-title;
@@ -165,9 +165,6 @@
 	.footer_copyright {
 		@apply text-center text-xs sm:text-sm md:text-base leading-6;
 	}
-	section {
-		@apply bg-white/90 dark:bg-inherit;
-	}
 }
 
 .pattern {
@@ -219,6 +216,7 @@
 
 section {
 	padding: 5rem 2%;
+	height: 100%;
 }
 
 .heading-link {

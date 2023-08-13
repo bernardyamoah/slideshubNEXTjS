@@ -24,8 +24,8 @@ const SlidesCard: React.FC<SlidesCardProps> = ({
         <CardTitle className="w-full text-sm capitalize ">{name.replace(/_/g, ' ').toLocaleLowerCase()}</CardTitle>
 
       </CardHeader>
-      <CardContent >
-        <Badge variant="secondary" className="absolute -top-2 left-4  text-[10px] font-light sm:text-xs ">
+      <CardContent className="flex flex-col">
+        <Badge variant="secondary" className="bg-emerald-500 absolute -top-2 left-4  text-[10px] font-light sm:text-xs ">
           {formattedTime}
         </Badge>
         <div className="text-gray-500  items-center text-xs   flex gap-1  rounded-sm dark:text-gray-500/90 ">
