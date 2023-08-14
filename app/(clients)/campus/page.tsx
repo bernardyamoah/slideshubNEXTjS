@@ -78,7 +78,7 @@ export default function CampusList() {
           {isLoading ? (
             <Loading />
           ) : (
-            <div className=" md:max-w-5xl mx-auto w-full md:flex flex-wrap justify-center grid grid-cols-1 place-content-center gap-8 pb-10 ">
+            <div className=" mx-auto max-w-7xl grid gap-8  auto-rows-max grid-cols-1 sm:flex justify-center flex-wrap p-4 ">
               <Suspense fallback={<Loading />}>
                 {campuses.map((campus) => (
                   <CampusCard key={campus.$id} campusId={campus.$id} {...campus} timePosted={campus.$createdAt} />
@@ -90,6 +90,7 @@ export default function CampusList() {
           )}
         </div>
       </section>
+      {/* Buttons for navigating back and forward */}
       <div className='flex max-w-xl mx-auto justify-between mt-10 p-4 pb-10'>
         <Button
           className="mt-6"
@@ -101,12 +102,13 @@ export default function CampusList() {
         <Button
           className="mt-6"
           onClick={() => router.forward()}
+          disabled={!router.forward} // Disable the button if forward navigation is not possible
         >
           Go Forward
           <ChevronsRightIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
         </Button>
       </div>
-      <Toaster />
+
 
     </>
   );
