@@ -81,28 +81,4 @@ export default function SelectCampus() {
   )
 }
 
-{/* Select campus */ }
-
-//   <Label htmlFor="campus">Programs</Label>
-//   <Select   onValueChange={handleSelectChange}>
-// <SelectTrigger className="w-full">
-// <SelectValue placeholder="Select Program"/>
-// </SelectTrigger>
-
-
-// <SelectContent>
-
-
-// <SelectGroup>
-
-// {programs.map((program) => (
-// <SelectItem key={program.$id} value={program.$id} >{program.name}</SelectItem>
-// ))}
-
-
-// </SelectGroup>
-
-// </SelectContent>
-
-// </Select>
 

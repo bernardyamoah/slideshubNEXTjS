@@ -89,8 +89,8 @@ export default function Navbar() {
 									className={cn(
 										buttonVariants({ variant: "ghost" }),
 										pathname === link.link
-											? "text-emerald-500  font-bold tracking-wide hover:text-white "
-											: "hover:bg-transparent ",
+											? "text-emerald-500  font-bold tracking-wide  dark:hover:text-emerald-500"
+											: "hover:bg-transparent dark:hover:text-emerald-500",
 										"justify-start"
 									)}
 								>

@@ -9,6 +9,9 @@ import Pagination from "@/components/pagination-button";
 
 
 import LoadingScreen from "./components/LoadingScreen";
+import { Separator } from "@/components/ui/separator";
+import CourseCard from "@/components/CourseCard";
+import CoursesCard from "@/components/allCourses";
 
 
 
@@ -36,7 +39,8 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isUserInTeam, setIsUserInTeam] = useState<boolean | null>(null);
-
+  const [courses, setCourses] = useState<Course[]>([])
+  console.log("🚀 ~ file: dashboard.tsx:43 ~ Dashboard ~ courses:", courses)
 
 
 
@@ -45,7 +49,7 @@ export default function Dashboard() {
   };
   const authenticateUser = useCallback(async () => {
     // Fetch user data and slides
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, router, currentPage);
+    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, setCourses, router, currentPage);
 
 
   }, [router, currentPage]);
@@ -76,14 +80,7 @@ export default function Dashboard() {
               Let&apos;s upload a new slide! 🎉
             </p>
           </div>
-          {/* <div className="mt-4 flex flex-col gap-4 sm:flex-row ">
-    
 
-        <Button
-          >
-          <Link href={'dashboard/create'}>Create a Slide</Link>
-        </Button>
-      </div> */}
         </div>
       </header>
       <div className="max-w-screen ">
@@ -114,6 +111,21 @@ export default function Dashboard() {
           />
         )}
       </div>
+      <Separator />
+      {/* Courses section */}
+      {/* {isUserInTeam && ( */}
+      <section className="max-w-screen mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <h1 className="text-xl font-bold  sm:text-2xl">
+          All Courses
+        </h1>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8 mt-6">
+          {courses.map((course) => (
+
+            <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
+          ))}
+        </div>
+      </section>
+      {/* )} */}
     </>
   );
 }

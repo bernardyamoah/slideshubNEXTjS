@@ -85,7 +85,7 @@ export default function FilesList() {
 
                   {slides.map((slide) => (
 
-                    <SlidesCard key={slide.$id} {...slide} timePosted={slide.$createdAt} user_id={slide.user_id} {...slides} />
+                    <SlidesCard key={slide.$id} {...slide} timePosted={slide.$createdAt} user_id={slide.user_id} />
                   ))}
 
 

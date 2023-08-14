@@ -1,5 +1,5 @@
 
-import { IconButton, Typography } from "@material-tailwind/react";
+import {  Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
 interface PaginationProps {

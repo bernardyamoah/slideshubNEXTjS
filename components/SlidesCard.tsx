@@ -1,6 +1,6 @@
 import { formatTime } from "@/lib/functions";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { toast } from "react-hot-toast";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";

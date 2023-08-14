@@ -307,7 +307,6 @@ export const getSlides = async (): Promise<any[]> => {
 	}
 
 	try {
-		
 		const response = await databases.listDocuments(
 			databaseId,
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
@@ -404,15 +403,12 @@ export async function getCourseName(CourseId: string) {
 			CourseId
 		);
 
-		
 		// Extract and return the program name
 		return Course.name;
-
 	} catch (error) {
 		console.error("Failed to fetch course name:", error);
 		throw error;
 	}
-	
 }
 
 export async function getProgramDetails(programId: string) {
@@ -594,12 +590,13 @@ export const checkAuthStatus = async (
 	}
 };
 
-//👇🏻 Appwrite authenticate and get user's tickets
+//👇🏻 Appwrite authenticate and get user's slides
 export const checkAuthStatusDashboard = async (
 	setUser: (user: any) => void,
 	setLoading: (loading: boolean) => void,
 	setSlides: (slides: any[]) => void,
 	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
+	setCourses: (courses: Course[]) => void, // Add setCourses function
 	router: any,
 	page: number // Dynamically set page number
 ) => {
@@ -612,7 +609,9 @@ export const checkAuthStatusDashboard = async (
 		const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
 
 		getUserSlides(userId, page, perPage, setSlides, setLoading);
+		const courses = await getCourses();
 		setUser(request);
+		setCourses(courses); // Set user courses
 		setTotalPages(totalPages); // Set the total number of pages
 	} catch (err) {
 		router.push("/");
@@ -693,7 +692,7 @@ export const extractIdFromUrl = (url: string) => {
 	return match ? match[1] : null;
 };
 
-//👇🏻 delete a ticket
+//👇🏻 delete a Slide
 export const deleteSlide = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
@@ -719,6 +718,30 @@ export const deleteSlide = async (id: string) => {
 			errorMessage("Failed to delete Slide ❌");
 		}
 		successMessage("Slide deleted! 🎉");
+	} catch (err) {
+		errorMessage("Action declined ❌");
+	}
+};
+export const deleteCourse = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			id
+		);
+
+		if (getDoc.$id === id) {
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+				id
+			);
+			// Page refresh after successful deletion
+			window.location.reload();
+		} else {
+			errorMessage("Failed to delete Course ❌");
+		}
+		successMessage("Course deleted! 🎉");
 	} catch (err) {
 		errorMessage("Action declined ❌");
 	}
@@ -781,6 +804,35 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
 	} catch (error) {
 		// Handle any errors that occur during the update process
 		errorMessage("Failed to update slide:" + error);
+	}
+};
+
+export const updateCourse = async (id: string, updatedAttributes: any) => {
+	try {
+		// // Retrieve the document from the Appwrite database
+		const getDoc = await databases.getDocument(
+			databaseId!, // Replace with your database ID
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
+			id
+		);
+		// Check if the retrieved document matches the provided ID
+		if (getDoc.$id === id) {
+			// Update the document with the merged attributes
+			await databases.updateDocument(
+				databaseId!, // Replace with your database ID
+				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
+				id,
+				updatedAttributes
+			);
+
+			successMessage("Successfully updated Course");
+		} else {
+			// Handle the case when the document is not found with the provided ID
+			errorMessage("Course not found");
+		}
+	} catch (error) {
+		// Handle any errors that occur during the update process
+		errorMessage("Failed to update Course:" + error);
 	}
 };
 
@@ -887,7 +939,6 @@ export const checkUserInTeam = async () => {
 			process.env.NEXT_PUBLIC_TEAM_ID!
 		);
 		const userId = await getUserID();
-	
 
 		// Check if the user's ID exists in the list of team members
 		const userIds = response.memberships.map(
@@ -907,7 +958,7 @@ export const getUserData = async () => {
 		// Get the current user's information
 
 		const response = await account.get();
-	
+
 		const logistics = await account.getSession("current");
 		const { countryName, countryCode, ...userSessionData } = logistics;
 		const country_icon = await avatars.getFlag(countryCode).href.toString();
@@ -918,17 +969,15 @@ export const getUserData = async () => {
 			name: response.name,
 			email: response.email,
 			prefs: {
-        bio: response.prefs?.bio || '',
-        avatarUrl: response.prefs?.avatarUrl || '',
-        coverPhotoUrl: response.prefs?.coverPhotoUrl || '',
-        phoneNumber: response.prefs?.phoneNumber || '',
-        country: countryName || '',
-        countryFlagEmoji: country_icon || '',
-        profileImage: response.prefs?.profileImage || '',
-        profileImageId: response.prefs?.profileImageId || '',
-        // Pass the countryIcon to the prefs object
-      
-
+				bio: response.prefs?.bio || "",
+				avatarUrl: response.prefs?.avatarUrl || "",
+				coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
+				phoneNumber: response.prefs?.phoneNumber || "",
+				country: countryName || "",
+				countryFlagEmoji: country_icon || "",
+				profileImage: response.prefs?.profileImage || "",
+				profileImageId: response.prefs?.profileImageId || "",
+				// Pass the countryIcon to the prefs object
 			},
 			status: response.status,
 			registration: response.registration,
@@ -944,7 +993,6 @@ export const getUserData = async () => {
 		throw error;
 	}
 };
-
 
 // Function to update user data
 export const updateUserData = async (updatedUserData: ProfileData) => {
@@ -970,7 +1018,10 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		if (prefs) {
 			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
 			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
-			console.log("🚀 ~ file: functions.ts:960 ~ updateUserData ~ updatedPrefs:", updatedPrefs)
+			console.log(
+				"🚀 ~ file: functions.ts:960 ~ updateUserData ~ updatedPrefs:",
+				updatedPrefs
+			);
 
 			if (prefs.bio) {
 				// Update the bio
@@ -983,12 +1034,10 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 			}
 
 			if (prefs.coverPhotoUrl) {
-	
 				updatedPrefs.coverPhotoUrl = prefs.coverPhotoUrl;
 			}
 
 			if (prefs.phoneNumber) {
-				
 				updatedPrefs.phoneNumber = prefs.phoneNumber;
 			}
 

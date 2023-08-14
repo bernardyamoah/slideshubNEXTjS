@@ -23,34 +23,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { updateSlide, deleteSlide, successMessage } from "@/lib/functions";
+import { successMessage, deleteCourse, updateCourse } from "@/lib/functions";
 import { Card } from "@/components/ui/card";
 import { CardBody, Dialog, Typography, Input } from "@material-tailwind/react";
 import { Button } from "@/components/ui/button";
-import DocumentUpload from "@/components/document-upload";
 
 
-interface PresetActionsProps {
+
+interface CourseEditProps {
   name: string;
   id: string;
 
 }
 
-export function PresetActions({ name, id }: PresetActionsProps) {
+export function CourseEdit({ name, id }: CourseEditProps) {
 
 
-  const [programId, setProgramId] = React.useState("");
-
-  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
 
   const [updatedName, setUpdatedName] = React.useState(name);
-  React.useEffect(() => {
-    async function fetchCourses() {
-
-    }
-
-    fetchCourses()
-  }, [programId]);
+  const [updatedCourseCode, setUpdatedCourseCode] = React.useState('');
+  const [updatedLecturer, setUpdatedLecturer] = React.useState('');
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -61,29 +53,27 @@ export function PresetActions({ name, id }: PresetActionsProps) {
         updatedAttributes.name = updatedName;
       }
 
-      if (currentFile !== null) { // Check if currentFile is not null or undefined
-        updatedAttributes.file = currentFile;
-      }
 
-      await updateSlide(id, updatedAttributes);
+
+      await updateCourse(id, updatedAttributes);
 
       // Reset form fields
-      setCurrentFile(null);
+
       setUpdatedName('');
 
       // Close the dialog
       setOpen(false);
     } catch (error) {
       console.error("Error updating slide:", error);
-      setCurrentFile(null);
+
     }
   };
 
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen((cur) => !cur);
-  const handleDeleteSlide = () => {
-    deleteSlide(id);
+  const handleDeleteCourse = () => {
+    deleteCourse(id);
     setShowDeleteDialog(false);
     successMessage("Slide deleted successfully!");
   };
@@ -111,7 +101,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
             className="!text-red-600 hover:!bg-red-200/10"
           >
             <Trash className="mr-2 h-4 w-4" />
-            Delete File
+            Delete Course
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -136,11 +126,27 @@ export function PresetActions({ name, id }: PresetActionsProps) {
                   value={updatedName}
                   onChange={(event) => setUpdatedName(event.target.value)}
                 />
-                <DocumentUpload
-                  currentFile={currentFile}
-                  setCurrentFile={setCurrentFile}
-                />
+
               </div>
+              <div className="mb-4 flex flex-col gap-6">
+                <Input
+                  size="lg"
+                  label="lecturer"
+                  value={updatedLecturer}
+                  onChange={(event) => setUpdatedLecturer(event.target.value)}
+                />
+
+              </div>
+              <div className="mb-4 flex flex-col gap-6">
+                <Input
+                  size="lg"
+                  label="lecturer"
+                  value={updatedCourseCode}
+                  onChange={(event) => setUpdatedCourseCode(event.target.value)}
+                />
+
+              </div>
+
 
               <Button type="submit" className="mt-6 w-full sm:w-auto mr-0">
                 Update
@@ -166,7 +172,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button
 
-              onClick={handleDeleteSlide}
+              onClick={handleDeleteCourse}
             >
 
 
