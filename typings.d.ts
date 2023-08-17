@@ -208,6 +208,6 @@ interface CourseCardData {
 	programId: string;
 	year: string;
 	level: string;
-	user_id: string;
+	user_id: string | null;
 	timePosted: string;
   }

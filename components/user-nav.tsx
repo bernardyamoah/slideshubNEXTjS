@@ -51,8 +51,8 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-          <Avatar className="h-10 w-10">
+        <Button variant="ghost" className="relative w-10 h-10 rounded-full">
+          <Avatar className="w-10 h-10">
             {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={user?.name?.split(' ')[0] || ' '} />
             ) : (
@@ -74,7 +74,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
-            <User className="mr-2 h-4 w-4" />
+            <User className="w-4 h-4 mr-2" />
             <span>Profile</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -82,7 +82,7 @@ export const UserNav: React.FC<UserNavProps> = ({ user }) => {
         </DropdownMenuGroup>
 
         <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={() => logOut(router)}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
