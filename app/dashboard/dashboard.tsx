@@ -69,14 +69,14 @@ export default function Dashboard() {
     <>
 
       <header className="">
-        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
 
           <div className="mt-8">
             <h1 className="text-xl font-bold text-gray-900 sm:text-3xl md:text-5xl">
               Welcome, {user?.name}!
             </h1>
 
-            <p className=" text-sm text-gray-500 sm:text-base lg:text-lg">
+            <p className="text-sm text-gray-500 sm:text-base lg:text-lg">
               Let&apos;s upload a new slide! 🎉
             </p>
           </div>
@@ -114,11 +114,11 @@ export default function Dashboard() {
       <Separator />
       {/* Courses section */}
       {/* {isUserInTeam && ( */}
-      <section className="max-w-screen mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <h1 className="text-xl font-bold  sm:text-2xl">
+      <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
+        <h1 className="text-xl font-bold sm:text-2xl">
           All Courses
         </h1>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8 mt-6">
+        <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
           {courses.map((course) => (
 
             <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
