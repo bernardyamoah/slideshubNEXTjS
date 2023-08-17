@@ -5,7 +5,7 @@ import { getCoursesByProgramId, getSlidesByCourseId, getCourseName } from '@/lib
 import Loading from '@/components/ui/Cloading';
 import { Suspense } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -16,6 +16,9 @@ import { EmptySlides } from '@/components/EmptySlides';
 
 
 import SlidesCard from '@/components/SlidesCard';
+import { Button } from '@/components/ui/button';
+import { ChevronsLeftIcon } from 'lucide-react';
+import { ChevronsRightIcon } from 'lucide-react';
 
 //Metadata part
 
@@ -31,7 +34,7 @@ import SlidesCard from '@/components/SlidesCard';
 export default function FilesList() {
   const searchParams = useSearchParams();
   const [slides, setSlides] = useState<Slides[]>([]);
-
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,11 +45,11 @@ export default function FilesList() {
     async function fetchFiles() {
       try {
 
-        console.log('courseId', courseId);
+
         const response = await toast.promise(getSlidesByCourseId(courseId), {
           loading: `Fetching slides from database...`,
-          success: <b>Successfully fetched slides</b>,
-          error: <b>Failed to fetch slides.</b>,
+          success: <p>Successfully fetched slides</p>,
+          error: <p>Failed to fetch slides.</p>,
         });
         setSlides(response);
       } catch (error) {
@@ -82,7 +85,7 @@ export default function FilesList() {
 
                   {slides.map((slide) => (
 
-                    <SlidesCard key={slide.$id} {...slide} timePosted={slide.$createdAt} user_id={slide.user_id} {...slides} />
+                    <SlidesCard key={slide.$id} {...slide} timePosted={slide.$createdAt} user_id={slide.user_id} />
                   ))}
 
 
@@ -97,8 +100,16 @@ export default function FilesList() {
         )}
 
       </section>
+      <div className='flex max-w-xl mx-auto justify-center mt-10 p-4 pb-10'>
+        <Button
+          className="mt-6"
+          onClick={() => router.back()}
+        >
+          <ChevronsLeftIcon className="w-4 h-4 mr-2 " aria-hidden="true" />
+          Go Back
+        </Button>
 
-      <Toaster />
+      </div>
 
     </>
   );

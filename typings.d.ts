@@ -4,8 +4,6 @@ interface CourseData {
 	courseCode: string;
 	credit: string;
 	lecturer: string;
-	fileId: string;
-	image: string;
 	programId: string;
 	year: string;
 	user_id: string | undefined;
@@ -183,9 +181,33 @@ interface Program {
 interface Course {
 	$id: string;
 	name: string;
-	// Add other properties if required
+	semester: string;
+	courseCode: string;
+	credit: string;
+	lecturer: string;
+	programId: string;
+	year: string;
+	level: string;
+	user_id: string;
+	timePosted: string;
+	$createdAt: string;
+	
 }
 interface CourseListProps {
 	programName: string;
 	programId: string;
 }
+
+interface CourseCardData {
+	id: string;
+	name: string;
+	semester: string;
+	courseCode: string;
+	credit: string;
+	lecturer: string;
+	programId: string;
+	year: string;
+	level: string;
+	user_id: string;
+	timePosted: string;
+  }

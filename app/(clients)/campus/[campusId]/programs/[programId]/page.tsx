@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   getCoursesByProgramId,
   getProgramDetails,
@@ -44,30 +44,30 @@ export default function CourseList() {
   const pageTitle = `${programName} Courses`;
   const pageDescription = `Browse courses for ${programName} at your campus.`;
 
-  useEffect(() => {
-    async function fetchCourses() {
-      try {
-        const fetchedProgramName = await getProgramName(programId);
-        const programDetails = await getProgramDetails(programId);
-        const campusId = programDetails?.campusId;
+  const fetchCourses = async () => {
+    try {
+      const fetchedProgramName = await getProgramName(programId);
+      const programDetails = await getProgramDetails(programId);
+      const campusId = programDetails?.campusId;
 
-        const response = await toast.promise(getCoursesByProgramId(programId), {
-          loading: `Fetching courses from ${fetchedProgramName} database..`,
-          success: <b>Successfully fetched courses</b>,
-          error: <b>Failed to fetch courses {fetchedProgramName}.</b>,
-        });
+      const response = await toast.promise(getCoursesByProgramId(programId), {
+        loading: `Fetching courses from ${fetchedProgramName} database..`,
+        success: <b>Successfully fetched courses</b>,
+        error: <b>Failed to fetch courses {fetchedProgramName}.</b>,
+      });
 
-        setProgramName(fetchedProgramName);
-        setCourses(response);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
+      setProgramName(fetchedProgramName);
+      setCourses(response);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
+  };
 
+  // Fetch courses when the component is mounted
+  if (isLoading) {
     fetchCourses();
-    console.count("fetched courses");
-  }, [programId]);
+  }
 
   const filteredCourses = courses.filter(
     (course) => course.programId === programId
