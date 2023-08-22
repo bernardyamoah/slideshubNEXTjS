@@ -24,27 +24,27 @@ const metadata: Metadata = {
 const componentData = [
   {
     key: "slides",
-    icon: <Files className="mx-auto w-10 h-10 " />,
+    icon: <Files className="w-10 h-10 mx-auto " />,
     component: <AddSlides />,
   },
   {
     key: "book",
-    icon: <Book className="mx-auto w-10 h-10 " />,
+    icon: <Book className="w-10 h-10 mx-auto " />,
     component: <AddBook />,
   },
   {
     key: "course",
-    icon: <PiSquare className="mx-auto w-10 h-10 " />,
+    icon: <PiSquare className="w-10 h-10 mx-auto " />,
     component: <AddCourse />,
   },
   {
     key: "program",
-    icon: <GraduationCap className="mx-auto w-10 h-10 " />,
+    icon: <GraduationCap className="w-10 h-10 mx-auto " />,
     component: <AddProgram />,
   },
   {
     key: "campus",
-    icon: <School className="mx-auto w-10 h-10 " />,
+    icon: <School className="w-10 h-10 mx-auto " />,
     component: <AddCampus />,
   },
 ];
@@ -64,11 +64,11 @@ export default function Page() {
 
   return (
     <>
-      <div className=" mx-auto m-10 sm:h-20 text-center">
+      <div className="m-10 mx-auto text-center sm:h-20">
         <h1>Create a Slide</h1>
         {/* Add subtext or description here if needed */}
       </div>
-      <aside className="grid container sm:grid-cols-2 md:grid-cols-3 gap-8 place-items-center pb-10">
+      <aside className="flex flex-wrap justify-center w-full gap-8 p-10 pb-10 mx-auto ">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -76,22 +76,22 @@ export default function Page() {
             return (
               <div
                 key={key}
-                className="group relative block h-72   w-full mx-auto cursor-pointer"
+                className="relative justify-start w-full max-w-xs cursor-pointer group h-44"
               >
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Card className="relative h-full w-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
-                      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                    <Card className="relative w-full h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
+                      <div className="absolute inset-0 transition-opacity bg-gray-100 opacity-0 group-hover:opacity-5"></div>
                       <div className="absolute top-4 left-4 ">{icon}</div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <Label className=" text-lg ">
+                        <Label className="text-lg ">
                           {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
                         </Label>
                       </div>
                     </Card>
                   </DialogTrigger>
                   <DialogContent>
-                    <Card className="mx-auto w-full border-none">
+                    <Card className="w-full mx-auto border-none">
                       <CardHeader>
                         <CardTitle>
                           {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
@@ -109,22 +109,22 @@ export default function Page() {
         ) : (
           <>
             {/* Render only AddSlides and AddBook if the user is not in the team */}
-            <div className="group relative block h-52 w-full aspect-square cursor-pointer">
+            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
-                    <div className="absolute inset-0 bg-gry-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
+                    <div className="absolute inset-0 transition-opacity opacity-0 bg-gry-100 group-hover:opacity-100"></div>
                     <div className="absolute top-4 left-4 ">
-                      <Files className="mx-auto w-10 h-10 " />
+                      <Files className="w-10 h-10 mx-auto " />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Label className=" text-lg ">Add Slides</Label>
+                      <Label className="text-lg ">Add Slides</Label>
                     </div>
                   </Card>
                 </DialogTrigger>
                 <DialogContent>
-                  <Card className="mx-auto w-full border-none">
-                    <CardHeader className="mb-4 grid h-28 place-items-center">
+                  <Card className="w-full mx-auto border-none">
+                    <CardHeader className="grid mb-4 h-28 place-items-center">
                       <Typography variant="h3" color="white">
                         Add Slides
                       </Typography>
@@ -137,22 +137,22 @@ export default function Page() {
               </Dialog>
             </div>
 
-            <div className="group relative block h-52 w-full aspect-square cursor-pointer">
+            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Card className="relative h-full overflow-hidden rounded-lg  transition-transform transform hover:scale-105">
-                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                  <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
+                    <div className="absolute inset-0 transition-opacity bg-gray-100 opacity-0 group-hover:opacity-5"></div>
                     <div className="absolute top-4 left-4 ">
-                      <Book className="mx-auto w-10 h-10 " />
+                      <Book className="w-10 h-10 mx-auto " />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Label className=" text-lg ">Add Book</Label>
+                      <Label className="text-lg ">Add Book</Label>
                     </div>
                   </Card>
                 </DialogTrigger>
                 <DialogContent>
-                  <Card className="mx-auto w-full border-none">
-                    <CardHeader className="mb-4 grid h-28 place-items-center">
+                  <Card className="w-full mx-auto border-none">
+                    <CardHeader className="grid mb-4 h-28 place-items-center">
                       <CardTitle color="white">Add Book</CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">

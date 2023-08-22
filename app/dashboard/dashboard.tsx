@@ -113,19 +113,29 @@ export default function Dashboard() {
       </div>
       <Separator />
       {/* Courses section */}
-      {/* {isUserInTeam && ( */}
+      {isUserInTeam && (
       <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
-        <h1 className="text-xl font-bold sm:text-2xl">
-          All Courses
-        </h1>
-        <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
-          {courses.map((course) => (
+      <h1 className="text-xl font-bold sm:text-2xl">
+        All Courses
+      </h1>
+      <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
+        {courses.map((course) => (
 
-            <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
-          ))}
-        </div>
-      </section>
-      {/* )} */}
+          <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
+        ))}
+        
+      </div>
+    </section> 
+  
+      )
+        
+      
+    
+      }
+        
+      
+      
+      
     </>
   );
 }

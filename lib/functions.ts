@@ -556,6 +556,7 @@ export const logOut = async (router: any) => {
 export const getCurrentUser = async () => {
 	try {
 		const UserId = await account.get();
+		console.log(UserId);
 		return UserId;
 	} catch (error) {}
 };

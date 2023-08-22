@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 // import { Inter } from "next/font/google";
@@ -5,6 +6,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "react-hot-toast";
+
+import { getCurrentUser } from "@/lib/functions";
 export const metadata = {
 	title: "Slideshub",
 	description: "Download your slides from Slideshub and more!",
@@ -32,6 +35,9 @@ export const metadata = {
 	},
 };
 
+
+
+
 export default function RootLayout({
 	children,
 }: {
@@ -42,6 +48,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<body >
 				<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+					<Navbar />
 					<main className="">
 
 						{children}

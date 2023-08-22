@@ -72,18 +72,15 @@
 
 @layer base {
 	* {
-		@apply border-border antialiased sm:subpixel-antialiased;
+		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground font-body bg-gray-50 dark:bg-gray-950;
+		@apply text-foreground font-body bg-background;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }
 
 @layer base {
-	body {
-		@apply relative;
-	}
 	h1 {
 		@apply text-3xl font-bold text-black dark:text-white font-title;
 	}
@@ -91,45 +88,44 @@
 
 @layer components {
 	.header {
-		@apply fixed top-0 inset-x-0 flex flex-wrap bg-white md:justify-start md:flex-nowrap z-50 w-full text-sm py-4 lg:absolute lg:bg-transparent backdrop-blur-md   dark:bg-black border-b border-gray-300 dark:border-gray-600;
+		@apply inset-x-0 top-0 flex flex-wrap w-full py-4 text-sm border-b border-gray-300 md:justify-start md:flex-nowrap lg:absolute backdrop-blur-md dark:bg-black dark:border-gray-600;
 	}
 	.heading {
-		@apply text-center mb-12 capitalize text-2xl md:text-3xl text-gray-800 dark:text-gray-50 font-bold;
+		@apply mb-12 text-2xl font-bold text-center text-gray-800 capitalize md:text-3xl dark:text-gray-50;
 	}
 
 	.nav-bar {
-		@apply font-body font-bold  flex dark:bg-black bg-white   lg:space-x-6 relative border-b border-gray-200 dark:border-gray-800;
+		@apply relative flex font-bold border-b border-gray-200 bg-background font-body lg:space-x-6 dark:border-gray-800 backdrop-blur-md;
 	}
 	.navbar_item {
-		@apply font-bold text-black hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400;
+		@apply font-bold hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400;
 	}
 
 	/* --------------- logo -------------------- */
 
 	.logo_icon_dark {
-		@apply hidden h-8 w-8 object-cover dark:block md:h-10 md:w-10;
+		@apply hidden object-cover w-8 h-8 dark:block md:h-10 md:w-10;
 	}
 	.logo_icon_light {
-		@apply h-8 w-8 object-cover dark:hidden md:h-10 md:w-10;
+		@apply object-cover w-8 h-8 dark:hidden md:h-10 md:w-10;
 	}
 	.logo_text {
-		@apply text-xl font-bold text-gray-900 dark:text-white md:text-xl font-title;
+		@apply hidden text-sm font-bold text-gray-900 sm:flex dark:text-white md:text-xl font-title;
 	}
 	/* ------------------------------------------------ */
 	/* ========  FEATURE SECTION -==================== */
 	.aside_card {
-		@apply block    p-8 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 
-  duration-300 ease-in-out  border-4 border-gray-200 rounded-3xl hover:shadow-xl cursor-pointer w-full h-full    dark:border-gray-600;
+		@apply block w-full h-full p-8 transition-all duration-300 ease-in-out border-4 border-gray-200 shadow-xl cursor-pointer backdrop-blur-md hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 rounded-3xl hover:shadow-xl dark:border-gray-600;
 	}
 	.aside_icon {
-		@apply text-emerald-500  transition-transform  ease-in-out w-12 h-12 rounded-md p-3;
+		@apply w-12 h-12 p-3 transition-transform ease-in-out rounded-md text-emerald-500;
 	}
 
 	.feature_heading {
-		@apply mt-4 text-xl font-bold text-gray-950 dark:text-white font-title  md:text-2xl;
+		@apply mt-4 text-xl font-bold text-gray-950 dark:text-white font-title md:text-2xl;
 	}
 	.feature_description {
-		@apply mt-1 text-sm md:text-base font-medium text-gray-600 lg:text-xl dark:text-gray-400;
+		@apply mt-1 text-sm font-medium text-gray-600 md:text-base lg:text-xl dark:text-gray-400;
 	}
 
 	/* TIMELINE */
@@ -141,11 +137,11 @@
 	/* --------------PROGRAM--------------- */
 
 	.title-heading {
-		@apply text-center text-xl md:text-3xl  font-extrabold text-gray-900 uppercase tracking-widest   mb-4 font-body;
+		@apply mb-4 text-xl font-extrabold tracking-widest text-center text-gray-900 uppercase md:text-3xl font-body;
 	}
 
 	.text_container {
-		@apply p-4 md:p-5 space-y-2  overflow-hidden flex-1;
+		@apply flex-1 p-4 space-y-2 overflow-hidden md:p-5;
 	}
 
 	.card_image_wrapper {
@@ -153,17 +149,17 @@
 		@apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-full;
 	}
 	.card_image {
-		@apply absolute top-0 left-0 h-full w-full rounded-t-3xl object-cover transition-transform duration-500 ease-in-out;
+		@apply absolute top-0 left-0 object-cover w-full h-full transition-transform duration-500 ease-in-out rounded-t-3xl;
 	}
 	.course-code {
 		@apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600;
 	}
 	.card_heading {
-		@apply lg:text-lg font-bold  text-sm  text-gray-800 dark:text-white capitalize font-title text-left w-full md:w-5/6 align-middle;
+		@apply w-full text-sm font-bold text-left text-gray-800 capitalize align-middle lg:text-lg dark:text-white font-title md:w-5/6;
 	}
 
 	.footer_copyright {
-		@apply text-center text-xs sm:text-sm md:text-base leading-6;
+		@apply text-xs leading-6 text-center sm:text-sm md:text-base;
 	}
 }
 

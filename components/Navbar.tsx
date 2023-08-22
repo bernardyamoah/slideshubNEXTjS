@@ -1,9 +1,9 @@
-
+'use client';
 import Logo from "./Logo";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { ModeToggle } from "./ModeToggle";
 import MobileNav from "@/app/(clients)/components/mobile-nav";
 import { usePathname, useRouter } from "next/navigation"
@@ -11,35 +11,39 @@ import { BookCopy, Home, LayoutDashboard, School } from "lucide-react";
 
 import { getCurrentUserAndSetUser } from "@/lib/functions";
 import { useEffect, useState } from "react";
-import { UserNav } from "./user-nav";
+import { UserNav } from "./userProfile";
+import { PlusCircle } from "lucide-react";
+
 interface NavLinks {
 
 
 	items: { name: string; link: string, icon: JSX.Element }[];
 }
+
+
 export default function Navbar() {
 	const [showDashboard, setShowDashboard] = useState(false);
 	const pathname = usePathname();
+	const [user, setUser] = useState<UserWithId | null>(null); // Fix the useState hook here
 	const router = useRouter();
-	const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
 	useEffect(() => {
 		// Fetch the current user from Appwrite
 		const fetchUser = async () => {
 			try {
-				const request = await getCurrentUserAndSetUser();
-				setUser(request)
 				// Call the getCurrentUser function
+				const request = await getCurrentUserAndSetUser();
+				setUser(request);
+
+				// Check if user is logged in and set showDashboard state
+				setShowDashboard(user !== null);
 			} catch (error) {
 				console.error("Error fetching user:", error);
 			}
 		};
 
 		fetchUser();
-	}, []);
-	useEffect(() => {
-		// Check if user is logged in and set showDashboard state
-		setShowDashboard(user !== null);
 	}, [user]);
+
 
 	let Links: NavLinks[] = [
 		{
@@ -56,6 +60,11 @@ export default function Navbar() {
 							name: "Dashboard",
 							link: "/dashboard",
 							icon: <LayoutDashboard />,
+						},
+						{
+							name: "Create",
+							link: "/dashboard/create",
+							icon: <PlusCircle />,
 						},
 					]
 					: []),
@@ -75,42 +84,52 @@ export default function Navbar() {
 	];
 	return (
 		<>
-			<nav className="nav-bar sticky top-0 z-[100]  ">
-				<div className="flex w-full items-center justify-between space-x-4">
+			<nav className="sticky top-0 z-20 nav-bar bg-currents ">
+				<div className="flex items-center justify-between w-full space-x-2">
 					{/* <!-- Logo --> */}
 					<Logo />
 
 
 					{/* <!-- Nav List --> */}
-					<ul className=" hidden justify-between text-slate-900 dark:text-white lg:flex">
+					<ul className="justify-between hidden text-slate-900 dark:text-white lg:flex">
 						{Links[0].items.map((link, index) => (
-							<li key={index}>
+
+							<Button key={index} asChild variant='ghost' className="text-lg font-medium">
 								<Link href={link.link} passHref
 									className={cn(
-										buttonVariants({ variant: "ghost" }),
+
 										pathname === link.link
-											? "text-emerald-500  font-bold tracking-wide  dark:hover:text-emerald-500"
-											: "hover:bg-transparent dark:hover:text-emerald-500",
-										"justify-start"
+											? "text-emerald-500 text-lg font-bold tracking-wide  dark:hover:text-emerald-400 "
+											: "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"
+
 									)}
 								>
-									<span className="flex items-center space-x-3 ">
-										{link.icon}
-										<span className="text-base">  {link.name}</span>
-									</span>
+
+									{link.name}
+
 
 								</Link>
-							</li>
+							</Button>
 						))}
 
 					</ul>
-					<div className="space-x-4 flex">
-						<div className="hidden lg:flex">
-							<ModeToggle />
-						</div>
+					<div className="flex space-x-4">
+
+						<ModeToggle />
+
 						{/* Conditionally render UserNav component based on authentication */}
-						{user && <UserNav user={user} />}
-						<div className="lg:hidden flex items-center">
+						{/* Conditionally render UserNav component or Login button */}
+						{user ? (
+							<UserNav user={user} />
+						) : (
+							<Button
+								className="text-lg font-medium"
+								onClick={() => router.push("/login")}
+							>
+								Login
+							</Button>
+						)}
+						<div className="flex items-center lg:hidden">
 							<MobileNav items={Links[0].items} />
 
 						</div>

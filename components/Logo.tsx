@@ -22,7 +22,7 @@ const Logo = () => {
                 alt="logo"
             />
             <span className="logo_text">SlidesHub</span>
-            <span className="h-1 w-1 rounded-full bg-emerald-500"></span>
+            <span className="hidden w-1 h-1 rounded-full bg-emerald-500 sm:flex"></span>
         </Link>
     );
 };
