@@ -25,33 +25,32 @@ const UserSlidesCard: React.FC<UserSlidesCardProps> = ({
 
 
     <Card className='relative ' >
-      <CardHeader className="flex flex-row items-start justify-center space-y-0 pb-2 px-4 ">
-        <CardTitle className=" leading-2 tracking-wider capitalize text-sm max-w-[58%] sm:max-w-[65%] ">
+      <CardHeader className="flex flex-row items-start justify-center px-4 pb-2 space-y-0 ">
+        <CardTitle className=" leading-2 tracking-wider capitalize text-sm  sm:max-w-[90%] ">
           {name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
-        <div className="text-gray-500   text-xs flex-1  flex gap-1  dark:text-gray-500/90 justify-end">
-          <span className=' bg-gray-400/90 text-base w-1 h-1 rounded-full dark:bg-gray-500/90 inline-flex self-center'></span>
-          {formattedTime}
+        <div className="flex justify-end flex-1 gap-1 text-xs text-gray-500 dark:text-gray-500/90">
+
           <PresetActions name={name} id={id} />
         </div>
 
       </CardHeader>
       <CardContent >
 
-        <div className='flex items-center mb-4 gap-4'>
+        <div className='flex items-center gap-4 mb-4'>
 
-
-          {/* <Link href={previewUrl} className='text-muted-foreground flex gap-1 items-center text-xs'><View className='w-4 h-4 text-muted-foreground'/>Preview</Link> */}
+          <span className='text-xs text-muted-foreground'>  {formattedTime}</span>
+          {/* <Link href={previewUrl} className='flex items-center gap-1 text-xs text-muted-foreground'><View className='w-4 h-4 text-muted-foreground'/>Preview</Link> */}
         </div>
 
-        <div className="text-gray-400/90  items-center text-xs  p-2 flex gap-1 bottom-0 absolute right-6 rounded-sm dark:text-gray-500/90 ">
+        <div className="absolute bottom-0 flex items-center gap-1 p-2 text-xs rounded-sm text-gray-400/90 right-6 dark:text-gray-500/90 ">
 
-          <aside className='flex gap-3 justify-between  '>
-            <div className="text-xs text-muted-foreground flex gap-1">
-              <FolderOpen className='h-4 w-4 text-muted-foreground' />  {size}
+          <aside className='flex justify-between gap-3 '>
+            <div className="flex gap-1 text-xs text-muted-foreground">
+              <FolderOpen className='w-4 h-4 text-muted-foreground' />  {size}
             </div>
 
-            <div className='text-xs text-muted-foreground flex gap-1'> <ShieldCheck className='h-4 w-4 text-muted-foreground' /><span className='text-xs text-muted-background'>{fileType}</span></div>
+            <div className='flex gap-1 text-xs text-muted-foreground'> <ShieldCheck className='w-4 h-4 text-muted-foreground' /><span className='text-xs text-muted-background'>{fileType}</span></div>
           </aside>
         </div>
 

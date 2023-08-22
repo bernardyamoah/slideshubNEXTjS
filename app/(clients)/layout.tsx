@@ -1,6 +1,4 @@
 'use client'
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
 const metadata: Metadata = {
   title: "Slideshub",
@@ -16,11 +14,10 @@ function ClientLayout({ children }: ClientLayoutProps) {
 
   return (
     <>
-      <Navbar />
 
-      <div className="">{children}</div>
 
-      {/* <Footer /> */}
+      <div >{children}</div>
+
     </>
   );
 }

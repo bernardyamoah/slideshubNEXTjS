@@ -15,13 +15,13 @@ interface MobileNavProps {
 const MobileNav: React.FC<MobileNavProps> = ({ items }) => {
   const pathname = usePathname()
   return (
-    <Sheet>
+    <Sheet >
       <SheetTrigger className="flex items-center" asChild>
 
-      <PanelLeftOpen />
+        <PanelLeftOpen />
 
       </SheetTrigger>
-      <SheetContent  side="left">
+      <SheetContent side="left" className=" w-[300px] sm:w-[400px] ">
         <div className="grid gap-4 py-16 ">
           {items.map((item) => (
             <Link
@@ -43,7 +43,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ items }) => {
           ))}
         </div>
 
-        <SheetFooter className="space-x-2 flex flex-row items-center !justify-start absolute bottom-6">  <p>Theme</p> <ModeToggle /></SheetFooter>
+        <SheetFooter className="space-x-2 flex flex-row items-center !justify-start absolute bottom-6"></SheetFooter>
       </SheetContent>
     </Sheet>
   );

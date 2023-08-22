@@ -96,19 +96,23 @@ interface UserSlidesCardProps {
 	previewUrl: URL;
 }
 
-interface AuthNavProps {
-	user: User | null;
-}
-interface UserNavProps {
-	user: User | null;
-}
-interface User<Preferences> {
+interface User {
 	$id: string;
 	name: string;
 	email: string;
-
 	// Add any other properties specific to the User type
-}
+  }
+  
+  interface UserProps {
+	user: User | null| undefined;
+  }
+  
+  interface UserNavProps {
+	user: User | null;
+  }
+  
+ 
+  
 interface Preferences {
 	theme: string;
 	language: string;
@@ -193,12 +197,12 @@ interface Course {
 	$createdAt: string;
 	
 }
-interface CourseListProps {
+type CourseListProps ={
 	programName: string;
 	programId: string;
 }
 
-interface CourseCardData {
+type CourseCardData= {
 	id: string;
 	name: string;
 	semester: string;
