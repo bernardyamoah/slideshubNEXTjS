@@ -45,7 +45,7 @@ const CampusCard = () => {
   return (
     <>
       {campuses.map((campus) => (
-        <Card className='overflow-hidden  relative max-w-xs w-full '>
+        <Card key={campus.$id} className='overflow-hidden  relative max-w-xs w-full '>
 
           <Link
             href={{
