@@ -1,23 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import { Card, CardDescription, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
 
 export default function Testimonials() {
 
 
 	return (
 		<>
-			<section className="pattern bg-white py-10 dark:bg-gray-900/5">
-				<div className="mx-auto max-w-7xl py-10">
-					<p className="text-xl font-medium text-emerald-500">Testimonials</p>
+			<section className="pattern py-10   mx-auto">
+				<Card className="mx-auto  py-10 border-none bg-transparent">
+					<p className="text-sm md:text-base font-medium text-emerald-500 md:text-center">Testimonials</p>
 
-					<h1 className="mt-2 text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl">
+					<h1 className="mt-2 text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl md:text-center">
 						What users are saying
 					</h1>
 
-					<main className="relative z-20 mt-8 w-full md:flex md:items-center xl:mt-12">
-						<div className="absolute -z-10 w-full rounded-2xl bg-emerald-600 md:h-96"></div>
-						<div className=" mySwiper w-full rounded-2xl bg-gradient-to-bl from-red-500 via-red-600 to-red-700 p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12">
+					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 max-w-3xl mx-auto">
+						<div className="absolute -z-10 w-full rounded-2xl  md:h-72"></div>
+						<Card className=" mySwiper w-full rounded-2xl  p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
 							<div  >
 
 
@@ -34,27 +36,27 @@ export default function Testimonials() {
 										</div>
 
 										<div className="mt-2 md:w-1/2">
-											<p className="font-title text-xl font-bold tracking-wide text-white lg:text-3xl">
+											<CardTitle className="">
 												Bernard
-											</p>
-											<span className="mt-2 inline-block rounded-md bg-red-800 px-2 py-1 text-xs text-white shadow-xl backdrop-blur-lg md:bg-emerald-800">
+											</CardTitle>
+											<Badge variant='secondary' className=" ">
 												BSc Materials Engineering, KNUST
-											</span>
+											</Badge>
 
-											<p className="font-body mt-4 text-sm leading-relaxed text-white sm:text-base md:text-lg lg:text-xl">
+											<CardDescription className="mt-2">
 												“Lorem ipsum dolor sit amet, consectetur adipisicing
 												elit. Tempore quibusdam ducimus libero ad tempora
 												doloribus expedita laborum saepe voluptas perferendis
 												delectus assumenda”.
-											</p>
+											</CardDescription>
 										</div>
 									</div>
 								</aside>
 							</div>
-						</div>
+						</Card>
 
 					</main>
-				</div>
+				</Card>
 			</section>
 		</>
 	);

@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
-
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -24,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { updateSlide, deleteSlide, successMessage } from "@/lib/functions";
-import { Card } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { CardBody, Dialog, Typography, Input } from "@material-tailwind/react";
 import { Button } from "@/components/ui/button";
 import DocumentUpload from "@/components/document-upload";
@@ -124,9 +123,9 @@ export function PresetActions({ name, id }: PresetActionsProps) {
       >
         <Card className="mx-auto w-full lg:w-2/3">
           <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
+            <CardTitle >
               Update {name}
-            </Typography>
+            </CardTitle>
 
             <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit}>
               <div className="mb-4 flex flex-col gap-6">
@@ -158,14 +157,13 @@ export function PresetActions({ name, id }: PresetActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This file <span className="font-bold text-emerald-600">({name})</span> will no longer be
-              accessible by you or others you&apos;ve shared it with.
+              This action cannot be undone. This will permanently delete the
+              {name} slide.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button
-
+            <Button variant='destructive'
               onClick={handleDeleteSlide}
             >
 
