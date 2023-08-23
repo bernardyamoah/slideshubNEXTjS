@@ -12,6 +12,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import { Separator } from "@/components/ui/separator";
 import CourseCard from "@/components/CourseCard";
 import CoursesCard from "@/components/allCourses";
+import { CardTitle } from "@/components/ui/card";
 
 
 
@@ -71,8 +72,8 @@ export default function Dashboard() {
       <header className="">
         <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
 
-          <div className="mt-8">
-            <h1 className="text-xl font-bold text-gray-900 sm:text-3xl md:text-5xl">
+          <div className="mt-8 text-center">
+            <h1 className="text-xl font-bold ">
               Welcome, {user?.name}!
             </h1>
 
@@ -84,6 +85,12 @@ export default function Dashboard() {
         </div>
       </header>
       <div className="max-w-screen ">
+        <CardTitle>
+          <h1 className="text-xl font-bold ">
+            Your Slides
+          </h1>
+        </CardTitle>
+        <Separator />
         <main className={`mx-auto max-w-7xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
           <Suspense fallback={<LoadingScreen />}>
             {slides.length > 0 ? (
@@ -114,28 +121,28 @@ export default function Dashboard() {
       <Separator />
       {/* Courses section */}
       {isUserInTeam && (
-      <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
-      <h1 className="text-xl font-bold sm:text-2xl">
-        All Courses
-      </h1>
-      <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
-        {courses.map((course) => (
+        <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
+          <h1 className="text-xl font-bold sm:text-2xl">
+            All Courses
+          </h1>
+          <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
+            {courses.map((course) => (
 
-          <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
-        ))}
-        
-      </div>
-    </section> 
-  
+              <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
+            ))}
+
+          </div>
+        </section>
+
       )
-        
-      
-    
+
+
+
       }
-        
-      
-      
-      
+
+
+
+
     </>
   );
 }

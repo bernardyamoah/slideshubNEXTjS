@@ -113,20 +113,8 @@
 		@apply hidden text-sm font-bold text-gray-900 sm:flex dark:text-white md:text-xl font-title;
 	}
 	/* ------------------------------------------------ */
-	/* ========  FEATURE SECTION -==================== */
-	.aside_card {
-		@apply block w-full h-full p-8 transition-all duration-300 ease-in-out border-4 border-gray-200 shadow-xl cursor-pointer backdrop-blur-md hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-emerald-500/10 rounded-3xl hover:shadow-xl dark:border-gray-600;
-	}
-	.aside_icon {
-		@apply w-12 h-12 p-3 transition-transform ease-in-out rounded-md text-emerald-500;
-	}
 
-	.feature_heading {
-		@apply mt-4 text-xl font-bold text-gray-950 dark:text-white font-title md:text-2xl;
-	}
-	.feature_description {
-		@apply mt-1 text-sm font-medium text-gray-600 md:text-base lg:text-xl dark:text-gray-400;
-	}
+
 
 	/* TIMELINE */
 
@@ -140,14 +128,7 @@
 		@apply mb-4 text-xl font-extrabold tracking-widest text-center text-gray-900 uppercase md:text-3xl font-body;
 	}
 
-	.text_container {
-		@apply flex-1 p-4 space-y-2 overflow-hidden md:p-5;
-	}
 
-	.card_image_wrapper {
-		/* sm:pt-[60%] lg:pt-[80%] */
-		@apply relative overflow-hidden rounded-t-3xl pt-[50%]  px-2 w-full;
-	}
 	.card_image {
 		@apply absolute top-0 left-0 object-cover w-full h-full transition-transform duration-500 ease-in-out rounded-t-3xl;
 	}
