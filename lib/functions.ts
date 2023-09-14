@@ -470,9 +470,9 @@ export const formatTime = (timePosted: string) => {
 	const yearsDiff = Math.floor(monthsDiff / 12);
 
 	if (yearsDiff > 0) {
-		return `${yearsDiff} ${yearsDiff === 1 ? "year" : "yrs"} ago`;
+		return `${yearsDiff} ${yearsDiff === 1 ? "year" : "years"} ago`;
 	} else if (monthsDiff > 0) {
-		return `${monthsDiff} ${monthsDiff === 1 ? "month" : "mths"} ago`;
+		return `${monthsDiff} ${monthsDiff === 1 ? "month" : "months"} ago`;
 	} else if (daysDiff > 0) {
 		return `${daysDiff} ${daysDiff === 1 ? "day" : "d"} ago`;
 	} else if (hoursDiff > 0) {
@@ -556,7 +556,6 @@ export const logOut = async (router: any) => {
 export const getCurrentUser = async () => {
 	try {
 		const UserId = await account.get();
-		console.log(UserId);
 		return UserId;
 	} catch (error) {}
 };
@@ -598,7 +597,7 @@ export const checkAuthStatusDashboard = async (
 	setSlides: (slides: any[]) => void,
 	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
 	setCourses: (courses: Course[]) => void, // Add setCourses function
-	router: any,
+	
 	page: number // Dynamically set page number
 ) => {
 	try {
@@ -615,7 +614,7 @@ export const checkAuthStatusDashboard = async (
 		setCourses(courses); // Set user courses
 		setTotalPages(totalPages); // Set the total number of pages
 	} catch (err) {
-		router.push("/");
+		throw new Error('error')
 	}
 };
 
@@ -1007,10 +1006,6 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 
 		// Merge the updated user data with the existing user data
 		const userData = { ...response, ...updatedUserData };
-		console.log(
-			"🚀 ~ file: functions.ts:972 ~ updateUserData ~ userData:",
-			userData
-		);
 
 		// Destructure the userData object to get the individual properties
 		const { prefs } = userData;
@@ -1056,9 +1051,6 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 				// Update the country
 				updatedPrefs.profileImageId = prefs.profileImageId;
 			}
-			// Add more prefs properties as needed
-
-			// Now update the user's preferences in the API
 
 			await toast.promise(account.updatePrefs(updatedPrefs), {
 				loading: "updating..",
@@ -1072,36 +1064,3 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		throw error;
 	}
 };
-// export const updateProfileImage = async (profileImageId: string | null): Promise<void> => {
-//   try {
-//     if (profileImageId) {
-//       // Upload the file to the storage
-//       const promise =await toast.promise(storage.updateFile(
-//         process.env.NEXT_PUBLIC_USER_PROFILE_IMAGES_ID!,
-//         profileImageId!
-//       ),  {
-//         loading: 'updating profile Image..',
-//         success: 'Done! 🎉',
-//         error: 'Failed! Try again',
-//       }
-
-//       );
-
-//       // Get the file URL
-//       const fileUrl = await storage.getFilePreview(
-//         process.env.NEXT_PUBLIC_USER_PROFILE_IMAGES_ID!,
-//         profileImageId!
-//       );
-
-//       // Update the user's profile image URL
-//       await account.updatePrefs({
-//         profileImage: fileUrl,
-//         profileImageId,
-//       });
-
-//     }
-//   } catch (error) {
-//     console.log(error); // Handle the error or throw an error if needed
-//     // If updateFile fails (file not found), handle the error here or propagate it up to the calling code
-//   }
-// };

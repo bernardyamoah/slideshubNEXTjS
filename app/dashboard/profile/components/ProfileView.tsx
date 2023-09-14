@@ -57,16 +57,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   return (
     <>
-      <div className=" mx-auto w-full  mb-4  inset-x-0 ">
-        {/* Cover Photo */}
 
-        <img
-          src={coverImageUrl}
-          alt="Cover Photo"
-          className="w-full h-64 object-cover rounded-lg "
-        />
-
-      </div>
       <Card>
         <div className="flex items-start gap-4 p-4 sm:p-6 lg:p-8 relative">
           <Button

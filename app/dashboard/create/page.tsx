@@ -68,7 +68,7 @@ export default function Page() {
         <h1>Create a Slide</h1>
         {/* Add subtext or description here if needed */}
       </div>
-      <aside className="flex flex-wrap justify-center w-full gap-8 p-10 pb-10 mx-auto ">
+      <aside className="flex flex-wrap justify-center w-full gap-8  pb-10 mx-auto ">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -92,11 +92,11 @@ export default function Page() {
                   </DialogTrigger>
                   <DialogContent>
                     <Card className="w-full mx-auto border-none">
-                      <CardHeader>
-                        <CardTitle>
-                          {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
-                        </CardTitle>
-                      </CardHeader>
+
+                      <CardTitle className="mb-6">
+                        {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
+                      </CardTitle>
+
                       <CardContent className="flex flex-col gap-4">
                         {component}
                       </CardContent>
@@ -109,7 +109,7 @@ export default function Page() {
         ) : (
           <>
             {/* Render only AddSlides and AddBook if the user is not in the team */}
-            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
+            <div className="relative justify-start w-full max-w-xs cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
                   <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
@@ -124,11 +124,13 @@ export default function Page() {
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="w-full mx-auto border-none">
-                    <CardHeader className="grid mb-4 h-28 place-items-center">
-                      <Typography variant="h3" color="white">
-                        Add Slides
-                      </Typography>
-                    </CardHeader>
+
+                    <CardTitle className="mb-6">
+                      Add Slides
+                    </CardTitle>
+
+
+
                     <CardContent className="flex flex-col gap-4">
                       <AddSlides />
                     </CardContent>
@@ -137,7 +139,7 @@ export default function Page() {
               </Dialog>
             </div>
 
-            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
+            <div className="relative justify-start w-full max-w-xs cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
                   <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
@@ -152,9 +154,9 @@ export default function Page() {
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="w-full mx-auto border-none">
-                    <CardHeader className="grid mb-4 h-28 place-items-center">
-                      <CardTitle color="white">Add Book</CardTitle>
-                    </CardHeader>
+
+                    <CardTitle>Add Book</CardTitle>
+
                     <CardContent className="flex flex-col gap-4">
                       <AddBook />
                     </CardContent>

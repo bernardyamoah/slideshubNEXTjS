@@ -1,3 +1,4 @@
+'use client'
 import { getCampus, getCoursesByProgramId, getCurrentUserAndSetUser, getProgramsByCampusId } from "@/lib/functions";
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 

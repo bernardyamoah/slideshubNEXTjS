@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
 
 
@@ -14,7 +13,7 @@ export function ModeToggle() {
   return (
     <Button variant='ghost' onClick={() => {
       setTheme(theme  === "dark" ? "light" : "dark")
-    }}>
+    }} className="!bg-none hover:!bg-none !p-2">
       <Sun className="w-6 h-6 transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0"  />
       <Moon
       className="absolute w-6 h-6 transition-all scale-0 rotate-90 dark:-rotate-0 dark:scale-100"

@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import {  Step, Stepper } from "@material-tailwind/react";
+import { Step, Stepper } from "@material-tailwind/react";
 
 import { toast } from "react-hot-toast";
 
@@ -166,11 +166,11 @@ export default function AddCourse() {
     try {
       // const handleImageUpload = async () => {
       //   // try {
-      //     // if (!currentFile) {
+      //     // if (!currentFiles) {
       //     //   throw new Error("No file selected");
       //     // }
 
-      //     const file = currentFile as File;
+      //     const file = currentFiles as File;
       //     const uploader = await toast.promise(storage.createFile(
       //       process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
       //       ID.unique(),

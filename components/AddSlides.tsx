@@ -22,12 +22,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 import { cn } from "@/lib/utils";
-import { on } from "events";
 import { UploadProgress } from "appwrite";
-import { CardFooter } from "./ui/card";
 import { Progress } from "./ui/progress";
+import { useCampuses } from "@/customHooks/useCampuses";
+import { usePrograms } from "@/customHooks/usePrograms";
+import { useCourses } from "@/customHooks/useCourse";
+
 
 // Replace this with the actual UserWithId interface or type
 interface UserWithId {
@@ -53,14 +54,11 @@ export default function AddSlides() {
   const [courseId, setCourseId] = useState<string>('');
   const [user, setUser] = useState<UserWithId | null>(null);
   const [programId, setProgramId] = useState<string>("");
-  const currentTime = new Date();
-  const [campuses, setCampuses] = useState<any[]>([]);
-
-  console.log(currentTime, "🚀 ~ file: AddSlides.tsx:40 ~ AddSlides ~ campuses:", campuses)
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
-  const [programs, setPrograms] = useState<any[]>([]);
+  const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses
 
-  const [courses, setCourses] = useState<any[]>([]);
+  const programs: Program[] = usePrograms(campusId); // Use the custom hook for programs
+  const courses: Course[] = useCourses(programId); // Use the custom hook for courses
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStep, setIsLastStep] = useState(false);
@@ -78,8 +76,7 @@ export default function AddSlides() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const campusList = await getCampus();
-        setCampuses(campusList);
+
         const userId = await getCurrentUserAndSetUser();
         setUser(userId);
       } catch (error) {
@@ -90,20 +87,6 @@ export default function AddSlides() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    async function fetchProgramsAndCourses() {
-      if (campusId) {
-        const response = await getProgramsByCampusId(campusId);
-        setPrograms(response);
-      }
-      if (programId) {
-        const response = await getCoursesByProgramId(programId);
-        setCourses(response);
-      }
-    }
-
-    fetchProgramsAndCourses();
-  }, [campusId, programId]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -226,7 +209,7 @@ export default function AddSlides() {
 
   return (
     <>
-      <div className="my-10">
+      <div >
         <div className="max-w-3xl mx-auto w-full">
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2 space-y-6">
@@ -388,8 +371,51 @@ export default function AddSlides() {
               )}
 
               <div className="w-full py-4 px-8">
-                <div className="mt-16 flex justify-between">
-                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
+                <div className="w-full mx-auto py-4 relative bottom-2 mt-5 hidden">
+                  <Stepper
+                    activeStep={activeStep}
+                    isLastStep={(value) => setIsLastStep(value)}
+                    isFirstStep={(value) => setIsFirstStep(value)}
+                  >
+                    <Step onClick={() => setActiveStep(0)} >
+
+                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+                        <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
+                          Campus
+                        </p>
+                      </div>
+                    </Step>
+                    <Step onClick={() => setActiveStep(1)}>
+                      <BookOpen className="h-5 w-5" />
+                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+                        <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
+                          Programme
+                        </p>
+                      </div>
+                    </Step>
+                    <Step onClick={() => setActiveStep(2)}>
+                      <GraduationCap className="h-5 w-5" />
+                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+                        <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
+                          Course
+                        </p>
+                      </div>
+                    </Step>
+                    <Step onClick={() => setActiveStep(3)}>
+                      <CheckCircle className="h-5 w-5" />
+                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
+                        <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
+                          Finish
+                        </p>
+                      </div>
+                    </Step>
+                  </Stepper>
+                </div>
+                <div className="mt-10 flex justify-between">
+
+                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}
+                    className={isFirstStep ? "hidden" : "flex"}
+                  >
                     Prev
                   </Button>
                   {isLastStep ? (
@@ -415,46 +441,7 @@ export default function AddSlides() {
           )
 
           }
-          <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
-            <Stepper
-              activeStep={activeStep}
-              isLastStep={(value) => setIsLastStep(value)}
-              isFirstStep={(value) => setIsFirstStep(value)}
-            >
-              <Step onClick={() => setActiveStep(0)}>
-                <Building className="h-5 w-5" />
-                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                  <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-                    Campus
-                  </p>
-                </div>
-              </Step>
-              <Step onClick={() => setActiveStep(1)}>
-                <BookOpen className="h-5 w-5" />
-                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                  <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-                    Programme
-                  </p>
-                </div>
-              </Step>
-              <Step onClick={() => setActiveStep(2)}>
-                <GraduationCap className="h-5 w-5" />
-                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                  <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-                    Course
-                  </p>
-                </div>
-              </Step>
-              <Step onClick={() => setActiveStep(3)}>
-                <CheckCircle className="h-5 w-5" />
-                <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                  <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
-                    Finish
-                  </p>
-                </div>
-              </Step>
-            </Stepper>
-          </div>
+
 
         </div>
         <Toaster />

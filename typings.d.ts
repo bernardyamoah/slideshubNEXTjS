@@ -166,10 +166,11 @@ interface ProfileData {
 }
 
 interface Campus {
-	id: string;
+	$id: string;
 	name: string;
 	location: string;
-	// Add other properties if required
+	image: string;
+
 }
 
 interface Program {
@@ -179,7 +180,9 @@ interface Program {
 	image: string;
 	description: string;
 	duration: string;
-	// Add other properties if required
+	$createdAt: string;
+	$updatedAt: string;
+	$id:string;
 }
 
 interface Course {

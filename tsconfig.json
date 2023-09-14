@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/Empty.tsx", "lib/createCampus.ts", "pages/_app.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/Empty.tsx", "lib/createCampus.ts", "pages/_app.tsx", "customHooks/useCampuses.js", "customHooks/useCourse.js", "customHooks/usePrograms.js"],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
 import { formatTime } from '@/lib/functions';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent, CardTitle } from './ui/card';
 import { CourseEdit } from './course-edit';
 
 
@@ -32,9 +32,9 @@ const CoursesCard: React.FC<CourseCardData> = ({
 
       <div className="sm:flex sm:justify-between sm:gap-4">
         <div>
-          <h3 className="text-lg font-bold capitalize sm:text-xl">
-            {name}
-          </h3>
+        <CardTitle className=" leading-2 tracking-wider capitalize text-sm  sm:max-w-[90%] ">
+          {name.replace(/_/g, ' ').toLocaleLowerCase()}
+        </CardTitle>
           <div className="absolute flex justify-end flex-1 gap-1 text-xs text-gray-500 right-1 top-2 dark:text-gray-500/90">
             <CourseEdit name={name} id={id} />
           </div>

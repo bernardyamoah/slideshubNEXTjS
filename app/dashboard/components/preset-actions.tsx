@@ -1,7 +1,6 @@
 "use client"
 
-import * as React from "react"
-
+import React, { useCallback, useState } from 'react';
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import {
   AlertDialog,
@@ -24,9 +23,12 @@ import {
 
 import { updateSlide, deleteSlide, successMessage } from "@/lib/functions";
 import { Card, CardTitle } from "@/components/ui/card";
-import { CardBody, Dialog, Typography, Input } from "@material-tailwind/react";
+// import { CardBody, Dialog, Input } from "@material-tailwind/react";
 import { Button } from "@/components/ui/button";
-import DocumentUpload from "@/components/document-upload";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+// import DocumentUpload from "@/components/document-upload";
 
 
 interface PresetActionsProps {
@@ -37,19 +39,18 @@ interface PresetActionsProps {
 
 export function PresetActions({ name, id }: PresetActionsProps) {
 
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
-  const [programId, setProgramId] = React.useState("");
+  const [updatedName, setUpdatedName] = useState(name);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+  };
 
-  const [updatedName, setUpdatedName] = React.useState(name);
-  React.useEffect(() => {
-    async function fetchCourses() {
-
-    }
-
-    fetchCourses()
-  }, [programId]);
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -68,26 +69,24 @@ export function PresetActions({ name, id }: PresetActionsProps) {
 
       // Reset form fields
       setCurrentFile(null);
-      setUpdatedName('');
+      setUpdatedName(updatedName);
 
-      // Close the dialog
-      setOpen(false);
+    
     } catch (error) {
       console.error("Error updating slide:", error);
       setCurrentFile(null);
     }
   };
 
-  const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => setOpen((cur) => !cur);
-  const handleDeleteSlide = () => {
+
+  const handleDeleteSlide = useCallback(() => {
     deleteSlide(id);
     setShowDeleteDialog(false);
-    successMessage("Slide deleted successfully!");
-  };
-  // const [open, setIsOpen] = React.useState(false)
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
+    successMessage('Slide deleted successfully!');
+  }, [id]);
+
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   return (
     <>
@@ -99,10 +98,49 @@ export function PresetActions({ name, id }: PresetActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={handleOpen}
+          <DropdownMenuItem 
           >
-            <Edit className="mr-2 h-4 w-4" />
-            Update File
+          <Dialog open={isDialogOpen}>
+      <DialogTrigger asChild>
+        <Button onClick={handleOpenDialog} variant="outline">Edit </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+            <DialogTitle>Edit { name}</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
+            </Label>
+            <Input id="username" value="@peduarte" className="col-span-3" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+            
+
+
+
+
+            
+
+
+
+
+
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -115,7 +153,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog
+      {/* <Dialog
 
         open={open}
         handler={handleOpen}
@@ -148,17 +186,16 @@ export function PresetActions({ name, id }: PresetActionsProps) {
           </CardBody>
 
         </Card>
-      </Dialog>
-
+      </Dialog> */}
+ 
 
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle >Are you sure absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              {name} slide.
+              This action cannot be undone. This will permanently delete <span className="text-gray-700 dark:text-gray-200">{name}</span>.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">
