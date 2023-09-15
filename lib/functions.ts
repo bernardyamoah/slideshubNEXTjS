@@ -10,6 +10,7 @@ import {
 	avatars,
 	teams,
 } from "@/appwrite";
+import { users } from "./AppwiteNodeJs";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -591,33 +592,49 @@ export const checkAuthStatus = async (
 };
 
 //👇🏻 Appwrite authenticate and get user's slides
+// export const checkAuthStatusDashboard = async (
+// 	setUser: (user: any) => void,
+// 	setLoading: (loading: boolean) => void,
+// 	setSlides: (slides: any[]) => void,
+// 	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
+// 	setCourses: (courses: Course[]) => void, // Add setCourses function
+	
+// 	page: number // Dynamically set page number
+// ) => {
+// 	try {
+// 		const request = await account.get();
+// 		const userId = request.$id;
+
+// 		const perPage = 12; // Number of slides per page
+
+// 		const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
+
+// 		getUserSlides(userId, page, perPage, setSlides, setLoading);
+// 		const courses = await getCourses();
+// 		setUser(request);
+// 		setCourses(courses); // Set user courses
+// 		setTotalPages(totalPages); // Set the total number of pages
+// 	} catch (err) {
+// 		throw new Error('error')
+// 	}
+// };
 export const checkAuthStatusDashboard = async (
 	setUser: (user: any) => void,
 	setLoading: (loading: boolean) => void,
-	setSlides: (slides: any[]) => void,
-	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
-	setCourses: (courses: Course[]) => void, // Add setCourses function
 	
-	page: number // Dynamically set page number
+	
+	
 ) => {
 	try {
 		const request = await account.get();
-		const userId = request.$id;
-
-		const perPage = 12; // Number of slides per page
-
-		const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
-
-		getUserSlides(userId, page, perPage, setSlides, setLoading);
-		const courses = await getCourses();
+		
 		setUser(request);
-		setCourses(courses); // Set user courses
-		setTotalPages(totalPages); // Set the total number of pages
+		setLoading(false)
+		
 	} catch (err) {
 		throw new Error('error')
 	}
 };
-
 const getTotalPages = async (
 	userId: string,
 	perPage: number
@@ -643,10 +660,10 @@ const getTotalPages = async (
 		throw error;
 	}
 };
-const getUserSlides = async (
+export const getUserSlides = async (
 	userId: string,
 	page: number,
-	perPage: number,
+	setTotalPages: (totalPages: number) => void,
 
 	setSlides: (slides: any[]) => void,
 	setLoading: (loading: boolean) => void
@@ -654,10 +671,10 @@ const getUserSlides = async (
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
-
 	try {
 		setLoading(true);
-
+		const perPage = 12; 
+		const totalPages = await getTotalPages(userId, perPage);
 		try {
 			const response = await databases.listDocuments(
 				databaseId!,
@@ -671,14 +688,15 @@ const getUserSlides = async (
 			);
 
 			setSlides(response.documents);
+			setTotalPages(totalPages)
 			setLoading(false);
 			return response.documents; // Add this return statement
 		} catch (error) {
 			console.error(error);
 			throw error;
+			setLoading(false);
 		}
 
-		setLoading(false);
 		return []; // Fallback return statement (empty array)
 	} catch (error) {
 		console.error(error);

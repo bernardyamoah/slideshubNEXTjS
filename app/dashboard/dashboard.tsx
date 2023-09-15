@@ -1,12 +1,11 @@
 // app/dashboard/dashboard.tsx
 'use client'
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
 
-import NoEvent from "@/components/NoEvent";
 import Slides from "@/components/Slides";
-import PaginationComponent from "@/components/PaginationComponent";
+
 import Courses from "@/components/Courses";
 
 import { Separator } from "@/components/ui/separator";
@@ -15,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import LoadingScreen from "./components/LoadingScreen";
+import EmptyBooks from "@/components/EmptyBooks";
+
 
 interface Slide {
   $id: string;
@@ -33,47 +34,39 @@ interface UserWithId {
 }
 
 export default function Dashboard() {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [slides, setSlides] = useState<Slide[]>([]);
+  
   const [user, setUser] = useState<UserWithId | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+ 
   const [isUserInTeam, setIsUserInTeam] = useState(false);
-  console.log("🚀 ~ file: dashboard.tsx:43 ~ Dashboard ~ isUserInTeam:", isUserInTeam)
-  const [courses, setCourses] = useState<Course[]>([]);
 
-  const changePage = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
+  
 
-  const verifyUser = useCallback(async () => {
-    // Fetch user data and slides
-
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, setCourses, currentPage);
-  }, []);
 
 
   const checkUserMembership = useCallback(async () => {
     try {
       const isInTeam = await checkUserInTeam();
-      console.log("🚀 ~ file: dashboard.tsx:60 ~ checkUserMembership ~ isInTeam:", isInTeam)
       setIsUserInTeam(isInTeam);
     } catch (error) {
-      console.error(error);
       setIsUserInTeam(false);
     }
+  }, [user])
+  const verifyUser = useCallback(async () => {
+    // Fetch user data and slides
+    checkAuthStatusDashboard(setUser, setLoading);
+    checkUserMembership();
   }, [user]);
+
+;
 
   useEffect(() => {
     verifyUser();
-    if (user) {
-      checkUserMembership();
-    }
-  }, [verifyUser]);
+   
+  }, [checkUserInTeam]);
 
   if (loading) return <LoadingScreen />;
-  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
+  
 
   return (
     <>
@@ -95,7 +88,9 @@ export default function Dashboard() {
                 <TabsTrigger  value="slides" className="relative">
                   Slides
                 </TabsTrigger>
-                <TabsTrigger value="books">Books</TabsTrigger>
+                <TabsTrigger  value="books" className="relative">
+               Books
+                </TabsTrigger>
                 {isUserInTeam ? (
                   <TabsTrigger value="courses">
                     All Courses
@@ -117,31 +112,23 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-semibold tracking-tight">
-                    Slides Uploaded
+                    My Slides
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    Top picks for you. Updated daily.
+                  Slides Uploaded
                   </p>
                 </div>
               </div>
               <Separator className="my-4" />
               <div className="relative">
-                <main className={`mx-auto max-w-5xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
+               
                   <Suspense fallback={<LoadingScreen />}>
-                    {slides.length > 0 ? (
-                      <Slides slides={slides} userId={user?.$id ?? ""} />
-                    ) : (
-                      <NoEvent />
-                    )}
+                  {user && <Slides userId={user.$id} />}
+                     
+                   
                   </Suspense>
-                </main>
-                {slides.length > 0 && (
-                  <PaginationComponent
-                    pageCount={totalPages}
-                    activePage={currentPage}
-                    onPageChange={changePage}
-                  />
-                )}
+              
+                
               </div>
             
             
@@ -154,14 +141,15 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-semibold tracking-tight">
-                    New Episodes
+                    My Books
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    Your favorite podcasts. Updated daily.
+                   Books uploaded.
                   </p>
                 </div>
               </div>
               <Separator className="my-4" />
+              <EmptyBooks/>
             </TabsContent>
             {/* All Courses */}
             {isUserInTeam ? (
@@ -183,7 +171,7 @@ export default function Dashboard() {
                 <div className="relative">
                   <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
                     <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
-                      <Courses courses={courses} />
+                      <Courses  />
                     </div>
                   </section>
                 </div>

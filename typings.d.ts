@@ -52,7 +52,7 @@ interface Slides {
 	fileType: string;
 	size: string;
 	courseId: string;
-	user_id: string | undefined;
+	user_id?: string | undefined;
 	previewUrl: URL;
 }
 

@@ -42,7 +42,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
       <MyContextProvider>
     
   
-        <div className=" lg:block bg-background">
+        <div className=" lg:block pattern  ">
           <div className=" relative flex  !h-full ">
             <aside className="hidden xl:flex w-[13rem]  h-screen fixed ">
               <SidebarNav items={sidebarNavItems} />

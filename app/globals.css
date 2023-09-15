@@ -145,9 +145,9 @@
 }
 
 .pattern {
-	background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png");
+	/* background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png"); */
 	background-position-x: center;
-
+background-image: url('../assets/img/pattern.svg');
 	background-size: initial;
 	background-repeat: repeat;
 }

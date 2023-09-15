@@ -22,12 +22,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { updateSlide, deleteSlide, successMessage } from "@/lib/functions";
-import { Card, CardTitle } from "@/components/ui/card";
-// import { CardBody, Dialog, Input } from "@material-tailwind/react";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import DocumentUpload from '@/components/document-upload';
+import { Separator } from '@radix-ui/react-dropdown-menu';
 // import DocumentUpload from "@/components/document-upload";
 
 
@@ -42,15 +43,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   const [updatedName, setUpdatedName] = useState(name);
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
+  const [showDialog, setShowDialog] = useState(false);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -93,55 +86,15 @@ export function PresetActions({ name, id }: PresetActionsProps) {
       <DropdownMenu >
         <DropdownMenuTrigger asChild>
           <Button className="border-none p-2 h-2  bg-transparent text-gray-700 dark:text-gray-100 hover:bg-transparent">
-            <span className="sr-only ">Actions</span>
+            <span className="sr-only ">Menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem 
-          >
-          <Dialog open={isDialogOpen}>
-      <DialogTrigger asChild>
-        <Button onClick={handleOpenDialog} variant="outline">Edit </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-            <DialogTitle>Edit { name}</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-            
-
-
-
-
-            
-
-
-
-
-
-          </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => setShowDialog(true)}>
+      <Edit className="mr-2 h-4 w-4" />
+      Edit Name
+    </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
@@ -153,41 +106,54 @@ export function PresetActions({ name, id }: PresetActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* <Dialog
+   
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
 
-        open={open}
-        handler={handleOpen}
-        className="bg-transparent shadow-none w-full max-w-4xl lg:w-full p-2"
-      >
-        <Card className="mx-auto w-full lg:w-2/3">
-          <CardBody className="flex flex-col gap-4">
-            <CardTitle >
-              Update {name}
-            </CardTitle>
+            
 
-            <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit}>
-              <div className="mb-4 flex flex-col gap-6">
-                <Input
-                  size="lg"
-                  label="Name"
-                  value={updatedName}
-                  onChange={(event) => setUpdatedName(event.target.value)}
-                />
-                <DocumentUpload
-                  currentFile={currentFile}
-                  setCurrentFile={setCurrentFile}
-                />
-              </div>
+<DialogContent className="sm:max-w-[480px]">
+  <DialogHeader>
+      <DialogTitle>Change name </DialogTitle>
+    <DialogDescription>
+      Make changes to your slides here. Click save when you're done.
+    </DialogDescription>
+  </DialogHeader>
+  <div className="grid gap-4 p-4">
+  {/* update the file name */}
+    <div className="grid grid-cols-4 items-center gap-4">
+   
+   <Label htmlFor="name" className="text-left block col-span-4">
+       Name
+      </Label>
+      <Input id="name"   value={updatedName} onChange={(event) => setUpdatedName(event.target.value)} className="col-span-4 block" />
+   
+    </div>
 
-              <Button type="submit" className="mt-6 w-full sm:w-auto mr-0">
-                Update
-              </Button>
-            </form>
-          </CardBody>
-
-        </Card>
-      </Dialog> */}
- 
+    <Separator/>
+{/* Update the file */}
+    <div className="grid grid-cols-4 items-center gap-4">
+      <Label htmlFor="file" className="text-left col-span-4">
+       Update file
+      </Label>
+      <DocumentUpload
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+          />
+     
+            
+          
+            
+         
+          
+    
+    </div>
+  </div>
+  <DialogFooter>
+    <Button type="submit" onClick={handleSubmit}>Save changes</Button>
+  </DialogFooter>
+</DialogContent>
+</Dialog>
+      
 
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

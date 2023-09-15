@@ -1,22 +1,25 @@
-import { formatTime } from '@/lib/functions';
+
 import { Card, CardContent, CardTitle } from './ui/card';
 import { CourseEdit } from './course-edit';
+import React from 'react';
+
+interface CourseCardProps {
+  course: {
+    $id: string;
+    name: string;
+    semester: string;
+    courseCode: string;
+    credit: number;
+    lecturer: string;
+    programId: string;
+    year: number;
+    user_id: string;
+  };
+}
 
 
-const CoursesCard: React.FC<CourseCardData> = ({
-  name,
-  timePosted,
-  id,
-  lecturer,
-  year,
-  credit,
-  semester,
-  courseCode,
-  user_id,
-
-
-}) => {
-  const formattedTime = formatTime(timePosted);
+const CoursesCard = ({course}:CourseCardProps) => {
+  // const formattedTime = formatTime(timePosted);
 
   return (
 
@@ -32,13 +35,13 @@ const CoursesCard: React.FC<CourseCardData> = ({
 
       <div className="sm:flex sm:justify-between sm:gap-4">
         <div>
-        <CardTitle className=" leading-2 tracking-wider capitalize text-sm  sm:max-w-[90%] ">
-          {name.replace(/_/g, ' ').toLocaleLowerCase()}
+        <CardTitle className=" leading-2 tracking-wider capitalize text-sm   ">
+          {course.name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
           <div className="absolute flex justify-end flex-1 gap-1 text-xs text-gray-500 right-1 top-2 dark:text-gray-500/90">
-            <CourseEdit name={name} id={id} />
+            <CourseEdit name={course.name} id={course.$id} />
           </div>
-          <p className="mt-1 text-xs font-medium text-gray-600">Posted by  <span className=" text-accent-foreground">{user_id}</span></p>
+          <p className="mt-1 text-xs font-medium text-gray-600">Posted by  <span className=" text-accent-foreground">{course.user_id}</span></p>
         </div>
 
         {/* <div className="hidden sm:block sm:shrink-0">
@@ -56,23 +59,23 @@ const CoursesCard: React.FC<CourseCardData> = ({
 
           <div className="flex flex-col-reverse justify-between">
             <dt className="text-xs font-medium text-foreground-accent">Semester</dt>
-            <dd className="text-xs text-gray-500 capitalize">{semester}</dd>
+            <dd className="text-xs text-gray-500 capitalize">{course.semester}</dd>
           </div>
           <div className="flex flex-col-reverse justify-between">
             <dt className="text-xs font-medium text-foreground-accent">Course Code</dt>
-            <dd className="text-xs text-gray-500">{courseCode}</dd>
+            <dd className="text-xs text-gray-500">{course.courseCode}</dd>
           </div>
           <div className="flex flex-col-reverse justify-between">
             <dt className="text-xs font-medium text-foreground-accent">Lecturer</dt>
-            <dd className="text-xs text-gray-500">{lecturer}</dd>
+            <dd className="text-xs text-gray-500">{course.lecturer}</dd>
           </div>
           <div className="flex flex-col-reverse justify-between">
             <dt className="text-xs font-medium text-foreground-accent">Year</dt>
-            <dd className="text-xs text-gray-500">{year}</dd>
+            <dd className="text-xs text-gray-500">{course.year}</dd>
           </div>
           <div className="flex flex-col-reverse justify-between">
             <dt className="text-xs font-medium text-foreground-accent">Credit Hours</dt>
-            <dd className="text-xs text-gray-500">{credit}</dd>
+            <dd className="text-xs text-gray-500">{course.credit}</dd>
           </div>
         </dl>
       </CardContent>

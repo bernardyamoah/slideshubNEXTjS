@@ -1,17 +1,29 @@
 // components/Courses.tsx
 import React from 'react';
+import { useCourses } from '@/customHooks/useCourses';
 import CoursesCard from './allCourses';
-
-interface CoursesProps {
-  courses: Course[];
+interface Course {
+  $id: string;
+  name: string;
+  semester: string;
+  courseCode: string;
+  credit: number;
+  lecturer: string;
+  programId: string;
+  year: number;
+  $createdAt: string;
+  user_id: string;
 }
+const Courses = () => {
+  const courses:Course[] = useCourses();
 
-const Courses: React.FC<CoursesProps> = ({ courses }) => (
-  <>
-    {courses.map((course) => (
-      <CoursesCard key={course.$id} id={course.$id} {...course} timePosted={course.$createdAt} />
-    ))}
-  </>
-);
+  return (
+    <>
+      {courses.map((course) => (
+       <CoursesCard key={course.$id} course={course} />
+      ))}
+    </>
+  );
+};
 
 export default Courses;
