@@ -1,16 +1,16 @@
+'use client'
 import {
   Card,
   Typography,
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
+
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
 
-  InboxIcon,
+ 
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { logOut } from '@/lib/functions'

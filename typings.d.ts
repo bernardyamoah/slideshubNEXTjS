@@ -200,6 +200,19 @@ interface Course {
 	$createdAt: string;
 	
 }
+interface CourseCardProps {
+	course: {
+	  $id: string;
+	  name: string;
+	  semester: string;
+	  courseCode: string;
+	  credit: number;
+	  lecturer: string;
+	  programId: string;
+	  year: number;
+	  user_id: string;
+	};
+  }
 type CourseListProps ={
 	programName: string;
 	programId: string;

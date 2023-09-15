@@ -472,7 +472,7 @@ export default function AddCourse() {
               </div>
               {/* Semester */}
               <div className="flex flex-col space-y-1.5 flex-1 w-full">
-                <Label htmlFor="year">Semester</Label>
+                <Label htmlFor="semester">Semester</Label>
                 <Popover open={open3} onOpenChange={setOpen3}>
                   <PopoverTrigger asChild>
                     <Button

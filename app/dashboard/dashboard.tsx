@@ -70,13 +70,18 @@ export default function Dashboard() {
 
   return (
     <>
-      <header>
-        <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
-          <div className="mt-8 text-center">
-            <h1 className="text-4xl font-bold ">
-              Welcome, {user?.name}!
-            </h1>
-          </div>
+      <header className="lg:h-96 lg:flex items-center justify-cener bg-background w-full bg-pattern">
+        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
+        <div className="space-y-2" >
+              <h1
+                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
+              >
+                                Discover Our Unique Features
+              </h1>
+              <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
+                                Our features are designed to enhance your productivity and streamline your workflow.
+              </p>
+            </div>
         </div>
       </header>
       <div className="col-span-3 lg:col-span-4 lg:border-l">
@@ -97,7 +102,7 @@ export default function Dashboard() {
                   </TabsTrigger>)
                   : null}
               </TabsList>
-              <div className="ml-auto mr-4">
+              <div className="ml-auto mr-4 hidden lg:block">
                 <Button>
                   <PlusCircledIcon className="mr-2 h-4 w-4" />
                   Add Slide
@@ -169,11 +174,11 @@ export default function Dashboard() {
                 </div>
                 <Separator className="my-4" />
                 <div className="relative">
-                  <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
+                 
                     <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
-                      <Courses  />
+                      <Courses />
                     </div>
-                  </section>
+                 
                 </div>
               </TabsContent>
             ) : null
