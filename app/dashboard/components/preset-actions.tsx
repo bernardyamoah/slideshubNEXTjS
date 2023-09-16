@@ -85,14 +85,14 @@ export function PresetActions({ name, id }: PresetActionsProps) {
     <>
       <DropdownMenu >
         <DropdownMenuTrigger asChild>
-          <Button className="border-none p-2 h-2  bg-transparent text-gray-700 dark:text-gray-100 hover:bg-transparent">
+          <Button className="h-2 p-2 text-gray-700 bg-transparent border-none dark:text-gray-100 hover:bg-transparent">
             <span className="sr-only ">Menu</span>
-            <MoreHorizontal className="h-4 w-4" />
+            <MoreHorizontal className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
         <DropdownMenuItem onSelect={() => setShowDialog(true)}>
-      <Edit className="mr-2 h-4 w-4" />
+      <Edit className="w-4 h-4 mr-2" />
       Edit Name
     </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -100,7 +100,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
             onSelect={() => setShowDeleteDialog(true)}
             className="!text-red-600 hover:!bg-red-200/10"
           >
-            <Trash className="mr-2 h-4 w-4" />
+            <Trash className="w-4 h-4 mr-2" />
             Delete File
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -115,24 +115,24 @@ export function PresetActions({ name, id }: PresetActionsProps) {
   <DialogHeader>
       <DialogTitle>Change name </DialogTitle>
     <DialogDescription>
-      Make changes to your slides here. Click save when you're done.
+      Make changes to your slides here. Click save when you&apos;re done.
     </DialogDescription>
   </DialogHeader>
   <div className="grid gap-4 p-4">
   {/* update the file name */}
-    <div className="grid grid-cols-4 items-center gap-4">
+    <div className="grid items-center grid-cols-4 gap-4">
    
-   <Label htmlFor="name" className="text-left block col-span-4">
+   <Label htmlFor="name" className="block col-span-4 text-left">
        Name
       </Label>
-      <Input id="name"   value={updatedName} onChange={(event) => setUpdatedName(event.target.value)} className="col-span-4 block" />
+      <Input id="name"   value={updatedName} onChange={(event) => setUpdatedName(event.target.value)} className="block col-span-4" />
    
     </div>
 
     <Separator/>
 {/* Update the file */}
-    <div className="grid grid-cols-4 items-center gap-4">
-      <Label htmlFor="file" className="text-left col-span-4">
+    <div className="grid items-center grid-cols-4 gap-4">
+      <Label htmlFor="file" className="col-span-4 text-left">
        Update file
       </Label>
       <DocumentUpload
