@@ -129,7 +129,7 @@ export default function Dashboard() {
               <div className="relative">
                
                   <Suspense fallback={<LoadingScreen />}>
-                  {user && <Slides userId={user.$id} />}
+                  {user && <Slides userId={user.$id} key={user.$id}/>}
                      
                    
                   </Suspense>
