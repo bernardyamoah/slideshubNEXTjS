@@ -75,7 +75,7 @@
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground font-body bg-background;
+		@apply text-foreground font-body bg-background bg-pattern;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }
@@ -144,10 +144,10 @@
 	}
 }
 
-.pattern {
+.pattern1 {
 	/* background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png"); */
 	background-position-x: center;
-background-image: url('../assets/img/pattern.svg');
+background-image: url('/assets/img/pattern.svg');
 	background-size: initial;
 	background-repeat: repeat;
 }
@@ -196,18 +196,9 @@ section {
 	height: 100%;
 }
 
-.heading-link {
-	text-align: center;
-	background: url("../assets/img/heading-bg.jpg") no-repeat;
-	background-size: cover;
-	background-position: center;
-}
 
-.heading-link h3 {
-	font-size: 2rem;
-	text-transform: capitalize;
-	color: #444;
-}
+
+
 
 .heading-link p {
 	font-size: 1.2rem;
