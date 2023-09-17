@@ -64,6 +64,9 @@ module.exports = withMT({
 				body: ["Inter", "sans-serif"],
 				title: ["Raleway", "sans-serif"],
 			},
+			 backgroundImage: {
+        'pattern': 'url("/assets/img/pattern.svg")',
+      },
 			borderRadius: {
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",

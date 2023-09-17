@@ -1,19 +1,21 @@
+
 'use client'
-import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { checkAuthStatusDashboard } from "@/lib/functions";
+import React, { Suspense, useEffect, useState } from "react";
 
-import NoEvent from "@/components/NoEvent";
-import UserSlidesCard from "@/components/UserSlidesCard";
-import Pagination from "@/components/pagination-button";
+import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
 
+import Slides from "@/components/Slides";
 
-import LoadingScreen from "./components/LoadingScreen";
+import Courses from "@/components/Courses";
+
 import { Separator } from "@/components/ui/separator";
-import CourseCard from "@/components/CourseCard";
-import CoursesCard from "@/components/allCourses";
-import { CardTitle } from "@/components/ui/card";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
+import LoadingScreen from "./components/LoadingScreen";
+import EmptyBooks from "@/components/EmptyBooks";
+import { useMyContext } from "@/components/MyContext";
 
 
 interface Slide {
@@ -27,122 +29,157 @@ interface Slide {
   $createdAt: string;
 }
 
-interface UserWithId {
-  $id: string;
-  name: string;
-}
+
 
 export default function Dashboard() {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [slides, setSlides] = useState<Slide[]>([]);
-  const [user, setUser] = useState<UserWithId | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isUserInTeam, setIsUserInTeam] = useState<boolean | null>(null);
-  const [courses, setCourses] = useState<Course[]>([])
-  console.log("🚀 ~ file: dashboard.tsx:43 ~ Dashboard ~ courses:", courses)
-
-
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-  const authenticateUser = useCallback(async () => {
-    // Fetch user data and slides
-    checkAuthStatusDashboard(setUser, setLoading, setSlides, setTotalPages, setCourses, router, currentPage);
-
-
-  }, [router, currentPage]);
-
-
+  
+ 
+  const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
 
   useEffect(() => {
-    authenticateUser();
+    async function verifyUser() {
+      // Fetch user data and slides
+      checkAuthStatusDashboard(setUser, setLoading);
+      await checkUserMembership(); // Call checkUserMembership
+    }
 
-  },
+    verifyUser();
+  }, []); // Add checkUserMembership as a dependency
 
-    [authenticateUser]);
 
   if (loading) return <LoadingScreen />;
-  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 "; // Determine the number of columns
+  
+
   return (
     <>
-
-      <header className="">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
-
-          <div className="mt-8 text-center">
-            <h1 className="text-xl font-bold ">
-              Welcome, {user?.name}!
-            </h1>
-
-            <p className="text-sm text-gray-500 sm:text-base lg:text-lg">
-              Let&apos;s upload a new slide! 🎉
-            </p>
-          </div>
-
+    
+      <header className="lg:h-96 lg:flex items-center justify-cener bg-background w-full bg-pattern">
+        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
+        <div className="space-y-2 bg-pattern" >
+              <h1
+                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
+              >
+                                Discover Our Unique Features
+              </h1>
+              <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
+                                Our features are designed to enhance your productivity and streamline your workflow.
+              </p>
+            </div>
         </div>
       </header>
-      <div className="max-w-screen ">
-        <CardTitle>
-          <h1 className="text-xl font-bold ">
-            Your Slides
-          </h1>
-        </CardTitle>
-        <Separator />
-        <main className={`mx-auto max-w-7xl grid gap-8  p-6  auto-rows-max ${mainClassName}`}>
-          <Suspense fallback={<LoadingScreen />}>
-            {slides.length > 0 ? (
-              slides.map((slide) => (
-                <UserSlidesCard
-                  key={slide.$id}
-                  user_id={user?.$id ?? ""}
-                  {...slide}
-                  timePosted={slide.$createdAt}
-                  id={slide.$id}
-                />
-              ))
-            ) : (
-              <NoEvent />
-            )}
+      <div className="col-span-3 lg:col-span-4 lg:border-l">
+        <div className="h-full px-4 py-6 lg:px-8">
+          <Tabs defaultValue="slides" className="h-full space-y-6">
+            <div className="space-between flex items-center">
+              {/* Tab Triggers */}
+              <TabsList>
+                <TabsTrigger  value="slides" className="relative">
+                  Slides
+                </TabsTrigger>
+                <TabsTrigger  value="books" className="relative">
+               Books
+                </TabsTrigger>
+                {userInTeam ? (
+                  <TabsTrigger value="courses">
+                    All Courses
+                  </TabsTrigger>)
+                  : null}
+              </TabsList>
+              <div className="ml-auto mr-4 hidden lg:block">
+                <Button>
+                  <PlusCircledIcon className="mr-2 h-4 w-4" />
+                  Add Slide
+                </Button>
+              </div>
+            </div>
+            {/* Slides content */}
+            <TabsContent
+              value="slides"
+              className="border-none p-0 outline-none"
+            >
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-semibold tracking-tight">
+                    My Slides
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                  Slides Uploaded
+                  </p>
+                </div>
+              </div>
+              <Separator className="my-4" />
+              <div className="relative">
+               
+                  <Suspense fallback={<LoadingScreen />}>
+                  {user ?(
+                   <Slides user={user} key={user.$id}/>
+                  ):
+                <>
+                <p>
+                  No user
+                </p>
 
-          </Suspense>
+                </>
 
-        </main>
-        {slides.length > 0 && (
-          <Pagination
-            pageCount={totalPages}
-            activePage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        )}
+                  }
+                     
+                   
+                  </Suspense>
+              
+                
+              </div>
+            
+            
+            </TabsContent>
+            {/* Books */}
+            <TabsContent
+              value="books"
+              className="h-full flex-col border-none p-0 data-[state=active]:flex"
+            >
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-semibold tracking-tight">
+                    My Books
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                   Books uploaded.
+                  </p>
+                </div>
+              </div>
+              <Separator className="my-4" />
+              <EmptyBooks/>
+            </TabsContent>
+            {/* All Courses */}
+            {userInTeam ? (
+              <TabsContent
+                value="courses"
+                className="h-full flex-col border-none p-0 data-[state=active]:flex"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h2 className="text-2xl font-semiboldtracking-tight">
+                      All Courses
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Your favorite courses. Updated daily.
+                    </p>
+                  </div>
+                </div>
+                <Separator className="my-4" />
+                <div className="relative">
+                 
+
+                      <Courses />
+                   
+                 
+                </div>
+              </TabsContent>
+            ) : null
+            }
+          </Tabs>
+        </div>
       </div>
-      <Separator />
-      {/* Courses section */}
-      {isUserInTeam && (
-        <section className="px-4 py-8 mx-auto max-w-screen sm:px-6 lg:px-8">
-          <h1 className="text-xl font-bold sm:text-2xl">
-            All Courses
-          </h1>
-          <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
-            {courses.map((course) => (
-
-              <CoursesCard key={course.$id} id={course.$id}  {...course} timePosted={course.$createdAt} />
-            ))}
-
-          </div>
-        </section>
-
-      )
-
-
-
-      }
-
-
-
-
     </>
   );
 }

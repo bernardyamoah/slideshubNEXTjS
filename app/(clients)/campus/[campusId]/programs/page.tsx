@@ -49,11 +49,9 @@ export default function ProgrammeList() {
     }
   }
   useEffect(() => {
-
-
     fetchPrograms();
-    console.count('Programs fetched');
-  }, [campusId, campusLocation, campusinfo]);
+   
+  }, [campusId]);
 
   const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   const filteredPrograms = programs.filter((program) => program.campusId === campusId);

@@ -45,7 +45,7 @@ const CampusCard = () => {
   return (
     <>
       {campuses.map((campus) => (
-        <Card key={campus.$id} className='overflow-hidden  relative max-w-xs w-full '>
+        <Card key={campus.$id} className='relative w-full max-w-xs overflow-hidden '>
 
           <Link
             href={{
@@ -57,15 +57,13 @@ const CampusCard = () => {
             shallow
             passHref
 
-            className="   
-    duration-300 ease-in-out   cursor-pointer w-full h-44    
-        group  bg-cover bg-center bg-no-repeat mx-auto flex items-center">
+            className="flex items-center w-full mx-auto duration-300 ease-in-out bg-center bg-no-repeat bg-cover cursor-pointer h-44 group">
 
-            <Image src={campus.image} className='w-full absolute inset-0 object-cover object-center group-hover:scale-105 duration-300' width={300} height={300} alt='name' />
-            <div className="absolute inset-0 bg-black/70  "></div>
+            <Image src={campus.image} className='absolute inset-0 object-cover object-center w-full duration-300 group-hover:scale-105' width={300} height={300} alt='name' />
+            <div className="absolute inset-0 bg-black/70 "></div>
 
-            <div className="relative flex items-center justify-center p-4 sm:p-5 flex-1 h-full ">
-              <div className="  text-white  flex-1 text-center">
+            <div className="relative flex items-center justify-center flex-1 h-full p-4 sm:p-5 ">
+              <div className="flex-1 text-center text-white ">
                 <h3 className="text-xl font-medium anti ">{campus.name}</h3>
 
               </div>

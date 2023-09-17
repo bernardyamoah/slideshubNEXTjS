@@ -1,7 +1,6 @@
 "use client"
 
-import * as React from "react"
-
+import React, { useCallback, useState } from 'react';
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import {
   AlertDialog,
@@ -23,10 +22,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { updateSlide, deleteSlide, successMessage } from "@/lib/functions";
-import { Card, CardTitle } from "@/components/ui/card";
-import { CardBody, Dialog, Typography, Input } from "@material-tailwind/react";
+
 import { Button } from "@/components/ui/button";
-import DocumentUpload from "@/components/document-upload";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import DocumentUpload from '@/components/document-upload';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+// import DocumentUpload from "@/components/document-upload";
 
 
 interface PresetActionsProps {
@@ -37,19 +40,10 @@ interface PresetActionsProps {
 
 export function PresetActions({ name, id }: PresetActionsProps) {
 
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
-  const [programId, setProgramId] = React.useState("");
-
-  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
-
-  const [updatedName, setUpdatedName] = React.useState(name);
-  React.useEffect(() => {
-    async function fetchCourses() {
-
-    }
-
-    fetchCourses()
-  }, [programId]);
+  const [updatedName, setUpdatedName] = useState(name);
+  const [showDialog, setShowDialog] = useState(false);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -68,97 +62,106 @@ export function PresetActions({ name, id }: PresetActionsProps) {
 
       // Reset form fields
       setCurrentFile(null);
-      setUpdatedName('');
+      setUpdatedName(updatedName);
 
-      // Close the dialog
-      setOpen(false);
+    
     } catch (error) {
       console.error("Error updating slide:", error);
       setCurrentFile(null);
     }
   };
 
-  const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => setOpen((cur) => !cur);
-  const handleDeleteSlide = () => {
+
+  const handleDeleteSlide = useCallback(() => {
     deleteSlide(id);
     setShowDeleteDialog(false);
-    successMessage("Slide deleted successfully!");
-  };
-  // const [open, setIsOpen] = React.useState(false)
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
+    successMessage('Slide deleted successfully!');
+  }, [id]);
+
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   return (
     <>
       <DropdownMenu >
         <DropdownMenuTrigger asChild>
-          <Button className="border-none p-2 h-2  bg-transparent text-gray-700 dark:text-gray-100 hover:bg-transparent">
-            <span className="sr-only ">Actions</span>
-            <MoreHorizontal className="h-4 w-4" />
+          <Button className="h-2 p-2 text-gray-700 bg-transparent border-none dark:text-gray-100 hover:bg-transparent">
+            <span className="sr-only ">Menu</span>
+            <MoreHorizontal className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={handleOpen}
-          >
-            <Edit className="mr-2 h-4 w-4" />
-            Update File
-          </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => setShowDialog(true)}>
+      <Edit className="w-4 h-4 mr-2" />
+      Edit Name
+    </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
             className="!text-red-600 hover:!bg-red-200/10"
           >
-            <Trash className="mr-2 h-4 w-4" />
+            <Trash className="w-4 h-4 mr-2" />
             Delete File
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog
+   
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
 
-        open={open}
-        handler={handleOpen}
-        className="bg-transparent shadow-none w-full max-w-4xl lg:w-full p-2"
-      >
-        <Card className="mx-auto w-full lg:w-2/3">
-          <CardBody className="flex flex-col gap-4">
-            <CardTitle >
-              Update {name}
-            </CardTitle>
+            
 
-            <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit}>
-              <div className="mb-4 flex flex-col gap-6">
-                <Input
-                  size="lg"
-                  label="Name"
-                  value={updatedName}
-                  onChange={(event) => setUpdatedName(event.target.value)}
-                />
-                <DocumentUpload
-                  currentFile={currentFile}
-                  setCurrentFile={setCurrentFile}
-                />
-              </div>
+<DialogContent className="sm:max-w-[480px]">
+  <DialogHeader>
+      <DialogTitle>Change name </DialogTitle>
+    <DialogDescription>
+      Make changes to your slides here. Click save when you&apos;re done.
+    </DialogDescription>
+  </DialogHeader>
+  <div className="grid gap-4 p-4">
+  {/* update the file name */}
+    <div className="grid items-center grid-cols-4 gap-4">
+   
+   <Label htmlFor="name" className="block col-span-4 text-left">
+       Name
+      </Label>
+      <Input id="name"   value={updatedName} onChange={(event) => setUpdatedName(event.target.value)} className="block col-span-4" />
+   
+    </div>
 
-              <Button type="submit" className="mt-6 w-full sm:w-auto mr-0">
-                Update
-              </Button>
-            </form>
-          </CardBody>
-
-        </Card>
-      </Dialog>
-
+    <Separator/>
+{/* Update the file */}
+    <div className="grid items-center grid-cols-4 gap-4">
+      <Label htmlFor="file" className="col-span-4 text-left">
+       Update file
+      </Label>
+      <DocumentUpload
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+          />
+     
+            
+          
+            
+         
+          
+    
+    </div>
+  </div>
+  <DialogFooter>
+    <Button type="submit" onClick={handleSubmit}>Save changes</Button>
+  </DialogFooter>
+</DialogContent>
+</Dialog>
+      
 
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle >Are you sure absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              {name} slide.
+              This action cannot be undone. This will permanently delete <span className="text-gray-700 dark:text-gray-200">{name}</span>.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">

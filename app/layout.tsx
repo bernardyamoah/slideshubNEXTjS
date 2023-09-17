@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "react-hot-toast";
 
-import { getCurrentUser } from "@/lib/functions";
+
 export const metadata = {
 	title: "Slideshub",
 	description: "Download your slides from Slideshub and more!",
@@ -49,7 +49,7 @@ export default function RootLayout({
 			<body >
 				<ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 					<Navbar />
-					<main className="">
+					<main >
 
 						{children}
 						<Toaster />

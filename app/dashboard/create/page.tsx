@@ -1,25 +1,17 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { Metadata } from "next";
+'use client'
 import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Typography } from "@material-tailwind/react";
-
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import AddSlides from "@/components/AddSlides";
 import AddBook from "@/components/AddBook";
 import AddProgram from "@/components/AddProgram";
 import AddCourse from "@/components/AddCourse";
-import { checkUserInTeam } from "@/lib/functions";
 import AddCampus from "@/components/AddCampus";
 import { Label } from "@/components/ui/label";
+import { useMyContext } from "@/components/MyContext";
 
-const metadata: Metadata = {
-  title: "Create",
-  description: "Add Slides to database",
-};
+
 
 const componentData = [
   {
@@ -49,26 +41,14 @@ const componentData = [
   },
 ];
 export default function Page() {
-  const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
-
-  // Memoize the checkTeamMembership function using useCallback
-  const checkTeamMembership = useCallback(async () => {
-    const userIsInTeam = await checkUserInTeam();
-    setUserInTeam(userIsInTeam);
-  }, []);
-
-  useEffect(() => {
-    // Call the memoized checkTeamMembership function
-    checkTeamMembership();
-  }, [checkTeamMembership]); // Pass checkTeamMembership as a dependency to useEffect
-
+  const { userInTeam } = useMyContext(); // Import checkUserMembership from context
   return (
     <>
       <div className="m-10 mx-auto text-center sm:h-20">
         <h1>Create a Slide</h1>
         {/* Add subtext or description here if needed */}
       </div>
-      <aside className="flex flex-wrap justify-center w-full gap-8 p-10 pb-10 mx-auto ">
+      <aside className="flex flex-wrap justify-center w-full gap-8  pb-10 mx-auto ">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -92,11 +72,11 @@ export default function Page() {
                   </DialogTrigger>
                   <DialogContent>
                     <Card className="w-full mx-auto border-none">
-                      <CardHeader>
-                        <CardTitle>
-                          {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
-                        </CardTitle>
-                      </CardHeader>
+
+                      <CardTitle className="mb-6">
+                        {`Add ${key.charAt(0).toUpperCase()}${key.slice(1)}`}
+                      </CardTitle>
+
                       <CardContent className="flex flex-col gap-4">
                         {component}
                       </CardContent>
@@ -109,7 +89,7 @@ export default function Page() {
         ) : (
           <>
             {/* Render only AddSlides and AddBook if the user is not in the team */}
-            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
+            <div className="relative justify-start w-full max-w-xs cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
                   <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
@@ -124,11 +104,13 @@ export default function Page() {
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="w-full mx-auto border-none">
-                    <CardHeader className="grid mb-4 h-28 place-items-center">
-                      <Typography variant="h3" color="white">
-                        Add Slides
-                      </Typography>
-                    </CardHeader>
+
+                    <CardTitle className="mb-6">
+                      Add Slides
+                    </CardTitle>
+
+
+
                     <CardContent className="flex flex-col gap-4">
                       <AddSlides />
                     </CardContent>
@@ -137,7 +119,7 @@ export default function Page() {
               </Dialog>
             </div>
 
-            <div className="relative justify-start w-full max-w-xs mx-auto cursor-pointer group h-44">
+            <div className="relative justify-start w-full max-w-xs cursor-pointer group h-44">
               <Dialog>
                 <DialogTrigger asChild>
                   <Card className="relative h-full overflow-hidden transition-transform transform rounded-lg hover:scale-105">
@@ -152,9 +134,9 @@ export default function Page() {
                 </DialogTrigger>
                 <DialogContent>
                   <Card className="w-full mx-auto border-none">
-                    <CardHeader className="grid mb-4 h-28 place-items-center">
-                      <CardTitle color="white">Add Book</CardTitle>
-                    </CardHeader>
+
+                    <CardTitle>Add Book</CardTitle>
+
                     <CardContent className="flex flex-col gap-4">
                       <AddBook />
                     </CardContent>

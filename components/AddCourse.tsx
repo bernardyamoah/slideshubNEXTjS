@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import {  Step, Stepper } from "@material-tailwind/react";
+import { Step, Stepper } from "@material-tailwind/react";
 
 import { toast } from "react-hot-toast";
 
@@ -166,11 +166,11 @@ export default function AddCourse() {
     try {
       // const handleImageUpload = async () => {
       //   // try {
-      //     // if (!currentFile) {
+      //     // if (!currentFiles) {
       //     //   throw new Error("No file selected");
       //     // }
 
-      //     const file = currentFile as File;
+      //     const file = currentFiles as File;
       //     const uploader = await toast.promise(storage.createFile(
       //       process.env.NEXT_PUBLIC_COURSE_IMAGES_ID!,
       //       ID.unique(),
@@ -472,7 +472,7 @@ export default function AddCourse() {
               </div>
               {/* Semester */}
               <div className="flex flex-col space-y-1.5 flex-1 w-full">
-                <Label htmlFor="year">Semester</Label>
+                <Label htmlFor="semester">Semester</Label>
                 <Popover open={open3} onOpenChange={setOpen3}>
                   <PopoverTrigger asChild>
                     <Button

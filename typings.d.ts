@@ -52,7 +52,7 @@ interface Slides {
 	fileType: string;
 	size: string;
 	courseId: string;
-	user_id: string | undefined;
+	user_id?: string | undefined;
 	previewUrl: URL;
 }
 
@@ -119,7 +119,11 @@ interface Preferences {
 	// Add any other preferences properties
 }
 type UserWithId = User<Preferences> & { id: string };
-
+interface UserWithId {
+	$id: string;
+	name: string;
+  }
+  
 interface SlideResponse {
 	slides: Models.Document[];
 	totalCount: number;
@@ -166,10 +170,11 @@ interface ProfileData {
 }
 
 interface Campus {
-	id: string;
+	$id: string;
 	name: string;
 	location: string;
-	// Add other properties if required
+	image: string;
+
 }
 
 interface Program {
@@ -179,7 +184,9 @@ interface Program {
 	image: string;
 	description: string;
 	duration: string;
-	// Add other properties if required
+	$createdAt: string;
+	$updatedAt: string;
+	$id:string;
 }
 
 interface Course {
@@ -197,6 +204,19 @@ interface Course {
 	$createdAt: string;
 	
 }
+interface CourseCardProps {
+	course: {
+	  $id: string;
+	  name: string;
+	  semester: string;
+	  courseCode: string;
+	  credit: number;
+	  lecturer: string;
+	  programId: string;
+	  year: number;
+	  user_id: string;
+	};
+  }
 type CourseListProps ={
 	programName: string;
 	programId: string;
