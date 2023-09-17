@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 import { Typography } from "@material-tailwind/react";
+import Image from "next/image";
 interface ProfileViewProps {
   name: string;
   email: string;
@@ -100,7 +101,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
               </div>
               <p className="line-clamp-2 text-sm text-gray-700 flex items-center gap-2 mt-2">
-                <img src={countryFlagEmoji} alt='country' className="w-4 h-4" />
+                <Image width={50} height={50} src={countryFlagEmoji} alt='country' className="w-4 h-4"  />
                 <span className="text-muted-background"> {country} </span>
               </p>
               <div className="mt-2 sm:flex sm:items-center sm:gap-2">

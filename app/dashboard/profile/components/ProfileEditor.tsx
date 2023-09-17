@@ -133,7 +133,7 @@ const ProfileEditor: React.FC<ProfileEditorProps> = ({
   return (
     <>
       <div className='space-y-6'>
-        <img src={coverImageUrl} alt="Cover" className='w-full h-64 object-cover rounded-lg' />
+        {/* <Image src={coverImageUrl} alt="Cover Image" className='w-full h-64 object-cover rounded-lg' /> */}
 
         <Card className='max-w-3xl mx-auto '>
           <form onSubmit={handleSubmit} className='mt-6'>

@@ -51,19 +51,20 @@ export default function Dashboard() {
     } catch (error) {
       setIsUserInTeam(false);
     }
-  }, [user])
+  }, [checkUserInTeam])
+
   const verifyUser = useCallback(async () => {
     // Fetch user data and slides
     checkAuthStatusDashboard(setUser, setLoading);
     checkUserMembership();
-  }, [user]);
+  }, [checkAuthStatusDashboard, checkUserMembership]);
 
 ;
 
   useEffect(() => {
     verifyUser();
    
-  }, [checkUserInTeam]);
+  }, [verifyUser]);
 
   if (loading) return <LoadingScreen />;
   
