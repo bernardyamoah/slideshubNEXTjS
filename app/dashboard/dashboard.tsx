@@ -1,6 +1,6 @@
 
 'use client'
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
 
@@ -45,7 +45,7 @@ export default function Dashboard() {
     }
 
     verifyUser();
-  }, [checkUserMembership]); // Add checkUserMembership as a dependency
+  }, []); // Add checkUserMembership as a dependency
 
 
   if (loading) return <LoadingScreen />;
@@ -169,9 +169,9 @@ export default function Dashboard() {
                 <Separator className="my-4" />
                 <div className="relative">
                  
-                    <div className="grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3 ">
+
                       <Courses />
-                    </div>
+                   
                  
                 </div>
               </TabsContent>

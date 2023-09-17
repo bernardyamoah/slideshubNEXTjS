@@ -264,6 +264,7 @@ export const getCampus = async (): Promise<any[]> => {
 
 // Get Courses
 export const getCourses = async (): Promise<any[]> => {
+	
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -281,7 +282,47 @@ export const getCourses = async (): Promise<any[]> => {
 		throw error;
 	}
 };
+export const getAllCourses = async (currentPage: number,setLoading: (loading: boolean) => void): Promise<any[]> => {
+	const limit = 9; // Set your desired number of courses per page
+	
+	if (!databaseId) {
+		throw new Error("Database ID is not defined");
+	}
+	setLoading(true);
+	try {
+		const response = await databases.listDocuments(
+			databaseId,
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			[Query.limit(limit), Query.offset((currentPage - 1) * limit), Query.orderDesc("$createdAt")]
+		);
+		
 
+		
+		setLoading(false);
+		return response.documents;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+export const getTotalCourses = async (): Promise<number> => {
+	if (!databaseId) {
+		throw new Error("Database ID is not defined");
+	}
+
+	try {
+		const response = await databases.listDocuments(
+			databaseId,
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			[ Query.orderDesc("$createdAt")]
+		);
+		
+		return response.total;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
 // Get Programs
 export const getPrograms = async (): Promise<any[]> => {
 	if (!databaseId) {
@@ -313,10 +354,7 @@ export const getSlides = async (): Promise<any[]> => {
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
 			[Query.limit(99), Query.orderDesc("$createdAt")]
 		);
-		console.log(
-			"🚀 ~ file: functions.ts:328 ~ getSlides ~ response:",
-			response
-		);
+		
 
 		return response.documents;
 	} catch (error) {

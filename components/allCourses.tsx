@@ -11,7 +11,7 @@ const CoursesCard = ({course}:CourseCardProps) => {
 
   return (
 
-    <Card
+    <Card 
 
       className="relative block p-4 overflow-hidden border rounded-lg shadow-md  lg:p-6"
     >
