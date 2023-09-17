@@ -119,7 +119,11 @@ interface Preferences {
 	// Add any other preferences properties
 }
 type UserWithId = User<Preferences> & { id: string };
-
+interface UserWithId {
+	$id: string;
+	name: string;
+  }
+  
 interface SlideResponse {
 	slides: Models.Document[];
 	totalCount: number;

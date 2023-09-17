@@ -1,25 +1,17 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { Metadata } from "next";
+
 import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Typography } from "@material-tailwind/react";
-
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import AddSlides from "@/components/AddSlides";
 import AddBook from "@/components/AddBook";
 import AddProgram from "@/components/AddProgram";
 import AddCourse from "@/components/AddCourse";
-import { checkUserInTeam } from "@/lib/functions";
 import AddCampus from "@/components/AddCampus";
 import { Label } from "@/components/ui/label";
+import { useMyContext } from "@/components/MyContext";
 
-const metadata: Metadata = {
-  title: "Create",
-  description: "Add Slides to database",
-};
+
 
 const componentData = [
   {
@@ -49,19 +41,7 @@ const componentData = [
   },
 ];
 export default function Page() {
-  const [userInTeam, setUserInTeam] = useState<boolean | null>(null);
-
-  // Memoize the checkTeamMembership function using useCallback
-  const checkTeamMembership = useCallback(async () => {
-    const userIsInTeam = await checkUserInTeam();
-    setUserInTeam(userIsInTeam);
-  }, []);
-
-  useEffect(() => {
-    // Call the memoized checkTeamMembership function
-    checkTeamMembership();
-  }, [checkTeamMembership]); // Pass checkTeamMembership as a dependency to useEffect
-
+  const { userInTeam } = useMyContext(); // Import checkUserMembership from context
   return (
     <>
       <div className="m-10 mx-auto text-center sm:h-20">

@@ -1,12 +1,9 @@
 'use client'
-import { getCampus, getCoursesByProgramId, getCurrentUserAndSetUser, getProgramsByCampusId } from "@/lib/functions";
-import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
+import { checkUserInTeam, getCampus, getCoursesByProgramId, getCurrentUserAndSetUser, getProgramsByCampusId } from "@/lib/functions";
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 
 // Replace this with the actual UserWithId interface or type
-interface UserWithId {
-  id: string;
-  // Add other properties if required
-}
+
 
 interface MyContextState {
   campuses: any[];
@@ -40,6 +37,8 @@ interface MyContextActions {
   setIsProgramPopoverOpen: (isOpen: boolean) => void;
   setIsCoursePopoverOpen: (isOpen: boolean) => void;
   setIsCampusPopoverOpen: (isOpen: boolean) => void;
+  checkUserMembership: () => Promise<void>;
+  userInTeam: boolean;
 }
 
 const MyContext = createContext<MyContextState & MyContextActions>({} as any);
@@ -58,7 +57,6 @@ const MyContextProvider : React.FC<{ children: React.ReactNode }> = ({ children 
   const [courseId, setCourseId] = useState<string>("");
   const [user, setUser] = useState<UserWithId | null>(null);
   const [programId, setProgramId] = useState<string>("");
-  const currentTime = new Date();
   const [campuses, setCampuses] = useState<any[]>([]);
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const [programs, setPrograms] = useState<any[]>([]);
@@ -69,7 +67,7 @@ const MyContextProvider : React.FC<{ children: React.ReactNode }> = ({ children 
   const [isProgramPopoverOpen, setIsProgramPopoverOpen] = useState(false); // Renamed from 'open' to 'isProgramPopoverOpen'
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
-
+const [userInTeam, setUserInTeam] = useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -85,7 +83,17 @@ const MyContextProvider : React.FC<{ children: React.ReactNode }> = ({ children 
 
     fetchData();
   }, [campusId, programId]); // Added campusId and programId as dependencies
-
+  const checkUserMembership = useCallback(async (): Promise<void> => {
+    try {
+      const isUserInTeam = await checkUserInTeam();
+      console.log("Is user in team:", isUserInTeam);
+      setUserInTeam(isUserInTeam);
+    } catch (error) {
+      console.error("Error checking team membership:", error);
+      setUserInTeam(false);
+    }
+   
+  }, []);
   // Memoized functions
   const handleProgramChange = useMemo(
     () => async (selectedValue: string) => {
@@ -136,6 +144,8 @@ const MyContextProvider : React.FC<{ children: React.ReactNode }> = ({ children 
     setIsProgramPopoverOpen,
     setIsCoursePopoverOpen,
     setIsCampusPopoverOpen,
+    checkUserMembership,
+    userInTeam,
   };
 
   return <MyContext.Provider value={contextValue}>{children}</MyContext.Provider>;

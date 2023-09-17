@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import LoadingScreen from "./components/LoadingScreen";
 import EmptyBooks from "@/components/EmptyBooks";
+import { useMyContext } from "@/components/MyContext";
 
 
 interface Slide {
@@ -28,49 +29,31 @@ interface Slide {
   $createdAt: string;
 }
 
-interface UserWithId {
-  $id: string;
-  name: string;
-}
+
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   
-  const [user, setUser] = useState<UserWithId | null>(null);
  
-  const [isUserInTeam, setIsUserInTeam] = useState(false);
-
-  
-
-
-
-  const checkUserMembership = useCallback(async () => {
-    try {
-      const isInTeam = await checkUserInTeam();
-      setIsUserInTeam(isInTeam);
-    } catch (error) {
-      setIsUserInTeam(false);
-    }
-  }, [checkUserInTeam])
-
-  const verifyUser = useCallback(async () => {
-    // Fetch user data and slides
-    checkAuthStatusDashboard(setUser, setLoading);
-    checkUserMembership();
-  }, [checkAuthStatusDashboard, checkUserMembership]);
-
-;
+  const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
 
   useEffect(() => {
+    async function verifyUser() {
+      // Fetch user data and slides
+      checkAuthStatusDashboard(setUser, setLoading);
+      await checkUserMembership(); // Call checkUserMembership
+    }
+
     verifyUser();
-   
-  }, [verifyUser]);
+  }, [checkUserMembership]); // Add checkUserMembership as a dependency
+
 
   if (loading) return <LoadingScreen />;
   
 
   return (
     <>
+    
       <header className="lg:h-96 lg:flex items-center justify-cener bg-background w-full bg-pattern">
         <div className="max-w-screen-xl px-4   py-8 mx-auto ">
         <div className="space-y-2" >
@@ -97,7 +80,7 @@ export default function Dashboard() {
                 <TabsTrigger  value="books" className="relative">
                Books
                 </TabsTrigger>
-                {isUserInTeam ? (
+                {userInTeam ? (
                   <TabsTrigger value="courses">
                     All Courses
                   </TabsTrigger>)
@@ -129,7 +112,17 @@ export default function Dashboard() {
               <div className="relative">
                
                   <Suspense fallback={<LoadingScreen />}>
-                  {user && <Slides user={user} key={user.$id}/>}
+                  {user ?(
+                   <Slides user={user} key={user.$id}/>
+                  ):
+                <>
+                <p>
+                  No user
+                </p>
+
+                </>
+
+                  }
                      
                    
                   </Suspense>
@@ -158,7 +151,7 @@ export default function Dashboard() {
               <EmptyBooks/>
             </TabsContent>
             {/* All Courses */}
-            {isUserInTeam ? (
+            {userInTeam ? (
               <TabsContent
                 value="courses"
                 className="h-full flex-col border-none p-0 data-[state=active]:flex"

@@ -47,7 +47,8 @@ export default function Slides ({user}:UserProps){
 
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
-  <Suspense  fallback={<LoadingScreen />}>
+{loading && <LoadingScreen />}
+{!loading && slides.length === 0 && <NoEvent />}
 {slides.map((slide) => (
     <Card className='relative'>
       <CardHeader className="flex flex-row items-start justify-center px-4 pb-2 space-y-0">
@@ -82,12 +83,7 @@ export default function Slides ({user}:UserProps){
     </Card>
         
         ))}
-        </Suspense>
-
 </aside>
-    
-  
-  
   {slides.length > 0 && (
                   <PaginationComponent
                     pageCount={totalPages}
@@ -99,7 +95,6 @@ export default function Slides ({user}:UserProps){
 
   )
 } 
-{/* <NoEvent /> */}
 
   
 
