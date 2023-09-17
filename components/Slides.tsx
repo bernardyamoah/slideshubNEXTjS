@@ -50,7 +50,7 @@ export default function Slides ({user}:UserProps){
 {loading && <LoadingScreen />}
 {!loading && slides.length === 0 && <NoEvent />}
 {slides.map((slide) => (
-    <Card className='relative'>
+    <Card key={slide.$id} className='relative'>
       <CardHeader className="flex flex-row items-start justify-center px-4 pb-2 space-y-0">
         <CardTitle className="leading-2 tracking-wider capitalize text-sm sm:max-w-[90%]">
           {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
