@@ -13,9 +13,6 @@ import { usePathname, useRouter } from "next/navigation"
 
 import Link from "next/link";
 
-interface NavLinks {
-  items: { name: string; link: string; icon: JSX.Element }[];
-}
 
 export default function Navbar() {
   const pathname = usePathname();

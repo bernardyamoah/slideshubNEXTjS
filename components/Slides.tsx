@@ -10,24 +10,28 @@ import { getUserSlides } from '@/lib/functions';
 import NoEvent from './NoEvent';
 import PaginationComponent from './PaginationComponent';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
+import Link from 'next/link';
 
-interface SlidesProps {
-  userId: string;
+interface UserProps {
+ user: {
+    $id: string;
+    name: string;
+  };
 }
 
-export default function Slides ({userId}:SlidesProps){
+export default function Slides ({user}:UserProps){
   const [slides, setSlides] = useState<Slides[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading,setLoading]=useState(false)
   useEffect(() => {
     async function fetchSlides() {
-       await getUserSlides(userId,currentPage,setTotalPages,setSlides,setLoading);
+       await getUserSlides(user.$id,currentPage,setTotalPages,setSlides,setLoading);
       
     }
   
     fetchSlides();
-  }, [userId,currentPage]);
+  }, [user.$id,currentPage]);
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
@@ -43,8 +47,8 @@ export default function Slides ({userId}:SlidesProps){
 
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
+  <Suspense  fallback={<LoadingScreen />}>
 {slides.map((slide) => (
-     <Suspense fallback={<LoadingScreen />}>
     <Card className='relative'>
       <CardHeader className="flex flex-row items-start justify-center px-4 pb-2 space-y-0">
         <CardTitle className="leading-2 tracking-wider capitalize text-sm sm:max-w-[90%]">
@@ -55,9 +59,13 @@ export default function Slides ({userId}:SlidesProps){
         </div>
       </CardHeader>
       <CardContent>
-        <div className='flex items-center gap-4 mb-4'>
+        <div className='flex flex-col mb-4'>
           <span className='text-xs text-muted-foreground'>{formatTime(slide.$createdAt)}</span>
-          <span className='text-xs text-muted-foreground'>{userId}</span>
+          <span className='text-xs text-muted-foreground'>Posted by{' '}
+          <Link href={'/dashboard/profile'}>
+          {user.name}
+          </Link>
+           </span>
         </div>
         <div className="absolute bottom-0 flex items-center gap-1 p-2 text-xs rounded-sm text-gray-400/90 right-6 dark:text-gray-500/90">
           <aside className='flex justify-between gap-3'>
@@ -73,8 +81,8 @@ export default function Slides ({userId}:SlidesProps){
       </CardContent>
     </Card>
         
-     </Suspense>
-    ))}
+        ))}
+        </Suspense>
 
 </aside>
     
