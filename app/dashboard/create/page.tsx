@@ -1,4 +1,4 @@
-
+'use client'
 import { Book, Files, GraduationCap, PiSquare, School } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";

@@ -1,11 +1,11 @@
-// components/Slides.tsx
+'use client'
 import { formatTime } from '@/lib/functions';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/components/preset-actions';
 
 
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import {  useCallback, useEffect, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
 import NoEvent from './NoEvent';
 import PaginationComponent from './PaginationComponent';
