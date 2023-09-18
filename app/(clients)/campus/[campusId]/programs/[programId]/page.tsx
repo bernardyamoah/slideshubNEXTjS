@@ -6,13 +6,7 @@ import {
   getProgramName,
 } from "@/lib/functions";
 import { useSearchParams } from "next/navigation";
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
+
 import CourseCard from "@/components/CourseCard";
 import EmptyCourse from "@/components/EmptyCourse";
 
@@ -20,6 +14,7 @@ import LoadingScreen from "@/app/dashboard/components/LoadingScreen";
 
 import Head from "next/head";
 import { toast } from "react-hot-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Course {
   $id: string;
@@ -111,21 +106,19 @@ export default function CourseList() {
               <LoadingScreen />
             ) : (
               <>
-                <Tabs value={data[0].value}>
-                  <TabsHeader className="max-w-2xl mx-auto mb-10">
+                
+                  <Tabs value={data[0].value}>
+                  <TabsList className="max-w-2xl mx-auto mb-10">
                     {data.map(({ label, value }) => (
-                      <Tab
-                        key={value}
-                        value={value}
-                        className="text-sm font-title sm:text-base font-medium"
-                      >
-                        {label}
-                      </Tab>
+                    
+                        <TabsTrigger key={value} value={value} className="relative">
+                              {label}    
+                        </TabsTrigger>
                     ))}
-                  </TabsHeader>
-                  <TabsBody>
+                  </TabsList>
                     {data.map(({ value }) => (
-                      <TabPanel key={value} value={value}>
+                  <TabsContent key={value} value={value}>
+                  
                         {filteredCourses.filter(
                           (course) => course.year === value
                         ).length > 0 ? (
@@ -146,9 +139,9 @@ export default function CourseList() {
                             <EmptyCourse />
                           </div>
                         )}
-                      </TabPanel>
-                    ))}
-                  </TabsBody>
+                    
+                  </TabsContent>
+                        ))}
                 </Tabs>
               </>
             )}

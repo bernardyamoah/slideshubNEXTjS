@@ -9,7 +9,7 @@ export default function CampusList() {
     <>
 
 
-      <div className="overflow-hidden">
+      <div className="overflow-hidden ">
         <div className="relative p-8 text-center bg-center bg-cover md:p-12 lg:px-16 lg:py-10 bg-hero-image">
           <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
             Embark on an Adventure!
@@ -19,10 +19,10 @@ export default function CampusList() {
           </p>
         </div>
       </div>
-      <section className="relative flex flex-col items-center h-full px-2 pb-10 mx-auto bg-inherit">
-        <div className="w-full">
+      <section className=" relative flex flex-col items-center h-full px-2 pb-10 mx-auto bg-inherit">
+        <div className="w-full px-4 ">
 
-          <div className="grid flex-wrap justify-center grid-cols-1 gap-8 p-4 mx-auto max-w-7xl auto-rows-max sm:flex ">
+          <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3 ">
             <Suspense fallback={<Loading />}>
 
               <CampusCard />

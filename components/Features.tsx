@@ -4,6 +4,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 import { StackIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Clock, UserIcon } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 
 const Features = () => {
@@ -36,19 +37,19 @@ const Features = () => {
 	]
 	return (
 		<>
-			<section className="pattern flex items-center justify-center">
-				<div className="max-w-7xl">
-					<div className=" space-y-10">
+			<section className="bg-pattern w-full flex items-center justify-center">
+				<div className="w-full">
+					<div className=" space-y-10 w-full">
 						<div className="sm:text-3xl md:text-4xl  mx-auto mb-20 text-center">
 							<h1 >Here&apos;s what what you&apos;ll love about Slideshub</h1>
 						</div>
 
 						{/* <!-- Feature cards --> */}
-						<div className="flex flex-wrap gap-8 justify-center lg:justify-start  mx-auto p-4">
+						<div className="w-full grid sm:grid-cols-2 place-content-center justify-center lg:grid-cols-4 gap-4 lg:justify-start  mx-auto p-4">
 
 
 							{features.map((feature) => (
-								<Card key={feature.title} className="backdrop-blur-md bg-opacity-70  max-w-xs w-full" >
+								<Card key={feature.title} className="backdrop-blur-md bg-opacity-70   w-full" >
 
 
 									<CardHeader className="space-y-4">
@@ -72,7 +73,7 @@ const Features = () => {
 					</div>
 				</div>
 			</section>
-
+<Separator className="my-4"/>
 		</>
 	);
 }

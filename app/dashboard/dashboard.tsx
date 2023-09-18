@@ -3,7 +3,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 
 import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
-
 import Slides from "@/components/Slides";
 
 import Courses from "@/components/Courses";
@@ -45,7 +44,7 @@ export default function Dashboard() {
     }
 
     verifyUser();
-  }, []); // Add checkUserMembership as a dependency
+  }, [checkUserMembership,setUser]); // Add checkUserMembership as a dependency
 
 
   if (loading) return <LoadingScreen />;

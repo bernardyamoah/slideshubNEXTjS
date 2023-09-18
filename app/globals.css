@@ -39,7 +39,7 @@
 	}
 
 	.dark {
-		--background: 224 71.4% 4.1%;
+		--background: 224 71.4% 2.1%;
 		--foreground: 210 20% 98%;
 
 		--muted: 215 27.9% 16.9%;
@@ -75,7 +75,7 @@
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground font-body bg-background bg-pattern;
+		@apply text-foreground  font-body bg-background ;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }

@@ -9,15 +9,15 @@ export default function Testimonials() {
 
 	return (
 		<>
-			<section className="pattern py-10   mx-auto">
-				<Card className="mx-auto  py-10 border-none bg-transparent">
+			<section className="bg-pattern py-10   mx-auto w-full">
+				<div className="w-full">
 					<p className="text-sm md:text-base font-medium text-emerald-500 md:text-center">Testimonials</p>
 
 					<h1 className="mt-2 text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl md:text-center">
 						What users are saying
 					</h1>
 
-					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 max-w-3xl mx-auto">
+					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 mx-auto">
 						<div className="absolute -z-10 w-full rounded-2xl  md:h-72"></div>
 						<Card className=" mySwiper w-full rounded-2xl  p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
 							<div  >
@@ -36,7 +36,7 @@ export default function Testimonials() {
 										</div>
 
 										<div className="mt-2 md:w-1/2">
-											<CardTitle className="">
+											<CardTitle className="text-2xl md:text-3xl ">
 												Bernard
 											</CardTitle>
 											<Badge variant='secondary' className=" ">
@@ -56,7 +56,7 @@ export default function Testimonials() {
 						</Card>
 
 					</main>
-				</Card>
+				</div>
 			</section>
 		</>
 	);
