@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require("tailwindcss/colors");
-const withMT = require("@material-tailwind/react/utils/withMT");
-module.exports = withMT({
+// const colors = require("tailwindcss/colors");
+
+module.exports = {
 	darkMode: ["class"],
 	content: [
 		"./pages/**/*.{ts,tsx}",
@@ -17,11 +17,7 @@ module.exports = withMT({
 				"2xl": "1400px",
 			},
 		},
-		colors: {
-			gray: colors.slate,
-			emerald: colors.emerald,
-			yellow: colors.amber,
-		},
+		
 		extend: {
 			colors: {
 				border: "hsl(var(--border))",
@@ -89,4 +85,4 @@ module.exports = withMT({
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
-});
+};

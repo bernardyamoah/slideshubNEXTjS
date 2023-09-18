@@ -80,9 +80,16 @@ export default function Dashboard() {
                Books
                 </TabsTrigger>
                 {userInTeam ? (
-                  <TabsTrigger value="courses">
+                  <>
+                   <TabsTrigger value="programs" disabled>
+                   Programs
+                 </TabsTrigger>
+                 <TabsTrigger value="courses">
                     All Courses
-                  </TabsTrigger>)
+                  </TabsTrigger>
+                  </>
+                 
+                  )
                   : null}
               </TabsList>
               <div className="ml-auto mr-4 hidden lg:block">

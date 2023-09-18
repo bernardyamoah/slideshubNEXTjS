@@ -1,11 +1,10 @@
 'use client '
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import noFile from '@/public/undraw_documents_re_isxv.svg'
 
 
 export function EmptySlides() {
-	const router = useRouter();
+	// const router = useRouter();
 	return (
 
 		<div className="dark:bg-inherit w-full ">

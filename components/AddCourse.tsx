@@ -10,7 +10,7 @@ import {
   getCurrentUserAndSetUser,
   getPrograms,
 } from "@/lib/functions";
-import { BookOpen, Check, CheckCircle, ChevronsUpDown, GraduationCap, UserCheck } from "lucide-react";
+import {  Check,  ChevronsUpDown, } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Step, Stepper } from "@material-tailwind/react";
 
 import { toast } from "react-hot-toast";
 
@@ -545,57 +544,7 @@ export default function AddCourse() {
         </div>
       </form>
 
-      <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
-        <Stepper
-          activeStep={activeStep}
-          isLastStep={(value) => setIsLastStep(value)}
-          isFirstStep={(value) => setIsFirstStep(value)}
-        >
-          <Step onClick={() => setActiveStep(0)}>
-            <GraduationCap className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm font-normal">
-
-              <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-
-                Course
-              </p>
-            </div>
-          </Step>
-          <Step onClick={() => setActiveStep(1)}>
-            <BookOpen className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-
-                Programme
-              </p>
-            </div>
-          </Step>
-
-          <Step onClick={() => setActiveStep(2)}>
-            <UserCheck className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
-
-                Lecturer
-              </p>
-            </div>
-          </Step>
-
-          <Step onClick={() => setActiveStep(3)}>
-            <CheckCircle className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 4 ? "text-blue-500" : "text-gray-500"}>
-
-                Finish
-              </p>
-            </div>
-          </Step>
-        </Stepper>
-
-      </div>
+      
 
     </>
   );

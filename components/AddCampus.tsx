@@ -12,8 +12,8 @@ import { Label } from "@/components/ui/label";
 import { createCampus } from "@/lib/functions";
 import { Progress } from "@/components/ui/progress";
 import toast, { Toaster } from "react-hot-toast";
-import { Step, Stepper } from "@material-tailwind/react";
-import { File, Info } from "lucide-react";
+
+
 import DocumentUpload from "./document-upload";
 export default function AddCampus() {
 	const [name, setName] = useState("");
@@ -187,38 +187,7 @@ export default function AddCampus() {
 						</div>
 					</div>
 				</form>
-				<div className="max-w-sm mx-auto py-4 relative bottom-4 mt-10 text-sm">
-					<Stepper
-						activeStep={activeStep}
-						isLastStep={(value) => setIsLastStep(value)}
-						isFirstStep={(value) => setIsFirstStep(value)}
-					>
-						<Step onClick={() => setActiveStep(0)}>
-							<Info className="h-5 w-5" />
-							<div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-								<p
-									className={
-										activeStep === 0 ? "text-blue-500" : "text-gray-500"
-									}
-								>
-									Details
-								</p>
-							</div>
-						</Step>
-						<Step onClick={() => setActiveStep(1)}>
-							<File className="h-5 w-5" />
-							<div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-								<p
-									className={
-										activeStep === 1 ? "text-blue-500" : "text-gray-500"
-									}
-								>
-									File
-								</p>
-							</div>
-						</Step>
-					</Stepper>
-				</div>
+			
 
 				{uploadProgress > 0 && (
 					<CardFooter className="flex justify-between">

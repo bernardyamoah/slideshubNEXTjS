@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState, useCallback } from "react";
 
-import { Step, Stepper } from "@material-tailwind/react";
+
 import { GraduationCap } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import { bytesToSize, createSlide, getCampus, getProgramsByCampusId, getCoursesByProgramId, getCurrentUserAndSetUser } from "@/lib/functions";
@@ -371,46 +371,7 @@ export default function AddSlides() {
               )}
 
               <div className="w-full py-4 px-8">
-                <div className="w-full mx-auto py-4 relative bottom-2 mt-5 hidden">
-                  <Stepper
-                    activeStep={activeStep}
-                    isLastStep={(value) => setIsLastStep(value)}
-                    isFirstStep={(value) => setIsFirstStep(value)}
-                  >
-                    <Step onClick={() => setActiveStep(0)} >
-
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-                          Campus
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(1)}>
-                      <BookOpen className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-                          Programme
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(2)}>
-                      <GraduationCap className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-                          Course
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(3)}>
-                      <CheckCircle className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
-                          Finish
-                        </p>
-                      </div>
-                    </Step>
-                  </Stepper>
-                </div>
+               
                 <div className="mt-10 flex justify-between">
 
                   <Button type="button" onClick={handlePrev} disabled={isFirstStep}

@@ -7,7 +7,6 @@ import {
 } from "@/lib/functions";
 import { useSearchParams } from "next/navigation";
 
-import CourseCard from "@/components/CourseCard";
 import EmptyCourse from "@/components/EmptyCourse";
 
 import LoadingScreen from "@/app/dashboard/components/LoadingScreen";
@@ -16,25 +15,36 @@ import Head from "next/head";
 import { toast } from "react-hot-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-interface Course {
-  $id: string;
-  campusId: string;
-  image: string;
-  name: string;
-  courseCode: string;
-  credit: string;
-  programId: string; // Added programId property
-  year: string;
-  semester: string;
-  $createdAt: string; // Added semester property
-}
+import CourseCard from "@/components/CourseCard";
+import { Separator } from "@/components/ui/separator";
+import { GetServerSideProps } from "next";
 
+
+const data = [
+  {
+    label: "Level 100",
+    value: "Level 100",
+  },
+  {
+    label: "Level 200",
+    value: "Level 200",
+  },
+  {
+    label: "Level 300",
+    value: "Level 300",
+  },
+  {
+    label: "Level 400",
+    value: "Level 400",
+  },
+];
 export default function CourseList() {
   const searchParams = useSearchParams();
   const [courses, setCourses] = useState<Course[]>([]);
   const [programName, setProgramName] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const programId = searchParams?.get("programId") ?? "";
+  const [selectedTab, setSelectedTab] = useState(data[0].value);
 
   const pageTitle = `${programName} Courses`;
   const pageDescription = `Browse courses for ${programName} at your campus.`;
@@ -68,24 +78,7 @@ export default function CourseList() {
     (course) => course.programId === programId
   );
 
-  const data = [
-    {
-      label: "Level 100",
-      value: "Level 100",
-    },
-    {
-      label: "Level 200",
-      value: "Level 200",
-    },
-    {
-      label: "Level 300",
-      value: "Level 300",
-    },
-    {
-      label: "Level 400",
-      value: "Level 400",
-    },
-  ];
+ 
 
   return (
     <>
@@ -93,55 +86,66 @@ export default function CourseList() {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </Head>
-      <main className="card_container">
-        <div className="h-64 overflow-hidden flex items-center justify-center ">
-          <h2 className="text-2xl font-bold text-center sm:text-3xl md:text-5xl">
-            {programName}
-          </h2>
+      <main className="px-6 pt-8 mx-auto space-y-8 max-w-7xl lg:px-8 ">
+       
+        {/* <header className="h-44 lg:flex items-center justify-cener bg-black w-full ">
+        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
+        <div className="space-y-2 bg-pattern" >
+              <h1
+                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-white to-gray-200 text-center"
+              >
+                           {programName}   
+              </h1>
+              
+            </div>
         </div>
-
-        <section className="md:container relative mx-auto flex flex-col items-center pb-10">
-          <div id="myUL">
+      </header> */}
+      <div className="max-w-2xl mx-auto lg:mx-0">
+        <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl    xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-white to-gray-200 ">  {programName}  
+        </h2>
+        {/* <p className="mt-4 text-zinc-400">
+        Suppporting texts
+        </p> */}
+      </div>
+      <Separator/>
+        <section className="md:container relative mx-auto flex flex-col items-center ">
+          <div>
             {isLoading ? (
               <LoadingScreen />
             ) : (
               <>
                 
-                  <Tabs value={data[0].value}>
+                  <Tabs value={selectedTab}>
                   <TabsList className="max-w-2xl mx-auto mb-10">
-                    {data.map(({ label, value }) => (
-                    
-                        <TabsTrigger key={value} value={value} className="relative">
-                              {label}    
-                        </TabsTrigger>
-                    ))}
-                  </TabsList>
-                    {data.map(({ value }) => (
-                  <TabsContent key={value} value={value}>
-                  
-                        {filteredCourses.filter(
-                          (course) => course.year === value
-                        ).length > 0 ? (
-                          <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 lg:gap-12 pb-10">
-                            {filteredCourses
-                              .filter((course) => course.year === value)
-                              .map((course) => (
-                                <CourseCard
-                                  key={course.$id}
-                                  courseId={course.$id}
-                                  {...course}
-                                  timePosted={course.$createdAt}
-                                />
-                              ))}
-                          </div>
-                        ) : (
-                          <div className="flex justify-center w-full">
-                            <EmptyCourse />
-                          </div>
-                        )}
-                    
-                  </TabsContent>
-                        ))}
+          {data.map(({ label, value }) => (
+            <TabsTrigger
+              key={value}
+              value={value}
+              className="relative"
+              onClick={() => setSelectedTab(value)}
+            >
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {data.map(({ value }) => (
+          <TabsContent key={value} value={value}>
+            {filteredCourses.filter((course) => course.year === value).length >
+            0 ? (
+              <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 pb-10">
+                {filteredCourses
+                  .filter((course) => course.year === value)
+                  .map((course) => (
+                    <CourseCard key={course.$id} course={course} />
+                  ))}
+              </div>
+            ) : (
+              <div className="flex justify-center w-full">
+                <EmptyCourse />
+              </div>
+            )}
+          </TabsContent>
+        ))}
                 </Tabs>
               </>
             )}
@@ -151,3 +155,20 @@ export default function CourseList() {
     </>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const programId = context.query.programId as string;
+
+  // Fetch data on server-side
+  const fetchedProgramName = await getProgramName(programId);
+  const programDetails = await getProgramDetails(programId);
+  const campusId = programDetails?.campusId;
+  const response = await getCoursesByProgramId(programId);
+
+  // Return fetched data as props
+  return {
+    props: {
+      courses: response,
+      programName: fetchedProgramName,
+    },
+  };
+};

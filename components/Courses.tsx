@@ -4,18 +4,7 @@ import CoursesCard from './allCourses';
 import PaginationComponent from './PaginationComponent';
 import { getAllCourses,  getTotalCourses } from '@/lib/functions';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
-interface Course {
-  $id: string;
-  name: string;
-  semester: string;
-  courseCode: string;
-  credit: number;
-  lecturer: string;
-  programId: string;
-  year: number;
-  $createdAt: string;
-  user_id: string;
-}
+
 
 
 

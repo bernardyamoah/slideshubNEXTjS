@@ -189,32 +189,37 @@ interface Program {
 	$id:string;
 }
 
+
+
+
+
 interface Course {
 	$id: string;
 	name: string;
 	semester: string;
 	courseCode: string;
-	credit: string;
+	credit: string ;
 	lecturer: string;
 	programId: string;
 	year: string;
-	level: string;
 	user_id: string;
-	timePosted: string;
 	$createdAt: string;
-	
-}
+  }
+
 interface CourseCardProps {
 	course: {
 	  $id: string;
 	  name: string;
 	  semester: string;
 	  courseCode: string;
-	  credit: number;
+	  credit: string;
 	  lecturer: string;
 	  programId: string;
-	  year: number;
+	  year: string;
 	  user_id: string;
+	  campusId?: string;
+	  courseId?: string;
+	  $createdAt: string;
 	};
   }
 type CourseListProps ={
