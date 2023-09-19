@@ -17,7 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import CourseCard from "@/components/CourseCard";
 import { Separator } from "@/components/ui/separator";
-import { GetServerSideProps } from "next";
 
 
 const data = [
@@ -52,9 +51,7 @@ export default function CourseList() {
   const fetchCourses = async () => {
     try {
       const fetchedProgramName = await getProgramName(programId);
-      const programDetails = await getProgramDetails(programId);
-      const campusId = programDetails?.campusId;
-
+     
       const response = await toast.promise(getCoursesByProgramId(programId), {
         loading: `Fetching courses from ${fetchedProgramName} database..`,
         success: <b>Successfully fetched courses</b>,
@@ -74,10 +71,6 @@ export default function CourseList() {
     fetchCourses();
   }
 
-  const filteredCourses = courses.filter(
-    (course) => course.programId === programId
-  );
-
  
 
   return (
@@ -86,13 +79,13 @@ export default function CourseList() {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </Head>
-      <main className="px-6 pt-8 mx-auto space-y-8 max-w-7xl lg:px-8 ">
+      <main className="px-6 pt-8 mx-auto space-y-4 max-w-7xl lg:px-8 ">
        
-        {/* <header className="h-44 lg:flex items-center justify-cener bg-black w-full ">
-        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
+        {/* <header className="items-center w-full bg-black h-44 lg:flex justify-cener ">
+        <div className="max-w-screen-xl px-4 py-8 mx-auto ">
         <div className="space-y-2 bg-pattern" >
               <h1
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-white to-gray-200 text-center"
+                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-5xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-white to-zinc-200"
               >
                            {programName}   
               </h1>
@@ -100,15 +93,16 @@ export default function CourseList() {
             </div>
         </div>
       </header> */}
-      <div className="max-w-2xl mx-auto lg:mx-0">
-        <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl    xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-white to-gray-200 ">  {programName}  
+      <div className=" max-w-2xl mx-auto lg:mx-0 ">
+        <h2 className="text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100 sm:text-4xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  {programName}  
         </h2>
-        {/* <p className="mt-4 text-zinc-400">
-        Suppporting texts
-        </p> */}
+        <p className="mt-4 text-zinc-400">
+        Select a level to explore the offered courses.
+
+        </p>
       </div>
       <Separator/>
-        <section className="md:container relative mx-auto flex flex-col items-center ">
+        <section className="relative flex flex-col items-center mx-auto md:container ">
           <div>
             {isLoading ? (
               <LoadingScreen />
@@ -130,10 +124,9 @@ export default function CourseList() {
         </TabsList>
         {data.map(({ value }) => (
           <TabsContent key={value} value={value}>
-            {filteredCourses.filter((course) => course.year === value).length >
-            0 ? (
-              <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 pb-10">
-                {filteredCourses
+            {courses.filter((course) => course.year === value).length > 0 ? (
+              <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+                {courses
                   .filter((course) => course.year === value)
                   .map((course) => (
                     <CourseCard key={course.$id} course={course} />

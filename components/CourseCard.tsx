@@ -13,7 +13,7 @@ export default function CourseCard({ course }: CourseCardProps) {
     credit,
     campusId,
     programId,
-   
+   user_id,
     semester,
     $id,
     $createdAt,
@@ -37,7 +37,7 @@ export default function CourseCard({ course }: CourseCardProps) {
         
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-200 group-hover:text-white group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
                 <time dateTime={$createdAt}>{formatUserTime($createdAt)}
                 
                 </time>
@@ -47,14 +47,14 @@ export default function CourseCard({ course }: CourseCardProps) {
                 {credit} credit hours
               </span>
             </div>
-            <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl text-zinc-200 group-hover:text-white font-display">
+            <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
             {name.toLocaleLowerCase()}
             </CardTitle>
           <div className="z-20 flex gap-4 mt-2">
-          <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 group-hover:text-zinc-200">
+          <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
             <Calendar className='w-4 h-4' />{semester}
             </span>
-            <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 group-hover:text-zinc-200">
+            <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -72,6 +72,11 @@ export default function CourseCard({ course }: CourseCardProps) {
               
             </span>
           </div>
+          <p className="absolute flex gap-2 mt-2 text-xs capitalize duration-1000 bottom-2 text-zinc-400 dark:group-hover:text-zinc-200">
+      <span className="dark:text-zinc-500">      Posted by: {' '}</span>
+            {user_id}
+              
+            </p>
           </article>
         </Link>
       </Card>

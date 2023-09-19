@@ -75,11 +75,11 @@ interface SlidesCardProps {
 }
 
 interface ProgramCardProps {
+	$id: string;
 	name: string;
 	image: string;
 	campusId: string;
-	programId: string;
-	timePosted: string;
+   $createdAt: string;
 	duration: string;
 }
 interface UserSlidesCardProps {
@@ -178,7 +178,7 @@ interface Campus {
 }
 
 interface Program {
-	id: string;
+	$id:string;
 	name: string;
 	campusId: string;
 	image: string;
@@ -186,7 +186,8 @@ interface Program {
 	duration: string;
 	$createdAt: string;
 	$updatedAt: string;
-	$id:string;
+	id?: string;
+	
 }
 
 
