@@ -1,34 +1,34 @@
-'use client'
-import Image from 'next/image'
-import heroimage1 from '/assets/hero-image-2.png'
-import heroimage2 from '/assets/details-1.png'
-import Link from 'next/link'
 
+import Image from 'next/image'
+
+import heroimage3 from '/assets/hero-image-3.png'
 const Hero = () => {
 	return (
 		<>
-			<section className="flex items-center justify-center py-10 ">
-				<div className="mx-auto space-y-4 text-center max-w-7xl">
-					<h1 className=" sm:text-3xl md:text-4xl">
-						What is Slideshub ?
-					</h1>
-					<p
-						className="max-w-5xl mx-auto mt-5 mb-10 text-sm font-medium text-gray-600 ani-card md:text-base lg:text-2xl dark:text-gray-400"
-					>
-						Slideshub is an online solution to downloading and printing lecture
-						slides and books. You get easy-to-use and free access to a variety
-						of high-quality content in just a few seconds
-					</p>
-					<Image
-						className="object-cover object-center w-full h-full max-w-md sm:mx-auto"
-						src={heroimage2}
-						alt="Online Learning"
-						width={300}
-						height={300}
-					/>
+			 <section className="flex items-center justify-center py-10">
+      <div className="mx-auto space-y-4 text-center max-w-7xl">
+        <h2 className="text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100 sm:text-4xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700">
+          Welcome to Slideshub
+        </h2>
+        
+        <p className="mt-4 text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto lg:text-lg">
+        Slideshub is your ultimate online resource for downloading and printing lecture slides and books. Gain easy access to a wide range of high-quality educational content in just a few clicks.
 
-				</div>
-			</section>
+
+        </p>
+        <div className="relative w-full h-96">
+          <Image
+            className="object-cover object-center w-full h-full"
+            src={heroimage3}
+			width={500}
+			height={800}
+            alt="Online Learning"
+       
+          />
+        </div>
+      </div>
+    </section>
+
 
 
 		</>
