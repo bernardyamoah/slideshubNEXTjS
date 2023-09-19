@@ -59,7 +59,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
 
 {slides.map((slide) => (
     
-    <Card className="relative">
+    <Card key={slide.$id} className="relative">
       <CardHeader className="relative">
         <CardTitle className="w-full text-sm capitalize ">{slide.name.replace(/_/g, ' ').toLocaleLowerCase()}</CardTitle>
 
