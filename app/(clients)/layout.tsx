@@ -17,7 +17,7 @@ function ClientLayout({ children }: ClientLayoutProps) {
 
 
       <div className="relative min-h-screen dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900 ">
-      <main className='px-6 pt-8 mx-auto space-y-4 max-w-7xl lg:px-8 '>
+      <main className='px-3 pt-8 mx-auto space-y-4 max-w-7xl lg:px-8 '>
         {children}
         </main>
         </div>
