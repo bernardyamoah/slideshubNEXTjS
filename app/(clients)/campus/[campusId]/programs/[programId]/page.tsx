@@ -155,20 +155,20 @@ export default function CourseList() {
     </>
   );
 }
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const programId = context.query.programId as string;
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const programId = context.query.programId as string;
 
-  // Fetch data on server-side
-  const fetchedProgramName = await getProgramName(programId);
-  const programDetails = await getProgramDetails(programId);
-  const campusId = programDetails?.campusId;
-  const response = await getCoursesByProgramId(programId);
+//   // Fetch data on server-side
+//   const fetchedProgramName = await getProgramName(programId);
+//   const programDetails = await getProgramDetails(programId);
+//   const campusId = programDetails?.campusId;
+//   const response = await getCoursesByProgramId(programId);
 
-  // Return fetched data as props
-  return {
-    props: {
-      courses: response,
-      programName: fetchedProgramName,
-    },
-  };
-};
+//   // Return fetched data as props
+//   return {
+//     props: {
+//       courses: response,
+//       programName: fetchedProgramName,
+//     },
+//   };
+// };

@@ -1,9 +1,11 @@
-import { Card, CardContent } from '@/components/ui/card';
-import React, { useEffect, useState } from 'react';
-import { Button, CardFooter, Input, Textarea } from "@material-tailwind/react";
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import React, {  useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { ID, storage } from '@/appwrite';
 import { extractIdFromUrl } from '@/lib/functions';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ProfileEditorProps {
   coverImageUrl: string;
@@ -133,7 +135,7 @@ const ProfileEditor: React.FC<ProfileEditorProps> = ({
   return (
     <>
       <div className='space-y-6'>
-        {/* <Image src={coverImageUrl} alt="Cover Image" className='w-full h-64 object-cover rounded-lg' /> */}
+        {/* <Image src={coverImageUrl} alt="Cover Image" className='object-cover w-full h-64 rounded-lg' /> */}
 
         <Card className='max-w-3xl mx-auto '>
           <form onSubmit={handleSubmit} className='mt-6'>
@@ -159,8 +161,8 @@ const ProfileEditor: React.FC<ProfileEditorProps> = ({
                 <input type="file" accept="image/*" onChange={handleProfilePhotoChange} />
               </div>
             </CardContent>
-            <CardFooter className='flex gap-4 justify-between'>
-              <Button type="button" color='red' onClick={onCancel}>
+            <CardFooter className='flex justify-between gap-4'>
+              <Button type="button"  onClick={onCancel}>
                 Cancel
               </Button>
               <Button type="submit">Save</Button>
