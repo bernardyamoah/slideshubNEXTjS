@@ -35,6 +35,7 @@ export default function Dashboard() {
   
  
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
+  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
 
   useEffect(() => {
     async function verifyUser() {
