@@ -19,7 +19,7 @@ export default function Testimonials() {
 
 					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 mx-auto">
 						<div className="absolute -z-10 w-full rounded-2xl  md:h-72"></div>
-						<div className=" mySwiper w-full rounded-2xl  p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
+						<div className=" mySwiper w-full rounded-2xl  shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
 							<div  >
 
 
