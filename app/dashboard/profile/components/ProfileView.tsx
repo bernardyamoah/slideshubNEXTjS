@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
-import { Typography } from "@material-tailwind/react";
 import Image from "next/image";
 interface ProfileViewProps {
   name: string;
@@ -94,9 +93,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             <CardContent className="space-y-2">
               <div>
                 <Label className="dark:text-gray-500">Bio</Label>
-                <Typography className="">
+                <p className="">
                   {bio}
-                </Typography>
+                </p>
 
 
               </div>

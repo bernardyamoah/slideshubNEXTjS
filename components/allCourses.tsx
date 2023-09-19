@@ -7,8 +7,7 @@ import React from 'react';
 
 
 const CoursesCard = ({course}:CourseCardProps) => {
-  // const formattedTime = formatTime(timePosted);
-
+  
   return (
 
     <Card 

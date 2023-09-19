@@ -363,7 +363,8 @@ export const getSlides = async (): Promise<any[]> => {
 	}
 };
 
-export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
+export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
+	console.log("🚀 ~ file: functions.ts:367 ~ getSlidesByCourseId ~ courseId:", courseId)
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -374,6 +375,7 @@ export const getSlidesByCourseId = async (courseId: any): Promise<any[]> => {
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
 			[Query.limit(99), Query.equal("courseId", courseId)]
 		);
+		console.log("🚀 ~ file: functions.ts:379 ~ getSlidesByCourseId ~ response.documents:", response.documents)
 
 		return response.documents;
 	} catch (error) {
@@ -525,8 +527,9 @@ export const formatTime = (timePosted: string) => {
 
 export const formatUserTime = (timePosted: string) => {
 	return new Date(timePosted).toLocaleString("en-US", {
-		dateStyle: "long",
-		timeStyle: "short",
+		dateStyle: "medium",
+		// timeStyle: "short",
+
 	});
 };
 

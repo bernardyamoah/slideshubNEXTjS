@@ -4,78 +4,65 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
 @layer base {
 	:root {
-		--background: 0 0% 100%;
-		--foreground: 224 71.4% 4.1%;
-
-		--muted: 220 14.3% 95.9%;
-		--muted-foreground: 220 8.9% 46.1%;
-
-		--popover: 0 0% 100%;
-		--popover-foreground: 224 71.4% 4.1%;
-
-		--card: 0 0% 100%;
-		--card-foreground: 224 71.4% 4.1%;
-
-		--border: 220 13% 91%;
-		--input: 220 13% 91%;
-
-		--primary: 220.9 39.3% 11%;
-		--primary-foreground: 210 20% 98%;
-
-		--secondary: 220 14.3% 95.9%;
-		--secondary-foreground: 220.9 39.3% 11%;
-
-		--accent: 220 14.3% 95.9%;
-		--accent-foreground: ;
-
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 210 20% 98%;
-
-		--ring: 217.9 10.6% 64.9%;
-
-		--radius: 0.5rem;
+	  --background: 0 0% 100%;
+	  --foreground: 240 10% 3.9%;
+	  --card: 0 0% 100%;
+	  --card-foreground: 240 10% 3.9%;
+	  --popover: 0 0% 100%;
+	  --popover-foreground: 240 10% 3.9%;
+	  --primary: 240 5.9% 10%;
+	  --primary-foreground: 0 0% 98%;
+	  --secondary: 240 4.8% 95.9%;
+	  --secondary-foreground: 240 5.9% 10%;
+	  --muted: 240 4.8% 95.9%;
+	  --muted-foreground: 240 3.8% 46.1%;
+	  --accent: 240 4.8% 95.9%;
+	  --accent-foreground: 240 5.9% 10%;
+	  --destructive: 0 84.2% 60.2%;
+	  --destructive-foreground: 0 0% 98%;
+	  --border: 240 5.9% 90%;
+	  --input: 240 5.9% 90%;
+	  --ring: 240 5.9% 10%;
+	  --radius: 0.3rem;
 	}
-
+   
 	.dark {
-		--background: 224 71.4% 4.1%;
-		--foreground: 210 20% 98%;
-
-		--muted: 215 27.9% 16.9%;
-		--muted-foreground: 217.9 10.6% 64.9%;
-
-		--popover: 224 71.4% 4.1%;
-		--popover-foreground: 210 20% 98%;
-
-		--card: 224 71.4% 4.1%;
-		--card-foreground: 210 20% 98%;
-
-		--border: 215 27.9% 16.9%;
-		--input: 215 27.9% 16.9%;
-
-		--primary: 210 20% 98%;
-		--primary-foreground: 220.9 39.3% 11%;
-
-		--secondary: 215 27.9% 16.9%;
-		--secondary-foreground: 210 20% 98%;
-
-		--accent: 215 27.9% 16.9%;
-		--accent-foreground: ;
-
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 0 85.7% 97.3%;
-
-		--ring: 215 27.9% 16.9%;
+	  --background: 240 10% 3.9%;
+	  --foreground: 0 0% 98%;
+	  --card: 240 10% 3.9%;
+	  --card-foreground: 0 0% 98%;
+	  --popover: 240 10% 3.9%;
+	  --popover-foreground: 0 0% 98%;
+	  --primary: 0 0% 98%;
+	  --primary-foreground: 240 5.9% 10%;
+	  --secondary: 240 3.7% 15.9%;
+	  --secondary-foreground: 0 0% 98%;
+	  --muted: 240 3.7% 15.9%;
+	  --muted-foreground: 240 5% 64.9%;
+	  --accent: 240 3.7% 15.9%;
+	  --accent-foreground: 0 0% 98%;
+	  --destructive: 0 62.8% 30.6%;
+	  --destructive-foreground: 0 0% 98%;
+	  --border: 240 3.7% 15.9%;
+	  --input: 240 3.7% 15.9%;
+	  --ring: 240 4.9% 83.9%;
 	}
-}
+  }
+  
+  
+  
 
 @layer base {
 	* {
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground font-body bg-background bg-pattern;
+		@apply text-foreground  font-body dark:bg-black bg-background bg-pattern ;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }
@@ -88,17 +75,17 @@
 
 @layer components {
 	.header {
-		@apply inset-x-0 top-0 flex flex-wrap w-full py-4 text-sm border-b border-gray-300 md:justify-start md:flex-nowrap lg:absolute backdrop-blur-md dark:bg-black dark:border-gray-600;
+		@apply inset-x-0 top-0 flex flex-wrap w-full py-4 text-sm border-b border-zinc-300 md:justify-start md:flex-nowrap lg:absolute backdrop-blur-md dark:bg-black dark:border-zinc-600;
 	}
 	.heading {
-		@apply mb-12 text-2xl font-bold text-center text-gray-800 capitalize md:text-3xl dark:text-gray-50;
+		@apply mb-12 text-2xl font-bold text-center text-zinc-800 capitalize md:text-3xl dark:text-zinc-50;
 	}
 
 	.nav-bar {
-		@apply relative flex font-bold border-b border-gray-200 bg-background font-body lg:space-x-6 dark:border-gray-800 backdrop-blur-md;
+		@apply relative flex font-bold border-b border-zinc-200 bg-background font-body lg:space-x-6 dark:border-zinc-800 backdrop-blur-md;
 	}
 	.navbar_item {
-		@apply font-bold hover:text-emerald-600 dark:text-gray-50 dark:hover:text-emerald-400;
+		@apply font-bold hover:text-emerald-600 dark:text-zinc-50 dark:hover:text-emerald-400;
 	}
 
 	/* --------------- logo -------------------- */
@@ -110,8 +97,9 @@
 		@apply object-cover w-8 h-8 dark:hidden md:h-10 md:w-10;
 	}
 	.logo_text {
-		@apply hidden text-sm font-bold text-gray-900 sm:flex dark:text-white md:text-xl font-title;
+		@apply hidden text-sm font-bold text-zinc-900 sm:flex dark:text-white md:text-xl font-title;
 	}
+	
 	/* ------------------------------------------------ */
 
 
@@ -125,7 +113,7 @@
 	/* --------------PROGRAM--------------- */
 
 	.title-heading {
-		@apply mb-4 text-xl font-extrabold tracking-widest text-center text-gray-900 uppercase md:text-3xl font-body;
+		@apply mb-4 text-xl font-extrabold tracking-widest text-center text-zinc-900 uppercase md:text-3xl font-body;
 	}
 
 
@@ -136,7 +124,7 @@
 		@apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600;
 	}
 	.card_heading {
-		@apply w-full text-sm font-bold text-left text-gray-800 capitalize align-middle lg:text-lg dark:text-white font-title md:w-5/6;
+		@apply w-full text-sm font-bold text-left text-zinc-800 capitalize align-middle lg:text-lg dark:text-white font-title md:w-5/6;
 	}
 
 	.footer_copyright {
@@ -224,4 +212,9 @@ section {
 	section {
 		padding: 3rem 0.5rem;
 	}
+}
+
+.card_style{
+	-webkit-mask-image: radial-gradient(240px at 323px 43px, white, transparent);
+	mask-image: radial-gradient(240px at 323px 43px, white, transparent);
 }

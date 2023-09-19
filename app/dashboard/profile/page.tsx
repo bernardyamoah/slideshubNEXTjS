@@ -4,7 +4,7 @@ import { getUserData, updateUserData } from "@/lib/functions";
 
 import ProfileView from "./components/ProfileView";
 import ProfileEditor from "./components/ProfileEditor";
-import SlidesLoading from "@/components/ui/slidesLoading";
+
 import LoadingScreen from "../components/LoadingScreen";
 
 

@@ -3,7 +3,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 
 import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
-
 import Slides from "@/components/Slides";
 
 import Courses from "@/components/Courses";
@@ -36,6 +35,7 @@ export default function Dashboard() {
   
  
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
+  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
 
   useEffect(() => {
     async function verifyUser() {
@@ -45,7 +45,7 @@ export default function Dashboard() {
     }
 
     verifyUser();
-  }, []); // Add checkUserMembership as a dependency
+  }, [checkUserMembership,setUser]); // Add checkUserMembership as a dependency
 
 
   if (loading) return <LoadingScreen />;
@@ -81,9 +81,16 @@ export default function Dashboard() {
                Books
                 </TabsTrigger>
                 {userInTeam ? (
-                  <TabsTrigger value="courses">
+                  <>
+                   <TabsTrigger value="programs" disabled>
+                   Programs
+                 </TabsTrigger>
+                 <TabsTrigger value="courses">
                     All Courses
-                  </TabsTrigger>)
+                  </TabsTrigger>
+                  </>
+                 
+                  )
                   : null}
               </TabsList>
               <div className="ml-auto mr-4 hidden lg:block">

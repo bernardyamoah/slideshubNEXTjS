@@ -1,12 +1,11 @@
 'use client';
-import { formatTime, getCampus } from '@/lib/functions';
-import Image from 'next/image'
+import {formatUserTime} from '@/lib/functions';
+
 import Link from 'next/link';
 
-import { MapPin } from 'lucide-react';
-import { Card } from './ui/card';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { Locate, MapPin } from 'lucide-react';
+import { Card, CardTitle } from './ui/card';
+import { useCampuses } from '@/customHooks/useCampuses';
 
 
 interface Campus {
@@ -18,83 +17,56 @@ interface Campus {
 }
 
 const CampusCard = () => {
-  const [campuses, setCampuses] = useState<Campus[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  
 
-  useEffect(() => {
-    async function fetchCampuses() {
-      try {
-
-        const response = await toast.promise(getCampus(),
-          {
-            loading: 'Embarking on an adventure...',
-            success: <b>Adventure awaits! Campuses found!</b>,
-            error: <b>Lost in the jungle of campuses. Could not find any.</b>,
-          });
-
-        setCampuses(response);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching campuses:', error);
-        setIsLoading(false);
-      }
-    }
-
-    fetchCampuses();
-  }, []);
+  const campuses: Campus[] = useCampuses()
   return (
     <>
       {campuses.map((campus) => (
-        <Card key={campus.$id} className='relative w-full max-w-xs overflow-hidden '>
 
-          <Link
-            href={{
+<Card key={campus.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">
+<div className="pointer-events-none">
+  <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
+  <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
+  <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
+</div>
+<Link href={{
               pathname: `/campus/${campus.name}${campus.location}/programs/`,
-              // query: { campusId: campus.$id },
-
-              query: { campusId: campus.$id, campusName: campus.name, campusLocation: campus.location }
+              query: { campus:JSON.stringify(campus)}
             }}
-            shallow
-            passHref
+     
 
-            className="flex items-center w-full mx-auto duration-300 ease-in-out bg-center bg-no-repeat bg-cover cursor-pointer h-44 group">
+>
 
-            <Image src={campus.image} className='absolute inset-0 object-cover object-center w-full duration-300 group-hover:scale-105' width={300} height={300} alt='name' />
-            <div className="absolute inset-0 bg-black/70 "></div>
+  <article className="p-4 md:p-8">
+    <div className="flex items-center justify-between gap-2">
+      <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+        <time dateTime={campus.$createdAt}>{formatUserTime(campus.$createdAt)}
+        
+        </time>
+      </span>
+      <span className="flex items-center gap-1 text-xs text-zinc-500">
+      <Locate className='w-4 h-4 dark:stroke' />
+       {campus.location}
+      </span>
+    </div>
+    <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+    {campus.name.toLocaleLowerCase()}
+    </CardTitle>
+  
+  
+  </article>
+</Link>
+</Card>
+        
+      
 
-            <div className="relative flex items-center justify-center flex-1 h-full p-4 sm:p-5 ">
-              <div className="flex-1 text-center text-white ">
-                <h3 className="text-xl font-medium anti ">{campus.name}</h3>
-
-              </div>
-              {/* Duration */}
-              <span
-                className="-mb-[2px] tracking-wide -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-600 px-3 py-1.5 text-white bottom-0 right-0 absolute   text-[12px] font-normal
-        "
-              >
-                <MapPin className='w-4 h-4 ' />
-
-                {campus.location}
-              </span>
+      
 
 
-
-
-
-            </div>
-
-
-          </Link>
-        </Card>
 
       ))}
     </>
-
-
-
-  );
-};
-
+  )
+}
 export default CampusCard;
-// {location}
-// {formattedTime}

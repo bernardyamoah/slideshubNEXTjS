@@ -1,5 +1,5 @@
 
-import {  Typography } from "@material-tailwind/react";
+
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
 interface PaginationProps {
@@ -33,10 +33,10 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
         <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> 
       </Button>
       <div className="flex items-center gap-1 sm:gap-2">
-      <Typography color="gray" className="font-normal">
+      <p  className="font-normal">
         Page {activePage} of{" "}
         <strong >{pageCount}</strong>
-      </Typography>
+      </p>
       </div>
       <Button
       

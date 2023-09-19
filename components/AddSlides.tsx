@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState, useCallback } from "react";
 
-import { Step, Stepper } from "@material-tailwind/react";
+
 import { GraduationCap } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import { bytesToSize, createSlide, getCampus, getProgramsByCampusId, getCoursesByProgramId, getCurrentUserAndSetUser } from "@/lib/functions";
@@ -28,6 +28,7 @@ import { Progress } from "./ui/progress";
 import { useCampuses } from "@/customHooks/useCampuses";
 import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
+import { Badge } from "./ui/badge";
 
 
 // Replace this with the actual UserWithId interface or type
@@ -61,17 +62,14 @@ export default function AddSlides() {
   const courses: Course[] = useCourses(programId); // Use the custom hook for courses
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [activeStep, setActiveStep] = useState(0);
+  const totalSteps = 3; // Define the total number of steps
+
   const [isLastStep, setIsLastStep] = useState(false);
   const [isFirstStep, setIsFirstStep] = useState(false);
   const [isProgramPopoverOpen, setIsProgramPopoverOpen] = useState(false); // Renamed from 'open' to 'isProgramPopoverOpen'
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
-  const handleProgress = (progress: UploadProgress) => {
-    // Update the progress bar with the progress value (0-100)
-    const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
-    console.log('Upload progress:', uploadprogress);
-    setUploadProgress(uploadprogress);
-  };
+ 
 
   useEffect(() => {
     async function fetchData() {
@@ -188,28 +186,34 @@ export default function AddSlides() {
     setCampusId(selectedValue);
   }, []);
 
-  const handleNext = (event: React.FormEvent) => {
+  const handleNextStep = (event:React.FormEvent) => {
     event.preventDefault();
     const errorMessage = isStepValid(activeStep, campusId, programId, courseId, currentFile);
     if (errorMessage) {
-      toast.error(errorMessage);
+        toast.error(errorMessage);
     } else {
-      setActiveStep((currentStep) => currentStep + 1);
-      setIsFirstStep(false);
+      if (activeStep === (totalSteps-1)) {
+        setIsLastStep(true);
+      }
+        setActiveStep((prevStep) => prevStep + 1);
     }
-  };
+};
 
-  const handlePrev = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!isFirstStep) {
-      setActiveStep((currentStep) => currentStep - 1);
-      setIsLastStep(false);
-    }
-  };
+const handlePreviousStep = (event:React.FormEvent) => {
+  event.preventDefault();
+  if (activeStep > 0) {
+    setActiveStep((prevStep) => prevStep - 1);
+  }
+};
+
 
   return (
     <>
       <div >
+        <Badge className="flex items-center justify-center  w-fit   mx-auto" variant='secondary'>
+        {activeStep} / out of {totalSteps}
+
+        </Badge>
         <div className="max-w-3xl mx-auto w-full">
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2 space-y-6">
@@ -370,48 +374,27 @@ export default function AddSlides() {
                 </div>
               )}
 
-              <div className="w-full py-4 px-8">
-                <div className="w-full mx-auto py-4 relative bottom-2 mt-5 hidden">
-                  <Stepper
-                    activeStep={activeStep}
-                    isLastStep={(value) => setIsLastStep(value)}
-                    isFirstStep={(value) => setIsFirstStep(value)}
-                  >
-                    <Step onClick={() => setActiveStep(0)} >
-
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-                          Campus
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(1)}>
-                      <BookOpen className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-                          Programme
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(2)}>
-                      <GraduationCap className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-                          Course
-                        </p>
-                      </div>
-                    </Step>
-                    <Step onClick={() => setActiveStep(3)}>
-                      <CheckCircle className="h-5 w-5" />
-                      <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-                        <p className={activeStep === 3 ? "text-blue-500" : "text-gray-500"}>
-                          Finish
-                        </p>
-                      </div>
-                    </Step>
-                  </Stepper>
-                </div>
+            {/* Render the progress bar */}
+           {uploadProgress > 0 &&(
+            <Progress value={uploadProgress} />
+           )
+           }
+                {/* Render the navigation buttons */}
                 <div className="mt-10 flex justify-between">
+                {activeStep === 0 ? (
+  <Button onClick={handlePreviousStep} disabled>
+    Previous
+  </Button>
+) : (
+  <Button onClick={handlePreviousStep}>Previous</Button>
+)}
+            {!isLastStep ? (
+                <Button onClick={handleNextStep}>Next</Button>
+            ):(
+                <Button type="submit">Submit</Button>
+              )}
+            </div>
+                {/* <div className="mt-10 flex justify-between">
 
                   <Button type="button" onClick={handlePrev} disabled={isFirstStep}
                     className={isFirstStep ? "hidden" : "flex"}
@@ -427,20 +410,11 @@ export default function AddSlides() {
                       Next
                     </Button>
                   )}
-                </div>
-              </div>
+                
+              </div> */}
             </div>
           </form>
-          {uploadProgress > 0 && (
-
-            <div className="w-full space-y-2 my-6">
-              <div>Upload Progress: {uploadProgress}%</div>
-              <Progress value={uploadProgress} />
-            </div>
-
-          )
-
-          }
+         
 
 
         </div>

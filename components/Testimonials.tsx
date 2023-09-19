@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Card, CardDescription, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 
 export default function Testimonials() {
@@ -9,17 +9,17 @@ export default function Testimonials() {
 
 	return (
 		<>
-			<section className="pattern py-10   mx-auto">
-				<Card className="mx-auto  py-10 border-none bg-transparent">
+			<section className="bg-pattern py-10   mx-auto w-full">
+				<div className="w-full">
 					<p className="text-sm md:text-base font-medium text-emerald-500 md:text-center">Testimonials</p>
 
 					<h1 className="mt-2 text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl md:text-center">
 						What users are saying
 					</h1>
 
-					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 max-w-3xl mx-auto">
+					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 mx-auto">
 						<div className="absolute -z-10 w-full rounded-2xl  md:h-72"></div>
-						<Card className=" mySwiper w-full rounded-2xl  p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
+						<div className=" mySwiper w-full rounded-2xl  p-6 shadow-lg md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
 							<div  >
 
 
@@ -35,28 +35,31 @@ export default function Testimonials() {
 											/>
 										</div>
 
-										<div className="mt-2 md:w-1/2">
-											<CardTitle className="">
+										<Card className="mt-3 p-4">
+											<CardDescription>
+											<CardTitle className="mb-2 text-2xl" >
 												Bernard
 											</CardTitle>
 											<Badge variant='secondary' className=" ">
 												BSc Materials Engineering, KNUST
 											</Badge>
+											</CardDescription>
 
-											<CardDescription className="mt-2">
+											<div className="mt-2">
+
 												“Lorem ipsum dolor sit amet, consectetur adipisicing
 												elit. Tempore quibusdam ducimus libero ad tempora
 												doloribus expedita laborum saepe voluptas perferendis
 												delectus assumenda”.
-											</CardDescription>
-										</div>
+											</div>
+										</Card>
 									</div>
 								</aside>
 							</div>
-						</Card>
+						</div>
 
 					</main>
-				</Card>
+				</div>
 			</section>
 		</>
 	);

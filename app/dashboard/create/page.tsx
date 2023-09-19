@@ -10,6 +10,9 @@ import AddCourse from "@/components/AddCourse";
 import AddCampus from "@/components/AddCampus";
 import { Label } from "@/components/ui/label";
 import { useMyContext } from "@/components/MyContext";
+import { useEffect, useState } from "react";
+import { checkAuthStatusDashboard } from "@/lib/functions";
+import LoadingScreen from "../components/LoadingScreen";
 
 
 
@@ -41,7 +44,23 @@ const componentData = [
   },
 ];
 export default function Page() {
-  const { userInTeam } = useMyContext(); // Import checkUserMembership from context
+  const [loading, setLoading] = useState(true);
+  const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
+  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
+
+  useEffect(() => {
+    async function verifyUser() {
+      // Fetch user data and slides
+      checkAuthStatusDashboard(setUser, setLoading);
+      await checkUserMembership(); // Call checkUserMembership
+    }
+
+    verifyUser();
+  }, [checkUserMembership,setUser]); // Add checkUserMembership as a dependency // Import checkUserMembership from context
+  
+  if (loading) return <LoadingScreen />;
+  
+
   return (
     <>
       <div className="m-10 mx-auto text-center sm:h-20">

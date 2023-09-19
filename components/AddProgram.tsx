@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
+
 import { createProgram, errorMessage, getCurrentUserAndSetUser } from '@/lib/functions';
-import Image from 'next/image';
+
 import { UploadProgress } from 'appwrite';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -22,8 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
-import { CardHeader, Step, Stepper } from "@material-tailwind/react";
-import { BookOpen, Building, CalendarCheck, CheckCircle, GraduationCap } from "lucide-react";
 
 interface AddProgramProps {
   user: any;
@@ -34,9 +32,9 @@ interface AddProgramProps {
 export default function AddProgram() {
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+ 
   const [duration, setDuration] = useState('');
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
+ 
   const [value, setValue] = React.useState("")
   const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
@@ -74,13 +72,13 @@ export default function AddProgram() {
           ID.unique(),
           file,
           undefined,
-          (progress: UploadProgress) => {
-            // Update the progress bar with the progress value (0-100)
-            const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
-            console.log('Upload progress:', uploadprogress);
-            setUploadProgress(uploadprogress);
-            return uploadprogress
-          }
+          // (progress: UploadProgress) => {
+          //   // Update the progress bar with the progress value (0-100)
+          //   const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
+          //   console.log('Upload progress:', uploadprogress);
+          //   setUploadProgress(uploadprogress);
+          //   return uploadprogress
+          // }
         )
           ,
           {
@@ -109,13 +107,11 @@ export default function AddProgram() {
     if (file) {
       setImageFile(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
+     
       reader.readAsDataURL(file);
     } else {
       setImageFile(null);
-      setImagePreview(null);
+      
     }
   };
 
@@ -144,7 +140,7 @@ export default function AddProgram() {
       setValue('')
       setDuration('');
       setImageFile(null);
-      setImagePreview(null);
+    
 
     } catch (error) {
       errorMessage('Error creating program:' + error);
@@ -272,55 +268,7 @@ export default function AddProgram() {
         <Toaster />
       </form>
 
-      <div className="w-full mx-auto py-4 relative bottom-4 mt-10">
-        <Stepper
-          activeStep={activeStep}
-          isLastStep={(value) => setIsLastStep(value)}
-          isFirstStep={(value) => setIsFirstStep(value)}
-        >
-          <Step onClick={() => setActiveStep(0)}>
-            <BookOpen className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-
-                Programme
-              </p>
-            </div>
-          </Step>
-          <Step onClick={() => setActiveStep(0)}>
-            <Building className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 0 ? "text-blue-500" : "text-gray-500"}>
-
-              Campus
-              </p>
-            </div>
-          </Step>
-          <Step onClick={() => setActiveStep(1)}>
-            <CalendarCheck className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 1 ? "text-blue-500" : "text-gray-500"}>
-
-                Duration
-              </p>
-            </div>
-          </Step>
-          <Step onClick={() => setActiveStep(2)}>
-            <CheckCircle className="h-5 w-5" />
-            <div className="absolute -bottom-[2.5rem] w-max text-center text-sm">
-
-              <p className={activeStep === 2 ? "text-blue-500" : "text-gray-500"}>
-
-                Finish
-              </p>
-            </div>
-          </Step>
-        </Stepper>
-
-      </div>
+   
 
 
     </>
