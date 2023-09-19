@@ -1,5 +1,5 @@
-import darklogo from "/assets/img/logo-icon-dark.png";
-import lightlogo from "/assets/img/logo-icon-light.png";
+import darklogo from "/assets/logo-icon-dark.png";
+import lightlogo from "/assets/logo-icon-light.png";
 import Image from "next/image";
 import Link from "next/link";
 

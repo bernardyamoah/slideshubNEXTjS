@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast';
 import EmptyProgram from '@/components/EmptyPrograms';
 import ProgramCard from '@/components/ProgramCard';
 import { Separator } from '@/components/ui/separator';
+import Loading from '@/components/ui/Cloading';
 
 // interface Program {
 //   $id: string;
@@ -28,6 +29,7 @@ export default async function ProgrammeList() {
   const query = searchParams?.get('campus');
   const campus= JSON.parse(query);
   const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -37,21 +39,20 @@ export default async function ProgrammeList() {
         error: `Failed to load ${campus.name} programs`,
       });
       setPrograms(result);
+      setLoading(false);
     };
 
     fetchPrograms();
   }, [campus.$id]); // Only re-run the effect if campus.$id changes
 
-   console.log("🚀 ~ file: page.jsx:31 ~ programs ~ programs:", programs)
- 
-  const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   
-  const pageTitle = campus ? `${campus.name},${campus.location} Programs` : "Programs";
-
-
-  const pageDescription = campus
-    ? `Browse programs available at ${campus.name},${campus.location} campus.`
-    : "Browse all available programs.";
+  const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
+  const pageTitle = `${campus.name},${campus.location} Programs`;
+  const pageDescription = `Browse programs available at ${campus.name},${campus.location} campus.`
+  
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
 
@@ -62,7 +63,7 @@ export default async function ProgrammeList() {
       </Head>
 
 
-      <main className='px-6 pt-8 mx-auto space-y-4 max-w-7xl lg:px-8 '>
+    
 
 
         
@@ -75,7 +76,7 @@ export default async function ProgrammeList() {
       </div>
       <Separator/>
 
-        <section className="relative flex flex-col items-center px-4 pt-20 pb-10 mx-auto">
+        <section className="relative flex flex-col items-center  pt-20 pb-10 mx-auto">
           <div>
            
            {programs.length> 0 ? ( // Check the length of filteredPrograms instead of programs
@@ -94,7 +95,6 @@ export default async function ProgrammeList() {
         </section>
       
 
-      </main>
     </>
   );
 }

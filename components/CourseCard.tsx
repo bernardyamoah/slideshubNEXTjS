@@ -47,7 +47,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                 {credit} credit hours
               </span>
             </div>
-            <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+            <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
             {name.toLocaleLowerCase()}
             </CardTitle>
           <div className="z-20 flex gap-4 mt-2">
@@ -72,11 +72,7 @@ export default function CourseCard({ course }: CourseCardProps) {
               
             </span>
           </div>
-          <p className="absolute flex gap-2 mt-2 text-xs capitalize duration-1000 bottom-2 text-zinc-400 dark:group-hover:text-zinc-200">
-      <span className="dark:text-zinc-500">      Posted by: {' '}</span>
-            {user_id}
-              
-            </p>
+          
           </article>
         </Link>
       </Card>

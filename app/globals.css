@@ -6,6 +6,7 @@
 
 
 
+
 @layer base {
 	:root {
 	  --background: 0 0% 100%;
@@ -27,7 +28,7 @@
 	  --border: 240 5.9% 90%;
 	  --input: 240 5.9% 90%;
 	  --ring: 240 5.9% 10%;
-	  --radius: 0.75rem;
+	  --radius: 0.3rem;
 	}
    
 	.dark {
@@ -54,13 +55,14 @@
   }
   
   
+  
 
 @layer base {
 	* {
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground  font-body dark:bg-black bg-background ;
+		@apply text-foreground  font-body dark:bg-black bg-background bg-pattern ;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }

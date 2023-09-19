@@ -26,7 +26,7 @@ export default function Home() {
 				<title>SlidesHub</title>
 			</Head>
 
-			<main className=" max-w-6xl mx-auto">
+			<main>
 				{/* <!-- Hero section --> */}
 				<Hero />
 

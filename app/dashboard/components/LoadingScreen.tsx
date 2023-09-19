@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
-import logodark from '@/assets/img/logo-icon-dark.png';
-import logolight from '@/assets/img/logo-icon-light.png';
+import logodark from '@/assets/logo-icon-dark.png';
+import logolight from '@/assets/logo-icon-light.png';
 const LoadingScreen = () => {
   return (
     <div className="flex items-center justify-center h-screen inset-0 absolute z-10 text-base">

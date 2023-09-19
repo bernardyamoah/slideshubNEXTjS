@@ -61,7 +61,7 @@ module.exports = {
 				title: ["Raleway", "sans-serif"],
 			},
 			 backgroundImage: {
-        'pattern': 'url("/assets/img/pattern.svg")',
+        'pattern': 'url("/assets/pattern.svg")',
       },
 			borderRadius: {
 				lg: "var(--radius)",

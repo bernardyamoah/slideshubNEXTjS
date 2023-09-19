@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
-import heroimage1 from '/assets/img/hero-image-2.png'
-import heroimage2 from '/assets/img/details-1.png'
+import heroimage1 from '/assets/hero-image-2.png'
+import heroimage2 from '/assets/details-1.png'
 import Link from 'next/link'
 
 const Hero = () => {
