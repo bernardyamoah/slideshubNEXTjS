@@ -79,7 +79,7 @@ export default function CourseList() {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </Head>
-      <main className="px-6 pt-8 mx-auto space-y-4 max-w-7xl lg:px-8 ">
+      <div >
        
         {/* <header className="items-center w-full bg-black h-44 lg:flex justify-cener ">
         <div className="max-w-screen-xl px-4 py-8 mx-auto ">
@@ -125,7 +125,7 @@ export default function CourseList() {
         {data.map(({ value }) => (
           <TabsContent key={value} value={value}>
             {courses.filter((course) => course.year === value).length > 0 ? (
-              <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+              <div className="px-4 grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
                 {courses
                   .filter((course) => course.year === value)
                   .map((course) => (
@@ -144,7 +144,7 @@ export default function CourseList() {
             )}
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }
