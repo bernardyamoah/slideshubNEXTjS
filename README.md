@@ -16,12 +16,12 @@ SlidesHub is a web application for managing slides, campuses, programs, and cour
 
 To run this project locally, you can use npm, yarn, or pnpm as package managers. Run the following command:
 
-```bash``
-npm run dev
+bash
+```npm run dev```
 # or
-yarn dev
+```yarn dev```
 # or
-pnpm dev
+```pnpm dev```
 
 
 After running the server, open http://localhost:3000 with your browser to see the result. You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
@@ -68,6 +68,7 @@ The project uses environment variables for configuration. These include the Appw
 
 The `.env` file is used to set environment variables that the application needs to function correctly. Here is the structure of the `.env` file for the SlidesHub project:
 
+```
 NEXT_PUBLIC_APPWRITE_ENDPOINT=<Your Appwrite Endpoint>
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=<Your Appwrite Project ID>
 NEXT_PUBLIC_APPWRITE_API_KEY=<Your Appwrite API Key>
@@ -75,16 +76,18 @@ NEXT_PUBLIC_DATABASE_ID=<Your Database ID>
 NEXT_PUBLIC_CAMPUSES_COLLECTION_ID=<Your Campuses Collection ID>
 NEXT_PUBLIC_PROGRAMS_COLLECTION_ID=<Your Programs Collection ID>
 NEXT_PUBLIC_COURSE_COLLECTION_ID=<Your Courses Collection ID>
-NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID=
-NEXT_PUBLIC_SLIDES_COLLECTION_ID=
-NEXT_PUBLIC_BOOKS_COLLECTION_ID=
-NEXT_PUBLIC_SLIDES_STORAGE_ID=
-NEXT_PUBLIC_BOOKS_STORAGE_ID=
-NEXT_PUBLIC_PRORAM_IMAGES_ID=
-NEXT_PUBLIC_COURSE_IMAGES_ID=
+NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID=<Your Programmes Collection ID>
+NEXT_PUBLIC_SLIDES_COLLECTION_ID=<Your Slides Collection ID>
+NEXT_PUBLIC_BOOKS_COLLECTION_ID=<Your Books Collection ID>
+NEXT_PUBLIC_SLIDES_STORAGE_ID=<Your Slides Storage ID>
+NEXT_PUBLIC_BOOKS_STORAGE_ID= <Your Books Storage  ID>
+NEXT_PUBLIC_PRORAM_IMAGES_ID= <Your Programs Image ID>
+NEXT_PUBLIC_COURSE_IMAGES_ID= <Your Courses Collection ID>
 NEXT_PUBLIC_CAMPUS_IMAGES_ID=
-NEXT_PUBLIC_USER_PROFILE_IMAGES_ID=
-NEXT_PUBLIC_TEAM_ID=
+NEXT_PUBLIC_USER_PROFILE_IMAGES_ID= <User Profile Image Storage ID>
+NEXT_PUBLIC_TEAM_ID= <Appwrite Team ID>
+
+```
 
 
 
