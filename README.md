@@ -18,9 +18,9 @@ To run this project locally, you can use npm, yarn, or pnpm as package managers.
 
 bash
 ```npm run dev```
-# or
+### or
 ```yarn dev```
-# or
+### or
 ```pnpm dev```
 
 

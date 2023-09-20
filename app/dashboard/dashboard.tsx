@@ -17,25 +17,11 @@ import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
 
 
-interface Slide {
-  $id: string;
-  name: string;
-  fileUrl: string;
-  previewUrl: URL;
-  size: string;
-  fileType: string;
-  courseId: string;
-  $createdAt: string;
-}
-
-
-
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   
  
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
-  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
 
   useEffect(() => {
     async function verifyUser() {

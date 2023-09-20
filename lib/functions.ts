@@ -220,19 +220,13 @@ export const createSlide = async (slideData: SlidesData) => {
 		// return;
 		// }
 
-		const data = await toast.promise(
+		const data = await 
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				ID.unique(),
 				slideData
-			),
-			{
-				loading: "Creating slide...",
-				success: "Slides uploaded! 🎉",
-				error: "Failed to upload slides",
-			}
-		);
+			)
 		return data;
 	} catch (error) {
 		errorMessage("Error adding slide");
@@ -771,12 +765,12 @@ export const deleteSlide = async (id: string) => {
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				id
 			);
-			// Page refresh after successful deletion
-			window.location.reload();
+			
+			 successMessage("Slide deleted! 🎉");
 		} else {
 			errorMessage("Failed to delete Slide ❌");
 		}
-		successMessage("Slide deleted! 🎉");
+		
 	} catch (err) {
 		errorMessage("Action declined ❌");
 	}

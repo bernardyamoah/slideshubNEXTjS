@@ -35,6 +35,7 @@ export default function Slides ({user}:UserProps){
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
+  
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   
   
@@ -56,7 +57,7 @@ export default function Slides ({user}:UserProps){
           {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
         <div className="flex justify-end flex-1 gap-1 text-xs text-gray-500 dark:text-gray-500/90">
-          <PresetActions name={slide.name} id={slide.$id} />
+          <PresetActions name={slide.name} id={slide.$id} slides={slides} setSlides={setSlides} />
         </div>
       </CardHeader>
       <CardContent>

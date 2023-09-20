@@ -1,14 +1,23 @@
-'use client'
+"use client";
 import React, { useEffect, useState, useCallback } from "react";
 
 
-import { GraduationCap } from "lucide-react";
-import toast, { Toaster } from 'react-hot-toast';
-import { bytesToSize, createSlide, getCampus, getProgramsByCampusId, getCoursesByProgramId, getCurrentUserAndSetUser } from "@/lib/functions";
+import toast, { Toaster } from "react-hot-toast";
+import {
+  bytesToSize,
+  createSlide,
+  getCampus,
+  getProgramsByCampusId,
+  getCoursesByProgramId,
+  getCurrentUserAndSetUser,
+} from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
-import DocumentUpload from "./document-upload";
-import { BookOpen, Building, Check, CheckCircle, ChevronsUpDown } from "lucide-react";
+
+import {
+  Check,
+  ChevronsUpDown,
+} from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -29,30 +38,33 @@ import { useCampuses } from "@/customHooks/useCampuses";
 import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
 import { Badge } from "./ui/badge";
+import FileUpload from "./fileUpload";
 
 
-// Replace this with the actual UserWithId interface or type
-interface UserWithId {
-  id: string;
-  // Add other properties if required
-}
-function isStepValid(activeStep: number, campusId: string, programId: string, courseId: string, currentFile: File | null) {
+function isStepValid(
+  activeStep: number,
+  campusId: string,
+  programId: string,
+  courseId: string,
+  currentFiles: File[]
+) {
   if (activeStep === 0 && !campusId) {
     return "Please select a campus before proceeding.";
   } else if (activeStep === 1 && !programId) {
     return "Please select a program before proceeding.";
   } else if (activeStep === 2 && !courseId) {
     return "Please select a course before proceeding.";
-  } else if (activeStep === 3 && !currentFile) {
+  } else if (activeStep === 3 && currentFiles.length === 0) {
     return "Please upload a document before proceeding.";
   }
 
   return "";
 }
 
+
 export default function AddSlides() {
-  const [currentFile, setCurrentFile] = useState<File | null>(null);
-  const [courseId, setCourseId] = useState<string>('');
+  const [currentFiles, setCurrentFiles] = useState([]);
+  const [courseId, setCourseId] = useState<string>("");
   const [user, setUser] = useState<UserWithId | null>(null);
   const [programId, setProgramId] = useState<string>("");
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
@@ -69,53 +81,62 @@ export default function AddSlides() {
   const [isProgramPopoverOpen, setIsProgramPopoverOpen] = useState(false); // Renamed from 'open' to 'isProgramPopoverOpen'
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
- 
 
   useEffect(() => {
     async function fetchData() {
       try {
-
         const userId = await getCurrentUserAndSetUser();
         setUser(userId);
       } catch (error) {
-        console.log('Error fetching data:', error);
+        console.log("Error fetching data:", error);
       }
     }
 
     fetchData();
   }, []);
-
-
+// Update FileUpload component
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const errorMessage = isStepValid(activeStep, campusId, programId, courseId, currentFile);
+    const errorMessage = isStepValid(
+      activeStep,
+      campusId,
+      programId,
+      courseId,
+      currentFiles
+    );
     if (errorMessage) {
       toast.error(errorMessage);
       return;
     }
-    if (currentFile) {
+    let uploadCounter = 0; // Add this line
+    const toastId = toast.loading("Uploading files..."); // Show a loading toast
+  
+  
+  // Loop through the files and upload them one by one
+    if (currentFiles.length>0) {
+      for (let i = 0; i < currentFiles.length; i++) {
+        const currentFile = currentFiles[i] as File;
       try {
         const handleFileUpload = async () => {
           try {
             const file = currentFile;
-            const uploader = await toast.promise(storage.createFile(
-              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-              ID.unique(),
-              file,
-              undefined,
-              (progress: UploadProgress) => {
-                // Update the progress bar with the progress value (0-100)
-                const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
-                console.log('Upload progress:', uploadprogress);
-                setUploadProgress(uploadprogress);
-              }
-
-            ), {
-              loading: 'Uploading file...',
-              success: 'File uploaded!',
-              error: 'Upload failed',
-            });
+            const uploader = await 
+              storage.createFile(
+                process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+                ID.unique(),
+                file,
+                undefined,
+                (progress: UploadProgress) => {
+                  // Update the progress bar with the progress value (0-100)
+                  const uploadprogress = Math.round(
+                    (progress.chunksUploaded * 100) / progress.chunksTotal
+                  );
+                  console.log("Upload progress:", uploadprogress);
+                  setUploadProgress(uploadprogress);
+                }
+            
+            );
 
             const fileId = uploader.$id;
             const fileDetails = await storage.getFile(
@@ -127,7 +148,10 @@ export default function AddSlides() {
               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
               fileId
             );
-            const filePreviewResponse = await storage.getFilePreview(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileId);
+            const filePreviewResponse = await storage.getFilePreview(
+              process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+              fileId
+            );
             const uploadedFileUrl = fileUrlResponse.toString();
 
             return { uploadedFileUrl, filePreviewResponse };
@@ -140,8 +164,11 @@ export default function AddSlides() {
 
         if (result.uploadedFileUrl !== "") {
           const { uploadedFileUrl, filePreviewResponse } = result;
-          const fileExtension = currentFile.name.split(".").pop()?.toUpperCase();
-          const fileName = currentFile.name.replace(/_/g, ' ');
+          const fileExtension = currentFile.name
+            .split(".")
+            .pop()
+            ?.toUpperCase();
+          const fileName = currentFile.name.replace(/_/g, " ");
           const slideData = {
             name: fileName.slice(0, fileName.lastIndexOf(".")),
             size: bytesToSize(currentFile.size),
@@ -149,30 +176,38 @@ export default function AddSlides() {
             fileType: fileExtension ? fileExtension.toString() : "",
             courseId,
             previewUrl: filePreviewResponse,
-            user_id: user?.id
+            user_id: user?.id,
           };
 
           const response = await createSlide(slideData);
-          setCurrentFile(null);
-          setProgramId("");
-          setCourseId("");
-          setActiveStep(0);
-          setIsLastStep(false);
-          setIsFirstStep(false);
-          setUploadProgress(0);
-
-          uploadProgress > 0 && setUploadProgress(0);
-
-
+          if (response) {
+            uploadCounter++; // Increment the counter when a file is uploaded
+          }
         }
       } catch (error) {
         // File upload failed, handle the error
         console.error("Upload failed", error);
+        
         toast.error("Upload failed. Please try again later.");
-        setCurrentFile(null);
       }
-    };
+    }
+      // Update the loading toast to a success toast when all files have been uploaded
+  if (uploadCounter === currentFiles.length) {
+    toast.success("All files have been uploaded successfully!", { id: toastId });
   }
+    // Clear the array of files, reset programId, courseId and progress after all uploads
+    setCurrentFiles([]);
+    setProgramId("");
+    setCourseId("");
+    setActiveStep(0);
+    setIsLastStep(false);
+    setIsFirstStep(false);
+    setUploadProgress(0);
+    uploadProgress > 0 && setUploadProgress(0);
+  }
+
+  }
+  
 
   const handleSelectCourseChange = useCallback((selectedValue: string) => {
     setCourseId(selectedValue);
@@ -186,42 +221,51 @@ export default function AddSlides() {
     setCampusId(selectedValue);
   }, []);
 
-  const handleNextStep = (event:React.FormEvent) => {
+  const handleNextStep = (event: React.FormEvent) => {
     event.preventDefault();
-    const errorMessage = isStepValid(activeStep, campusId, programId, courseId, currentFile);
+    const errorMessage = isStepValid(
+      activeStep,
+      campusId,
+      programId,
+      courseId,
+      currentFiles
+    );
     if (errorMessage) {
-        toast.error(errorMessage);
+      toast.error(errorMessage);
     } else {
-      if (activeStep === (totalSteps-1)) {
+      if (activeStep === totalSteps - 1) {
         setIsLastStep(true);
       }
-        setActiveStep((prevStep) => prevStep + 1);
+      setActiveStep((prevStep) => prevStep + 1);
     }
-};
+  };
 
-const handlePreviousStep = (event:React.FormEvent) => {
-  event.preventDefault();
-  if (activeStep > 0) {
-    setActiveStep((prevStep) => prevStep - 1);
-  }
-};
-
+  const handlePreviousStep = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (activeStep > 0) {
+      setActiveStep((prevStep) => prevStep - 1);
+    }
+  };
 
   return (
     <>
-      <div >
-        <Badge className="flex items-center justify-center  w-fit   mx-auto" variant='secondary'>
-        {activeStep} / out of {totalSteps}
-
+      <div>
+        <Badge
+          className="flex items-center justify-center  w-fit   mx-auto"
+          variant="secondary"
+        >
+          {activeStep} / out of {totalSteps}
         </Badge>
         <div className="max-w-3xl mx-auto w-full">
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2 space-y-6">
               {activeStep === 0 && (
-
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="Campus">Campuses</Label>
-                  <Popover open={isCampusPopoverOpen} onOpenChange={setIsCampusPopoverOpen}>
+                  <Popover
+                    open={isCampusPopoverOpen}
+                    onOpenChange={setIsCampusPopoverOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -230,14 +274,18 @@ const handlePreviousStep = (event:React.FormEvent) => {
                         className="w-full justify-between"
                       >
                         {campusId
-                          ? campuses.find((campus) => campus.$id === campusId)?.name
+                          ? campuses.find((campus) => campus.$id === campusId)
+                              ?.name
                           : "Select Campus"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-full p-0">
                       <Command onValueChange={handleCampusChange}>
-                        <CommandInput required placeholder="Search University campus..." />
+                        <CommandInput
+                          required
+                          placeholder="Search University campus..."
+                        />
                         <CommandEmpty>No Campus found.</CommandEmpty>
                         <CommandGroup>
                           {campuses.map((campus) => (
@@ -245,9 +293,7 @@ const handlePreviousStep = (event:React.FormEvent) => {
                               key={campus.$id}
                               onSelect={(currentValue) => {
                                 setCampusId(
-                                  currentValue === campusId
-                                    ? ""
-                                    : campus.$id
+                                  currentValue === campusId ? "" : campus.$id
                                 );
                                 setIsCampusPopoverOpen(false);
                               }}
@@ -273,7 +319,10 @@ const handlePreviousStep = (event:React.FormEvent) => {
               {activeStep === 1 && (
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="programme">Programme</Label>
-                  <Popover open={isProgramPopoverOpen} onOpenChange={setIsProgramPopoverOpen}>
+                  <Popover
+                    open={isProgramPopoverOpen}
+                    onOpenChange={setIsProgramPopoverOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -282,14 +331,19 @@ const handlePreviousStep = (event:React.FormEvent) => {
                         className="w-full justify-between"
                       >
                         {programId
-                          ? programs.find((program) => program.$id === programId)?.name
+                          ? programs.find(
+                              (program) => program.$id === programId
+                            )?.name
                           : "Select Programme"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-full p-0">
                       <Command onValueChange={handleProgramChange}>
-                        <CommandInput required placeholder="Search program..." />
+                        <CommandInput
+                          required
+                          placeholder="Search program..."
+                        />
                         <CommandEmpty>No program found.</CommandEmpty>
                         <CommandGroup>
                           {programs.map((program) => (
@@ -297,9 +351,7 @@ const handlePreviousStep = (event:React.FormEvent) => {
                               key={program.$id}
                               onSelect={(currentValue) => {
                                 setProgramId(
-                                  currentValue === programId
-                                    ? ""
-                                    : program.$id
+                                  currentValue === programId ? "" : program.$id
                                 );
                                 setIsProgramPopoverOpen(false);
                               }}
@@ -325,7 +377,10 @@ const handlePreviousStep = (event:React.FormEvent) => {
               {activeStep === 2 && (
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="course">Courses</Label>
-                  <Popover open={isCoursePopoverOpen} onOpenChange={setIsCoursePopoverOpen}>
+                  <Popover
+                    open={isCoursePopoverOpen}
+                    onOpenChange={setIsCoursePopoverOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -334,7 +389,8 @@ const handlePreviousStep = (event:React.FormEvent) => {
                         className="w-full justify-between"
                       >
                         {courseId
-                          ? courses.find((course) => course.$id === courseId)?.name
+                          ? courses.find((course) => course.$id === courseId)
+                              ?.name
                           : "Select Courses"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -345,20 +401,31 @@ const handlePreviousStep = (event:React.FormEvent) => {
                         <CommandEmpty>No course found.</CommandEmpty>
                         <CommandGroup>
                           {courses.map((course) => (
-                            <CommandItem className="capitalize"
+                            <CommandItem
+                              className="capitalize"
                               key={course.$id}
                               onSelect={(currentValue) => {
-                                setCourseId(currentValue === courseId ? "" : course.$id);
+                                setCourseId(
+                                  currentValue === courseId ? "" : course.$id
+                                );
                                 setIsCoursePopoverOpen(false);
                               }}
                             >
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  courseId === course.$id ? "opacity-100" : "opacity-0"
+                                  courseId === course.$id
+                                    ? "opacity-100"
+                                    : "opacity-0"
                                 )}
                               />
-                              {course.name.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                              {course.name
+                                .split(" ")
+                                .map(
+                                  (word: string) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                                )
+                                .join(" ")}
                             </CommandItem>
                           ))}
                         </CommandGroup>
@@ -370,53 +437,36 @@ const handlePreviousStep = (event:React.FormEvent) => {
 
               {activeStep === 3 && (
                 <div className="grid w-full items-center gap-1.5">
-                  <DocumentUpload currentFile={currentFile} setCurrentFile={setCurrentFile} />
+                  {/* <DocumentUpload
+                    currentFile={currentFile}
+                    setCurrentFile={setCurrentFile}
+                  /> */}
+                  <FileUpload
+        currentFiles={currentFiles}
+        setCurrentFiles={setCurrentFiles}
+      />
                 </div>
               )}
 
-            {/* Render the progress bar */}
-           {uploadProgress > 0 &&(
-            <Progress value={uploadProgress} />
-           )
-           }
-                {/* Render the navigation buttons */}
-                <div className="mt-10 flex justify-between">
-                {activeStep === 0 ? (
-  <Button onClick={handlePreviousStep} disabled>
-    Previous
-  </Button>
-) : (
-  <Button onClick={handlePreviousStep}>Previous</Button>
-)}
-            {!isLastStep ? (
-                <Button onClick={handleNextStep}>Next</Button>
-            ):(
-                <Button type="submit">Submit</Button>
-              )}
-            </div>
-                {/* <div className="mt-10 flex justify-between">
-
-                  <Button type="button" onClick={handlePrev} disabled={isFirstStep}
-                    className={isFirstStep ? "hidden" : "flex"}
-                  >
-                    Prev
+              {/* Render the progress bar */}
+              {uploadProgress > 0 && <Progress value={uploadProgress} />}
+              {/* Render the navigation buttons */}
+              <div className="mt-10 flex justify-between">
+                {activeStep === 0 && isFirstStep ? (
+                  <Button onClick={handlePreviousStep} disabled>
+                    Previous
                   </Button>
-                  {isLastStep ? (
-                    <Button type="submit">
-                      Submit
-                    </Button>
-                  ) : (
-                    <Button type="button" onClick={handleNext}>
-                      Next
-                    </Button>
-                  )}
-                
-              </div> */}
+                ) : (
+                  <Button onClick={handlePreviousStep}>Previous</Button>
+                )}
+                {!isLastStep ? (
+                  <Button onClick={handleNextStep}>Next</Button>
+                ) : (
+                  <Button type="submit">Submit</Button>
+                )}
+              </div>
             </div>
           </form>
-         
-
-
         </div>
         <Toaster />
       </div>

@@ -29,16 +29,19 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import DocumentUpload from '@/components/document-upload';
 import { Separator } from '@radix-ui/react-dropdown-menu';
+import Slides from '@/components/Slides';
 // import DocumentUpload from "@/components/document-upload";
 
 
 interface PresetActionsProps {
   name: string;
   id: string;
+  slides: Slides[];
+  setSlides: React.Dispatch<React.SetStateAction<Slides[]>>;
 
 }
 
-export function PresetActions({ name, id }: PresetActionsProps) {
+export function PresetActions({ name, id, slides, setSlides }: PresetActionsProps) {
 
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 
@@ -71,14 +74,20 @@ export function PresetActions({ name, id }: PresetActionsProps) {
     }
   };
 
+  const handleDeleteSlide = async () => {
+    try {
+      // Call the deleteSlide function to delete the slide
+      await deleteSlide(id);
 
+      // Update the slides state by filtering out the deleted slide
+      const updatedSlides = slides.filter((slide) => slide.$id !== id);
+      setSlides(updatedSlides);
+    } catch (error) {
+      // Handle error
+    }
+  };
 
-  const handleDeleteSlide = useCallback(() => {
-    deleteSlide(id);
-    setShowDeleteDialog(false);
-    successMessage('Slide deleted successfully!');
-  }, [id]);
-
+ 
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   return (
