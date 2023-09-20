@@ -16,7 +16,7 @@ SlidesHub is a web application for managing slides, campuses, programs, and cour
 
 To run this project locally, you can use npm, yarn, or pnpm as package managers. Run the following command:
 
-```bash
+```bash``
 npm run dev
 # or
 yarn dev
