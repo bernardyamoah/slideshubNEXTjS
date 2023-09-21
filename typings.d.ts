@@ -4,7 +4,7 @@ interface CourseData {
 	courseCode: string;
 	credit: string;
 	lecturer: string;
-	programId: string;
+	programId?: string;
 	year: string;
 	user_id: string | undefined;
 }
@@ -206,7 +206,11 @@ interface Course {
 	user_id: string;
 	$createdAt: string;
   }
-
+  interface CourseCardProps {
+	course: Course;
+	courses: Course[];
+	setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  }
 interface CourseCardProps {
 	course: {
 	  $id: string;

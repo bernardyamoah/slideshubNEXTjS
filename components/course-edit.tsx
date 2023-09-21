@@ -23,11 +23,15 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "./ui/input"
 import { useState } from "react";
 import { Label } from "./ui/label";
-import { Separator } from "./ui/separator";
+
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
 import { cn } from "@/lib/utils";
-
+interface CourseCardProps {
+  course: Course;
+  courses: Course[]; // Add this line
+  setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+}
 const creditHours = [
   {
     id: "1",
@@ -76,7 +80,8 @@ const Semesters = [
   }
 ];
 
-export function CourseEdit({course }:CourseCardProps) {
+export function CourseEdit({course, courses, setCourses }:CourseCardProps) {
+  let courseId = course.$id;
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -120,24 +125,35 @@ export function CourseEdit({course }:CourseCardProps) {
      
       await updateCourse(course.$id, updatedAttributes);
 
-      // Reset form fields
-      setupdatedName(course.name);
-      setupdatedLecturer(course.lecturer);
-      setupdatedCourseCode(course.courseCode);
-      setSemester(course.semester);
-      // Reset other fields as needed
+      
+    // Reset form fields
+    setupdatedName("");
+    setupdatedLecturer("");
+    setupdatedCourseCode("");
+    setSemester("");
+    setYear("");
+    // Reset other fields as needed
 
-      // Close the dialog
-      setOpen(false);
-    } catch (error) {
-      console.error("Error updating slide:", error);
-    }
-  };
+    // Close the dialog
+    setOpen(false);
 
+    // Update the course list on the dashboard
+    const updatedCourses = courses.map((c) => {
+      if (c.$id === course.$id) {
+        return { ...c, ...updatedAttributes };
+      }
+      return c;
+    });
+    setCourses(updatedCourses);
+  } catch (error) {
+    console.error("Error updating course:", error);
+  }
+};
   const handleDeleteCourse = () => {
-    deleteCourse(course.$id);
+    deleteCourse(courseId);
     setShowDeleteDialog(false);
-    successMessage("Slide deleted successfully!");
+    const updatedCourse = courses.filter((course) => course.$id !== courseId);
+setCourses(updatedCourse);
   };
 
   const handleSemesterChange = (selectedValue: string) => {

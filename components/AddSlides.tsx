@@ -452,18 +452,18 @@ export default function AddSlides() {
               {uploadProgress > 0 && <Progress value={uploadProgress} />}
               {/* Render the navigation buttons */}
               <div className="mt-10 flex justify-between">
-                {activeStep === 0 && isFirstStep ? (
+                {activeStep === 0  ? (
                   <Button onClick={handlePreviousStep} disabled>
                     Previous
                   </Button>
                 ) : (
                   <Button onClick={handlePreviousStep}>Previous</Button>
                 )}
-                {!isLastStep ? (
-                  <Button onClick={handleNextStep}>Next</Button>
-                ) : (
-                  <Button type="submit">Submit</Button>
-                )}
+                {activeStep === totalSteps  ? (
+  <Button type="submit">Submit</Button>
+) : (
+  <Button onClick={handleNextStep}>Next</Button>
+)}
               </div>
             </div>
           </form>

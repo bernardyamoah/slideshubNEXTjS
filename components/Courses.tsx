@@ -59,7 +59,7 @@ const Courses = () => {
     {loading && <LoadingScreen />}
     <aside className= 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  grid mx-auto py-6 gap-8 auto-rows-auto '>
       {courses.map((course) => (
-       <CoursesCard key={course.$id} course={course} />
+       <CoursesCard key={course.$id} course={course} courses={courses} setCourses={setCourses}/>
       ))}
       </aside>
       {courses.length > 0 && (
@@ -74,4 +74,3 @@ const Courses = () => {
 };
 
 export default Courses;
-// grid gap-8 mt-6 sm:grid-cols-2 md:grid-cols-3

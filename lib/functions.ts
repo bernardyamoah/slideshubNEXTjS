@@ -789,8 +789,7 @@ export const deleteCourse = async (id: string) => {
 				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
 				id
 			);
-			// Page refresh after successful deletion
-			window.location.reload();
+			
 		} else {
 			errorMessage("Failed to delete Course ❌");
 		}
