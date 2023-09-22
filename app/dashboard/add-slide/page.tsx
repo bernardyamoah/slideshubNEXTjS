@@ -24,27 +24,12 @@ import {
   getCampus,
   getProgramsByCampusId,
   getCoursesByProgramId,
-  successMessage,
+ 
   bytesToSize,
 } from "@/lib/functions";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CaretSortIcon } from "@radix-ui/react-icons";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import { CheckIcon } from "lucide-react";
+
 import { useMyContext } from "@/components/MyContext";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FileUpload from "@/components/fileUpload";
 import { storage } from "@/appwrite";
@@ -233,7 +218,137 @@ export default function AddSlides() {
   }, [form.watch("programId")]);
 
   return (
+    // <Form {...form}>
+    //   <div>
+    //   <Card className="max-w-md mx-auto">
+    //     <CardHeader>
+    //       <CardTitle>Add Slide</CardTitle>
+    //     </CardHeader>
+    //     <CardContent>
+    //       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 ">
+    //         <FormField
+    //           control={form.control}
+    //           name="campusName"
+    //           render={({ field }) => (
+    //             <FormItem>
+    //               <FormLabel>Campus</FormLabel>
+    //               <Select
+    //                 onValueChange={field.onChange}
+    //                 defaultValue={field.value}
+    //               >
+    //                 <FormControl>
+    //                   <SelectTrigger>
+    //                     <SelectValue placeholder="Select a campus" />
+    //                   </SelectTrigger>
+    //                 </FormControl>
+    //                 <SelectContent>
+    //                   {campuses.map((campus) => (
+    //                     <SelectItem key={campus.$id} value={campus.$id}>
+    //                       {campus.name},{" "}
+    //                       <span className="text-sm font-medium text-right">
+    //                         {campus.location}
+    //                       </span>
+    //                     </SelectItem>
+    //                   ))}
+    //                 </SelectContent>
+    //               </Select>
+    //               <FormDescription>
+    //                 Choose the campus for the course.
+    //               </FormDescription>
+    //               <FormMessage />
+    //             </FormItem>
+    //           )}
+    //         />
+
+    //         <FormField
+    //           control={form.control}
+    //           name="programId"
+    //           render={({ field }) => (
+    //             <FormItem>
+    //               <FormLabel>Program</FormLabel>
+    //               <Select
+    //                 onValueChange={field.onChange}
+    //                 defaultValue={field.value}
+    //               >
+    //                 <FormControl>
+    //                   <SelectTrigger>
+    //                     <SelectValue placeholder="Select program" />
+    //                   </SelectTrigger>
+    //                 </FormControl>
+    //                 <SelectContent>
+    //                   {programs.map((program) => (
+    //                     <SelectItem key={program.$id} value={program.$id}>
+    //                       {program.name}
+    //                     </SelectItem>
+    //                   ))}
+    //                 </SelectContent>
+    //               </Select>
+    //               <FormDescription>
+    //                 Choose the campus for the course.
+    //               </FormDescription>
+    //               <FormMessage />
+    //             </FormItem>
+    //           )}
+    //         />
+
+    //         <FormField
+    //           control={form.control}
+    //           name="courseId"
+    //           render={({ field }) => (
+    //             <FormItem>
+    //               <FormLabel>Course</FormLabel>
+    //               <Select
+    //                 onValueChange={field.onChange}
+    //                 defaultValue={field.value}
+    //               >
+    //                 <FormControl>
+    //                   <SelectTrigger>
+    //                     <SelectValue placeholder="Select a campus" />
+    //                   </SelectTrigger>
+    //                 </FormControl>
+    //                 <SelectContent>
+    //                   {courses.map((course) => (
+    //                     <SelectItem key={course.$id} value={course.$id}>
+    //                       {course.name}
+    //                     </SelectItem>
+    //                   ))}
+    //                 </SelectContent>
+    //               </Select>
+    //               <FormDescription>
+    //                 Select a Course for the slide.
+    //               </FormDescription>
+    //               <FormMessage />
+    //             </FormItem>
+    //           )}
+    //         />
+    //         <div>
+    //           <FormLabel>File</FormLabel>
+    //           <FormControl>
+    //             <FileUpload
+    //               currentFiles={currentFiles}
+    //               setCurrentFiles={setCurrentFiles}
+    //               {...register("file")}
+    //             />{" "}
+               
+    //           </FormControl>
+    //           {errors.file && <FormMessage>{errors.file.message}</FormMessage>}
+
+              
+    //         </div>
+          
+    //       </form>
+    //     </CardContent>
+    //     <CardFooter>
+    //     {uploadProgress > 0 && <Progress value={uploadProgress} />}
+    //     </CardFooter>
+    //   </Card>
+
+
+    //   </div>
+     
+    // </Form>
     <Form {...form}>
+    <div>
       <Card className="max-w-md mx-auto">
         <CardHeader>
           <CardTitle>Add Slide</CardTitle>
@@ -298,60 +413,71 @@ export default function AddSlides() {
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Choose the campus for the course.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  Choose the campus for the course.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="courseId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Course</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a campus" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {courses.map((course) => (
-                        <SelectItem key={course.$id} value={course.$id}>
-                          {course.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Select a Course for the slide.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div>
-              <FormLabel>File</FormLabel>
-              <FormControl>
-                <FileUpload
+          
+
+              <FormField
+                control={form.control}
+                name="courseId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Course</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select course" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {courses.map((course) => (
+                          <SelectItem key={course.$id} value={course.$id}>
+                            {course.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Choose the course to add the slide to.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="file"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>File</FormLabel>
+                    <FileUpload
                   currentFiles={currentFiles}
                   setCurrentFiles={setCurrentFiles}
                   {...register("file")}
                 />{" "}
-                // Register the file field
-              </FormControl>
-              {errors.file && <FormMessage>{errors.file.message}</FormMessage>}
+                    <FormDescription>
+                      Select the file(s) to upload.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              {uploadProgress > 0 && <Progress value={uploadProgress} />}
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+              <Button type="submit">Upload</Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </Form>
   );
 }
+  
