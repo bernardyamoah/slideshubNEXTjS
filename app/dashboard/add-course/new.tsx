@@ -6,7 +6,7 @@ import {
   SubmitHandler,
   FieldValues
 } from "react-hook-form";
-import { createCourse } from "@/lib/functions";
+import { createCourse, successMessage } from "@/lib/functions";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -15,29 +15,43 @@ import { Label } from "@/components/ui/label";
 import { LucideTable2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useMyContext } from "@/components/MyContext";
 // Define your schema using Zod
-const courseSchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 characters long'),
-  programId: z.string().nonempty('Program is required'),
-  year: z.string().nonempty('Year is required'),
-  credit: z.string().nonempty('Credit is required'),
-  courseCode: z.string().nonempty('Course Code is required'),
-  semester: z.string().nonempty('Semester is required'),
-});
+const formSchema = z.object({
+  name: z.string({
+      required_error: "Course name is required",
+    }),
+programId: z.string({
+  required_error: "Please select a program",
+}),
+year: z.string({
+  required_error: "Please select a level",
+}),
+credit: z.string({
+  required_error: "Credit is required.",
+}),
+courseCode: z.string({
+  required_error: "Course code is required",
+}),
+semester: z.string({
+  required_error: "Please select a semester",
+}),
+lecturer: z.string().optional(),
+campusName: z.string(),
 
+})
 
-interface CourseData {
+interface CourseCreation extends FieldValues {
   name: string;
   semester: string;
   courseCode: string;
   credit: string;
-  lecturer: string;
-  fileId: string;
-  image: string;
-  year: string;
-  user_id: string;
+  lecturer?: string;
   programId: string;
+  year: string;
+  user_id: any;
 }
+
 
 function AddCourse() {
   const {
@@ -45,20 +59,18 @@ function AddCourse() {
     control,
     formState: { errors },reset
   } = useForm();
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    try {
-      const formData: CourseData = data as CourseData;
-      // Call the Appwrite API to create a new document
-      await createCourse(formData);
-// Reset the form after successful submission
-  reset();
-      // Handle the response as needed
-      console.log("Document created");
-    } catch (error) {
-      // Handle any errors that occur during the API call
-      console.error("Error creating document:", error);
+  const {user } = useMyContext();
+ let user_id= user.name;
+  const onSubmit= async (data:any) => {
+    let formData: CourseCreation = { ...data,user_id};
+console.log(formData);
+await createCourse(formData);
+successMessage('Course was created successfully' )
+reset(
+    {
+...data,
     }
+  )
   };
 
   return (

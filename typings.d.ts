@@ -3,8 +3,8 @@ interface CourseData {
 	semester: string;
 	courseCode: string;
 	credit: string;
-	lecturer: string;
-	programId?: string;
+	lecturer?: string;
+	programId: string;
 	year: string;
 	user_id: string | undefined;
 }

@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm} from "react-hook-form";
+
 import { z } from "zod";
 // import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,11 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   createCourse,
-  getCurrentUserAndSetUser,
-  getPrograms,
+  errorMessage,
+  getCampus,
+ 
+  getProgramsByCampusId,
+  successMessage,
 } from "@/lib/functions";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -27,7 +30,9 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
 import { useMyContext } from "@/components/MyContext";
-import { toast } from "@/components/ui/use-toast";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 
 // Credit Hours object
@@ -51,10 +56,10 @@ const Semesters = [
 ] as const;
 
 const formSchema = z.object({
-  name: z.string().min(6, {
-    message: "Name must be at least 2 characters.",
-  }),
-  program: z.string({
+    name: z.string({
+        required_error: "Course name is required",
+      }),
+  programId: z.string({
     required_error: "Please select a program",
   }),
   year: z.string({
@@ -70,53 +75,86 @@ const formSchema = z.object({
     required_error: "Please select a semester",
   }),
   lecturer: z.string().optional(),
-});
+  campusName: z.string(),
+  user_id:z.string()
+  
+})
+;
 
 
 
 export default function AddCourse() {
-    const [programId, setProgramId] = useState("");
+    const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
+    const [campuses, setCampuses] = useState<any[]>([]); 
     const {user } = useMyContext();
-  const {
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<CourseData>({
-    resolver: zodResolver(formSchema),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  
+    const form = useForm<z.infer<typeof formSchema>>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        name: '',
+        programId: '',
+        year: '',
+        credit: '',
+        courseCode: '',
+        semester: '',
+        lecturer: '',
+        campusName:'',
+        user_id: user.name, 
+      },
+    });
+  
+  const { errors } = form.formState;
+  const { control,handleSubmit ,reset} = form;
 
  async function onSubmit(data: z.infer<typeof formSchema>) {
-    let formData: CourseData = { ...data, user_id: user.name,lecturer: data.lecturer || ""  };
-    console.log(data);
+  const { campusName, ...formData } = data;
+  formData.user_id = user.name;
+
     await createCourse(formData);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    successMessage('Course was created successfully');
     reset();
+ 
   }
 
 
-
-
-  const handleSelectChange = (selectedValue: string) => {
-    setProgramId(selectedValue);
-  };
-
-  // Define the programs variable
-  const programs = getPrograms();
+  useEffect(() => {
+    async function fetchCampuses() {
+      try {
+        const response = await getCampus();
+        setCampuses(response);
+      } catch (error) {
+        // Handle error
+      }
+    }
+  
+    fetchCampuses();
+  }, []);
+  useEffect(() => {
+    async function fetchProgramsByCampusId(campusId:string) {
+      try {
+        const response = await getProgramsByCampusId(campusId);
+        setPrograms(response);
+      } catch (error) {
+       errorMessage(`${error}`)
+      }
+    }
+  
+    if (form.watch("campusName")) {
+      fetchProgramsByCampusId(form.watch("campusName"));
+    }
+  }, [form.watch("campusName")]);
+  
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <Form {...form} >
+      <Card className="max-w-md mx-auto" >
+     <CardHeader>
+        <CardTitle>
+            Add Course 
+        </CardTitle>
+     </CardHeader>
+     <CardContent>
+     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 ">
         <FormField
           control={control}
           name="name"
@@ -130,6 +168,19 @@ export default function AddCourse() {
             </div>
           )}
         />
+         <FormField
+  control={control}
+  name="user_id"
+  render={({ field }) => (
+    <div className="hidden"> {/* Add the style to hide the component */}
+      <FormLabel>Name</FormLabel>
+      <FormControl>
+        <Input placeholder="Enter name" {...field} />
+      </FormControl>
+      {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
+    </div>
+  )}
+/>
         <FormField
           control={form.control}
           name="lecturer"
@@ -146,10 +197,114 @@ export default function AddCourse() {
           )}
         />
 
+        {/* Course Code */}
+
+        <FormField
+          control={form.control}
+          name="courseCode"
+          render={({ field }) => (
+            <div>
+              <FormLabel>Course Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Course Code" {...field} />
+              </FormControl>
+              {errors.courseCode && (
+                <FormMessage>{errors.courseCode.message}</FormMessage>
+              )}
+            </div>
+          )}
+        />
+{/* Campus  */}
+<FormField
+  control={form.control}
+  name="campusName"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Campus</FormLabel>
+      <Select onValueChange={field.onChange}  defaultValue={field.value} >
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a campus" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          {campuses.map((campus) => (
+            <SelectItem key={campus.$id} value={campus.$id}>
+              {campus.name}, <span className='text-sm font-medium text-right'>{campus.location}</span>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <FormDescription>
+        Choose the campus for the course.
+      </FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
         
         {/* Program */}
 
-
+        <FormField
+  control={form.control}
+  name="programId"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel className="block">Program</FormLabel>
+      <Popover >
+        <PopoverTrigger asChild>
+          <FormControl>
+            <Button
+              variant="outline"
+              role="combobox"
+              className={cn(
+                "w-full justify-between",
+                !field.value && "text-muted-foreground"
+              )}
+            >
+              {field.value
+                ? programs.find((program) => program.$id === field.value)?.name
+                : "Select a program"}
+              <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          </FormControl>
+        </PopoverTrigger>
+        <PopoverContent className="!w-full p-2">
+          <Command>
+            <CommandInput
+              placeholder="Search program..."
+              className="h-9"
+            />
+            <CommandEmpty>No program found.</CommandEmpty>
+            <CommandGroup>
+              {programs.map((program) => (
+                <CommandItem
+                  value={program.name}
+                  key={program.$id}
+                  onSelect={() => {
+                    form.setValue("programId", program.$id);
+                  }}
+                >
+                  {program.name}
+                  <CheckIcon
+                    className={cn(
+                      "ml-auto h-4 w-4",
+                      program.$id === field.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </Command>
+        </PopoverContent>
+      </Popover>
+      <FormDescription>
+        Choose the program for the course.
+      </FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
 {/* Level */}
 
@@ -159,16 +314,16 @@ export default function AddCourse() {
   render={({ field }) => (
     <FormItem>
       <FormLabel>Year</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <Select onValueChange={field.onChange}  defaultValue={field.value}>
         <FormControl>
           <SelectTrigger>
             <SelectValue placeholder="Select an academic year" />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
-          {Levels.map((yearOption) => (
-            <SelectItem key={yearOption.id} value={yearOption.id}>
-              {yearOption.label}
+          {Levels.map((level) => (
+            <SelectItem key={level.id} value={level.id.charAt(0).toUpperCase() + level.id.slice(1)}>
+              {level.label}
             </SelectItem>
           ))}
         </SelectContent>
@@ -186,20 +341,20 @@ export default function AddCourse() {
 
         <FormField
   control={form.control}
-  name="year"
+  name="credit"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>Year</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <FormLabel>Credit Hour</FormLabel>
+      <Select onValueChange={field.onChange}  defaultValue={field.value}>
         <FormControl>
           <SelectTrigger>
-            <SelectValue placeholder="Select an academic year" />
+            <SelectValue placeholder="Select a credit hour " />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
           {creditHours.map((creditHour) => (
             <SelectItem key={creditHour.id} value={creditHour.id}>
-              {creditHour.label}
+              {creditHour.label} hour
             </SelectItem>
           ))}
         </SelectContent>
@@ -219,7 +374,7 @@ export default function AddCourse() {
   render={({ field }) => (
     <FormItem>
       <FormLabel>Semester</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <Select onValueChange={field.onChange}  defaultValue={field.value}>
         <FormControl>
           <SelectTrigger>
             <SelectValue placeholder="Select a semester" />
@@ -240,8 +395,10 @@ export default function AddCourse() {
     </FormItem>
   )}
 />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" >Submit</Button>
       </form>
+     </CardContent>
+      </Card>
     </Form>
   );
 }

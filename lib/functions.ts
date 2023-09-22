@@ -104,7 +104,7 @@ export const createCourse = async (courseData: CourseData) => {
 			courseData
 		);
 
-		successMessage("Course created! 🎉");
+		successMessage("Course was created successfully 🎉");
 		return data;
 	} catch (error) {
 		errorMessage("Error creating course");
