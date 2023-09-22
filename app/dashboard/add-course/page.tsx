@@ -401,3 +401,14 @@ export default function AddCourse() {
     </Form>
   );
 }
+// export const getStaticProps = async () => {
+//   const programs = await fetchPrograms(); // Fetch programs data
+//   const campuses = await fetchCampuses(); // Fetch campuses data
+
+//   return {
+//     props: {
+//       programs,
+//       campuses,
+//     },
+//   };
+// };

@@ -205,6 +205,7 @@ interface Course {
 	year: string;
 	user_id: string;
 	$createdAt: string;
+	campusId?: string;
   }
   interface CourseCardProps {
 	course: Course;
