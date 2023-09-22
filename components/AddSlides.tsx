@@ -109,7 +109,7 @@ export default function AddSlides() {
       toast.error(errorMessage);
       return;
     }
-    let uploadCounter = 0; // Add this line
+    let uploadCounter = 0; 
     const toastId = toast.loading("Uploading files..."); // Show a loading toast
   
   
@@ -191,10 +191,12 @@ export default function AddSlides() {
         toast.error("Upload failed. Please try again later.");
       }
     }
-      // Update the loading toast to a success toast when all files have been uploaded
+// Update the loading toast to a success toast when all files have been uploaded      
   if (uploadCounter === currentFiles.length) {
     toast.success("All files have been uploaded successfully!", { id: toastId });
   }
+
+
     // Clear the array of files, reset programId, courseId and progress after all uploads
     setCurrentFiles([]);
     setProgramId("");

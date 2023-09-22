@@ -19,7 +19,7 @@ interface ProgramData {
 interface CampusData {
 	name: string;
 	location: string;
-	image: string;
+	image?: string;
 }
 
 interface Image {
@@ -34,6 +34,7 @@ interface SlidesData {
 	fileType: string;
 	previewUrl: URL;
 	user_id: string | undefined;
+
 }
 
 interface BooksData {
