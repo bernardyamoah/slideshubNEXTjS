@@ -99,7 +99,7 @@ export default function AddCourse() {
         semester: '',
         lecturer: '',
         campusName:'',
-        user_id: user.name, 
+        user_id: user?.name, 
       },
     });
   
@@ -111,7 +111,6 @@ export default function AddCourse() {
   formData.user_id = user.name;
 
     await createCourse(formData);
-    successMessage('Course was created successfully');
     reset();
  
   }
