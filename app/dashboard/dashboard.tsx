@@ -16,17 +16,22 @@ import LoadingScreen from "./components/LoadingScreen";
 import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
 import { useRouter } from "next/navigation";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { TabsTriggerProps } from "@radix-ui/react-tabs";
+import Loading from "@/components/ui/Cloading";
 
 
+interface DashboardProps {
+  tabTriggers: {
+    value: string;
+    className: string;
+    label: string;
+    disabled?: boolean;
+  }[];
+}
 
-const tabTriggers = [
-  { value: 'slides', className: 'relative', label: 'Slides' },
-  { value: 'books', className: 'relative', label: 'Books' },
-  { value: 'programs', className: 'relative', label: 'Programs', disabled: true },
-  { value: 'courses', className: 'relative', label: 'All Courses' },
-];
-
-export default function Dashboard() {
+export default function Dashboard({ tabTriggers }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slides');
@@ -40,20 +45,20 @@ export default function Dashboard() {
     }
 
     verifyUser();
-  }, [checkUserMembership,setUser]); // Add checkUserMembership as a dependency
+  }, [user, setUser]); // Add checkUserMembership as a dependency
 
 
-  if (loading) return <LoadingScreen />;
+  if (loading) return <Loading />;
   const handleAddButtonClick = () => {
-    let route = '/dashboard/';
+    let route = '/dashboard';
 
-    if (activeTab === 'slides') {
+    if (activeTab === 'slide') {
       route = route + '/add-slide';
-    } else if (activeTab === 'books') {
+    } else if (activeTab === 'book') {
       route = route +'/add-book';
-    } else if (activeTab === 'programs') {
+    } else if (activeTab === 'program') {
       route = route +'/add-program';
-    } else if (activeTab === 'courses') {
+    } else if (activeTab === 'course') {
       route = route +'/add-course';
     }
 
@@ -63,65 +68,41 @@ export default function Dashboard() {
   return (
     <>
     
-      <header className=" lg:flex items-center justify-cener bg-background w-full bg-pattern">
-        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
-        <div className="space-y-2 bg-pattern" >
-              <h1
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
-              >
-                                Discover Our Unique Features
-              </h1>
-              <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
-                                Our features are designed to enhance your productivity and streamline your workflow.
-              </p>
-            </div>
-        </div>
-      </header>
+      
       <div className="col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
-          <Tabs defaultValue="slides" className="h-full space-y-6">
+          <Tabs defaultValue="slide" className="h-full space-y-6">
             <div className="space-between flex items-center">
               {/* Tab Triggers */}
               <TabsList>
-                {/* <TabsTrigger  value="slides" className="relative" >
-                  Slides
-                </TabsTrigger>
-                <TabsTrigger  value="books" className="relative">
-               Books
-                </TabsTrigger>
-                {userInTeam ? (
-                  <>
-                   <TabsTrigger value="programs" disabled>
-                   Programs
-                 </TabsTrigger>
-                 <TabsTrigger value="courses">
-                    All Courses
-                  </TabsTrigger>
-                  </>
-                 
-                  )
-                  : null} */}
-                    {tabTriggers.map((tabTrigger) => (
-    <TabsTrigger
-      key={tabTrigger.value} onClick={() => setActiveTab(tabTrigger.value)}
-      value={tabTrigger.value}
-      className={tabTrigger.className}
-      disabled={tabTrigger.disabled}
-    >
-      {tabTrigger.label}
-    </TabsTrigger>
-  ))}
+          
+                   {tabTriggers.map((tabTrigger:any) => {
+    if ((tabTrigger.value === 'program' || tabTrigger.value === 'course')  && !userInTeam) {
+      return null; // Skip rendering the "Programs" tab if userInTeam is false
+    }
+    return (
+      <TabsTrigger
+        key={tabTrigger.value}
+        onClick={() => setActiveTab(tabTrigger.value)}
+        value={tabTrigger.value}
+        className={tabTrigger.className}
+        disabled={tabTrigger.disabled}
+      >
+        {tabTrigger.label}
+      </TabsTrigger>
+    );
+  })}
               </TabsList>
-              <div className="ml-auto mr-4 hidden lg:block">
+              <div className="ml-auto mr-4 hidden lg:block ">
                 <Button onClick={handleAddButtonClick}>
                   <PlusCircledIcon className="mr-2 h-4 w-4" />
-                  {activeTab === 'slides'
+                  {activeTab === 'slide'
             ? 'Add Slide'
-            : activeTab === 'books'
+            : activeTab === 'book'
             ? 'Add Book'
-            : activeTab === 'programs'
+            : activeTab === 'program'
             ? 'Add Program'
-            : activeTab === 'courses'
+            : activeTab === 'course'
             ? 'Add Course'
             : ''}
                 </Button>
@@ -129,7 +110,7 @@ export default function Dashboard() {
             </div>
             {/* Slides content */}
             <TabsContent
-              value="slides"
+              value="slide"
               className="border-none p-0 outline-none"
             >
               <div className="flex items-center justify-between">
@@ -145,7 +126,7 @@ export default function Dashboard() {
               <Separator className="my-4" />
               <div className="relative">
                
-                  <Suspense fallback={<LoadingScreen />}>
+                  <Suspense fallback={<Loading/>}>
                   {user ?(
                    <Slides user={user} key={user.$id}/>
                   ):
@@ -168,7 +149,7 @@ export default function Dashboard() {
             </TabsContent>
             {/* Books */}
             <TabsContent
-              value="books"
+              value="book"
               className="h-full flex-col border-none p-0 data-[state=active]:flex"
             >
               <div className="flex items-center justify-between">
@@ -187,7 +168,7 @@ export default function Dashboard() {
             {/* All Courses */}
             {userInTeam ? (
               <TabsContent
-                value="courses"
+                value="course"
                 className="h-full flex-col border-none p-0 data-[state=active]:flex"
               >
                 <div className="flex items-center justify-between">
@@ -213,6 +194,24 @@ export default function Dashboard() {
             }
           </Tabs>
         </div>
+        
+        <DropdownMenu>
+  <DropdownMenuTrigger className="fixed bottom-4 right-4 lg:hidden">
+    <Button
+      className="rounded-full p-0 w-10 h-10 bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600"
+    >
+      <PlusCircledIcon className="h-5 w-5" />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="relative right-5">
+  {tabTriggers.map((trigger:any, index:any) => (
+     <DropdownMenuItem key={index} onClick={() => router.push(`dashboard/add-${trigger.value}  `)}>
+    
+       Add {trigger.label}
+      </DropdownMenuItem>
+    ))}
+  </DropdownMenuContent>
+</DropdownMenu>
       </div>
     </>
   );

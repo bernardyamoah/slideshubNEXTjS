@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "@/components/breadcrumbs";
+import BackButtonNavigation from "@/components/ui/back";
 
 
 export const metadata = {
@@ -52,7 +53,7 @@ export default function RootLayout({
 				<ThemeProvider attribute="class" defaultTheme="dark">
 					
 					<Navbar />
-					
+					<BackButtonNavigation />
 					<div>
 
 						{children}

@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { SidebarNav } from "./components/sidebar-nav";
 
 
-import {  PlusCircle } from "lucide-react";
+
 import { User } from "lucide-react";
 
 import { MyContextProvider } from '../../components/MyContext'
@@ -18,11 +18,7 @@ const metadata: Metadata = {
 const sidebarNavItems = [
 
 
-  {
-    title: "Create",
-    href: "/dashboard/create",
-    icon: <PlusCircle />,
-  },
+ 
   {
     title: "Profile",
     href: "/dashboard/profile",
@@ -50,8 +46,8 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
               <SidebarNav items={sidebarNavItems} />
             </aside>
             <div className="flex-1 w-full h-full mx-auto max-w-screen-3xl lg:p-2">
-            <Breadcrumbs />
-              <div className="rounded-md dark:bg-inherit dark:border-none lg:p-5">{children}</div>
+            {/* <Breadcrumbs /> */}
+              <div className="relative min-h-screen dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 
             </div>
           </div>

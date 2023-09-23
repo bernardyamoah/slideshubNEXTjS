@@ -1,9 +1,10 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import CoursesCard from './allCourses';
 import PaginationComponent from './PaginationComponent';
 import { getAllCourses,  getTotalCourses } from '@/lib/functions';
 import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
+import Loading from './ui/Cloading';
 
 
 
@@ -53,16 +54,16 @@ const Courses = () => {
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
-
+  const memoizedCourses = useMemo(() => courses, [courses]);
   return (
     <>
-    {loading && <LoadingScreen />}
+    {loading && <Loading />}
     <aside className= 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  grid mx-auto py-6 gap-8 auto-rows-auto '>
       {courses.map((course) => (
        <CoursesCard key={course.$id} course={course} courses={courses} setCourses={setCourses}/>
       ))}
       </aside>
-      {courses.length > 0 && (
+      {memoizedCourses.length > 0 && (
                   <PaginationComponent
                     pageCount={totalPages}
                     activePage={currentPage}

@@ -1,16 +1,17 @@
 'use client'
-import { formatTime } from '@/lib/functions';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { formatTime, formatUserTime } from '@/lib/functions';
+import { Card, CardTitle } from './ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/components/preset-actions';
 
 
-import {  useCallback, useEffect, useState } from 'react';
+import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
 import NoEvent from './NoEvent';
 import PaginationComponent from './PaginationComponent';
-import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
-import Link from 'next/link';
+
+
+import Loading from './ui/Cloading';
 
 interface UserProps {
  user: {
@@ -24,14 +25,16 @@ export default function Slides ({user}:UserProps){
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading,setLoading]=useState(false)
-  useEffect(() => {
-    async function fetchSlides() {
-       await getUserSlides(user.$id,currentPage,setTotalPages,setSlides,setLoading);
-      
-    }
+  const memoizedFetchSlides = useMemo(async () => {
+    await getUserSlides(user.$id, currentPage, setTotalPages, setSlides, setLoading);
+  }, [user.$id, currentPage]);
   
-    fetchSlides();
-  }, [user.$id,currentPage]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await memoizedFetchSlides;
+    };
+    fetchData();
+  }, [memoizedFetchSlides]);
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
@@ -48,41 +51,50 @@ export default function Slides ({user}:UserProps){
 
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
-{loading && <LoadingScreen />}
+{loading && <Loading />}
 {!loading && slides.length === 0 && <NoEvent />}
 {slides.map((slide) => (
-    <Card key={slide.$id} className='relative'>
-      <CardHeader className="flex flex-row items-start justify-center px-4 pb-2 space-y-0">
-        <CardTitle className="leading-2 tracking-wider capitalize text-sm sm:max-w-[90%]">
-          {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
-        </CardTitle>
-        <div className="flex justify-end flex-1 gap-1 text-xs text-gray-500 dark:text-gray-500/90">
+ 
+    <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">
+    <div className="pointer-events-none">
+      <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
+      <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
+      <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
+    </div>
+    <div 
+         
+    
+    >
+    
+      <article className="p-4 md:p-8">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+            <time dateTime={slide.$createdAt}>{formatTime(slide.$createdAt)}
+            
+            </time>
+          </span>
+          <span className="flex items-center gap-1 text-xs text-zinc-500">
           <PresetActions name={slide.name} id={slide.$id} slides={slides} setSlides={setSlides} />
+          </span>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className='flex flex-col mb-4'>
-          <span className='text-xs text-muted-foreground'>{formatTime(slide.$createdAt)}</span>
-          <span className='text-xs text-muted-foreground'>Posted by{' '}
-          <Link href={'/dashboard/profile'}>
-          {user.name}
-          </Link>
-           </span>
-        </div>
-        <div className="absolute bottom-0 flex items-center gap-1 p-2 text-xs rounded-sm text-gray-400/90 right-6 dark:text-gray-500/90">
-          <aside className='flex justify-between gap-3'>
-            <div className="flex gap-1 text-xs text-muted-foreground">
-              <FolderOpen className='w-4 h-4 text-muted-foreground' />  {slide.size}
-            </div>
-            <div className='flex gap-1 text-xs text-muted-foreground'>
-              <ShieldCheck className='w-4 h-4 text-muted-foreground' />
+        <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+        {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
+        </CardTitle>
+        <div className="z-20 flex gap-4 mt-2">
+          <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
+          <FolderOpen className='w-4 h-4 text-muted-foreground' />  {slide.size}
+            </span>
+            <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
+            <ShieldCheck className='w-4 h-4 text-muted-foreground' />
               <span className='text-xs text-muted-background'>{slide.fileType}</span>
-            </div>
-          </aside>
-        </div>
-      </CardContent>
-    </Card>
-        
+              
+            </span>
+          </div>
+   
+      
+      </article>
+    </div>
+    </Card>   
         ))}
 </aside>
   {slides.length > 0 && (
