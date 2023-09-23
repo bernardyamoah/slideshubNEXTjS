@@ -15,12 +15,21 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import LoadingScreen from "./components/LoadingScreen";
 import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
+import { useRouter } from "next/navigation";
 
+
+
+const tabTriggers = [
+  { value: 'slides', className: 'relative', label: 'Slides' },
+  { value: 'books', className: 'relative', label: 'Books' },
+  { value: 'programs', className: 'relative', label: 'Programs', disabled: true },
+  { value: 'courses', className: 'relative', label: 'All Courses' },
+];
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  
- 
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('slides');
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
 
   useEffect(() => {
@@ -35,7 +44,21 @@ export default function Dashboard() {
 
 
   if (loading) return <LoadingScreen />;
-  
+  const handleAddButtonClick = () => {
+    let route = '/dashboard/';
+
+    if (activeTab === 'slides') {
+      route = route + '/add-slide';
+    } else if (activeTab === 'books') {
+      route = route +'/add-book';
+    } else if (activeTab === 'programs') {
+      route = route +'/add-program';
+    } else if (activeTab === 'courses') {
+      route = route +'/add-course';
+    }
+
+    router.push(route);
+  };
 
   return (
     <>
@@ -60,7 +83,7 @@ export default function Dashboard() {
             <div className="space-between flex items-center">
               {/* Tab Triggers */}
               <TabsList>
-                <TabsTrigger  value="slides" className="relative">
+                {/* <TabsTrigger  value="slides" className="relative" >
                   Slides
                 </TabsTrigger>
                 <TabsTrigger  value="books" className="relative">
@@ -77,12 +100,30 @@ export default function Dashboard() {
                   </>
                  
                   )
-                  : null}
+                  : null} */}
+                    {tabTriggers.map((tabTrigger) => (
+    <TabsTrigger
+      key={tabTrigger.value} onClick={() => setActiveTab(tabTrigger.value)}
+      value={tabTrigger.value}
+      className={tabTrigger.className}
+      disabled={tabTrigger.disabled}
+    >
+      {tabTrigger.label}
+    </TabsTrigger>
+  ))}
               </TabsList>
               <div className="ml-auto mr-4 hidden lg:block">
-                <Button>
+                <Button onClick={handleAddButtonClick}>
                   <PlusCircledIcon className="mr-2 h-4 w-4" />
-                  Add Slide
+                  {activeTab === 'slides'
+            ? 'Add Slide'
+            : activeTab === 'books'
+            ? 'Add Book'
+            : activeTab === 'programs'
+            ? 'Add Program'
+            : activeTab === 'courses'
+            ? 'Add Course'
+            : ''}
                 </Button>
               </div>
             </div>
