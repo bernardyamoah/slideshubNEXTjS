@@ -40,7 +40,7 @@ export default function Dashboard() {
   return (
     <>
     
-      <header className="lg:h-96 lg:flex items-center justify-cener bg-background w-full bg-pattern">
+      <header className=" lg:flex items-center justify-cener bg-background w-full bg-pattern">
         <div className="max-w-screen-xl px-4   py-8 mx-auto ">
         <div className="space-y-2 bg-pattern" >
               <h1

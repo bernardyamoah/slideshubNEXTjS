@@ -1116,3 +1116,29 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		throw error;
 	}
 };
+const generateBreadcrumbs = () => {
+	// Get the current page or route
+	const currentPage = 'Home' // Replace with your logic to get the current page
+  
+	// Define the breadcrumb items based on the current page
+	let breadcrumbs: { label: string; url: string; }[] = [];
+  
+	if (currentPage === "Home") {
+	  breadcrumbs = [
+		{ label: "Home", url: "/" },
+	  ];
+	} else if (currentPage === "Products") {
+	  breadcrumbs = [
+		{ label: "Home", url: "/" },
+		{ label: "Products", url: "/products" },
+	  ];
+	} else if (currentPage === "Product Details") {
+	  breadcrumbs = [
+		{ label: "Home", url: "/" },
+		{ label: "Products", url: "/products" },
+		{ label: "Product Details", url: "/products/:id" },
+	  ];
+	}
+  
+	return breadcrumbs;
+  };

@@ -6,11 +6,14 @@ import Link from "next/link";
 import { Calendar, Clock2 } from "lucide-react";
 import { Card, CardTitle } from "./ui/card";
 
+
+
 export default function CourseCard({ course }: CourseCardProps) {
   let {
     name,
     courseCode,
     credit,
+    
     campusId,
     programId,
    user_id,

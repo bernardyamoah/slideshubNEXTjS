@@ -8,6 +8,7 @@ import {  PlusCircle } from "lucide-react";
 import { User } from "lucide-react";
 
 import { MyContextProvider } from '../../components/MyContext'
+import Breadcrumbs from "@/components/breadcrumbs";
 
 const metadata: Metadata = {
   title: "Slideshub | Dashboard",
@@ -41,14 +42,15 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     <>
       <MyContextProvider>
     
-  
-        <div className=" lg:block pattern  ">
+   
+        <div className=" lg:block pattern">
           <div className=" relative flex  !h-full ">
+            
             <aside className="hidden xl:flex w-[13rem]  h-screen fixed ">
               <SidebarNav items={sidebarNavItems} />
             </aside>
             <div className="flex-1 w-full h-full mx-auto max-w-screen-3xl lg:p-2">
-
+            <Breadcrumbs />
               <div className="rounded-md dark:bg-inherit dark:border-none lg:p-5">{children}</div>
 
             </div>

@@ -11,23 +11,15 @@ import ProgramCard from '@/components/ProgramCard';
 import { Separator } from '@/components/ui/separator';
 import Loading from '@/components/ui/Cloading';
 
-// interface Program {
-//   $id: string;
-//   campusId: string;
-//   image: string;
-//   name: string;
-//   description: string;
-//   duration: string;
-//   $createdAt: string;
-// }
 
-export const dynamic = 'force-dynamic';
+
 
 export default async function ProgrammeList() {
  
   const searchParams = useSearchParams()
   const query = searchParams?.get('campus');
   const campus= JSON.parse(query);
+  
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,11 +35,11 @@ export default async function ProgrammeList() {
     };
 
     fetchPrograms();
-  }, [campus.$id]); // Only re-run the effect if campus.$id changes
+  }, []); // Only re-run the effect if campus.$id changes
 
   
   const mainClassName = programs.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
-  const pageTitle = `${campus.name},${campus.location} Programs`;
+  const pageTitle = campus ? `${campus.name},${campus.location} Programs` : "Campus";
   const pageDescription = `Browse programs available at ${campus.name},${campus.location} campus.`
   
   if (loading) {
@@ -67,7 +59,7 @@ export default async function ProgrammeList() {
 
 
         
-        <div className=" max-w-2xl mx-auto lg:mx-0 ">
+        <div className="max-w-2xl mx-auto lg:mx-0">
         <h2 className="text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100 sm:text-4xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  {campus.name},{campus.location} 
         </h2>
        <p className="mt-4 text-zinc-400">
@@ -76,7 +68,7 @@ export default async function ProgrammeList() {
       </div>
       <Separator/>
 
-        <section className="relative flex flex-col items-center  pt-20 pb-10 mx-auto">
+        <section className="relative flex flex-col items-center pt-20 pb-10 mx-auto">
           <div>
            
            {programs.length> 0 ? ( // Check the length of filteredPrograms instead of programs

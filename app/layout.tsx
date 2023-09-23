@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "react-hot-toast";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 
 export const metadata = {
@@ -51,6 +52,7 @@ export default function RootLayout({
 				<ThemeProvider attribute="class" defaultTheme="dark">
 					
 					<Navbar />
+					
 					<div>
 
 						{children}

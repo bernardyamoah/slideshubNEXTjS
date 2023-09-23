@@ -46,7 +46,7 @@ const componentData = [
 export default function Page() {
   const [loading, setLoading] = useState(true);
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
-  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
+  
 
   useEffect(() => {
     async function verifyUser() {
@@ -67,7 +67,7 @@ export default function Page() {
         <h1>Create a Slide</h1>
         {/* Add subtext or description here if needed */}
       </div>
-      <aside className="flex flex-wrap justify-center w-full gap-8  pb-10 mx-auto ">
+      <aside className="flex flex-wrap justify-center w-full gap-8 pb-10 mx-auto ">
         {/* Only render the components if the user is in the team */}
         {userInTeam ? (
           componentData.map((data) => {
@@ -89,7 +89,7 @@ export default function Page() {
                       </div>
                     </Card>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="overflow-scroll-y">
                     <Card className="w-full mx-auto border-none">
 
                       <CardTitle className="mb-6">

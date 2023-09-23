@@ -218,3 +218,14 @@ section {
 	-webkit-mask-image: radial-gradient(240px at 323px 43px, white, transparent);
 	mask-image: radial-gradient(240px at 323px 43px, white, transparent);
 }
+.fileUploadBackground {
+	position: absolute;
+	inset: 0;
+	opacity: 10%;
+	pointer-events: none;
+	background-position: center;
+	background-size: cover;
+  }
+  .fileUploadBackground:hover {
+	opacity: 5%;
+  }
