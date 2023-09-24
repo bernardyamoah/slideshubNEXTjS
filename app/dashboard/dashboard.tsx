@@ -34,7 +34,7 @@ interface DashboardProps {
 export default function Dashboard({ tabTriggers }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('slides');
+  const [activeTab, setActiveTab] = useState('slide');
   const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function Dashboard({ tabTriggers }) {
     <>
     
       
-      <div className="col-span-3 lg:col-span-4 lg:border-l">
+      <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
             <div className="space-between flex items-center">
@@ -195,23 +195,26 @@ export default function Dashboard({ tabTriggers }) {
           </Tabs>
         </div>
         
-        <DropdownMenu>
-  <DropdownMenuTrigger className="fixed bottom-4 right-4 lg:hidden">
+     <div>
+         <DropdownMenu >
+  <DropdownMenuTrigger className="fixed bottom-8 right-10 lg:hidden">
     <Button
-      className="rounded-full p-0 w-10 h-10 bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600"
+      className="rounded-full p-2 w-10 h-10 "
     >
-      <PlusCircledIcon className="h-5 w-5" />
+      <PlusCircledIcon className="h-8 w-8" />
     </Button>
   </DropdownMenuTrigger>
-  <DropdownMenuContent className="relative right-5">
+  <DropdownMenuContent className=" right-10">
   {tabTriggers.map((trigger:any, index:any) => (
-     <DropdownMenuItem key={index} onClick={() => router.push(`dashboard/add-${trigger.value}  `)}>
+     <DropdownMenuItem key={index}  onClick={() => router.push(`dashboard/add-${trigger.value}  `)}>
     
        Add {trigger.label}
       </DropdownMenuItem>
     ))}
   </DropdownMenuContent>
 </DropdownMenu>
+     </div>
+      
       </div>
     </>
   );

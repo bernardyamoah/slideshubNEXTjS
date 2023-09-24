@@ -46,7 +46,7 @@ export default function Navbar() {
             ...(showDashboard
               ? [
                   { name: "Dashboard", link: "/dashboard", icon: <LayoutDashboard /> },
-                  { name: "Create", link: "/dashboard/create", icon: <PlusCircle /> },
+                 
                 ]
               : []),
             { name: "Campus", link: "/campus", icon: <School /> },
