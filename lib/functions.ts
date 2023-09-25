@@ -596,28 +596,48 @@ export const logOut = async (router: any) => {
 	}
 };
 
-export const getCurrentUser = async () => {
+// export const getCurrentUser = async () => {
+// 	try {
+// 		const UserId = await account.get();
+// 		return UserId;
+// 	} catch (error) {}
+// };
+export const getCurrentUser = async (): Promise<string | null> => {
 	try {
-		const UserId = await account.get();
-		return UserId;
-	} catch (error) {}
-};
+	  const request = await account.get();
+	  return request.$id;
+	} catch (error) {
+	  console.error("Error fetching user ID:", error);
+	  return null;
+	}
+  };
 
-export const getCurrentUserAndSetUser =
-	async (): Promise<UserWithId | null> => {
-		try {
-			const userdata = await getCurrentUser(); // Call the getCurrentUser function
-			const userWithId: UserWithId | null = userdata
-				? { ...userdata, id: userdata.$id }
-				: null;
+// export const getCurrentUserAndSetUser =
+// 	async (): Promise<UserWithId | null> => {
+// 		try {
+// 			const userdata = await getCurrentUser(); // Call the getCurrentUser function
+// 			const userWithId: UserWithId | null = userdata
+// 				? { ...userdata, id: userdata.$id }
+// 				: null;
 
-			return userWithId;
-		} catch (error) {
-			// Handle the error
-			return null;
-		}
-	};
-
+// 			return userWithId;
+// 		} catch (error) {
+// 			// Handle the error
+// 			return null;
+// 		}
+// 	};
+export const getCurrentUserAndSetUser = async (): Promise<UserWithId | null> => {
+	try {
+	  const user = await account.get();
+	  
+	  const userWithId: UserWithId | null = user ? { id: user.$id, email: user.email, name: user.name,prefs:user.prefs } : null;
+	 
+	  return user;
+	} catch (error) {
+	  console.error("Error fetching user:", error);
+	  return null;
+	}
+  };
 // Check authentication status function
 export const checkAuthStatus = async (
 	setUser: (user: any) => void,

@@ -1,39 +1,35 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { getCurrentUserAndSetUser } from "@/lib/functions";
+
 import { ModeToggle } from "./ModeToggle";
 import Logo from "./Logo";
 import MobileNav from "@/app/(clients)/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 import { BookCopy, Home, LayoutDashboard, School } from "lucide-react";
-import { UserNav } from "./userProfile";
+
 
 import { usePathname, useRouter } from "next/navigation"
 
 import Link from "next/link";
+import { useMyContext } from "./MyContext";
+import { UserProfile } from "./userProfile";
 
 
 export default function Navbar() {
+  const {user}=useMyContext();
   const pathname = usePathname();
-  const [user, setUser] = useState<UserWithId | null>(null);
+  
   const [showDashboard, setShowDashboard] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const request = await getCurrentUserAndSetUser();
-        setUser(request);
-        setShowDashboard(request !== null);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        // Handle error gracefully, e.g., display a message to the user.
-      }
-    };
-
-    fetchUser();
+    if (user) {
+      
+      setShowDashboard(user ? true : false);
+    }
   }, [user]);
+
 
   return (
     <nav className="sticky top-0 z-20 nav-bar bg-currents">
@@ -71,8 +67,8 @@ export default function Navbar() {
         <div className="flex space-x-4">
           <ModeToggle />
 
-          {showDashboard ? (
-            <UserNav user={user} />
+          {user ? (
+            <UserProfile  />
           ) : (
             <Button className="text-lg font-medium" onClick={() => router.push("/login")}>
               Login

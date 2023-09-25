@@ -16,7 +16,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { getCurrentUser, logOut } from "@/lib/functions";
+import { logOut } from "@/lib/functions";
 
 import { useRouter } from 'next/navigation';
 
@@ -24,17 +24,19 @@ import Link from "next/link";
 ;
 import { getUserInitials } from "@/lib/functions";
 import { useEffect, useState } from "react";
-export const UserNav: React.FC<UserNavProps> = ({ user }) => {
+import { useMyContext } from "./MyContext";
+export const UserProfile= () => {
+  const {user}=useMyContext();
   const firstName = user?.name?.split(' ')[0] || '';
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   useEffect(() => {
     async function fetchAvatarUrl() {
       try {
-        const currentUser = await getCurrentUser();
-        if (currentUser) {
-          const result = currentUser.prefs.profileImage;
+       
+        if (user) {
+          const result = user.prefs?.profileImage;
 
-          const initials = await getUserInitials(currentUser.name);
+          const initials = await getUserInitials(user.name);
           if (result === '') {
             setAvatarUrl(initials);
           }

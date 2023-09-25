@@ -75,6 +75,8 @@ const [userInTeam, setUserInTeam] = useState(false);
         setCampuses(campusList);
 
         const userId = await getCurrentUserAndSetUser();
+        console.log("🚀 ~ file: MyContext.tsx:78 ~ fetchData ~ userId:", userId)
+      
         setUser(userId);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -83,6 +85,17 @@ const [userInTeam, setUserInTeam] = useState(false);
 
     fetchData();
   }, [campusId, programId]); // Added campusId and programId as dependencies
+  // const checkUserMembership = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const isUserInTeam = await checkUserInTeam();
+  //     console.log("Is user in team:", isUserInTeam);
+  //     setUserInTeam(isUserInTeam);
+  //   } catch (error) {
+  //     console.error("Error checking team membership:", error);
+  //     setUserInTeam(false);
+  //   }
+   
+  // }, []);
   const checkUserMembership = useCallback(async (): Promise<void> => {
     try {
       const isUserInTeam = await checkUserInTeam();
@@ -92,8 +105,14 @@ const [userInTeam, setUserInTeam] = useState(false);
       console.error("Error checking team membership:", error);
       setUserInTeam(false);
     }
-   
   }, []);
+  
+  useEffect(() => {
+    checkUserMembership();
+  }, []);
+
+
+
   // Memoized functions
   const handleProgramChange = useMemo(
     () => async (selectedValue: string) => {

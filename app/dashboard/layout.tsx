@@ -7,8 +7,6 @@ import { SidebarNav } from "./components/sidebar-nav";
 
 import { User } from "lucide-react";
 
-import { MyContextProvider } from '../../components/MyContext'
-import Breadcrumbs from "@/components/breadcrumbs";
 
 const metadata: Metadata = {
   title: "Slideshub | Dashboard",
@@ -34,9 +32,9 @@ interface DashboardLayoutProps {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
 
+
   return (
     <>
-      <MyContextProvider>
     
    
         <div className=" lg:block pattern">
@@ -52,7 +50,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
           </div>
         </div>
-      </MyContextProvider>
+   
     </>
   );
 }

@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "@/components/breadcrumbs";
 import BackButtonNavigation from "@/components/ui/back";
+import { MyContextProvider } from "@/components/MyContext";
 
 
 export const metadata = {
@@ -48,9 +49,10 @@ export default function RootLayout({
 
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body >
 				{/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
 				<ThemeProvider attribute="class" defaultTheme="dark">
+			  <MyContextProvider>
+			<body >
 					
 					<Navbar />
 					<BackButtonNavigation />
@@ -61,9 +63,9 @@ export default function RootLayout({
 
 					</div>
 					<Analytics />
-				</ThemeProvider>
-
 			</body>
+				</MyContextProvider>
+				</ThemeProvider>
 		</html>
 	);
 }

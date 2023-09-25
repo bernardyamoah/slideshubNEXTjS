@@ -12,14 +12,14 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import LoadingScreen from "./components/LoadingScreen";
 import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
 import { useRouter } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { TabsTriggerProps } from "@radix-ui/react-tabs";
+
 import Loading from "@/components/ui/Cloading";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 
 interface DashboardProps {
@@ -33,22 +33,21 @@ interface DashboardProps {
 
 export default function Dashboard({ tabTriggers }) {
   const [loading, setLoading] = useState(true);
+    // setShowDashboard(user.role === "admin" || user.role === "super_Admin");
+
+
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
-  const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
-
+  const {userInTeam,user } = useMyContext(); 
+ 
   useEffect(() => {
-    async function verifyUser() {
-      // Fetch user data and slides
-      checkAuthStatusDashboard(setUser, setLoading);
-      await checkUserMembership(); // Call checkUserMembership
-    }
-
-    verifyUser();
-  }, [user, setUser]); // Add checkUserMembership as a dependency
-
-
-  if (loading) return <Loading />;
+    setLoading(true);
+    // Simulating an asynchronous user data fetch
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+  // if (loading) return <Loading />;
   const handleAddButtonClick = () => {
     let route = '/dashboard';
 
@@ -66,9 +65,11 @@ export default function Dashboard({ tabTriggers }) {
   };
 
   return (
-    <>
-    
-      
+   <>
+      {loading ? (
+      <LoadingSkeleton/>
+      ) : (
+      <>
       <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
@@ -216,6 +217,9 @@ export default function Dashboard({ tabTriggers }) {
      </div>
       
       </div>
-    </>
-  );
-}
+      </>
+      
+   
+  )}
+  </>
+)}
