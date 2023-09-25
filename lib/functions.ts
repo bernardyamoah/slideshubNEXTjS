@@ -548,11 +548,14 @@ export const signUp = async (
 ) => {
 	try {
 		await account.create(ID.unique(), email, password, name);
+		// await account.createVerification(email);
+		await account.createEmailSession(email, password);
+
 		successMessage("Account created! 🎉");
-		router.push("/login");
+		router.push("/dashboard");
 	} catch (error) {
 		errorMessage("Check your network / User already exists ❌");
-		router.push("/login");
+		router.push("/register");
 	}
 };
 
@@ -566,10 +569,14 @@ export const logIn = async (
 ) => {
 	try {
 		await account.createEmailSession(email, password);
-		setEmail("");
-		setPassword("");
+		
+	
+		
 		successMessage("Welcome back! 🎉");
 		router.push("/dashboard");
+
+	
+	
 	} catch (error) {
 		errorMessage("Invalid credentials ❌");
 	}

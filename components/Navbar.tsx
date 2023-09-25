@@ -8,7 +8,7 @@ import MobileNav from "@/app/(clients)/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 import { BookCopy, Home, LayoutDashboard, School } from "lucide-react";
 import { UserNav } from "./userProfile";
-import { PlusCircle } from "lucide-react";
+
 import { usePathname, useRouter } from "next/navigation"
 
 import Link from "next/link";
