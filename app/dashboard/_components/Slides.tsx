@@ -14,7 +14,7 @@ import SlidesLoading from './slidesLoading';
 
 
 interface UserProps {
-  user: User;
+  user: User<any>;
 }
 
 export default function Slides ({user}:UserProps){
