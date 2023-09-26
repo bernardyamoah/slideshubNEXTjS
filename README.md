@@ -98,3 +98,15 @@ Contributions to the project are welcome. Please ensure that you follow the exis
 ## License
 
 SlidesHub is open-source software licensed under the MIT license.
+
+
+Icons:
+- 🔧: Refactor
+- 📝: Update documentation
+- ➕: Add new feature
+- 🐛: Fix bug
+- 🚀: Improve performance
+- ♻️: Code refactoring
+- 🎨: Improve code structure/formatting
+- 📦: Update dependencies
+- 🚧: Work in progress
