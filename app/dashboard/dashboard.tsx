@@ -87,9 +87,10 @@ export default function Dashboard({ tabTriggers }:DashboardProps) {
       return null; // Skip rendering the "Programs" tab if userInTeam is false
     }
     if (
-      userLabel.includes("SuperAdmin") ||
-      userLabel.includes("admin")
-    ) {
+      Array.isArray(userLabel as string[]) &&
+      (userLabel as string[]).includes("SuperAdmin") ||
+      (userLabel as string[]).includes("admin")
+    ){
       // Render all options if user has "super_Admin" or "admin" label
       return (
         <TabsTrigger

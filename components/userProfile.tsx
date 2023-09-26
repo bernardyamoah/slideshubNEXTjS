@@ -34,13 +34,13 @@ export const UserProfile= () => {
       try {
        
         if (user) {
-          const result = user.prefs?.profileImage;
-
-          const initials = await getUserInitials(user.name);
-          if (result === '') {
-            setAvatarUrl(initials);
-          }
-          setAvatarUrl(result);
+          
+          const initials = await getUserInitials(user?.name || '');
+          setAvatarUrl(initials);
+          // if ( === '') {
+          //   setAvatarUrl(initials);
+          // }
+          // setAvatarUrl(user?.);
         }
       } catch (error) {
         console.log(error);

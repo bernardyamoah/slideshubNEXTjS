@@ -6,10 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   bytesToSize,
   createSlide,
-  getCampus,
-  getProgramsByCampusId,
-  getCoursesByProgramId,
-  getCurrentUserAndSetUser,
+  
 } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
@@ -39,12 +36,9 @@ import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
 import FileUpload from "@/components/fileUpload";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardHeader } from "@/components/ui/card";
+
 import { Separator } from "@/components/ui/separator";
 import { useMyContext } from "@/components/MyContext";
-import { revalidatePath } from "next/cache";
-
-
 
 
 function isStepValid(

@@ -14,10 +14,7 @@ import SlidesLoading from './slidesLoading';
 
 
 interface UserProps {
- user: {
-    $id: string;
-    name: string;
-  };
+  user: User;
 }
 
 export default function Slides ({user}:UserProps){
@@ -27,8 +24,8 @@ export default function Slides ({user}:UserProps){
   const [loading,setLoading]=useState(false)
   const memoizedFetchSlides = useMemo(async () => {
     await getUserSlides(user.$id, currentPage, setTotalPages, setSlides, setLoading);
-  }, [user.$id, currentPage]);
-  console.log("🚀 ~ file: Slides.tsx:31 ~ Slides ~ user.$id:", user.$id)
+  }, [ currentPage]);
+  
   
   useEffect(() => {
     const fetchData = async () => {
@@ -110,22 +107,3 @@ export default function Slides ({user}:UserProps){
   )
 } 
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <main className={`mx-auto max-w-5xl grid gap-8  py-6  auto-rows-max ${mainClassName} pattern`}> */}

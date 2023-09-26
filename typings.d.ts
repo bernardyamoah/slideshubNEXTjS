@@ -59,12 +59,7 @@ interface Slides {
 	programme?: string;
 }
 
-interface User {
-	id: string;
-	name?: string;
-	email: string;
 
-}
 
 interface SlidesCardProps {
 	name: string;
@@ -88,26 +83,45 @@ interface ProgramCardProps {
 interface UserSlidesCardProps {
 	name: string;
 	fileUrl: string;
-	user_id: string;
+	
 	timePosted: string;
 	id: string;
 	fileUrl: string;
 	fileType: string;
 	size: string;
 	courseId: string;
-	user_id: string | undefined;
+	user_id?: string | undefined;
 	previewUrl: URL;
 }
 
-interface User {
+type User<T>  ={
 	$id: string;
 	name: string;
 	email: string;
-	labels:[],
+	labels?:string[],
+	prefs: {
+	};
+	status: boolean;
+	registration: string;
+	emailVerification: boolean;
+	
 
-	// Add any other properties specific to the User type
   }
-  
+  interface User extends Preferences {
+	bio: string;
+	avatarUrl: string;
+	coverPhotoUrl: string;
+	phoneNumber: string;
+	country: string;
+	countryFlagEmoji: string;
+	profileImage: string;
+	profileImageId: string;
+  }
+
+
+
+
+ 
   interface UserProps {
 	user: User | null| undefined;
   }
@@ -118,26 +132,17 @@ interface User {
   
  
   
-interface Preferences {
-	theme: string;
-	language: string;
-	// Add any other preferences properties
-}
 
-interface UserWithId {
-	$id: string;
-	name: string;
-labels?:string[],
-  }
-  
+
 interface SlideResponse {
 	slides: Models.Document[];
 	totalCount: number;
 }
 interface UserData {
-	id: string;
+	id?: string;
 	name: string;
 	email: string;
+	labels?:string[],
 	prefs: {
 		bio: string;
 		avatarUrl: string;
@@ -149,7 +154,7 @@ interface UserData {
 		profileImageId: string;
 	};
 	status: boolean;
-	registration: string;
+	registration?: string;
 	emailVerification: boolean;
 }
 
@@ -170,9 +175,9 @@ interface ProfileData {
 		// Pass the countryIcon to the prefs object
 		// Add more prefs properties as needed
 	};
-	status: boolean;
-	registration: string;
-	emailVerification: boolean;
+	status?: boolean;
+	registration?: string;
+	emailVerification?: boolean;
 }
 
 interface Campus {

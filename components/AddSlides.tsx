@@ -36,6 +36,7 @@ import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
 import { Badge } from "./ui/badge";
 import FileUpload from "./fileUpload";
+import { useMyContext } from "./MyContext";
 
 
 function isStepValid(
@@ -60,9 +61,10 @@ function isStepValid(
 
 
 export default function AddSlides() {
+  const {user}=useMyContext();
   const [currentFiles, setCurrentFiles] = useState([]);
   const [courseId, setCourseId] = useState<string>("");
-  const [user, setUser] = useState<UserWithId | null>(null);
+
   const [programId, setProgramId] = useState<string>("");
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses
@@ -78,18 +80,7 @@ export default function AddSlides() {
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const userId = await getCurrentUserAndSetUser();
-        setUser(userId);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
+  
 // Update FileUpload component
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

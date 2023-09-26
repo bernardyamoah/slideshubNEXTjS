@@ -29,25 +29,11 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 export default function AddBook() {
-  const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+; 
 
-  const [open, setOpen] = React.useState(false)
-  const [open1, setOpen1] = React.useState(false)
   const [currentFiles, setCurrentFiles] =useState<File[]>([])
 
   const [bookcategory, setBookCategory] = useState('')
-  const [courses, setCourses] = useState<any[]>([]);
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getCurrentUserAndSetUser();
-      setUser(user); // Set the user data in the state
-    };
-
-    fetchUser();
-  }, []);
-
-
-
   const categories = [
     {
       id: 'Engineering',

@@ -30,6 +30,7 @@ import {
 
 import { toast } from "react-hot-toast";
 import { Badge } from "./ui/badge";
+import { useMyContext } from "./MyContext";
 
 function isStepValid(
   activeStep: number,
@@ -65,7 +66,7 @@ export default function AddCourse() {
   const [programId, setprogramId] = React.useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
-  const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+  const {user}=useMyContext()
 
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -76,9 +77,6 @@ export default function AddCourse() {
     async function fetchPrograms() {
       try {
         const response = await getPrograms();
-        const userId = await getCurrentUserAndSetUser(); // Call the getCurrentUser function
-        setUser(userId);
-
         setPrograms(response);
       } catch (error) {
         console.log("Error fetching programs:", error);

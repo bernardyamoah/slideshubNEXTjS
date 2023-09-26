@@ -1,6 +1,4 @@
-
-
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import {
 	databases,
@@ -12,7 +10,7 @@ import {
 	avatars,
 	teams,
 } from "@/appwrite";
-import { users } from "./AppwiteNodeJs";
+
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -236,7 +234,6 @@ export const createSlide = async (slideData: SlidesData) => {
 	}
 };
 
-// =====================================================================
 
 //===========  FETCH DATA =========================================
 
@@ -360,7 +357,7 @@ export const getSlides = async (): Promise<any[]> => {
 };
 
 export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
-	console.log("🚀 ~ file: functions.ts:367 ~ getSlidesByCourseId ~ courseId:", courseId)
+	
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -598,16 +595,11 @@ export const logOut = async (router: any) => {
 	}
 };
 
-// export const getCurrentUser = async () => {
-// 	try {
-// 		const UserId = await account.get();
-// 		return UserId;
-// 	} catch (error) {}
-// };
+
 export const getCurrentUser = async (): Promise<string | null> => {
 	try {
 	  const request = await account.get();
-	  console.log("🚀 ~ file: functions.ts:608 ~ getCurrentUser ~ request:", request)
+
 	  return request.$id;
 	} catch (error) {
 	  console.error("Error fetching user ID:", error);
@@ -629,14 +621,11 @@ export const getCurrentUser = async (): Promise<string | null> => {
 // 			return null;
 // 		}
 // 	};
-export const getCurrentUserAndSetUser = async (): Promise<UserWithId | null> => {
+export const getCurrentUserAndSetUser = async ()  => {
 	try {
-	  const user = await account.get();
-	  console.log("🚀 ~ file: functions.ts:633 ~ getCurrentUserAndSetUser ~ user:", user)
+	  const response = await account.get();
+	  return response;
 	  
-	  user ? { id: user.$id, email: user.email, name: user.name,prefs:user.prefs, } : null;
-	 
-	  return user;
 	} catch (error) {
 	  console.error("Error fetching user:", error);
 	  return null;
@@ -657,33 +646,6 @@ export const checkAuthStatus = async (
 	}
 };
 
-//👇🏻 Appwrite authenticate and get user's slides
-// export const checkAuthStatusDashboard = async (
-// 	setUser: (user: any) => void,
-// 	setLoading: (loading: boolean) => void,
-// 	setSlides: (slides: any[]) => void,
-// 	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
-// 	setCourses: (courses: Course[]) => void, // Add setCourses function
-	
-// 	page: number // Dynamically set page number
-// ) => {
-// 	try {
-// 		const request = await account.get();
-// 		const userId = request.$id;
-
-// 		const perPage = 12; // Number of slides per page
-
-// 		const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
-
-// 		getUserSlides(userId, page, perPage, setSlides, setLoading);
-// 		const courses = await getCourses();
-// 		setUser(request);
-// 		setCourses(courses); // Set user courses
-// 		setTotalPages(totalPages); // Set the total number of pages
-// 	} catch (err) {
-// 		throw new Error('error')
-// 	}
-// };
 export const checkAuthStatusDashboard = async (
 	setUser: (user: any) => void,
 	setLoading: (loading: boolean) => void,
@@ -739,7 +701,7 @@ export const getUserSlides = async (
 	}
 	try {
 	
-		console.log("🚀 ~ file: functions.ts:740 ~ userId:", userId)
+		
 		setLoading(true);
 		const perPage = 12; 
 		const totalPages = await getTotalPages(userId, perPage);
@@ -832,36 +794,6 @@ export const deleteCourse = async (id: string) => {
 	}
 };
 
-// export const updateSlide = async (id: string, updatedAttributes: any) => {
-//   try {
-//     // Retrieve the document from the Appwrite database
-//     const getDoc = await databases.getDocument(
-//       databaseId!, // Replace with your database ID
-//       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-//       id
-//     );
-
-//     // Check if the retrieved document matches the provided ID
-//     if (getDoc.$id === id) {
-//       // Merge the updated attributes with the existing document attributes
-//       const updatedDoc = { ...getDoc, ...updatedAttributes };
-
-//       // Update the document with the merged attributes
-//       await databases.updateDocument(
-//         databaseId!, // Replace with your database ID
-//         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-//         id,
-//         updatedDoc
-//       );
-//     } else {
-//       throw new Error("Slide document not found");
-//     }
-//   } catch (error) {
-//     // Handle any errors that occur during the update process
-//     console.error('Failed to update slide:', error);
-//     throw error;
-//   }
-// };
 
 export const updateSlide = async (id: string, updatedAttributes: any) => {
 	try {
@@ -982,26 +914,13 @@ export const handleAppleSignIn = async () => {
 	}
 };
 
-export const handleMicrosoftSignIn = async () => {
-	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
 
-		// Go to OAuth provider login page (Microsoft)
-		await account.createOAuth2Session("microsoft", redirectUrl);
-	} catch (error) {
-		errorMessage("Error initiating Microsoft OAuth:" + error);
-	}
-};
 
 // Get Avatars
-// Function to get the user's initials avatar URL
+
 export const getUserInitials = async (name: string) => {
 	try {
-		const result = await avatars.getInitials(name);
+		const result =  avatars.getInitials(name);
 
 		return result.href.toString();
 	} catch (error) {
@@ -1037,57 +956,52 @@ export const checkUserInTeam = async () => {
 		return false;
 	}
 };
-
-export const getUserData = async () => {
+ 
+  export const getUserData = async () => {
 	try {
-		// Get the current user's information
-
-		const response = await account.get();
-
-		const logistics = await account.getSession("current");
-		const { countryName, countryCode, ...userSessionData } = logistics;
-		const country_icon = await avatars.getFlag(countryCode).href.toString();
-
-		// Extract the user data from the response and return it
-		const userData: UserData = {
-			id: response.$id,
-			name: response.name,
-			email: response.email,
-			prefs: {
-				bio: response.prefs?.bio || "",
-				avatarUrl: response.prefs?.avatarUrl || "",
-				coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
-				phoneNumber: response.prefs?.phoneNumber || "",
-				country: countryName || "",
-				countryFlagEmoji: country_icon || "",
-				profileImage: response.prefs?.profileImage || "",
-				profileImageId: response.prefs?.profileImageId || "",
-				// Pass the countryIcon to the prefs object
-			},
-			status: response.status,
-			registration: response.registration,
-			emailVerification: response.emailVerification,
-
-			// Add more fields as needed
-		};
-
-		return userData;
+	  const response = await account.get();
+	  const logistics = await account.getSession("current");
+	  
+	  const { countryName, countryCode, ...userSessionData } = logistics;
+	  const country_icon =  avatars.getFlag(countryCode).href.toString();
+  
+	  // Extract the user data from the response and return it
+	  const userData: UserData = {
+		id: response.$id,
+		name: response.name,
+		email: response.email,
+		
+		prefs: {
+		  bio: response.prefs?.bio || "",
+		  avatarUrl: response.prefs?.avatarUrl || "",
+		  coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
+		  phoneNumber: response.prefs?.phoneNumber || "",
+		  country: countryName || "",
+		  countryFlagEmoji: country_icon || "",
+		  profileImage: response.prefs?.profileImage || "",
+		  profileImageId: response.prefs?.profileImageId || "",
+		  // Pass the countryIcon to the prefs object
+		},
+		status: response.status,
+		registration: response.registration,
+		emailVerification: response.emailVerification,
+  
+		// Add more fields as needed
+	  };
+  
+	  return userData;
 	} catch (error) {
-		// Handle any errors that occurred during the data retrieval
-		console.error("Error fetching user data:", error);
-		throw error;
+	  // Handle any errors that occurred during the data retrieval
+	  console.error("Error fetching user data:", error);
+	  throw error;
 	}
-};
-
+  };
 // Function to update user data
 export const updateUserData = async (updatedUserData: ProfileData) => {
 	try {
 		// Get the current user's information
 		const response = await account.get();
-		console.log(
-			"🚀 ~ file: functions.ts:968 ~ updateUserData ~ response:",
-			response
-		);
+		
 
 		// Merge the updated user data with the existing user data
 		const userData = { ...response, ...updatedUserData };
@@ -1099,10 +1013,7 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		if (prefs) {
 			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
 			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
-			console.log(
-				"🚀 ~ file: functions.ts:960 ~ updateUserData ~ updatedPrefs:",
-				updatedPrefs
-			);
+			
 
 			if (prefs.bio) {
 				// Update the bio
@@ -1149,29 +1060,3 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		throw error;
 	}
 };
-const generateBreadcrumbs = () => {
-	// Get the current page or route
-	const currentPage = 'Home' // Replace with your logic to get the current page
-  
-	// Define the breadcrumb items based on the current page
-	let breadcrumbs: { label: string; url: string; }[] = [];
-  
-	if (currentPage === "Home") {
-	  breadcrumbs = [
-		{ label: "Home", url: "/" },
-	  ];
-	} else if (currentPage === "Products") {
-	  breadcrumbs = [
-		{ label: "Home", url: "/" },
-		{ label: "Products", url: "/products" },
-	  ];
-	} else if (currentPage === "Product Details") {
-	  breadcrumbs = [
-		{ label: "Home", url: "/" },
-		{ label: "Products", url: "/products" },
-		{ label: "Product Details", url: "/products/:id" },
-	  ];
-	}
-  
-	return breadcrumbs;
-  };

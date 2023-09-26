@@ -1,41 +1,56 @@
 'use client'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserData, updateUserData } from "@/lib/functions";
-
+import LoadingScreen from "../_components/LoadingScreen";
+import { useMyContext } from "@/components/MyContext";
 import ProfileView from "./components/ProfileView";
 import ProfileEditor from "./components/ProfileEditor";
 
-import LoadingScreen from "../_components/LoadingScreen";
-
-
-
-
+type ProfileData = {
+  id: string;
+  name: string;
+  email: string;
+  prefs: {
+    bio: string;
+    phoneNumber: string;
+    country: string;
+    profileImage: string;
+    countryFlagEmoji: string;
+    profileImageId: string;
+    avatarUrl: string; // Add avatarUrl property
+    coverPhotoUrl: string; // Add coverPhotoUrl property
+  };
+  status: boolean;
+  emailVerification: boolean;
+  registration: string;
+};
 
 const ModernProfilePage: React.FC = () => {
-  const [userData, setUserData] = useState<ProfileData | null>(null);
+  const { user } = useMyContext();
   const [editing, setEditing] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState<ProfileData | null>(null);
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const userPrefs = await getUserData();
         const profileData: ProfileData = {
-          id: userPrefs.id,
-          name: userPrefs.name,
-          email: userPrefs.email,
-          prefs: {
-            bio: userPrefs.prefs.bio,
-            avatarUrl: userPrefs.prefs.avatarUrl,
-            coverPhotoUrl: userPrefs.prefs.coverPhotoUrl,
-            phoneNumber: userPrefs.prefs.phoneNumber,
-            country: userPrefs.prefs.country,
-            countryFlagEmoji: userPrefs.prefs.countryFlagEmoji,
-            profileImage: userPrefs.prefs.profileImage,
-            profileImageId: userPrefs.prefs.profileImageId,
-          },
-          status: userPrefs.status,
-          registration: userPrefs.registration,
-          emailVerification: userPrefs.emailVerification,
+          id: user?.$id || "",
+  name: user?.name || "",
+  email: user?.email || "",
+  prefs: {
+    bio: user?.prefs.bio || "",
+    phoneNumber: user?.prefs.phoneNumber || "",
+    country: user?.prefs.country || "",
+    profileImage: user?.prefs.profileImage || "",
+    countryFlagEmoji: user?.prefs.countryFlagEmoji || "",
+    profileImageId: user?.prefs.profileImageId || "",
+    avatarUrl: "",
+    coverPhotoUrl: "", 
+  },
+  status: user?.status || false, // Add the 'status' property here
+  registration: user?.registration || '', // Optional: Add default values for other optional properties
+  emailVerification: user?.emailVerification || false,
+          
         };
         setUserData(profileData);
       } catch (error) {
@@ -45,20 +60,17 @@ const ModernProfilePage: React.FC = () => {
 
     fetchData();
   }, []);
+
   const handleOpen = () => {
-    setOpen(true);
     setEditing(true);
   };
-
-  // const handleEditProfile = () => {
-  //   setEditing(true);
-  // };
 
   const handleCancelEdit = () => {
     setEditing(false);
   };
 
   const handleSaveProfile = async (updatedData: ProfileData) => {
+    // Make sure updatedData includes email, status, and emailVerification properties
     try {
       await updateUserData(updatedData);
       setUserData(updatedData);
@@ -70,47 +82,28 @@ const ModernProfilePage: React.FC = () => {
   };
 
   if (!userData) {
-    return <LoadingScreen />
+    return <LoadingScreen />;
   }
 
   return (
     <div className="p-2">
-
       {editing ? (
-        <ProfileEditor
-          id={userData.id}
-          coverImageUrl={userData.prefs.coverPhotoUrl}
-          onSave={handleSaveProfile}
-          onCancel={handleCancelEdit}
-
-          name={userData.name}
-          email={userData.email}
-
-          prefs={userData.prefs}
-          status={userData.status}
-          registration={userData.registration}
-          emailVerification={userData.emailVerification}
-        />
+        <>
+        </>
+        // <ProfileEditor
+        //   userData={userData}
+        //   onSave={handleSaveProfile}
+        //   onCancel={handleCancelEdit}
+         
+        // />
       ) : (
         <ProfileView
-          name={userData.name}
-          email={userData.email}
-          phoneNumber={userData.prefs.phoneNumber}
-          country={userData.prefs.country}
-          bio={userData.prefs.bio}
-          profileImage={userData.prefs.profileImage}
-          verified={userData.emailVerification}
-          registration={userData.registration}
-          coverImageUrl={userData.prefs.coverPhotoUrl}
-          countryFlagEmoji={userData.prefs.countryFlagEmoji}
+         userData={userData}
+  
 
           handleOpen={handleOpen}
-
         />
       )}
-
-
-
     </div>
   );
 };

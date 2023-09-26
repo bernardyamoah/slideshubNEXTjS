@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { ID, storage } from '@/appwrite';
 import { extractIdFromUrl } from '@/lib/functions';
@@ -7,55 +7,38 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-interface ProfileEditorProps {
-  coverImageUrl: string;
-  onSave: (updatedData: UserData) => Promise<void>;
-  onCancel: () => void;
-  id: string;
+interface UserData {
+  id: string; // Ensure that the id property is always a string
   name: string;
-  email: string;
   prefs: {
-    bio: string;
-    avatarUrl: string;
-    coverPhotoUrl: string;
     phoneNumber: string;
-    country: string;
-    countryFlagEmoji: string;
+    bio: string;
     profileImage: string;
     profileImageId: string;
   };
-  status: boolean;
-  registration: string;
-  emailVerification: boolean;
 }
 
-const ProfileEditor: React.FC<ProfileEditorProps> = ({
-  coverImageUrl,
-  onSave,
-  onCancel,
-  id,
-  name,
-  email,
-  prefs,
-  status,
-  registration,
-  emailVerification,
-}) => {
-  const [editedData, setEditedData] = useState<UserData>({
-    id,
-    name,
-    email,
-    prefs,
-    status,
-    registration,
-    emailVerification,
-  });
+interface ProfileData {
+  id: string;
+  name: string;
+  prefs: {
+    phoneNumber: string;
+    bio: string;
+    profileImage: string;
+    profileImageId: string;
+  };
+}
+
+interface ProfileEditorProps {
+  userData: UserData;
+  onSave: (updatedData: ProfileData) => Promise<void>;
+  onCancel: () => void;
+}
+
+const ProfileEditor: React.FC<ProfileEditorProps> = ({ userData, onSave, onCancel }) => {
+  const [editedData, setEditedData] = useState<UserData>(userData);
   const [coverImageFile, setCoverImageFile] = useState<File | undefined>();
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-
-
-
-
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -112,9 +95,9 @@ const ProfileEditor: React.FC<ProfileEditorProps> = ({
       } catch (error) {
         console.error("Error uploading profile image:", error);
       }
-    } else if (prefs.profileImage && !prefs.profileImageId) {
+    } else if (editedData.prefs.profileImage && !editedData.prefs.profileImageId) {
       // If the profileImageId is not provided but profileImage URL is available, extract the ID
-      const profileImageId = extractIdFromUrl(prefs.profileImage);
+      const profileImageId = extractIdFromUrl(editedData.prefs.profileImage);
 
       if (profileImageId) {
         // Update the profileImageId in the editedData state
@@ -162,7 +145,7 @@ const ProfileEditor: React.FC<ProfileEditorProps> = ({
               </div>
             </CardContent>
             <CardFooter className='flex justify-between gap-4'>
-              <Button type="button"  onClick={onCancel}>
+              <Button type="button" onClick={onCancel}>
                 Cancel
               </Button>
               <Button type="submit">Save</Button>
