@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import CoursesCard from './allCourses';
 import PaginationComponent from './PaginationComponent';
 import { getAllCourses,  getTotalCourses } from '@/lib/functions';
-import LoadingScreen from '@/app/dashboard/components/LoadingScreen';
+import LoadingScreen from '@/app/dashboard/_components/LoadingScreen';
 import Loading from './ui/Cloading';
 
 

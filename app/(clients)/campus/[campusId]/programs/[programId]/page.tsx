@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 
 import EmptyCourse from "@/components/EmptyCourse";
 
-import LoadingScreen from "@/app/dashboard/components/LoadingScreen";
+import LoadingScreen from "@/app/dashboard/_components/LoadingScreen";
 
 import Head from "next/head";
 import { toast } from "react-hot-toast";

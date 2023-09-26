@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { useMyContext } from "@/components/MyContext";
 import { useEffect, useState } from "react";
 import { checkAuthStatusDashboard } from "@/lib/functions";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../_components/LoadingScreen";
 
 
 

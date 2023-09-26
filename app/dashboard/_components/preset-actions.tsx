@@ -29,7 +29,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import DocumentUpload from '@/components/document-upload';
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import Slides from '@/components/Slides';
+import Slides from '@/app/dashboard/_components/Slides';
 // import DocumentUpload from "@/components/document-upload";
 
 
@@ -65,6 +65,7 @@ export function PresetActions({ name, id, slides, setSlides }: PresetActionsProp
 
       // Reset form fields
       setCurrentFile(null);
+      
       setUpdatedName(updatedName);
 
     
@@ -107,7 +108,7 @@ export function PresetActions({ name, id, slides, setSlides }: PresetActionsProp
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
-            className="!text-red-600 hover:!bg-red-200/10"
+            className="!text-red-700 hover:!bg-red-200/10"
           >
             <Trash className="w-4 h-4 mr-2" />
             Delete File

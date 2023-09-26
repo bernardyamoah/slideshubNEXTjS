@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useForm} from "react-hook-form";
-
+import pattern from '@/public/pattern.svg'
 import { z } from "zod";
 // import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,8 @@ import { useMyContext } from "@/components/MyContext";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import Image from "next/image";
 
 
 // Credit Hours object
@@ -108,7 +110,7 @@ export default function AddCourse() {
 
  async function onSubmit(data: z.infer<typeof formSchema>) {
   const { campusName, ...formData } = data;
-  formData.user_id = user.name;
+  formData.user_id = user?.name ??'';
 
     await createCourse(formData);
     reset();
@@ -145,8 +147,10 @@ export default function AddCourse() {
   
 
   return (
+    <>
+    {/* <Image src={pattern} alt="pattern" className="w-full opacity-20 h-full object-cover object-center absolute -z-10 "/>  */}
     <Form {...form} >
-      <Card className="max-w-md mx-auto" >
+      <Card className="w-full max-w-4xl  mx-auto" >
      <CardHeader>
         <CardTitle>
             Add Course 
@@ -161,12 +165,13 @@ export default function AddCourse() {
             <div>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter name" {...field} />
+                <Input className="mt-2" placeholder="Enter name" {...field} />
               </FormControl>
               {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
             </div>
           )}
         />
+        {/* UserName */}
          <FormField
   control={control}
   name="user_id"
@@ -174,12 +179,13 @@ export default function AddCourse() {
     <div className="hidden"> {/* Add the style to hide the component */}
       <FormLabel>Name</FormLabel>
       <FormControl>
-        <Input placeholder="Enter name" {...field} />
+        <Input className="mt-2" {...field} />
       </FormControl>
       {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
     </div>
   )}
 />
+{/* Lecturer */}
         <FormField
           control={form.control}
           name="lecturer"
@@ -187,7 +193,7 @@ export default function AddCourse() {
             <div>
               <FormLabel>Lecturer</FormLabel>
               <FormControl>
-                <Input placeholder="Enter lecturer" {...field} />
+                <Input className="mt-2" placeholder="Enter lecturer" {...field} />
               </FormControl>
               {errors.lecturer && (
                 <FormMessage>{errors.lecturer.message}</FormMessage>
@@ -195,25 +201,8 @@ export default function AddCourse() {
             </div>
           )}
         />
-
-        {/* Course Code */}
-
-        <FormField
-          control={form.control}
-          name="courseCode"
-          render={({ field }) => (
-            <div>
-              <FormLabel>Course Code</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Course Code" {...field} />
-              </FormControl>
-              {errors.courseCode && (
-                <FormMessage>{errors.courseCode.message}</FormMessage>
-              )}
-            </div>
-          )}
-        />
-{/* Campus  */}
+<div className="grid md:grid-cols-2 gap-6 items-center">
+  {/* Campus  */}
 <FormField
   control={form.control}
   name="campusName"
@@ -304,10 +293,34 @@ export default function AddCourse() {
     </FormItem>
   )}
 />
+</div>
+      
 
+<div className="grid md:grid-cols-2 gap-6">
+  {/* Course Code */}
+
+  <FormField
+          control={form.control}
+          name="courseCode"
+          render={({ field }) => (
+            <div>
+              <FormLabel>Course Code</FormLabel>
+              <FormControl>
+                <Input className="mt-2" placeholder="Enter Course Code" {...field} />
+              </FormControl>
+              {errors.courseCode && (
+                <FormMessage>{errors.courseCode.message}</FormMessage>
+              )}
+               <FormDescription className="mt-2">
+        Enter the course code.
+      </FormDescription>
+            </div>
+            
+          )}
+        />
 {/* Level */}
 
-        <FormField
+<FormField
   control={form.control}
   name="year"
   render={({ field }) => (
@@ -334,11 +347,11 @@ export default function AddCourse() {
     </FormItem>
   )}
 />
-
-        {/* Credit Hours */}
-
-
-        <FormField
+</div>
+<Separator className=""/>
+<div className="grid md:grid-cols-2 gap-6">
+       {/* Credit Hours */}
+       <FormField
   control={form.control}
   name="credit"
   render={({ field }) => (
@@ -366,8 +379,8 @@ export default function AddCourse() {
   )}
 />
 
-        {/* Semester */}
-        <FormField
+    {/* Semester */}
+    <FormField
   control={form.control}
   name="semester"
   render={({ field }) => (
@@ -394,11 +407,17 @@ export default function AddCourse() {
     </FormItem>
   )}
 />
-        <Button type="submit" >Submit</Button>
+</div>
+
+ 
+
+    
+        <Button type="submit" className="w-full sm:w-fit flex justify-self-end" >Submit</Button>
       </form>
      </CardContent>
       </Card>
     </Form>
+    </>
   );
 }
 // export const getStaticProps = async () => {

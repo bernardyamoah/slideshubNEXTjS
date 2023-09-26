@@ -1,17 +1,17 @@
 'use client'
 import { formatTime, formatUserTime } from '@/lib/functions';
-import { Card, CardTitle } from './ui/card';
+import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
-import { PresetActions } from '@/app/dashboard/components/preset-actions';
+import { PresetActions } from '@/app/dashboard/_components/preset-actions';
 
 
 import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
-import NoEvent from './NoEvent';
-import PaginationComponent from './PaginationComponent';
+import NoEvent from '../../../components/NoEvent';
+import PaginationComponent from '../../../components/PaginationComponent';
+import SlidesLoading from './slidesLoading';
 
 
-import Loading from './ui/Cloading';
 
 interface UserProps {
  user: {
@@ -28,6 +28,7 @@ export default function Slides ({user}:UserProps){
   const memoizedFetchSlides = useMemo(async () => {
     await getUserSlides(user.$id, currentPage, setTotalPages, setSlides, setLoading);
   }, [user.$id, currentPage]);
+  console.log("🚀 ~ file: Slides.tsx:31 ~ Slides ~ user.$id:", user.$id)
   
   useEffect(() => {
     const fetchData = async () => {
@@ -49,10 +50,10 @@ export default function Slides ({user}:UserProps){
 
 <>
 
+{!loading && slides.length === 0 && <NoEvent />}
+{loading && <SlidesLoading />}
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
-{loading && <Loading />}
-{!loading && slides.length === 0 && <NoEvent />}
 {slides.map((slide) => (
  
     <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">

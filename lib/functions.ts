@@ -1,3 +1,5 @@
+
+
 import toast, { Toaster } from "react-hot-toast";
 
 import {
@@ -605,6 +607,7 @@ export const logOut = async (router: any) => {
 export const getCurrentUser = async (): Promise<string | null> => {
 	try {
 	  const request = await account.get();
+	  console.log("🚀 ~ file: functions.ts:608 ~ getCurrentUser ~ request:", request)
 	  return request.$id;
 	} catch (error) {
 	  console.error("Error fetching user ID:", error);
@@ -629,8 +632,9 @@ export const getCurrentUser = async (): Promise<string | null> => {
 export const getCurrentUserAndSetUser = async (): Promise<UserWithId | null> => {
 	try {
 	  const user = await account.get();
+	  console.log("🚀 ~ file: functions.ts:633 ~ getCurrentUserAndSetUser ~ user:", user)
 	  
-	  const userWithId: UserWithId | null = user ? { id: user.$id, email: user.email, name: user.name,prefs:user.prefs } : null;
+	  user ? { id: user.$id, email: user.email, name: user.name,prefs:user.prefs, } : null;
 	 
 	  return user;
 	} catch (error) {
@@ -734,6 +738,8 @@ export const getUserSlides = async (
 		throw new Error("Database ID is not defined");
 	}
 	try {
+	
+		console.log("🚀 ~ file: functions.ts:740 ~ userId:", userId)
 		setLoading(true);
 		const perPage = 12; 
 		const totalPages = await getTotalPages(userId, perPage);

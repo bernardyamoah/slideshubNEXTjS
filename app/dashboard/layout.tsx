@@ -1,7 +1,7 @@
 
 import { Metadata } from "next";
 
-import { SidebarNav } from "./components/sidebar-nav";
+import { SidebarNav } from "./_components/sidebar-nav";
 
 
 
@@ -45,7 +45,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
             </aside>
             <div className="flex-1 w-full h-full mx-auto max-w-screen-3xl lg:p-2">
             {/* <Breadcrumbs /> */}
-              <div className="relative min-h-screen dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none lg:p-5">{children}</div>
+              <div className=" ">{children}</div>
 
             </div>
           </div>

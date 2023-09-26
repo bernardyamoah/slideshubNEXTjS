@@ -41,6 +41,8 @@ import FileUpload from "@/components/fileUpload";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useMyContext } from "@/components/MyContext";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -69,7 +71,7 @@ function isStepValid(
 export default function AddSlides() {
   const [currentFiles, setCurrentFiles] = useState([]);
   const [courseId, setCourseId] = useState<string>("");
-  const [user, setUser] = useState<UserWithId | null>(null);
+const{user}=useMyContext();
   const [programId, setProgramId] = useState<string>("");
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses
@@ -85,20 +87,10 @@ export default function AddSlides() {
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const userId = await getCurrentUserAndSetUser();
-        setUser(userId);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-      }
-    }
 
-    fetchData();
-  }, []);
 // Update FileUpload component
   const handleSubmit = async (event: React.FormEvent) => {
+   
     event.preventDefault();
 
     const errorMessage = isStepValid(
@@ -115,6 +107,7 @@ export default function AddSlides() {
    
   
     async function handleFileUpload(file: File) {
+      
       try {
         // Create a new Appwrite file
         const response = await storage.createFile(
@@ -178,12 +171,14 @@ export default function AddSlides() {
             const fileName = currentFile.name.replace(/_/g, " ");
             const slideData = {
               name: fileName.slice(0, fileName.lastIndexOf(".")),
-  size: bytesToSize(currentFile.size),
+  size:  bytesToSize(currentFile.size),
   fileUrl: uploadedFileUrl,
   fileType: fileExtension ? fileExtension.toString() : "",
   courseId,
   previewUrl: filePreviewResponse,
-  user_id: user?.id,
+  user_id: user?.$id,
+
+  programme: programs.find((program) => program.$id === programId)?.name,
             };
       
             const response = await createSlide(slideData);
@@ -218,7 +213,7 @@ export default function AddSlides() {
    
   
     }
-
+    revalidatePath('/dashboard');
 
   }
   
@@ -243,19 +238,20 @@ export default function AddSlides() {
   return (
     <>
      
-      <Card className="">
-        <CardHeader>
-          
-        </CardHeader>
+     <h2 className="text-2xl font-bold mb-4 p-5">
+  Upload Slides
+</h2>
         
-      </Card>
+     
       <Separator className="mb-4"/>
       
-        <div className="w-full max-w-2xl mx-auto">
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto ">
+        <div className="w-full max-w-4xl mx-auto">
+          <form onSubmit={handleSubmit} className=" mx-auto pb-10">
             <div className="grid items-center w-full gap-2 space-y-6">
            
-                <Card className="flex flex-col space-y-1.5 p-4 ">
+                <div className="grid md:grid-cols-2">
+
+                <div className="flex flex-col space-y-1.5 p-4 ">
                   <Label htmlFor="Campus">Campuses</Label>
                   <Popover
                     open={isCampusPopoverOpen}
@@ -308,11 +304,11 @@ export default function AddSlides() {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                </Card>
+                </div>
           
 
            
-                <Card className="flex flex-col space-y-1.5 p-4">
+                <div className="flex flex-col space-y-1.5 p-4">
                   <Label htmlFor="programme">Programme</Label>
                   <Popover
                     open={isProgramPopoverOpen}
@@ -366,11 +362,13 @@ export default function AddSlides() {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                </Card>
+                </div>
+                </div>
              
 
-            
-                <Card className="flex flex-col space-y-1.5 p-4">
+            <div className="grid md:grid-cols-2">
+              
+            <div className="flex flex-col space-y-1.5 p-4 md:max-w-lg">
                   <Label htmlFor="course">Courses</Label>
                   <Popover
                     open={isCoursePopoverOpen}
@@ -427,23 +425,24 @@ export default function AddSlides() {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                </Card>
+                </div>
+            </div>
             
 
 
-                <Card className="grid w-full items-center gap-1.5 p-4">
+                <div className="grid w-full items-center gap-1.5 p-4">
               
                   <FileUpload
         currentFiles={currentFiles}
         setCurrentFiles={setCurrentFiles}
       />
-                </Card>
+                </div>
          
 
               {/* Render the progress bar */}
               {uploadProgress > 0 && <Progress value={uploadProgress} />}
               {/* Render the navigation buttons */}
-              <div className="flex justify-between mt-10">
+              <div className="grid w-full items-center gap-1.5 p-4 md:flex md:justify-end">
          
                
                

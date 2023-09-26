@@ -3,7 +3,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 
 import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
-import Slides from "@/components/Slides";
+import Slides from "@/app/dashboard/_components/Slides";
 
 import Courses from "@/components/Courses";
 
@@ -20,6 +20,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 import Loading from "@/components/ui/Cloading";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
+import Link from "next/link";
+import MobileMenu from "./_components/mobile-menu";
 
 
 interface DashboardProps {
@@ -31,21 +33,22 @@ interface DashboardProps {
   }[];
 }
 
-export default function Dashboard({ tabTriggers }) {
+export default function Dashboard({ tabTriggers }:DashboardProps) {
   const [loading, setLoading] = useState(true);
-    // setShowDashboard(user.role === "admin" || user.role === "super_Admin");
+ 
 
 
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
   const {userInTeam,user } = useMyContext(); 
- 
+  const userLabel = user?.labels || [];
+
   useEffect(() => {
     setLoading(true);
     // Simulating an asynchronous user data fetch
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 200);
   }, []);
   // if (loading) return <Loading />;
   const handleAddButtonClick = () => {
@@ -73,30 +76,52 @@ export default function Dashboard({ tabTriggers }) {
       <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
-            <div className="space-between flex items-center">
+            <div className="flex items-center space-between">
               {/* Tab Triggers */}
               <TabsList>
-          
-                   {tabTriggers.map((tabTrigger:any) => {
-    if ((tabTrigger.value === 'program' || tabTrigger.value === 'course')  && !userInTeam) {
+              {tabTriggers.map((tabTrigger) => {
+    if (
+      (tabTrigger.value === "program" || tabTrigger.value === "course") &&
+      !userInTeam
+    ) {
       return null; // Skip rendering the "Programs" tab if userInTeam is false
     }
-    return (
-      <TabsTrigger
-        key={tabTrigger.value}
-        onClick={() => setActiveTab(tabTrigger.value)}
-        value={tabTrigger.value}
-        className={tabTrigger.className}
-        disabled={tabTrigger.disabled}
-      >
-        {tabTrigger.label}
-      </TabsTrigger>
-    );
+    if (
+      userLabel.includes("SuperAdmin") ||
+      userLabel.includes("admin")
+    ) {
+      // Render all options if user has "super_Admin" or "admin" label
+      return (
+        <TabsTrigger
+          key={tabTrigger.value}
+          onClick={() => setActiveTab(tabTrigger.value)}
+          value={tabTrigger.value}
+          className={tabTrigger.className}
+          disabled={tabTrigger.disabled}
+        >
+          {tabTrigger.label}
+        </TabsTrigger>
+      );
+    } else if (tabTrigger.value === "slide" || tabTrigger.value === "book") {
+      // Render only "Add Slide" and "Add Book" options if user doesn't have "super_Admin" or "admin" label
+      return (
+        <TabsTrigger
+          key={tabTrigger.value}
+          onClick={() => setActiveTab(tabTrigger.value)}
+          value={tabTrigger.value}
+          className={tabTrigger.className}
+          disabled={tabTrigger.disabled}
+        >
+          {tabTrigger.label}
+        </TabsTrigger>
+      );
+    }
+    return null; // Skip rendering other options
   })}
               </TabsList>
-              <div className="ml-auto mr-4 hidden lg:block ">
+              <div className="hidden ml-auto mr-4 lg:block ">
                 <Button onClick={handleAddButtonClick}>
-                  <PlusCircledIcon className="mr-2 h-4 w-4" />
+                  <PlusCircledIcon className="w-4 h-4 mr-2" />
                   {activeTab === 'slide'
             ? 'Add Slide'
             : activeTab === 'book'
@@ -112,7 +137,7 @@ export default function Dashboard({ tabTriggers }) {
             {/* Slides content */}
             <TabsContent
               value="slide"
-              className="border-none p-0 outline-none"
+              className="p-0 border-none outline-none"
             >
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
@@ -129,7 +154,7 @@ export default function Dashboard({ tabTriggers }) {
                
                   <Suspense fallback={<Loading/>}>
                   {user ?(
-                   <Slides user={user} key={user.$id}/>
+                   <Slides user={user}/>
                   ):
                 <>
                 <p>
@@ -174,7 +199,7 @@ export default function Dashboard({ tabTriggers }) {
               >
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <h2 className="text-2xl font-semiboldtracking-tight">
+                    <h2 className="text-2xl font-semibold tracking-tight">
                       All Courses
                     </h2>
                     <p className="text-sm text-muted-foreground">
@@ -197,25 +222,9 @@ export default function Dashboard({ tabTriggers }) {
         </div>
         
      <div>
-         <DropdownMenu >
-  <DropdownMenuTrigger className="fixed bottom-8 right-10 lg:hidden">
-    <Button
-      className="rounded-full p-2 w-10 h-10 "
-    >
-      <PlusCircledIcon className="h-8 w-8" />
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className=" right-10">
-  {tabTriggers.map((trigger:any, index:any) => (
-     <DropdownMenuItem key={index}  onClick={() => router.push(`dashboard/add-${trigger.value}  `)}>
-    
-       Add {trigger.label}
-      </DropdownMenuItem>
-    ))}
-  </DropdownMenuContent>
-</DropdownMenu>
+   
      </div>
-      
+     <MobileMenu tabTriggers={tabTriggers} />
       </div>
       </>
       

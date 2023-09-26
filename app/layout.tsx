@@ -56,7 +56,7 @@ export default function RootLayout({
 					
 					<Navbar />
 					<BackButtonNavigation />
-					<div>
+					<div className=" ">
 
 						{children}
 						<Toaster />

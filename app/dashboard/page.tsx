@@ -12,7 +12,7 @@ export default function Home() {
   <>
   <header className=" lg:flex items-center justify-cener  w-full ">
         <div className="max-w-screen-xl px-4   py-8 mx-auto ">
-        <div className="space-y-2 bg-pattern" >
+        <div className="space-y-2 " >
               <h1
                 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
               >

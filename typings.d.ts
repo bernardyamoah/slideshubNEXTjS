@@ -35,6 +35,7 @@ interface SlidesData {
 	previewUrl: URL;
 	user_id: string | undefined;
 
+
 }
 
 interface BooksData {
@@ -55,13 +56,14 @@ interface Slides {
 	courseId: string;
 	user_id?: string | undefined;
 	previewUrl: URL;
+	programme?: string;
 }
 
 interface User {
 	id: string;
 	name?: string;
 	email: string;
-	// Other user properties
+
 }
 
 interface SlidesCardProps {
@@ -101,6 +103,8 @@ interface User {
 	$id: string;
 	name: string;
 	email: string;
+	labels:[],
+
 	// Add any other properties specific to the User type
   }
   
@@ -119,10 +123,11 @@ interface Preferences {
 	language: string;
 	// Add any other preferences properties
 }
-type UserWithId = User<Preferences> & { id: string };
+
 interface UserWithId {
 	$id: string;
 	name: string;
+labels?:string[],
   }
   
 interface SlideResponse {
