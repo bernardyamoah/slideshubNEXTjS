@@ -119,7 +119,7 @@ const{user}=useMyContext();
             const uploadProgress = Math.round(
               (progress.chunksUploaded * 100) / progress.chunksTotal
             );
-            console.log("Upload progress:", uploadProgress);
+           
             setUploadProgress(uploadProgress);
           }
         );
@@ -213,8 +213,7 @@ const{user}=useMyContext();
    
   
     }
-    revalidatePath('/dashboard');
-
+   
   }
   
 
@@ -238,7 +237,7 @@ const{user}=useMyContext();
   return (
     <>
      
-     <h2 className="text-2xl font-bold mb-4 p-5">
+     <h2 className="p-5 mb-4 text-2xl font-bold">
   Upload Slides
 </h2>
         
@@ -246,7 +245,7 @@ const{user}=useMyContext();
       <Separator className="mb-4"/>
       
         <div className="w-full max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className=" mx-auto pb-10">
+          <form onSubmit={handleSubmit} className="pb-10 mx-auto ">
             <div className="grid items-center w-full gap-2 space-y-6">
            
                 <div className="grid md:grid-cols-2">
