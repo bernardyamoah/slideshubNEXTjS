@@ -174,7 +174,7 @@ export default function AddSlides() {
   fileType: fileExtension ? fileExtension.toString() : "",
   courseId,
   previewUrl: filePreviewResponse,
-  user_id: user?.id,
+  user_id: user?.$id,
             };
       
             const response = await createSlide(slideData);

@@ -127,7 +127,7 @@ export default function AddProgram() {
         duration,
         image: imageUrl,
         campusId: value,
-        user_id: user?.id,
+        user_id: user?.$id,
 
       };
 
@@ -167,7 +167,7 @@ export default function AddProgram() {
 
 
 
-      <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
+      <form onSubmit={handleSubmit} className="w-full max-w-3xl p-6 mx-auto place-content-center">
         <div className="grid w-full gap-4">
 
 
@@ -203,7 +203,7 @@ export default function AddProgram() {
     <SelectGroup >
       <SelectLabel>Campus</SelectLabel>
       {campuses.map((campus) => (
-        <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
+        <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm font-medium text-right'>{campus.location}</span>  </SelectItem>
       ))}
 
 
@@ -248,7 +248,7 @@ export default function AddProgram() {
 
 
 
-          <div className="mt-16 flex justify-between">
+          <div className="flex justify-between mt-16">
             <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
               Prev
             </Button>
