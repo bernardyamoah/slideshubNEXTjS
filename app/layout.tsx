@@ -6,66 +6,60 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "react-hot-toast";
-import Breadcrumbs from "@/components/breadcrumbs";
+
 import BackButtonNavigation from "@/components/ui/back";
 import { MyContextProvider } from "@/components/MyContext";
-
+import MobileMenu from "./dashboard/_components/mobile-menu";
 
 export const metadata = {
-	title: "Slideshub",
-	description: "Download your slides from Slideshub and more!",
-	charset: "utf-8",
-	type: "website",
-	url: "https://slideshub.vercel.app",
-	site_name: "Slideshub",
-	author: "Slideshub",
-	// twitter_username: '@slideshub',
+  title: "Slideshub",
+  description: "Download your slides from Slideshub and more!",
+  charset: "utf-8",
+  type: "website",
+  url: "https://slideshub.vercel.app",
+  site_name: "Slideshub",
+  author: "Slideshub",
+  // twitter_username: '@slideshub',
 
-	og: {
-		title: "Slideshub",
-		type: "website",
-		url: "https://slideshub.vercel.app",
-		description: "Download your slides from Slideshub and more!",
-		site_name: "Slideshub",
-		images: [
-			{
-				url: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",
-				width: 1200,
-				height: 630,
-				alt: "Slideshub",
-			},
-		],
-	},
+  og: {
+    title: "Slideshub",
+    type: "website",
+    url: "https://slideshub.vercel.app",
+    description: "Download your slides from Slideshub and more!",
+    site_name: "Slideshub",
+    images: [
+      {
+        url: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Slideshub",
+      },
+    ],
+  },
 };
 
-
-
-
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
+      <ThemeProvider attribute="class" defaultTheme="dark">
+        <MyContextProvider>
+          <body>
+            <Navbar />
+            <BackButtonNavigation />
 
-	return (
-		<html lang="en" suppressHydrationWarning>
-				{/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
-				<ThemeProvider attribute="class" defaultTheme="dark">
-			  <MyContextProvider>
-			<body >
-					
-					<Navbar />
-					<BackButtonNavigation />
-					<div className=" ">
+            {children}
+<MobileMenu/>
+            <Toaster />
 
-						{children}
-						<Toaster />
-
-					</div>
-					<Analytics />
-			</body>
-				</MyContextProvider>
-				</ThemeProvider>
-		</html>
-	);
+            <Analytics />
+          </body>
+        </MyContextProvider>
+      </ThemeProvider>
+    </html>
+  );
 }

@@ -3,30 +3,59 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
-import { usePathname } from "next/navigation"
-import { ModeToggle } from "@/components/ModeToggle";
-import { PanelLeftOpen } from "lucide-react";
-interface MobileNavProps {
+import { usePathname, useRouter } from "next/navigation"
+
+import { LayoutDashboard, PanelLeftOpen } from "lucide-react";
+import { sidebarRoutes } from "@/lib/navRoute";
+import { useMyContext } from "@/components/MyContext";
+import { useState } from "react";
 
 
-  items: { name: string; link: string; icon: JSX.Element }[];
-}
-
-const MobileNav: React.FC<MobileNavProps> = ({ items }) => {
-  const pathname = usePathname()
+const MobileNav = ()=>{
+  const [isOpen, setIsOpen] = useState(false);
+  const {user}=useMyContext()
+  const router =useRouter()
+  const pathname = usePathname();
+  const handleOnClick = (link:any) => {
+    router.push(link.toString());
+    setIsOpen(false);
+  }
   return (
-    <Sheet >
-      <SheetTrigger className="flex items-center" asChild>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger className="flex items-center" asChild >
 
         <PanelLeftOpen />
 
       </SheetTrigger>
-      <SheetContent side="left" className=" w-[300px] sm:w-[400px] ">
+      <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0">
         <div className="grid gap-4 py-16 ">
-          {items.map((item) => (
+        {user && (
+  <Link
+    key="dashboard"
+    href="/dashboard"
+    onClick={()=> handleOnClick('/dashboard')}
+    className={cn(
+      buttonVariants({ variant: "ghost" }),
+      pathname === "/dashboard"
+        ? "bg-emerald-600 hover:bg-none font-bold tracking-wide  text-white hover:bg-emerald-600/90"
+        : " hover:bg-emerald-100/90",
+      "justify-start rounded-r-none"
+    )}
+    
+     
+  >
+    <span className="flex items-center space-x-3">
+      <LayoutDashboard />
+      <span className="text-base">Dashboard</span>
+    </span>
+  </Link>
+)}
+          {sidebarRoutes.map((item) => (
             <Link
               key={item.link}
               href={item.link}
+              onClick={() => handleOnClick(item.link)}
+               
               className={cn(
                 buttonVariants({ variant: "ghost" }),
                 pathname === item.link
