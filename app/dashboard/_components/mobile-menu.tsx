@@ -36,9 +36,9 @@ const MobileMenu = ({tabTriggers}) => {
         <PlusCircleIcon className="w-8 h-8" />
       </Button>
     </SheetTrigger>
-    <SheetContent className="">
+    <SheetContent className=" gap-2 text-left ">
       {tabTriggers.map((trigger, index) => (
-        <Button key={index} variant='ghost' className="w-full mb-2">
+        <Button key={index} variant='ghost' className="text-left border-l-2 hover:border-emerald-500">
             <Link href={`dashboard/add-${trigger.value}`}>
               
                 Add {trigger.label}

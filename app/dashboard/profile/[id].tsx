@@ -13,9 +13,9 @@ const ModernProfilePage: React.FC = () => {
 
 
   return (
-    <div className="p-2">
-    Profile page
-    </div>
+   <>
+   <h1>Profile Page</h1>
+   </>
   );
 };
 
