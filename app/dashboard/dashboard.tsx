@@ -1,8 +1,6 @@
 
 'use client'
 import React, { Suspense, useEffect, useState } from "react";
-
-import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
 import Slides from "@/app/dashboard/_components/Slides";
 
 import Courses from "@/components/Courses";
@@ -15,29 +13,18 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
 import { useRouter } from "next/navigation";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 import Loading from "@/components/ui/Cloading";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-import Link from "next/link";
-import MobileMenu from "./_components/mobile-menu";
+
+import { tabTriggers } from "@/lib/navRoute";
 
 
-interface DashboardProps {
-  tabTriggers: {
-    value: string;
-    className: string;
-    label: string;
-    disabled?: boolean;
-  }[];
-}
 
-export default function Dashboard({ tabTriggers }:DashboardProps) {
+
+
+export default function Dashboard() {
   const [loading, setLoading] = useState(true);
- 
-
-
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
   const {userInTeam,user } = useMyContext(); 
@@ -225,7 +212,7 @@ export default function Dashboard({ tabTriggers }:DashboardProps) {
      <div>
    
      </div>
-     <MobileMenu tabTriggers={tabTriggers} />
+  
       </div>
       </>
       

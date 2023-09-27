@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   bytesToSize,
   createSlide,

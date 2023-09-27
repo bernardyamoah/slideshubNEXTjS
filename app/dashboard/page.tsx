@@ -1,11 +1,6 @@
 
 import Dashboard from "./dashboard"
-const tabTriggers = [
-  { value: 'slide', className: 'relative', label: 'Slides' },
-  { value: 'book', className: 'relative', label: 'Books' },
-  { value: 'program', className: 'relative', label: 'Programs', disabled: true },
-  { value: 'course', className: 'relative', label: 'All Courses' },
-];
+
 
 export default function Home() {
   return (
@@ -25,7 +20,7 @@ export default function Home() {
         </div>
       </header>
   
-  <Dashboard tabTriggers={tabTriggers} />
+  <Dashboard  />
   </>
     
     
