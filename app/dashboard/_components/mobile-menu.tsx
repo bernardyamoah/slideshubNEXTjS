@@ -17,7 +17,8 @@ const MobileMenu = () => {
     const isAdmin = user?.labels?.includes("admin") || user?.labels?.includes("SuperAdmin");
     const handleOnClick = (link:any) => {
       router.push(link.toString());
-    }  
+      setIsOpen(false);
+    }
   
     return (
   

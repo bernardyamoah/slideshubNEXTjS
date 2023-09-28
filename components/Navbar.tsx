@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+
 
 import { ModeToggle } from "./ModeToggle";
 import Logo from "./Logo";
 import MobileNav from "@/app/(clients)/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 
-import {sidebarRoutes} from "@/lib/navRoute";
+import {UserSidebarRoutes, sidebarRoutes} from "@/lib/navRoute";
 
 import { usePathname, useRouter } from "next/navigation"
 
@@ -31,21 +31,24 @@ export default function Navbar() {
 
         <ul className="justify-between hidden text-slate-900 dark:text-white lg:flex">
          
-        {sidebarRoutes.map((link, index) => (
-  <Button key={index} asChild variant="ghost" className={`text-lg font-medium ${pathname === link.link ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400" : "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"}`}>
-    <Link href={link.link} passHref>
-      {link.name}
-    </Link>
-  </Button>
-))}
+  
 
-{user && (
-  <Button key="dashboard" asChild variant="ghost" className={`text-lg font-medium ${pathname === "/dashboard" ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400" : "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"}`}>
-    <Link href="/dashboard" passHref>
-      Dashboard
-    </Link>
-  </Button>
-)}
+{user ? (
+  UserSidebarRoutes.map((link, index) => (
+    <Button key={index} asChild variant="ghost" className={`text-lg font-medium ${pathname === link.link ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400" : "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"}`}>
+      <Link href={link.link} passHref>
+        {link.name}
+      </Link>
+    </Button>
+))):(
+  sidebarRoutes.map((link, index) => (
+    <Button key={index} asChild variant="ghost" className={`text-lg font-medium ${pathname === link.link ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400" : "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"}`}>
+      <Link href={link.link} passHref>
+        {link.name}
+      </Link>
+    </Button>
+)))
+}
         </ul>
 
         <div className="flex space-x-4">
@@ -60,18 +63,7 @@ export default function Navbar() {
           )}
 
           <div className="flex items-center lg:hidden">
-            {/* <MobileNav items={[
-              { name: "Home", link: "/", icon: <Home /> },
-              ...(showDashboard
-                ? [
-                    { name: "Dashboard", link: "/dashboard", icon: <LayoutDashboard /> },
-                    
-                  ]
-                : []),
-              { name: "Campus", link: "/campus", icon: <School /> },
-              { name: "Books", link: "/books", icon: <BookCopy /> },
-            ]} /> */}
-
+      
             <MobileNav />
           </div>
         </div>

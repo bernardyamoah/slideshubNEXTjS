@@ -1,5 +1,4 @@
 import { BookCopy, Home, LayoutDashboard, School } from "lucide-react";
-import { useState } from "react";
 
 export const tabTriggers = [
     { value: 'slide', className: 'relative', label: 'Slides' },
@@ -21,7 +20,15 @@ export const tabTriggers = [
   ];
   export const sidebarRoutes = [
     { name: "Home", link: "/", icon: <Home /> },
-    // {name: "Dashboard", link: "/dashboard", icon: <LayoutDashboard />},
+   
+    { name: "Campus", link: "/campus", icon: <School /> },
+    { name: "Books", link: "/books", icon: <BookCopy /> },
+
+
+  ];
+  export const UserSidebarRoutes = [
+    { name: "Home", link: "/", icon: <Home /> },
+    {name: "Dashboard", link: "/dashboard", icon: <LayoutDashboard />},
     { name: "Campus", link: "/campus", icon: <School /> },
     { name: "Books", link: "/books", icon: <BookCopy /> },
 
