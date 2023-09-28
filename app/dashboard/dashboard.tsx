@@ -1,9 +1,7 @@
 
 'use client'
 import React, { Suspense, useEffect, useState } from "react";
-
-import { checkAuthStatusDashboard, checkUserInTeam } from "@/lib/functions";
-import Slides from "@/components/Slides";
+import Slides from "@/app/dashboard/_components/Slides";
 
 import Courses from "@/components/Courses";
 
@@ -12,98 +10,122 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import LoadingScreen from "./components/LoadingScreen";
 import EmptyBooks from "@/components/EmptyBooks";
 import { useMyContext } from "@/components/MyContext";
+import { useRouter } from "next/navigation";
+
+import Loading from "@/components/ui/Cloading";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+
+import { tabTriggers } from "@/lib/navRoute";
 
 
-interface Slide {
-  $id: string;
-  name: string;
-  fileUrl: string;
-  previewUrl: URL;
-  size: string;
-  fileType: string;
-  courseId: string;
-  $createdAt: string;
-}
 
 
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  
- 
-  const { checkUserMembership,userInTeam,user,setUser } = useMyContext(); // Import checkUserMembership from context
-  console.log("🚀 ~ file: dashboard.tsx:38 ~ Dashboard ~ userInTeam:", userInTeam)
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('slide');
+  const {userInTeam,user } = useMyContext(); 
+  const userLabel = user?.labels || [];
 
   useEffect(() => {
-    async function verifyUser() {
-      // Fetch user data and slides
-      checkAuthStatusDashboard(setUser, setLoading);
-      await checkUserMembership(); // Call checkUserMembership
+    setLoading(true);
+    // Simulating an asynchronous user data fetch
+    setTimeout(() => {
+      setLoading(false);
+    }, 200);
+  }, []);
+  // if (loading) return <Loading />;
+  const handleAddButtonClick = () => {
+    let route = '/dashboard';
+
+    if (activeTab === 'slide') {
+      route = route + '/add-slide';
+    } else if (activeTab === 'book') {
+      route = route +'/add-book';
+    } else if (activeTab === 'program') {
+      route = route +'/add-program';
+    } else if (activeTab === 'course') {
+      route = route +'/add-course';
     }
 
-    verifyUser();
-  }, [checkUserMembership,setUser]); // Add checkUserMembership as a dependency
-
-
-  if (loading) return <LoadingScreen />;
-  
+    router.push(route);
+  };
 
   return (
-    <>
-    
-      <header className="lg:h-96 lg:flex items-center justify-cener bg-background w-full bg-pattern">
-        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
-        <div className="space-y-2 bg-pattern" >
-              <h1
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
-              >
-                                Discover Our Unique Features
-              </h1>
-              <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
-                                Our features are designed to enhance your productivity and streamline your workflow.
-              </p>
-            </div>
-        </div>
-      </header>
-      <div className="col-span-3 lg:col-span-4 lg:border-l">
+   <>
+      {loading ? (
+      <LoadingSkeleton/>
+      ) : (
+      <>
+      <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
-          <Tabs defaultValue="slides" className="h-full space-y-6">
-            <div className="space-between flex items-center">
+          <Tabs defaultValue="slide" className="h-full space-y-6">
+            <div className="flex items-center space-between">
               {/* Tab Triggers */}
               <TabsList>
-                <TabsTrigger  value="slides" className="relative">
-                  Slides
-                </TabsTrigger>
-                <TabsTrigger  value="books" className="relative">
-               Books
-                </TabsTrigger>
-                {userInTeam ? (
-                  <>
-                   <TabsTrigger value="programs" disabled>
-                   Programs
-                 </TabsTrigger>
-                 <TabsTrigger value="courses">
-                    All Courses
-                  </TabsTrigger>
-                  </>
-                 
-                  )
-                  : null}
+              {tabTriggers.map((tabTrigger) => {
+    if (
+      (tabTrigger.value === "program" || tabTrigger.value === "course") &&
+      !userInTeam
+    ) {
+      return null; // Skip rendering the "Programs" tab if userInTeam is false
+    }
+    if (
+      Array.isArray(userLabel as string[]) &&
+      (userLabel as string[]).includes("SuperAdmin") ||
+      (userLabel as string[]).includes("admin")
+    ){
+      // Render all options if user has "super_Admin" or "admin" label
+      return (
+        <TabsTrigger
+          key={tabTrigger.value}
+          onClick={() => setActiveTab(tabTrigger.value)}
+          value={tabTrigger.value}
+          className={tabTrigger.className}
+          disabled={tabTrigger.disabled}
+        >
+          {tabTrigger.label}
+        </TabsTrigger>
+      );
+    } else if (tabTrigger.value === "slide" || tabTrigger.value === "book") {
+      // Render only "Add Slide" and "Add Book" options if user doesn't have "super_Admin" or "admin" label
+      return (
+        <TabsTrigger
+          key={tabTrigger.value}
+          onClick={() => setActiveTab(tabTrigger.value)}
+          value={tabTrigger.value}
+          className={tabTrigger.className}
+          disabled={tabTrigger.disabled}
+        >
+          {tabTrigger.label}
+        </TabsTrigger>
+      );
+    }
+    return null; // Skip rendering other options
+  })}
               </TabsList>
-              <div className="ml-auto mr-4 hidden lg:block">
-                <Button>
-                  <PlusCircledIcon className="mr-2 h-4 w-4" />
-                  Add Slide
+              <div className="hidden ml-auto mr-4 lg:block ">
+                <Button onClick={handleAddButtonClick}>
+                  <PlusCircledIcon className="w-4 h-4 mr-2" />
+                  {activeTab === 'slide'
+            ? 'Add Slide'
+            : activeTab === 'book'
+            ? 'Add Book'
+            : activeTab === 'program'
+            ? 'Add Program'
+            : activeTab === 'course'
+            ? 'Add Course'
+            : ''}
                 </Button>
               </div>
             </div>
             {/* Slides content */}
             <TabsContent
-              value="slides"
-              className="border-none p-0 outline-none"
+              value="slide"
+              className="p-0 border-none outline-none"
             >
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
@@ -118,9 +140,9 @@ export default function Dashboard() {
               <Separator className="my-4" />
               <div className="relative">
                
-                  <Suspense fallback={<LoadingScreen />}>
+                  <Suspense fallback={<Loading/>}>
                   {user ?(
-                   <Slides user={user} key={user.$id}/>
+                   <Slides user={user}/>
                   ):
                 <>
                 <p>
@@ -141,7 +163,7 @@ export default function Dashboard() {
             </TabsContent>
             {/* Books */}
             <TabsContent
-              value="books"
+              value="book"
               className="h-full flex-col border-none p-0 data-[state=active]:flex"
             >
               <div className="flex items-center justify-between">
@@ -160,12 +182,12 @@ export default function Dashboard() {
             {/* All Courses */}
             {userInTeam ? (
               <TabsContent
-                value="courses"
+                value="course"
                 className="h-full flex-col border-none p-0 data-[state=active]:flex"
               >
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <h2 className="text-2xl font-semiboldtracking-tight">
+                    <h2 className="text-2xl font-semibold tracking-tight">
                       All Courses
                     </h2>
                     <p className="text-sm text-muted-foreground">
@@ -186,7 +208,15 @@ export default function Dashboard() {
             }
           </Tabs>
         </div>
+        
+     <div>
+   
+     </div>
+  
       </div>
-    </>
-  );
-}
+      </>
+      
+   
+  )}
+  </>
+)}

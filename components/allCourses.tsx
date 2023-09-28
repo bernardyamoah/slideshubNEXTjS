@@ -6,12 +6,11 @@ import React from 'react';
 
 
 
-const CoursesCard = ({course}:CourseCardProps) => {
+const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
   
   return (
 
     <Card 
-
       className="relative block p-4 overflow-hidden border rounded-lg shadow-md  lg:p-6"
     >
       <span
@@ -24,7 +23,7 @@ const CoursesCard = ({course}:CourseCardProps) => {
           {course.name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
           <div className="absolute flex justify-end flex-1 gap-1 text-xs text-gray-500 right-1 top-2 dark:text-gray-500/90">
-            <CourseEdit course={course} key={course.$id}/>
+            <CourseEdit course={course} key={course.$id} courses={courses} setCourses={setCourses}/>
           </div>
           <p className="mt-1 text-xs font-medium text-gray-600">Posted by  <span className=" text-accent-foreground">{course.user_id}</span></p>
         </div>

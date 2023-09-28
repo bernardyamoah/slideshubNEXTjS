@@ -31,7 +31,7 @@ const CampusCard = () => {
   <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
 </div>
 <Link href={{
-              pathname: `/campus/${campus.name}${campus.location}/programs/`,
+              pathname: `/campus/${campus.$id}/programs/`,
               query: { campus:JSON.stringify(campus)}
             }}
      

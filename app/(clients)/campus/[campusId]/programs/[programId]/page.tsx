@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 
 import EmptyCourse from "@/components/EmptyCourse";
 
-import LoadingScreen from "@/app/dashboard/components/LoadingScreen";
+import LoadingScreen from "@/app/dashboard/_components/LoadingScreen";
 
 import Head from "next/head";
 import { toast } from "react-hot-toast";
@@ -93,7 +93,7 @@ export default function CourseList() {
             </div>
         </div>
       </header> */}
-      <div className=" max-w-2xl mx-auto lg:mx-0 ">
+      <div className="max-w-2xl mx-auto lg:mx-0">
         <h2 className="text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100 sm:text-4xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  {programName}  
         </h2>
         <p className="mt-4 text-zinc-400">
@@ -125,11 +125,11 @@ export default function CourseList() {
         {data.map(({ value }) => (
           <TabsContent key={value} value={value}>
             {courses.filter((course) => course.year === value).length > 0 ? (
-              <div className="px-4 grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+              <div className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
                 {courses
                   .filter((course) => course.year === value)
                   .map((course) => (
-                    <CourseCard key={course.$id} course={course} />
+                      <CourseCard key={course.$id} course={course} courses={courses} setCourses={setCourses} />
                   ))}
               </div>
             ) : (

@@ -3,7 +3,7 @@ interface CourseData {
 	semester: string;
 	courseCode: string;
 	credit: string;
-	lecturer: string;
+	lecturer?: string;
 	programId: string;
 	year: string;
 	user_id: string | undefined;
@@ -19,7 +19,7 @@ interface ProgramData {
 interface CampusData {
 	name: string;
 	location: string;
-	image: string;
+	image?: string;
 }
 
 interface Image {
@@ -34,6 +34,8 @@ interface SlidesData {
 	fileType: string;
 	previewUrl: URL;
 	user_id: string | undefined;
+
+
 }
 
 interface BooksData {
@@ -54,14 +56,10 @@ interface Slides {
 	courseId: string;
 	user_id?: string | undefined;
 	previewUrl: URL;
+	programme?: string;
 }
 
-interface User {
-	id: string;
-	name?: string;
-	email: string;
-	// Other user properties
-}
+
 
 interface SlidesCardProps {
 	name: string;
@@ -85,24 +83,45 @@ interface ProgramCardProps {
 interface UserSlidesCardProps {
 	name: string;
 	fileUrl: string;
-	user_id: string;
+	
 	timePosted: string;
 	id: string;
 	fileUrl: string;
 	fileType: string;
 	size: string;
 	courseId: string;
-	user_id: string | undefined;
+	user_id?: string | undefined;
 	previewUrl: URL;
 }
 
-interface User {
+type User<T>  ={
 	$id: string;
 	name: string;
 	email: string;
-	// Add any other properties specific to the User type
+	labels?:string[],
+	prefs: {
+	};
+	status: boolean;
+	registration: string;
+	emailVerification: boolean;
+	
+
   }
-  
+  interface User extends Preferences {
+	bio: string;
+	avatarUrl: string;
+	coverPhotoUrl: string;
+	phoneNumber: string;
+	country: string;
+	countryFlagEmoji: string;
+	profileImage: string;
+	profileImageId: string;
+  }
+
+
+
+
+ 
   interface UserProps {
 	user: User | null| undefined;
   }
@@ -113,25 +132,17 @@ interface User {
   
  
   
-interface Preferences {
-	theme: string;
-	language: string;
-	// Add any other preferences properties
-}
-type UserWithId = User<Preferences> & { id: string };
-interface UserWithId {
-	$id: string;
-	name: string;
-  }
-  
+
+
 interface SlideResponse {
 	slides: Models.Document[];
 	totalCount: number;
 }
 interface UserData {
-	id: string;
+	id?: string;
 	name: string;
 	email: string;
+	labels?:string[],
 	prefs: {
 		bio: string;
 		avatarUrl: string;
@@ -143,7 +154,7 @@ interface UserData {
 		profileImageId: string;
 	};
 	status: boolean;
-	registration: string;
+	registration?: string;
 	emailVerification: boolean;
 }
 
@@ -164,9 +175,9 @@ interface ProfileData {
 		// Pass the countryIcon to the prefs object
 		// Add more prefs properties as needed
 	};
-	status: boolean;
-	registration: string;
-	emailVerification: boolean;
+	status?: boolean;
+	registration?: string;
+	emailVerification?: boolean;
 }
 
 interface Campus {
@@ -205,8 +216,13 @@ interface Course {
 	year: string;
 	user_id: string;
 	$createdAt: string;
+	campusId?: string;
   }
-
+  interface CourseCardProps {
+	course: Course;
+	courses: Course[];
+	setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  }
 interface CourseCardProps {
 	course: {
 	  $id: string;

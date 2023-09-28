@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   bytesToSize,
   createSlide,
-  getCurrentUserAndSetUser,
+  
 } from "@/lib/functions";
 import { storage, ID } from "@/appwrite";
 import { Button } from "@/components/ui/button";
@@ -30,13 +30,15 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { UploadProgress } from "appwrite";
-import { Progress } from "./ui/progress";
+
 import { useCampuses } from "@/customHooks/useCampuses";
 import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
-import { Badge } from "./ui/badge";
-import FileUpload from "./fileUpload";
-import { useMyContext } from "./MyContext";
+import FileUpload from "@/components/fileUpload";
+import { Progress } from "@/components/ui/progress";
+
+import { Separator } from "@/components/ui/separator";
+import { useMyContext } from "@/components/MyContext";
 
 
 function isStepValid(
@@ -61,10 +63,9 @@ function isStepValid(
 
 
 export default function AddSlides() {
-  const {user}=useMyContext();
   const [currentFiles, setCurrentFiles] = useState([]);
   const [courseId, setCourseId] = useState<string>("");
-
+const{user}=useMyContext();
   const [programId, setProgramId] = useState<string>("");
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses
@@ -80,9 +81,10 @@ export default function AddSlides() {
   const [isCoursePopoverOpen, setIsCoursePopoverOpen] = useState(false); // Renamed from 'open1' to 'isCoursePopoverOpen'
   const [isCampusPopoverOpen, setIsCampusPopoverOpen] = useState(false);
 
-  
+
 // Update FileUpload component
   const handleSubmit = async (event: React.FormEvent) => {
+   
     event.preventDefault();
 
     const errorMessage = isStepValid(
@@ -96,10 +98,10 @@ export default function AddSlides() {
       toast.error(errorMessage);
       return;
     }
-    let uploadCounter = 0; 
-    const toastId = toast.loading("Uploading files..."); // Show a loading toast
+   
   
     async function handleFileUpload(file: File) {
+      
       try {
         // Create a new Appwrite file
         const response = await storage.createFile(
@@ -111,7 +113,7 @@ export default function AddSlides() {
             const uploadProgress = Math.round(
               (progress.chunksUploaded * 100) / progress.chunksTotal
             );
-            console.log("Upload progress:", uploadProgress);
+           
             setUploadProgress(uploadProgress);
           }
         );
@@ -144,6 +146,9 @@ export default function AddSlides() {
     }
 
     if (currentFiles.length > 0) {
+      let successfulUploads = 0;
+      const toastId = toast.loading("Uploading files..."); // Show a loading toast
+     
       for (let i = 0; i < currentFiles.length; i++) {
         const currentFile = currentFiles[i] as File;
         try {
@@ -160,124 +165,49 @@ export default function AddSlides() {
             const fileName = currentFile.name.replace(/_/g, " ");
             const slideData = {
               name: fileName.slice(0, fileName.lastIndexOf(".")),
-  size: bytesToSize(currentFile.size),
+  size:  bytesToSize(currentFile.size),
   fileUrl: uploadedFileUrl,
   fileType: fileExtension ? fileExtension.toString() : "",
   courseId,
   previewUrl: filePreviewResponse,
   user_id: user?.$id,
+
+  programme: programs.find((program) => program.$id === programId)?.name,
             };
       
             const response = await createSlide(slideData);
             if (response) {
-              setUploadCounter(prevCount => prevCount + 1); 
+              successfulUploads++;
             }
           }
 
 
+            
+           
+            
 
         } catch (error) {
           // Handle upload error
           console.error("Upload failed:", error);
         }
       }
-    }
-
-//   // Loop through the files and upload them one by one
-//     if (currentFiles.length>0) {
-//       for (let i = 0; i < currentFiles.length; i++) {
-//         const currentFile = currentFiles[i] as File;
-//       try {
-//         const handleFileUpload = async () => {
-//           try {
-//             const file = currentFile;
-//             const uploader = await 
-//               storage.createFile(
-//                 process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-//                 ID.unique(),
-//                 file,
-//                 undefined,
-//                 (progress: UploadProgress) => {
-//                   // Update the progress bar with the progress value (0-100)
-//                   const uploadprogress = Math.round(
-//                     (progress.chunksUploaded * 100) / progress.chunksTotal
-//                   );
-//                   console.log("Upload progress:", uploadprogress);
-//                   setUploadProgress(uploadprogress);
-//                 }
-            
-//             );
-
-//             const fileId = uploader.$id;
-//             const fileDetails = await storage.getFile(
-//               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-//               fileId
-//             );
-//             const fileName = fileDetails.name || "";
-//             const fileUrlResponse = await storage.getFileDownload(
-//               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-//               fileId
-//             );
-//             const filePreviewResponse = await storage.getFilePreview(
-//               process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-//               fileId
-//             );
-//             const uploadedFileUrl = fileUrlResponse.toString();
-
-//             return { uploadedFileUrl, filePreviewResponse };
-//           } catch (error) {
-//             throw new Error("Upload failed" + error);
-//           }
-//         };
-
-//         const result = await handleFileUpload();
-
-//         if (result.uploadedFileUrl !== "") {
-//           const { uploadedFileUrl, filePreviewResponse } = result;
-//           const fileExtension = currentFile.name
-//             .split(".")
-//             .pop()
-//             ?.toUpperCase();
-//           const fileName = currentFile.name.replace(/_/g, " ");
-//           const slideData = {
-//             name: fileName.slice(0, fileName.lastIndexOf(".")),
-//             size: bytesToSize(currentFile.size),
-//             fileUrl: uploadedFileUrl,
-//             fileType: fileExtension ? fileExtension.toString() : "",
-//             courseId,
-//             previewUrl: filePreviewResponse,
-//             user_id: user?.id,
-//           };
-
-//           const response = await createSlide(slideData);
-//           if (response) {
-//             uploadCounter++; // Increment the counter when a file is uploaded
-//           }
-//         }
-//       } catch (error) {
-//         // File upload failed, handle the error
-//         console.error("Upload failed", error);
+      // Update the state after the loop
+  setUploadCounter(successfulUploads);
+      if (successfulUploads === currentFiles.length) {
+        toast.success("All files have been uploaded successfully!", { id: toastId });
+  
+        // Clear the fields after successful upload
+        setCurrentFiles([]);
+        setProgramId("");
+        setCourseId("");
+        setUploadProgress(0);
+        setUploadCounter(0); // Reset the upload counter
         
-//         toast.error("Upload failed. Please try again later.");
-//       }
-//     }
-// // Update the loading toast to a success toast when all files have been uploaded      
-//   if (uploadCounter === currentFiles.length) {
-//     toast.success("All files have been uploaded successfully!", { id: toastId });
-//   }
-
-
-//     // Clear the array of files, reset programId, courseId and progress after all uploads
-//     setCurrentFiles([]);
-//     setProgramId("");
-//     setCourseId("");
-//     setActiveStep(0);
-//     setIsLastStep(false);
-//     setIsFirstStep(false);
-//     setUploadProgress(0);
-//     uploadProgress > 0 && setUploadProgress(0);
-//   }
-
+      }
+   
+  
+    }
+   
   }
   
 
@@ -300,18 +230,21 @@ export default function AddSlides() {
 
   return (
     <>
-      <div>
-        <Badge
-          className="flex items-center justify-center mx-auto w-fit"
-          variant="secondary"
-        >
-         
-        </Badge>
-        <div className="w-full max-w-3xl mx-auto">
-          <form onSubmit={handleSubmit}>
+     
+     <h2 className="p-5 mb-4 text-2xl font-bold">
+  Upload Slides
+</h2>
+        
+     
+      <Separator className="mb-4"/>
+      
+        <div className="w-full max-w-4xl mx-auto">
+          <form onSubmit={handleSubmit} className="pb-10 mx-auto ">
             <div className="grid items-center w-full gap-2 space-y-6">
            
-                <div className="flex flex-col space-y-1.5">
+                <div className="grid md:grid-cols-2">
+
+                <div className="flex flex-col space-y-1.5 p-4 ">
                   <Label htmlFor="Campus">Campuses</Label>
                   <Popover
                     open={isCampusPopoverOpen}
@@ -368,7 +301,7 @@ export default function AddSlides() {
           
 
            
-                <div className="flex flex-col space-y-1.5">
+                <div className="flex flex-col space-y-1.5 p-4">
                   <Label htmlFor="programme">Programme</Label>
                   <Popover
                     open={isProgramPopoverOpen}
@@ -423,10 +356,12 @@ export default function AddSlides() {
                     </PopoverContent>
                   </Popover>
                 </div>
+                </div>
              
 
-            
-                <div className="flex flex-col space-y-1.5">
+            <div className="grid md:grid-cols-2">
+              
+            <div className="flex flex-col space-y-1.5 p-4 md:max-w-lg">
                   <Label htmlFor="course">Courses</Label>
                   <Popover
                     open={isCoursePopoverOpen}
@@ -484,10 +419,11 @@ export default function AddSlides() {
                     </PopoverContent>
                   </Popover>
                 </div>
+            </div>
             
 
 
-                <div className="grid w-full items-center gap-1.5">
+                <div className="grid w-full items-center gap-1.5 p-4">
               
                   <FileUpload
         currentFiles={currentFiles}
@@ -499,7 +435,7 @@ export default function AddSlides() {
               {/* Render the progress bar */}
               {uploadProgress > 0 && <Progress value={uploadProgress} />}
               {/* Render the navigation buttons */}
-              <div className="flex justify-between mt-10">
+              <div className="grid w-full items-center gap-1.5 p-4 md:flex md:justify-end">
          
                
                
@@ -509,8 +445,8 @@ export default function AddSlides() {
             </div>
           </form>
         </div>
-        <Toaster />
-      </div>
+ 
+     
     </>
   );
 }

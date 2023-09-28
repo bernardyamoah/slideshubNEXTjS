@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
+import { useMyContext } from "./MyContext";
 
 interface AddProgramProps {
   user: any;
@@ -30,13 +31,14 @@ interface AddProgramProps {
 
 
 export default function AddProgram() {
+  const {user}=useMyContext();
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
  
   const [duration, setDuration] = useState('');
  
   const [value, setValue] = React.useState("")
-  const [user, setUser] = useState<UserWithId | null>(null); // Update the type of user state
+ 
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
@@ -47,8 +49,7 @@ export default function AddProgram() {
       try {
         const response = await getCampus();
         setCampuses(response);
-        const userId = await getCurrentUserAndSetUser(); // Call the getCurrentUser function
-        setUser(userId);
+        
       } catch (error) {
 
       }
@@ -127,7 +128,7 @@ export default function AddProgram() {
         duration,
         image: imageUrl,
         campusId: value,
-        user_id: user?.id,
+        user_id: user?.$id
 
       };
 
@@ -167,7 +168,7 @@ export default function AddProgram() {
 
 
 
-      <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-6 place-content-center">
+      <form onSubmit={handleSubmit} className="w-full max-w-3xl p-6 mx-auto place-content-center">
         <div className="grid w-full gap-4">
 
 
@@ -203,7 +204,7 @@ export default function AddProgram() {
     <SelectGroup >
       <SelectLabel>Campus</SelectLabel>
       {campuses.map((campus) => (
-        <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm text-right font-medium'>{campus.location}</span>  </SelectItem>
+        <SelectItem  key={campus.$id} value={campus.$id} >{campus.name}, <span className='text-sm font-medium text-right'>{campus.location}</span>  </SelectItem>
       ))}
 
 
@@ -248,7 +249,7 @@ export default function AddProgram() {
 
 
 
-          <div className="mt-16 flex justify-between">
+          <div className="flex justify-between mt-16">
             <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
               Prev
             </Button>
@@ -274,10 +275,3 @@ export default function AddProgram() {
     </>
   );
 }
-// {uploadProgress > 0 && (
-//   <CardFooter className="flex justify-between">
-//     <div className="w-full space-y-2">
-//       <div>Upload Progress: {uploadProgress}%</div>
-//       <Progress value={uploadProgress} />
-//     </div>
-//   </CardFooter>

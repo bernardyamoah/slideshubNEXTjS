@@ -30,7 +30,7 @@ const Features = () => {
 
   return (
     <>
-      <section className="bg-pattern w-full flex items-center justify-center">
+      <section className=" w-full flex items-center justify-center">
         <div className="w-full">
           <div className="space-y-10 w-full">
             <div className="sm:text-3xl md:text-4xl mx-auto mb-20 text-center">

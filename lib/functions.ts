@@ -1,4 +1,4 @@
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import {
 	databases,
@@ -10,7 +10,7 @@ import {
 	avatars,
 	teams,
 } from "@/appwrite";
-import { users } from "./AppwiteNodeJs";
+
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -104,7 +104,7 @@ export const createCourse = async (courseData: CourseData) => {
 			courseData
 		);
 
-		successMessage("Course created! 🎉");
+		successMessage("Course was created successfully 🎉");
 		return data;
 	} catch (error) {
 		errorMessage("Error creating course");
@@ -220,19 +220,13 @@ export const createSlide = async (slideData: SlidesData) => {
 		// return;
 		// }
 
-		const data = await toast.promise(
+		const data = await 
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				ID.unique(),
 				slideData
-			),
-			{
-				loading: "Creating slide...",
-				success: "Slides uploaded! 🎉",
-				error: "Failed to upload slides",
-			}
-		);
+			)
 		return data;
 	} catch (error) {
 		errorMessage("Error adding slide");
@@ -240,7 +234,6 @@ export const createSlide = async (slideData: SlidesData) => {
 	}
 };
 
-// =====================================================================
 
 //===========  FETCH DATA =========================================
 
@@ -364,7 +357,7 @@ export const getSlides = async (): Promise<any[]> => {
 };
 
 export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
-	console.log("🚀 ~ file: functions.ts:367 ~ getSlidesByCourseId ~ courseId:", courseId)
+	
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -554,11 +547,14 @@ export const signUp = async (
 ) => {
 	try {
 		await account.create(ID.unique(), email, password, name);
+		// await account.createVerification(email);
+		await account.createEmailSession(email, password);
+
 		successMessage("Account created! 🎉");
-		router.push("/login");
+		router.push("/dashboard");
 	} catch (error) {
 		errorMessage("Check your network / User already exists ❌");
-		router.push("/login");
+		router.push("/register");
 	}
 };
 
@@ -572,10 +568,14 @@ export const logIn = async (
 ) => {
 	try {
 		await account.createEmailSession(email, password);
-		setEmail("");
-		setPassword("");
+		
+	
+		
 		successMessage("Welcome back! 🎉");
 		router.push("/dashboard");
+
+	
+	
 	} catch (error) {
 		errorMessage("Invalid credentials ❌");
 	}
@@ -595,28 +595,42 @@ export const logOut = async (router: any) => {
 	}
 };
 
-export const getCurrentUser = async () => {
+
+export const getCurrentUser = async (): Promise<string | null> => {
 	try {
-		const UserId = await account.get();
-		return UserId;
-	} catch (error) {}
-};
+	  const request = await account.get();
 
-export const getCurrentUserAndSetUser =
-	async (): Promise<UserWithId | null> => {
-		try {
-			const userdata = await getCurrentUser(); // Call the getCurrentUser function
-			const userWithId: UserWithId | null = userdata
-				? { ...userdata, id: userdata.$id }
-				: null;
+	  return request.$id;
+	} catch (error) {
+	  console.error("Error fetching user ID:", error);
+	  return null;
+	}
+  };
 
-			return userWithId;
-		} catch (error) {
-			// Handle the error
-			return null;
-		}
-	};
+// export const getCurrentUserAndSetUser =
+// 	async (): Promise<UserWithId | null> => {
+// 		try {
+// 			const userdata = await getCurrentUser(); // Call the getCurrentUser function
+// 			const userWithId: UserWithId | null = userdata
+// 				? { ...userdata, id: userdata.$id }
+// 				: null;
 
+// 			return userWithId;
+// 		} catch (error) {
+// 			// Handle the error
+// 			return null;
+// 		}
+// 	};
+export const getCurrentUserAndSetUser = async ()  => {
+	try {
+	  const response = await account.get();
+	  return response;
+	  
+	} catch (error) {
+	  console.error("Error fetching user:", error);
+	  return null;
+	}
+  };
 // Check authentication status function
 export const checkAuthStatus = async (
 	setUser: (user: any) => void,
@@ -632,33 +646,6 @@ export const checkAuthStatus = async (
 	}
 };
 
-//👇🏻 Appwrite authenticate and get user's slides
-// export const checkAuthStatusDashboard = async (
-// 	setUser: (user: any) => void,
-// 	setLoading: (loading: boolean) => void,
-// 	setSlides: (slides: any[]) => void,
-// 	setTotalPages: (totalPages: number) => void, // Add setTotalPages function
-// 	setCourses: (courses: Course[]) => void, // Add setCourses function
-	
-// 	page: number // Dynamically set page number
-// ) => {
-// 	try {
-// 		const request = await account.get();
-// 		const userId = request.$id;
-
-// 		const perPage = 12; // Number of slides per page
-
-// 		const totalPages = await getTotalPages(userId, perPage); // Get the total number of pages
-
-// 		getUserSlides(userId, page, perPage, setSlides, setLoading);
-// 		const courses = await getCourses();
-// 		setUser(request);
-// 		setCourses(courses); // Set user courses
-// 		setTotalPages(totalPages); // Set the total number of pages
-// 	} catch (err) {
-// 		throw new Error('error')
-// 	}
-// };
 export const checkAuthStatusDashboard = async (
 	setUser: (user: any) => void,
 	setLoading: (loading: boolean) => void,
@@ -713,6 +700,8 @@ export const getUserSlides = async (
 		throw new Error("Database ID is not defined");
 	}
 	try {
+	
+		
 		setLoading(true);
 		const perPage = 12; 
 		const totalPages = await getTotalPages(userId, perPage);
@@ -771,12 +760,12 @@ export const deleteSlide = async (id: string) => {
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				id
 			);
-			// Page refresh after successful deletion
-			window.location.reload();
+			
+			 successMessage("Slide deleted! 🎉");
 		} else {
 			errorMessage("Failed to delete Slide ❌");
 		}
-		successMessage("Slide deleted! 🎉");
+		
 	} catch (err) {
 		errorMessage("Action declined ❌");
 	}
@@ -795,8 +784,7 @@ export const deleteCourse = async (id: string) => {
 				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
 				id
 			);
-			// Page refresh after successful deletion
-			window.location.reload();
+			
 		} else {
 			errorMessage("Failed to delete Course ❌");
 		}
@@ -806,36 +794,6 @@ export const deleteCourse = async (id: string) => {
 	}
 };
 
-// export const updateSlide = async (id: string, updatedAttributes: any) => {
-//   try {
-//     // Retrieve the document from the Appwrite database
-//     const getDoc = await databases.getDocument(
-//       databaseId!, // Replace with your database ID
-//       process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-//       id
-//     );
-
-//     // Check if the retrieved document matches the provided ID
-//     if (getDoc.$id === id) {
-//       // Merge the updated attributes with the existing document attributes
-//       const updatedDoc = { ...getDoc, ...updatedAttributes };
-
-//       // Update the document with the merged attributes
-//       await databases.updateDocument(
-//         databaseId!, // Replace with your database ID
-//         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-//         id,
-//         updatedDoc
-//       );
-//     } else {
-//       throw new Error("Slide document not found");
-//     }
-//   } catch (error) {
-//     // Handle any errors that occur during the update process
-//     console.error('Failed to update slide:', error);
-//     throw error;
-//   }
-// };
 
 export const updateSlide = async (id: string, updatedAttributes: any) => {
 	try {
@@ -956,26 +914,13 @@ export const handleAppleSignIn = async () => {
 	}
 };
 
-export const handleMicrosoftSignIn = async () => {
-	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
 
-		// Go to OAuth provider login page (Microsoft)
-		await account.createOAuth2Session("microsoft", redirectUrl);
-	} catch (error) {
-		errorMessage("Error initiating Microsoft OAuth:" + error);
-	}
-};
 
 // Get Avatars
-// Function to get the user's initials avatar URL
+
 export const getUserInitials = async (name: string) => {
 	try {
-		const result = await avatars.getInitials(name);
+		const result =  avatars.getInitials(name);
 
 		return result.href.toString();
 	} catch (error) {
@@ -1011,57 +956,52 @@ export const checkUserInTeam = async () => {
 		return false;
 	}
 };
-
-export const getUserData = async () => {
+ 
+  export const getUserData = async () => {
 	try {
-		// Get the current user's information
-
-		const response = await account.get();
-
-		const logistics = await account.getSession("current");
-		const { countryName, countryCode, ...userSessionData } = logistics;
-		const country_icon = await avatars.getFlag(countryCode).href.toString();
-
-		// Extract the user data from the response and return it
-		const userData: UserData = {
-			id: response.$id,
-			name: response.name,
-			email: response.email,
-			prefs: {
-				bio: response.prefs?.bio || "",
-				avatarUrl: response.prefs?.avatarUrl || "",
-				coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
-				phoneNumber: response.prefs?.phoneNumber || "",
-				country: countryName || "",
-				countryFlagEmoji: country_icon || "",
-				profileImage: response.prefs?.profileImage || "",
-				profileImageId: response.prefs?.profileImageId || "",
-				// Pass the countryIcon to the prefs object
-			},
-			status: response.status,
-			registration: response.registration,
-			emailVerification: response.emailVerification,
-
-			// Add more fields as needed
-		};
-
-		return userData;
+	  const response = await account.get();
+	  const logistics = await account.getSession("current");
+	  
+	  const { countryName, countryCode, ...userSessionData } = logistics;
+	  const country_icon =  avatars.getFlag(countryCode).href.toString();
+  
+	  // Extract the user data from the response and return it
+	  const userData: UserData = {
+		id: response.$id,
+		name: response.name,
+		email: response.email,
+		
+		prefs: {
+		  bio: response.prefs?.bio || "",
+		  avatarUrl: response.prefs?.avatarUrl || "",
+		  coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
+		  phoneNumber: response.prefs?.phoneNumber || "",
+		  country: countryName || "",
+		  countryFlagEmoji: country_icon || "",
+		  profileImage: response.prefs?.profileImage || "",
+		  profileImageId: response.prefs?.profileImageId || "",
+		  // Pass the countryIcon to the prefs object
+		},
+		status: response.status,
+		registration: response.registration,
+		emailVerification: response.emailVerification,
+  
+		// Add more fields as needed
+	  };
+  
+	  return userData;
 	} catch (error) {
-		// Handle any errors that occurred during the data retrieval
-		console.error("Error fetching user data:", error);
-		throw error;
+	  // Handle any errors that occurred during the data retrieval
+	  console.error("Error fetching user data:", error);
+	  throw error;
 	}
-};
-
+  };
 // Function to update user data
 export const updateUserData = async (updatedUserData: ProfileData) => {
 	try {
 		// Get the current user's information
 		const response = await account.get();
-		console.log(
-			"🚀 ~ file: functions.ts:968 ~ updateUserData ~ response:",
-			response
-		);
+		
 
 		// Merge the updated user data with the existing user data
 		const userData = { ...response, ...updatedUserData };
@@ -1073,10 +1013,7 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		if (prefs) {
 			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
 			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
-			console.log(
-				"🚀 ~ file: functions.ts:960 ~ updateUserData ~ updatedPrefs:",
-				updatedPrefs
-			);
+			
 
 			if (prefs.bio) {
 				// Update the bio

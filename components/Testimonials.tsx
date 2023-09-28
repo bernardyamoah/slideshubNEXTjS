@@ -9,7 +9,7 @@ export default function Testimonials() {
 
 	return (
 		<>
-			<section className="bg-pattern py-10   mx-auto w-full">
+			<section className=" py-10   mx-auto w-full">
 				<div className="w-full">
 					<p className="text-sm md:text-base font-medium text-emerald-500 md:text-center">Testimonials</p>
 

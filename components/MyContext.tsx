@@ -2,12 +2,10 @@
 import { checkUserInTeam, getCampus, getCoursesByProgramId, getCurrentUserAndSetUser, getProgramsByCampusId } from "@/lib/functions";
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 
-// Replace this with the actual UserWithId interface or type
-
 
 interface MyContextState {
   campuses: any[];
-  user: UserWithId | null;
+  user: User<any> | null;
   programId: string;
   courseId: string;
   currentFile: File | null;
@@ -25,7 +23,7 @@ interface MyContextState {
 interface MyContextActions {
   setCurrentFile: (file: File | null) => void;
   setCourseId: (courseId: string) => void;
-  setUser: (user: UserWithId | null) => void;
+  setUser: (user: User<any> | null) => void;
   setProgramId: (programId: string) => void;
   setCampusId: (campusId: string) => void;
   
@@ -55,7 +53,7 @@ function useMyContext() {
 const MyContextProvider : React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [courseId, setCourseId] = useState<string>("");
-  const [user, setUser] = useState<UserWithId | null>(null);
+  const [user, setUser] = useState<User<any> | null>(null)
   const [programId, setProgramId] = useState<string>("");
   const [campuses, setCampuses] = useState<any[]>([]);
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
@@ -74,8 +72,10 @@ const [userInTeam, setUserInTeam] = useState(false);
         const campusList = await getCampus();
         setCampuses(campusList);
 
-        const userId = await getCurrentUserAndSetUser();
-        setUser(userId);
+        const user = await getCurrentUserAndSetUser();
+      
+      
+        setUser(user);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -83,6 +83,17 @@ const [userInTeam, setUserInTeam] = useState(false);
 
     fetchData();
   }, [campusId, programId]); // Added campusId and programId as dependencies
+  // const checkUserMembership = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const isUserInTeam = await checkUserInTeam();
+  //     console.log("Is user in team:", isUserInTeam);
+  //     setUserInTeam(isUserInTeam);
+  //   } catch (error) {
+  //     console.error("Error checking team membership:", error);
+  //     setUserInTeam(false);
+  //   }
+   
+  // }, []);
   const checkUserMembership = useCallback(async (): Promise<void> => {
     try {
       const isUserInTeam = await checkUserInTeam();
@@ -92,8 +103,14 @@ const [userInTeam, setUserInTeam] = useState(false);
       console.error("Error checking team membership:", error);
       setUserInTeam(false);
     }
-   
   }, []);
+  
+  useEffect(() => {
+    checkUserMembership();
+  }, []);
+
+
+
   // Memoized functions
   const handleProgramChange = useMemo(
     () => async (selectedValue: string) => {
