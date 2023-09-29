@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import BackButtonNavigation from "@/components/ui/back";
 import { MyContextProvider } from "@/components/MyContext";
 import MobileMenu from "../components/mobile-menu";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Slideshub",
@@ -53,9 +54,10 @@ export default function RootLayout({
             <BackButtonNavigation />
 
             {children}
-<MobileMenu/>
-            <Toaster />
+            <MobileMenu />
+            <Footer />
 
+            <Toaster />
             <Analytics />
           </body>
         </MyContextProvider>
