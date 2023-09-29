@@ -12,7 +12,7 @@ interface CourseData {
 interface ProgramData {
 	name: string;
 	duration: string;
-	image: string;
+	image?: string;
 	campusId: string;
 }
 

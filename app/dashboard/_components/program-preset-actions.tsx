@@ -1,6 +1,6 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -36,7 +36,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import DocumentUpload from "@/components/document-upload";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { deleteProgram, updateProgram } from "@/lib/functions";
+import { deleteProgram, getCampus, updateProgram } from "@/lib/functions";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 interface PresetActionsProps {
  
@@ -53,10 +55,14 @@ export function PresetActions({
  
   const [showDialog, setShowDialog] = useState(false);
   const programData = programs.find((program) => program.$id === id);
+  const [campuses, setCampuses] = useState<any[]>([]); // 
+  
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   
   const [formFields, setFormFields] = useState({
     updatedName: programData?.name || '',
     updatedDuration: programData?.duration || '',
+    updatedDescription: programData?.description || '',
     updatedCampusId: programData?.campusId || '',
     });
   const handleSubmit = async (event: React.FormEvent) => {
@@ -76,19 +82,24 @@ export function PresetActions({
       if (formFields.updatedDuration !== programData?.duration) {
         updatedAttributes.duration = formFields.updatedDuration;
         }
+        if (formFields.updatedDescription !== programData?.description) {
+          updatedAttributes.duration = formFields.updatedDuration;
+          }
+        
         if (formFields.updatedCampusId !== programData?.campusId) {
           updatedAttributes.campusId = formFields.updatedCampusId;
           }
 
       await updateProgram(id, updatedAttributes);
 
-      // Reset form fields
+      
       
       //  Reset form fields
 setFormFields({
 updatedName: formFields.updatedName || '',
-updatedDuration: '',
-updatedCampusId: ''
+updatedDuration: formFields.updatedDuration || '',
+updatedCampusId: formFields.updatedCampusId || '',
+updatedDescription:formFields.updatedDescription || '',
 });
 
       setPrograms((prevPrograms) =>
@@ -108,6 +119,30 @@ updatedCampusId: ''
     }
   };
 
+
+
+ 
+  useEffect(() => {
+    async function fetchCampuses() {
+      try {
+        const response = await getCampus();
+        setCampuses(response)
+        // const selectedCampus = response.find((campus) => campus.$id === programData?.campusId);
+  
+        // if (selectedCampus) {
+        //   setFormFields((prevFormFields) => ({
+        //     ...prevFormFields,
+        //     updatedCampusId: selectedCampus.name,
+        //   }));
+        // };
+        
+      } catch (error) {
+
+      }
+    }
+
+    fetchCampuses();
+  }, []);
   const handleDeleteSlide = async () => {
     try {
       // Call the deleteSlide function to delete the slide
@@ -120,10 +155,14 @@ updatedCampusId: ''
       // Handle error
     }
   };
-
- 
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
+  const handleSelectChange = (selectedValue: string) => {
+  
+    setFormFields((prevFormFields) => ({
+      ...prevFormFields,
+      updatedCampusId: selectedValue,
+    }));
+    
+  };
   return (
     <>
       <DropdownMenu>
@@ -181,22 +220,59 @@ updatedCampusId: ''
               <Label htmlFor="duration" className="col-span-4 text-left">
                 Update Duration
               </Label>
+              <Input
+                id="duration"
+                placeholder="4 years"
+                value={formFields.updatedDuration}
+                onChange={(event) => setFormFields((prevFormFields) => ({
+                  ...prevFormFields,
+                  updatedDuration: event.target.value,
+                }))}
+              />
              
             </div>
+            
             {/* Update program Description */}
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="description" className="col-span-4 text-left">
                 Update Description
               </Label>
+              <Textarea className="col-span-4" value={formFields.updatedDescription}
+    onChange={(event) =>
+      setFormFields((prevFormFields) => ({
+        ...prevFormFields,
+        updatedDescription: event.target.value,
+      }))
+    }/>
              
             </div>
              {/* Update program Campus */}
-             <div className="grid items-center grid-cols-4 gap-4">
+             {/* <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="campus" className="col-span-4 text-left">
                 Update Campus
               </Label>
-             
-            </div>
+                      
+
+              <Select onValueChange={handleSelectChange}>
+  <SelectTrigger className="w-full col-span-4">
+  <SelectValue placeholder="Select campus" defaultValue={formFields.updatedCampusId} />
+  </SelectTrigger>
+
+  <SelectContent position="item-aligned" className="w-full">
+    <SelectGroup>
+      <SelectLabel>Campus</SelectLabel>
+      {campuses.map((campus) => (
+        <SelectItem key={campus.$id} value={campus.$id}>
+          {campus.name}, {campus.location}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
+
+
+
+            </div> */}
 
           </div>
           <DialogFooter>

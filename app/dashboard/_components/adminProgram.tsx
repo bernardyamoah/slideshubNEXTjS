@@ -7,6 +7,7 @@ import Pagination from '@/components/pagination-button';
 
 import { Card, CardTitle } from '@/components/ui/card';
 import { PresetActions } from './program-preset-actions';
+import { GraduationCapIcon } from 'lucide-react';
 
 
 
@@ -62,7 +63,7 @@ const perPage=9
   return (
     <>
     {loading && <Loading />}
-    <aside className= 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  grid mx-auto py-6 gap-8 auto-rows-auto '>
+    <aside className= 'grid grid-cols-1 gap-8 py-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto '>
     {memoizedPrograms.map((program) => (
           <Card key={program.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">
           <div className="pointer-events-none">
@@ -74,10 +75,9 @@ const perPage=9
           
             <article className="p-4 md:p-8">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
-                  <time dateTime={program.$createdAt}>{formatUserTime(program.$updatedAt)}
-                  
-                  </time>
+                <span className="flex gap-2 text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+                  <GraduationCapIcon className='w-4 h-4 text-muted-foreground' />
+                  {program.duration}
                 </span>
                 <span className="flex items-center gap-1 text-xs text-zinc-500">
                 <PresetActions  id={program.$id} programs={programs} setPrograms={setPrograms}  />
@@ -86,7 +86,15 @@ const perPage=9
               <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-1000 lg:text-3xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
               {program.name}
               </CardTitle>
-  
+              <div className="z-20 flex gap-4 mt-2">
+        
+            <span className="flex gap-2 text-sm duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
+           Last updated on
+              <time dateTime={program.$createdAt}>{formatUserTime(program.$updatedAt)}
+                  </time>
+              
+            </span>
+          </div>
             </article>
           </div>
         </Card>
