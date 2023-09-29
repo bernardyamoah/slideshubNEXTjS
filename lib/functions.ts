@@ -317,7 +317,7 @@ export const updateProgram = async (id: string, updatedAttributes: any) => {
 	  // Update the program in the database
 	  await databases.updateDocument(
 		databaseId!,
-		process.env.NEXT_PUBLIC_PROGRAM_COLLECTION_ID!,
+		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
 		id,
 		updatedAttributes
 	  );

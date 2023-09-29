@@ -86,7 +86,7 @@ export function PresetActions({
       
       //  Reset form fields
 setFormFields({
-updatedName: programData?.name || '',
+updatedName: formFields.updatedName || '',
 updatedDuration: '',
 updatedCampusId: ''
 });
