@@ -19,13 +19,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { successMessage, deleteCourse, updateCourse } from "@/lib/functions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Input } from "./ui/input"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../../components/ui/dialog"
+import { Input } from "../../../components/ui/input"
 import { useState } from "react";
-import { Label } from "./ui/label";
+import { Label } from "../../../components/ui/label";
 
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../../../components/ui/command";
 import { cn } from "@/lib/utils";
 interface CourseCardProps {
   course: Course;

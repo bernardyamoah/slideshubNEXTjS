@@ -2,7 +2,7 @@
 import { formatTime, formatUserTime } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
-import { PresetActions } from '@/app/dashboard/_components/preset-actions';
+import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
 
 
 import {  useCallback, useEffect, useMemo, useState } from 'react';
@@ -85,6 +85,7 @@ export default function Slides ({user}:UserProps){
             <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
             <ShieldCheck className='w-4 h-4 text-muted-foreground' />
               <span className='text-xs text-muted-background'>{slide.fileType}</span>
+              <a className='text-xs text-muted-background' href={slide.fileUrl} download={slide.fileUrl} >Download</a>
               
             </span>
           </div>

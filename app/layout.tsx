@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 import BackButtonNavigation from "@/components/ui/back";
 import { MyContextProvider } from "@/components/MyContext";
-import MobileMenu from "./dashboard/_components/mobile-menu";
+import MobileMenu from "../components/mobile-menu";
 
 export const metadata = {
   title: "Slideshub",

@@ -4,8 +4,8 @@ import { buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"
-
-import { LayoutDashboard, PanelLeftOpen } from "lucide-react";
+import {UserSidebarRoutes} from "@/lib/navRoute";  
+import {  PanelLeftOpen } from "lucide-react";
 import { sidebarRoutes } from "@/lib/navRoute";
 import { useMyContext } from "@/components/MyContext";
 import { useState } from "react";
@@ -29,47 +29,51 @@ const MobileNav = ()=>{
       </SheetTrigger>
       <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0">
         <div className="grid gap-4 py-16 ">
-        {user && (
-  <Link
-    key="dashboard"
-    href="/dashboard"
-    onClick={()=> handleOnClick('/dashboard')}
-    className={cn(
-      buttonVariants({ variant: "ghost" }),
-      pathname === "/dashboard"
-        ? "bg-emerald-600 hover:bg-none font-bold tracking-wide  text-white hover:bg-emerald-600/90"
-        : " hover:bg-emerald-100/90",
-      "justify-start rounded-r-none"
-    )}
-    
-     
-  >
-    <span className="flex items-center space-x-3">
-      <LayoutDashboard />
-      <span className="text-base">Dashboard</span>
-    </span>
-  </Link>
-)}
-          {sidebarRoutes.map((item) => (
-            <Link
-              key={item.link}
-              href={item.link}
-              onClick={() => handleOnClick(item.link)}
-               
-              className={cn(
-                buttonVariants({ variant: "ghost" }),
-                pathname === item.link
-                  ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
-                  : "hover:bg-transparent hover:underline",
-                "justify-start"
-              )}
-            >
-              <span className="flex items-center space-x-3 ">
-                {item.icon}
-                <span className="text-base">  {item.name}</span>
-              </span>
-            </Link>
-          ))}
+        {user ? (
+  <>
+    {UserSidebarRoutes.map((item) => (
+      <Link
+        key={item.link}
+        href={item.link}
+        onClick={() => handleOnClick(item.link)}
+        className={cn(
+          buttonVariants({ variant: "ghost" }),
+          pathname === item.link
+            ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
+            : "hover:bg-transparent hover:underline",
+          "justify-start"
+        )}
+      >
+        <span className="flex items-center space-x-3 ">
+          {item.icon}
+          <span className="text-base"> {item.name}</span>
+        </span>
+      </Link>
+    ))}
+  </>
+) : (
+  <>
+    {sidebarRoutes.map((item) => (
+      <Link
+        key={item.link}
+        href={item.link}
+        onClick={() => handleOnClick(item.link)}
+        className={cn(
+          buttonVariants({ variant: "ghost" }),
+          pathname === item.link
+            ? "bg-emerald-600  hover:bg-none font-bold tracking-wide hover:text-white text-white hover:bg-emerald-500"
+            : "hover:bg-transparent hover:underline",
+          "justify-start"
+        )}
+      >
+        <span className="flex items-center space-x-3 ">
+          {item.icon}
+          <span className="text-base"> {item.name}</span>
+        </span>
+      </Link>
+    ))}
+  </>
+)} 
         </div>
 
         <SheetFooter className="space-x-2 flex flex-row items-center !justify-start absolute bottom-6"></SheetFooter>

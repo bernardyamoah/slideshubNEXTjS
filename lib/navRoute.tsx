@@ -20,7 +20,7 @@ export const tabTriggers = [
   ];
   export const sidebarRoutes = [
     { name: "Home", link: "/", icon: <Home /> },
-   
+    // {name: "Dashboard", link: "/dashboard", icon: <LayoutDashboard />},
     { name: "Campus", link: "/campus", icon: <School /> },
     { name: "Books", link: "/books", icon: <BookCopy /> },
 

@@ -10,6 +10,7 @@ import {
 	avatars,
 	teams,
 } from "@/appwrite";
+import { UploadProgress } from "appwrite";
 
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
@@ -34,6 +35,8 @@ export const warnMessage = (message: string) => {
 
 // Error toast notification
 
+
+ 
 // Create campus function
 export const createCampus = async (campusData: CampusData) => {
 	try {
@@ -235,6 +238,374 @@ export const createSlide = async (slideData: SlidesData) => {
 };
 
 
+
+
+
+
+
+//    Update Functions
+
+export const updateSlide = async (id: string, updatedAttributes: any) => {
+	try {
+		
+		await databases.updateDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, 
+			id,
+			updatedAttributes
+		);
+
+			successMessage("Successfully updated slide");
+		
+	} catch (error) {
+		// Handle any errors that occur during the update process
+		errorMessage("Failed to update slide:" + error);
+	}
+};
+
+
+
+export const updateCourse = async (id: string, updatedAttributes: any) => {
+	try {
+		// // Retrieve the document from the Appwrite database
+		const getDoc = await databases.getDocument(
+			databaseId!, // Replace with your database ID
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
+			id
+		);
+		// Check if the retrieved document matches the provided ID
+		if (getDoc.$id === id) {
+			// Update the document with the merged attributes
+			await databases.updateDocument(
+				databaseId!, // Replace with your database ID
+				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
+				id,
+				updatedAttributes
+			);
+
+			successMessage("Successfully updated Course");
+		} else {
+			// Handle the case when the document is not found with the provided ID
+			errorMessage("Course not found");
+		}
+	} catch (error) {
+		// Handle any errors that occur during the update process
+		errorMessage("Failed to update Course:" + error);
+	}
+};
+
+// Update Book
+export const updateBook = async (id: string, updatedAttributes: any) => {
+	try {
+	  // Update the book in the database
+	  await databases.updateDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
+		id,
+		updatedAttributes
+	  );
+  
+	  successMessage("Book updated successfully");
+	} catch (error) {
+	  console.error("Error updating book:", error);
+	  errorMessage("Failed to update book");
+	}
+  };
+// Update Program
+export const updateProgram = async (id: string, updatedAttributes: any) => {
+	try {
+	  // Update the program in the database
+	  await databases.updateDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_PROGRAM_COLLECTION_ID!,
+		id,
+		updatedAttributes
+	  );
+  
+	  successMessage("Program updated successfully");
+	} catch (error) {
+	  console.error("Error updating program:", error);
+	  errorMessage("Failed to update program");
+	}
+  };
+
+  // Update Campus
+export const updateCampus = async (id: string, updatedAttributes: any) => {
+	try {
+	  // Update the campus in the database
+	  await databases.updateDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
+		id,
+		updatedAttributes
+	  );
+  
+	  successMessage("Campus updated successfully");
+	} catch (error) {
+	  console.error("Error updating campus:", error);
+	  errorMessage("Failed to update campus");
+	}
+  };
+// Function to update user data
+export const updateUserData = async (updatedUserData: ProfileData) => {
+	try {
+		// Get the current user's information
+		const response = await account.get();
+		
+
+		// Merge the updated user data with the existing user data
+		const userData = { ...response, ...updatedUserData };
+
+		// Destructure the userData object to get the individual properties
+		const { prefs } = userData;
+
+		// Update the user's preferences if prefs exist
+		if (prefs) {
+			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
+			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
+			
+
+			if (prefs.bio) {
+				// Update the bio
+				updatedPrefs.bio = prefs.bio;
+			}
+
+			if (prefs.avatarUrl) {
+				// Update the avatarUrl
+				updatedPrefs.avatarUrl = prefs.avatarUrl;
+			}
+
+			if (prefs.coverPhotoUrl) {
+				updatedPrefs.coverPhotoUrl = prefs.coverPhotoUrl;
+			}
+
+			if (prefs.phoneNumber) {
+				updatedPrefs.phoneNumber = prefs.phoneNumber;
+			}
+
+			if (prefs.country) {
+				// Update the country
+				updatedPrefs.country = prefs.country;
+			}
+
+			if (prefs.profileImage) {
+				// Update the Profile Image
+				updatedPrefs.profileImage = prefs.profileImage;
+			}
+
+			if (prefs.profileImageId) {
+				// Update the country
+				updatedPrefs.profileImageId = prefs.profileImageId;
+			}
+
+			await toast.promise(account.updatePrefs(updatedPrefs), {
+				loading: "updating..",
+				success: "Done! 🎉",
+				error: "Failed! Try again",
+			});
+		}
+	} catch (error) {
+		// Handle any errors that occurred during the update process
+		console.error("Error updating user data:", error);
+		throw error;
+	}
+};
+
+
+export async function handleFileUpload(file: File, id: string, setUploadProgress: (progress: number) => void) {
+	const toastId = toast.loading('Uploading file...'); // Display a loading toast
+  
+	try {
+	  const getDoc = await databases.getDocument(
+		process.env.NEXT_PUBLIC_DATABASE_ID!,
+		process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+		id
+	  );
+	  const oldFileID = extractIdFromUrl(getDoc.fileUrl);
+  
+	  //  Delete file from storage
+	  if (getDoc.$id === id && oldFileID !== null) {
+		await storage.deleteFile(
+		  process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+		  oldFileID
+		);
+	  }
+  
+	  // Create a new Appwrite file
+	  const response = await storage.createFile(
+		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+		ID.unique(),
+		file,
+		undefined,
+		(progress: UploadProgress) => {
+		  const uploadProgress = Math.round(
+			(progress.chunksUploaded * 100) / progress.chunksTotal
+		  );
+  
+		  setUploadProgress(uploadProgress);
+		}
+	  );
+  
+	  const newFileId = response.$id;
+  
+	  const fileUrlResponse = storage.getFileDownload(
+		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+		newFileId
+	  );
+  
+	  const filePreviewResponse = storage.getFilePreview(
+		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+		newFileId
+	  );
+  
+	  const uploadedFileUrl = fileUrlResponse.toString();
+	  toast.dismiss(toastId); // Update the toast to a success toast
+	  return { uploadedFileUrl, filePreviewResponse };
+	} catch (error) {
+	  console.error("Upload failed:", error);
+	  toast.error('File upload failed', { id: toastId }); // Update the toast to an error toast
+	  throw error; // Rethrow the error to be caught in the calling function
+	}
+  }
+
+
+
+//  Delete Functions
+
+export const deleteCourse = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			id
+		);
+
+		if (getDoc.$id === id) {
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+				id
+			);
+			
+		} else {
+			errorMessage("Failed to delete Course ❌");
+		}
+		successMessage("Course deleted! 🎉");
+	} catch (err) {
+		errorMessage("Action declined ❌");
+	}
+};
+
+
+//👇🏻 delete a Slide
+export const deleteSlide = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			id
+		);
+		const fileID = extractIdFromUrl(getDoc.fileUrl);
+
+		if (getDoc.$id === id && fileID !== null) {
+			await storage.deleteFile(
+				process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+				fileID
+			);
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+				id
+			);
+			
+			 successMessage("Slide deleted! 🎉");
+		} else {
+			errorMessage("Failed to delete Slide ❌");
+		}
+		
+	} catch (err) {
+		errorMessage("Action declined ❌");
+	}
+};
+
+
+// Delete Program
+export const deleteProgram = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			id
+		);
+
+		if (getDoc.$id === id) {// Delete the program from the database
+	  await databases.deleteDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+		id
+	  )};
+  
+	  successMessage("Program deleted successfully");
+	} catch (error) {
+	  console.error("Error deleting program:", error);
+	  errorMessage("Failed to delete program");
+	}
+  };
+
+ 
+  // Delete Book
+  export const deleteBook = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
+			id
+		);
+
+		if (getDoc.$id === id) {
+		// Delete the book from the database
+	  await databases.deleteDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+		id
+	  );}
+  
+	  successMessage("Book deleted successfully");
+	} catch (error) {
+	  console.error("Error deleting book:", error);
+	  errorMessage("Failed to delete book");
+	}
+  };
+  
+  // Delete Campus
+  export const deleteCampus = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID!,
+			id
+		);
+
+		if (getDoc.$id === id) {// Delete the campus from the database
+	  await databases.deleteDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
+		id
+	  );
+	  }
+	  successMessage("Campus deleted successfully");
+	} catch (error) {
+	  console.error("Error deleting campus:", error);
+	  errorMessage("Failed to delete campus");
+	}
+  };
+
+
+
+
+
+
+
 //===========  FETCH DATA =========================================
 
 // Get Campuses
@@ -368,8 +739,7 @@ export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
 			[Query.limit(99), Query.equal("courseId", courseId)]
 		);
-		console.log("🚀 ~ file: functions.ts:379 ~ getSlidesByCourseId ~ response.documents:", response.documents)
-
+	
 		return response.documents;
 	} catch (error) {
 		console.error(error);
@@ -526,6 +896,77 @@ export const formatUserTime = (timePosted: string) => {
 	});
 };
 
+const getTotalPages = async (
+	userId: string,
+	perPage: number
+): Promise<number> => {
+	if (!databaseId) {
+		throw new Error("Database ID is not defined");
+	}
+
+	try {
+		const response = await databases.listDocuments(
+			databaseId!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			[Query.equal("user_id", userId)]
+		);
+
+		const totalSlides = response.total;
+
+		const totalPages = Math.ceil(totalSlides / perPage);
+
+		return totalPages;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+export const getUserSlides = async (
+	userId: string,
+	page: number,
+	setTotalPages: (totalPages: number) => void,
+
+	setSlides: (slides: any[]) => void,
+	setLoading: (loading: boolean) => void
+): Promise<any[]> => {
+	if (!databaseId) {
+		throw new Error("Database ID is not defined");
+	}
+	try {
+	
+		
+		setLoading(true);
+		const perPage = 12; 
+		const totalPages = await getTotalPages(userId, perPage);
+		try {
+			const response = await databases.listDocuments(
+				databaseId!,
+				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+				[
+					Query.equal("user_id", userId),
+					Query.orderDesc("$createdAt"),
+					Query.limit(perPage),
+					Query.offset((page - 1) * perPage),
+				]
+			);
+
+			setSlides(response.documents);
+			setTotalPages(totalPages)
+			setLoading(false);
+			return response.documents; // Add this return statement
+		} catch (error) {
+			console.error(error);
+			throw error;
+			setLoading(false);
+		}
+
+		return []; // Fallback return statement (empty array)
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export function bytesToSize(bytes: number) {
 	const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
 	if (bytes === 0) return "n/a";
@@ -537,6 +978,18 @@ export function bytesToSize(bytes: number) {
 	}
 	return `${Math.round(sizeInCurrentUnit)} ${sizes[i]}`;
 }
+
+
+
+
+
+
+
+
+
+
+//  AUTHENTICATION FUNCTIONS
+
 
 // Sign-up function
 export const signUp = async (
@@ -569,7 +1022,8 @@ export const logIn = async (
 	try {
 		await account.createEmailSession(email, password);
 		
-	
+	setEmail("");
+	setPassword("");
 		
 		successMessage("Welcome back! 🎉");
 		router.push("/dashboard");
@@ -663,76 +1117,7 @@ export const checkAuthStatusDashboard = async (
 		throw new Error('error')
 	}
 };
-const getTotalPages = async (
-	userId: string,
-	perPage: number
-): Promise<number> => {
-	if (!databaseId) {
-		throw new Error("Database ID is not defined");
-	}
 
-	try {
-		const response = await databases.listDocuments(
-			databaseId!,
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-			[Query.equal("user_id", userId)]
-		);
-
-		const totalSlides = response.total;
-
-		const totalPages = Math.ceil(totalSlides / perPage);
-
-		return totalPages;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-};
-export const getUserSlides = async (
-	userId: string,
-	page: number,
-	setTotalPages: (totalPages: number) => void,
-
-	setSlides: (slides: any[]) => void,
-	setLoading: (loading: boolean) => void
-): Promise<any[]> => {
-	if (!databaseId) {
-		throw new Error("Database ID is not defined");
-	}
-	try {
-	
-		
-		setLoading(true);
-		const perPage = 12; 
-		const totalPages = await getTotalPages(userId, perPage);
-		try {
-			const response = await databases.listDocuments(
-				databaseId!,
-				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-				[
-					Query.equal("user_id", userId),
-					Query.orderDesc("$createdAt"),
-					Query.limit(perPage),
-					Query.offset((page - 1) * perPage),
-				]
-			);
-
-			setSlides(response.documents);
-			setTotalPages(totalPages)
-			setLoading(false);
-			return response.documents; // Add this return statement
-		} catch (error) {
-			console.error(error);
-			throw error;
-			setLoading(false);
-		}
-
-		return []; // Fallback return statement (empty array)
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-};
 //👇🏻 extract file ID from the document
 export const extractIdFromUrl = (url: string) => {
 	const regex = /files\/([^/]+)\//;
@@ -740,179 +1125,42 @@ export const extractIdFromUrl = (url: string) => {
 	return match ? match[1] : null;
 };
 
-//👇🏻 delete a Slide
-export const deleteSlide = async (id: string) => {
-	try {
-		const getDoc = await databases.getDocument(
-			databaseId!,
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-			id
-		);
-		const fileID = extractIdFromUrl(getDoc.fileUrl);
-
-		if (getDoc.$id === id && fileID !== null) {
-			await storage.deleteFile(
-				process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-				fileID
-			);
-			await databases.deleteDocument(
-				databaseId!,
-				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-				id
-			);
-			
-			 successMessage("Slide deleted! 🎉");
-		} else {
-			errorMessage("Failed to delete Slide ❌");
-		}
-		
-	} catch (err) {
-		errorMessage("Action declined ❌");
-	}
-};
-export const deleteCourse = async (id: string) => {
-	try {
-		const getDoc = await databases.getDocument(
-			databaseId!,
-			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			id
-		);
-
-		if (getDoc.$id === id) {
-			await databases.deleteDocument(
-				databaseId!,
-				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-				id
-			);
-			
-		} else {
-			errorMessage("Failed to delete Course ❌");
-		}
-		successMessage("Course deleted! 🎉");
-	} catch (err) {
-		errorMessage("Action declined ❌");
-	}
-};
-
-
-export const updateSlide = async (id: string, updatedAttributes: any) => {
-	try {
-		// // Retrieve the document from the Appwrite database
-		const getDoc = await databases.getDocument(
-			databaseId!, // Replace with your database ID
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-			id
-		);
-		// Check if the retrieved document matches the provided ID
-		if (getDoc.$id === id) {
-			// Update the document with the merged attributes
-			await databases.updateDocument(
-				databaseId!, // Replace with your database ID
-				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
-				id,
-				updatedAttributes
-			);
-
-			successMessage("Successfully updated slide");
-		} else {
-			// Handle the case when the document is not found with the provided ID
-			errorMessage("Slide not found");
-		}
-	} catch (error) {
-		// Handle any errors that occur during the update process
-		errorMessage("Failed to update slide:" + error);
-	}
-};
-
-export const updateCourse = async (id: string, updatedAttributes: any) => {
-	try {
-		// // Retrieve the document from the Appwrite database
-		const getDoc = await databases.getDocument(
-			databaseId!, // Replace with your database ID
-			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
-			id
-		);
-		// Check if the retrieved document matches the provided ID
-		if (getDoc.$id === id) {
-			// Update the document with the merged attributes
-			await databases.updateDocument(
-				databaseId!, // Replace with your database ID
-				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!, // Replace with your collection ID
-				id,
-				updatedAttributes
-			);
-
-			successMessage("Successfully updated Course");
-		} else {
-			// Handle the case when the document is not found with the provided ID
-			errorMessage("Course not found");
-		}
-	} catch (error) {
-		// Handle any errors that occur during the update process
-		errorMessage("Failed to update Course:" + error);
-	}
-};
 
 // OAuth functions
+// export const handleGoogleSignIn = async () => {
+// 	try {
+// 		// Define the redirect URL based on the environment
+// 		const redirectUrl =
+// 			process.env.NODE_ENV === "production"
+// 				? "https://slideshub.vercel.app/dashboard"
+// 				: "http://localhost:3000/dashboard";
+
+// 		// Go to OAuth provider login page (Google)
+// 		 account.createOAuth2Session("google", redirectUrl);
+// 	} catch (error) {
+// 		errorMessage("Error initiating Google OAuth:" + error);
+// 	}
+// };
 export const handleGoogleSignIn = async () => {
 	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
-
-		// Go to OAuth provider login page (Google)
-		await account.createOAuth2Session("google", redirectUrl);
+	  // Define the redirect URL based on the environment
+	  const redirectUrl =
+		process.env.NODE_ENV === "production"
+		  ? "https://slideshub.vercel.app/dashboard"
+		  : "http://localhost:3000/dashboard";
+  
+	  // Go to OAuth provider login page (Google)
+	  const result = await account.createOAuth2Session("google", redirectUrl);
+	  return result;
 	} catch (error) {
-		errorMessage("Error initiating Google OAuth:" + error);
+	  console.error("Error initiating Google OAuth:", error);
+	  throw new Error("Error initiating Google OAuth");
 	}
-};
+  };
 
-export const handleFacebookSignIn = async () => {
-	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
 
-		// Go to OAuth provider login page (Facebook)
-		await account.createOAuth2Session("facebook", redirectUrl);
-	} catch (error) {
-		errorMessage("Error initiating Facebook OAuth:" + error);
-	}
-};
 
-export const handleGithubSignIn = async () => {
-	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
 
-		// Go to OAuth provider login page (Github)
-		await account.createOAuth2Session("github", redirectUrl);
-	} catch (error) {
-		errorMessage("Error initiating Github OAuth:" + error);
-	}
-};
-
-export const handleAppleSignIn = async () => {
-	try {
-		// Define the redirect URL based on the environment
-		const redirectUrl =
-			process.env.NODE_ENV === "production"
-				? "https://slideshub.vercel.app/dashboard"
-				: "http://localhost:3000/dashboard";
-
-		// Go to OAuth provider login page (Apple)
-		await account.createOAuth2Session("apple", redirectUrl);
-	} catch (error) {
-		errorMessage("Error initiating Apple OAuth:" + error);
-	}
-};
 
 
 
@@ -996,67 +1244,4 @@ export const checkUserInTeam = async () => {
 	  throw error;
 	}
   };
-// Function to update user data
-export const updateUserData = async (updatedUserData: ProfileData) => {
-	try {
-		// Get the current user's information
-		const response = await account.get();
-		
 
-		// Merge the updated user data with the existing user data
-		const userData = { ...response, ...updatedUserData };
-
-		// Destructure the userData object to get the individual properties
-		const { prefs } = userData;
-
-		// Update the user's preferences if prefs exist
-		if (prefs) {
-			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
-			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
-			
-
-			if (prefs.bio) {
-				// Update the bio
-				updatedPrefs.bio = prefs.bio;
-			}
-
-			if (prefs.avatarUrl) {
-				// Update the avatarUrl
-				updatedPrefs.avatarUrl = prefs.avatarUrl;
-			}
-
-			if (prefs.coverPhotoUrl) {
-				updatedPrefs.coverPhotoUrl = prefs.coverPhotoUrl;
-			}
-
-			if (prefs.phoneNumber) {
-				updatedPrefs.phoneNumber = prefs.phoneNumber;
-			}
-
-			if (prefs.country) {
-				// Update the country
-				updatedPrefs.country = prefs.country;
-			}
-
-			if (prefs.profileImage) {
-				// Update the Profile Image
-				updatedPrefs.profileImage = prefs.profileImage;
-			}
-
-			if (prefs.profileImageId) {
-				// Update the country
-				updatedPrefs.profileImageId = prefs.profileImageId;
-			}
-
-			await toast.promise(account.updatePrefs(updatedPrefs), {
-				loading: "updating..",
-				success: "Done! 🎉",
-				error: "Failed! Try again",
-			});
-		}
-	} catch (error) {
-		// Handle any errors that occurred during the update process
-		console.error("Error updating user data:", error);
-		throw error;
-	}
-};
