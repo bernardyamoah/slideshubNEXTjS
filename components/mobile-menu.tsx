@@ -24,7 +24,7 @@ const MobileMenu = () => {
   
     <Sheet open={isOpen} onOpenChange={setIsOpen}  >
     <SheetTrigger className="fixed h-12 w-12 bottom-8 right-10 lg:hidden" >
-      <Button className="w-full h-full p-2 rounded-full">
+      <Button className=" p-2 rounded-full">
         <PlusCircleIcon className="w-8 h-8" />
       </Button>
     </SheetTrigger>
@@ -36,10 +36,7 @@ const MobileMenu = () => {
             <Button key={index} variant="ghost" className={cn(
               pathname === tabRoute.path
               ? 'border-l-4 bg-emerald-50/20 border-emerald-500  text-lg '
-               :'text-left hover:border-l-2 hover:border-emerald-500  hover:text-lg' )}
-               
-              
-               >
+               :'text-left hover:border-l-2 hover:border-emerald-500  hover:text-lg' )}>
 
               <Link href={tabRoute.path} className="hover:font-bold duration-150" onClick={()=> handleOnClick(tabRoute.path)}>
                 Add {tabRoute.label}

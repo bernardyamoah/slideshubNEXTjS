@@ -18,6 +18,7 @@ import Loading from "@/components/ui/Cloading";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 import { tabTriggers } from "@/lib/navRoute";
+import Programs from "./_components/adminProgram";
 
 
 
@@ -139,7 +140,6 @@ export default function Dashboard() {
               </div>
               <Separator className="my-4" />
               <div className="relative">
-               
                   <Suspense fallback={<Loading/>}>
                   {user ?(
                    <Slides user={user}/>
@@ -155,8 +155,6 @@ export default function Dashboard() {
                      
                    
                   </Suspense>
-              
-                
               </div>
             
             
@@ -179,8 +177,8 @@ export default function Dashboard() {
               <Separator className="my-4" />
               <EmptyBooks/>
             </TabsContent>
-            {/* All Courses */}
             {userInTeam ? (
+              <>
               <TabsContent
                 value="course"
                 className="h-full flex-col border-none p-0 data-[state=active]:flex"
@@ -204,6 +202,31 @@ export default function Dashboard() {
                  
                 </div>
               </TabsContent>
+              
+              <TabsContent
+                value="program"
+                className="h-full flex-col border-none p-0 data-[state=active]:flex"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                      Programs
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Your favorite programs.
+                    </p>
+                  </div>
+                </div>
+                <Separator className="my-4" />
+                <div className="relative">
+                 
+
+                  
+                   <Programs/>
+                 
+                </div>
+              </TabsContent>
+              </>
             ) : null
             }
           </Tabs>
