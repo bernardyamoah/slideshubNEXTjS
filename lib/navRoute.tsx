@@ -3,8 +3,8 @@ import { BookCopy, Home, LayoutDashboard, School } from "lucide-react";
 export const tabTriggers = [
     { value: 'slide', className: 'relative', label: 'Slides' },
     { value: 'book', className: 'relative', label: 'Books' },
-    { value: 'program', className: 'relative', label: 'Programs', disabled: true },
-    { value: 'course', className: 'relative', label: 'All Courses' },
+    { value: 'program', className: 'relative', label: 'Programs', disabled: false },
+    { value: 'course', className: 'relative', label: 'Courses' },
   ]
   export const AdmintabRoutes = [
     { label: 'Slide', path: '/dashboard/add-slide' },

@@ -1,6 +1,6 @@
 import { formatTime, formatUserTime } from '@/lib/functions';
 import { GraduationCap } from 'lucide-react';
-import Image from 'next/image'
+
 import Link from 'next/link';
 import { Card, CardTitle } from './ui/card';
 

@@ -317,7 +317,7 @@ export const updateProgram = async (id: string, updatedAttributes: any) => {
 	  // Update the program in the database
 	  await databases.updateDocument(
 		databaseId!,
-		process.env.NEXT_PUBLIC_PROGRAM_COLLECTION_ID!,
+		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
 		id,
 		updatedAttributes
 	  );
@@ -705,8 +705,47 @@ export const getPrograms = async (): Promise<any[]> => {
 		throw error;
 	}
 };
+export const getAllPrograms = async (currentPage: number, setLoading: (loading: boolean) => void): Promise<any[]> => {
+	if (!databaseId) {
+	  throw new Error("Database ID is not defined");
+	}
+	setLoading(true);
+	try {
+		const perPage=9
+	  const response = await databases.listDocuments(
+		databaseId,
+		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+		[
+		  Query.limit(perPage),
+		  Query.offset((currentPage - 1) * perPage),
+		  Query.orderDesc("$createdAt")
+		]
+	  );
+	  setLoading(false);
+	  return response.documents;
+	} catch (error) {
+	  console.error(error);
+	  throw error;
+	}
+  };
+  export const getTotalProgrammesPages = async (perPage: number): Promise<number> => {
+	if (!databaseId) {
+	  throw new Error("Database ID is not defined");
+	}
+	try {
+	  const response = await databases.listDocuments(
+		databaseId,
+		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!
+	  );
+	  const totalProgram = response.total;
+	  const totalPages = Math.ceil(totalProgram / perPage);
+	  return totalPages;
+	} catch (error) {
+	  console.error(error);
+	  throw error;
+	}
+  };
 
-// Get Programs
 export const getSlides = async (): Promise<any[]> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");

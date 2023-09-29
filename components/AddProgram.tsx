@@ -33,17 +33,13 @@ interface AddProgramProps {
 export default function AddProgram() {
   const {user}=useMyContext();
   const [name, setName] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
- 
+
   const [duration, setDuration] = useState('');
  
   const [value, setValue] = React.useState("")
  
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isLastStep, setIsLastStep] = React.useState(false);
-  const [isFirstStep, setIsFirstStep] = React.useState(false);
-
+ 
   useEffect(() => {
     async function fetchCampuses() {
       try {
@@ -63,70 +59,18 @@ export default function AddProgram() {
     
   };
 
-  // handle upload progress
-  const handleImageUpload = async () => {
-    if (imageFile) {
-      try {
-        const file = imageFile;
-        const uploader = await toast.promise(storage.createFile(
-          process.env.NEXT_PUBLIC_PRORAM_IMAGES_ID!,
-          ID.unique(),
-          file,
-          undefined,
-          // (progress: UploadProgress) => {
-          //   // Update the progress bar with the progress value (0-100)
-          //   const uploadprogress = Math.round((progress.progress * 100) / progress.chunksTotal);
-          //   console.log('Upload progress:', uploadprogress);
-          //   setUploadProgress(uploadprogress);
-          //   return uploadprogress
-          // }
-        )
-          ,
-          {
-            loading: 'Uploading file',
-            success: 'image uploaded! 🎉',
-            error: 'Not authorized',
-          }
-        );
-
-        const fileId = uploader.$id;
-        const fileResponse = await storage.getFileView(process.env.NEXT_PUBLIC_PRORAM_IMAGES_ID!, fileId);
-        const imageUrl = fileResponse.toString();
-
-
-        return imageUrl;
-      } catch (error) {
-        errorMessage('Error uploading image:' + error);
-      }
-    }
-
-    return '';
-  };
-  // Handle image change
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-     
-      reader.readAsDataURL(file);
-    } else {
-      setImageFile(null);
-      
-    }
-  };
-
+  
   // Handle form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const imageUrl = await handleImageUpload();
+     
 
 
       const programData = {
         name,
         duration,
-        image: imageUrl,
+  
         campusId: value,
         user_id: user?.$id
 
@@ -140,7 +84,7 @@ export default function AddProgram() {
       setName('');
       setValue('')
       setDuration('');
-      setImageFile(null);
+     
     
 
     } catch (error) {
@@ -148,21 +92,9 @@ export default function AddProgram() {
       // Handle error
     }
   };
-  const handleNext = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!isLastStep) {
-      setActiveStep((currentStep) => currentStep + 1);
-      setIsFirstStep(false);
-    }
-  };
+  
 
-  const handlePrev = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!isFirstStep) {
-      setActiveStep((currentStep) => currentStep - 1);
-      setIsLastStep(false);
-    }
-  };
+  
   return (
     <>
 
@@ -172,7 +104,7 @@ export default function AddProgram() {
         <div className="grid w-full gap-4">
 
 
-          {activeStep === 0 && (
+        
 
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Program Name</Label>
@@ -184,9 +116,9 @@ export default function AddProgram() {
               />
             </div>
 
-          )}
+         
 
-          {activeStep === 1 && (
+         
 
 <div className="flex flex-col space-y-1.5">
 {/* Select campus */}
@@ -217,10 +149,10 @@ export default function AddProgram() {
 
 </div>
 
-          )}
+         
 
 
-          {activeStep === 2 && (
+      
 
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="duration">Duration</Label>
@@ -232,17 +164,9 @@ export default function AddProgram() {
               />
             </div>
 
-          )}
-
-          {activeStep === 3 && (
-
-            <div className="grid  w-full items-center gap-1.5">
-              <Label htmlFor="picture">Picture</Label>
-              <Input id="picture" type="file" onChange={handleImageChange} />
-            </div>
 
 
-          )}
+         
 
 
 
@@ -250,18 +174,10 @@ export default function AddProgram() {
 
 
           <div className="flex justify-between mt-16">
-            <Button type="button" onClick={handlePrev} disabled={isFirstStep}>
-              Prev
-            </Button>
-            {isLastStep ? (
+           
               <Button type="submit"  >
                 Submit
               </Button>
-            ) : (
-              <Button type="button" onClick={handleNext}>
-                Next
-              </Button>
-            )}
           </div>
 
         </div>
