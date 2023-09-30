@@ -11,7 +11,7 @@ const Hero = () => {
           Welcome to Slideshub
         </h2>
         
-        <p className="mt-4 text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto lg:text-lg">
+        <p className="max-w-2xl mx-auto mt-4 text-zinc-500 dark:text-zinc-400 lg:text-lg">
         Slideshub is your ultimate online resource for downloading and printing lecture slides and books. Gain easy access to a wide range of high-quality educational content in just a few clicks.
 
 
