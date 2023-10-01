@@ -37,10 +37,7 @@ export const UserProfile= () => {
           
           const initials = await getUserInitials(user?.name || '');
           setAvatarUrl(initials);
-          // if ( === '') {
-          //   setAvatarUrl(initials);
-          // }
-          // setAvatarUrl(user?.);
+        
         }
       } catch (error) {
         console.log(error);
@@ -48,7 +45,7 @@ export const UserProfile= () => {
     }
 
     fetchAvatarUrl();
-  }, []);
+  }, [user]);
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -56,7 +53,7 @@ export const UserProfile= () => {
         <Button variant="ghost" className="relative w-10 h-10 rounded-full">
           <Avatar className="w-10 h-10">
             {avatarUrl ? (
-              <AvatarImage src={avatarUrl} alt={user?.name?.split(' ')[0] || ' '} />
+              <AvatarImage src={avatarUrl} alt={user?.name || ' '} />
             ) : (
               <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
             )}

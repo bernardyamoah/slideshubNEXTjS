@@ -646,7 +646,7 @@ export const getCourses = async (): Promise<any[]> => {
 		throw error;
 	}
 };
-export const getAllCourses = async (currentPage: number,setLoading: (loading: boolean) => void): Promise<any[]> => {
+export const getAllCourses = async (currentPage: number,setLoading: (loading: boolean) => void,sortOrder: string,sortBy:string): Promise<any[]> => {
 	const limit = 9; // Set your desired number of courses per page
 	
 	if (!databaseId) {
@@ -657,7 +657,7 @@ export const getAllCourses = async (currentPage: number,setLoading: (loading: bo
 		const response = await databases.listDocuments(
 			databaseId,
 			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			[Query.limit(limit), Query.offset((currentPage - 1) * limit), Query.orderDesc("$createdAt")]
+			[Query.limit(limit), Query.offset((currentPage - 1) * limit),  sortOrder === 'asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)]
 		);
 		
 
@@ -1039,7 +1039,6 @@ export const signUp = async (
 ) => {
 	try {
 		await account.create(ID.unique(), email, password, name);
-		// await account.createVerification(email);
 		await account.createEmailSession(email, password);
 
 		successMessage("Account created! 🎉");
@@ -1100,20 +1099,7 @@ export const getCurrentUser = async (): Promise<string | null> => {
 	}
   };
 
-// export const getCurrentUserAndSetUser =
-// 	async (): Promise<UserWithId | null> => {
-// 		try {
-// 			const userdata = await getCurrentUser(); // Call the getCurrentUser function
-// 			const userWithId: UserWithId | null = userdata
-// 				? { ...userdata, id: userdata.$id }
-// 				: null;
-
-// 			return userWithId;
-// 		} catch (error) {
-// 			// Handle the error
-// 			return null;
-// 		}
-// 	};
+  
 export const getCurrentUserAndSetUser = async ()  => {
 	try {
 	  const response = await account.get();

@@ -57,7 +57,7 @@ export default function Navbar() {
           {user ? (
             <UserProfile  />
           ) : (
-            <Button className="text-lg font-medium" onClick={() => router.push("/login")}>
+            <Button className="text-base font-medium" onClick={() => router.push("/login")}>
               Login
             </Button>
           )}

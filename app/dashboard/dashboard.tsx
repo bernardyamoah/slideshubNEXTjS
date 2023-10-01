@@ -19,25 +19,26 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 import { tabTriggers } from "@/lib/navRoute";
 import Programs from "./_components/adminProgram";
+import MemoizedCourses from "@/components/Courses";
 
 
 
 
 
 export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
-  const {userInTeam,user } = useMyContext(); 
+  const {userInTeam,user,loading } = useMyContext(); 
   const userLabel = user?.labels || [];
 
-  useEffect(() => {
-    setLoading(true);
-    // Simulating an asynchronous user data fetch
-    setTimeout(() => {
-      setLoading(false);
-    }, 200);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   // Simulating an asynchronous user data fetch
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 200);
+  // }, []);
   // if (loading) return <Loading />;
   const handleAddButtonClick = () => {
     let route = '/dashboard';
@@ -197,7 +198,7 @@ export default function Dashboard() {
                 <div className="relative">
                  
 
-                      <Courses />
+                      <MemoizedCourses />
                    
                  
                 </div>
