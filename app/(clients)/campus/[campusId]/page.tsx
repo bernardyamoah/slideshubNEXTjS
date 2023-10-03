@@ -31,9 +31,6 @@ export default async function Page({params}: Props) {
 const {name,location}=await getCampusDetails(params.campusId)||{name:'',location:''}
 
 
-  const pageTitle = params.campusId ? `${name},${location} Programs` : "Campus";
-  const pageDescription = `Browse programs available at ${name},${location} campus.`
-  
   
 
   return (

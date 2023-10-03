@@ -5,27 +5,32 @@ import { LevelTabItems } from '@/lib/navRoute';
 import CourseCard from './CourseCard';
 import EmptyCourse from './EmptyCourse';
 
-import { getCoursesByProgramId } from '@/lib/functions';
+import { errorMessage, getCoursesByProgramId, successMessage } from '@/lib/functions';
+import Loading from './ui/Cloading';
 
 const CourseList = ({ programId }) => {
 const [courses, setCourses] = useState<Course[]>([]);
   const [selectedTab, setSelectedTab] = useState(LevelTabItems[0].value);
-
+const [loading, setLoading]=useState(true)
   useEffect(() => {
     // Fetch courses based on the programId
     const fetchCourses = async () => {
       try {
         const response = await getCoursesByProgramId(programId)
-            
         setCourses(response);
+        setLoading(false);
+        successMessage('Courses fetched successfully')  
       } catch (error) {
         console.error('Error fetching courses:', error);
+        errorMessage('Error fetching courses')
       }
     };
 
     fetchCourses();
   }, [programId]);
 
+  if(loading){
+    return <Loading/>}
   return (
     <div>
       {/* <h2>Course List of : {programId}</h2> */}

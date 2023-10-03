@@ -19,7 +19,7 @@ const ProgramDetails = ({ programId }) => {
   }, [programId]);
 
   if (!program) {
-    return <div>Loading program details...</div>;
+    return null;
   }
 
   return (

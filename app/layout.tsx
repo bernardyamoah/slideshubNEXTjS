@@ -25,15 +25,16 @@ export const metadata:Metadata = {
   applicationName: "Slideshub",
   authors: [{name:"Bernard Yamoah"}],
   colorScheme:'dark',
+  
 
 
   openGraph: {
     title:'Slideshub',
     type:'website',
     description:'Download your slides from Slideshub and more!',
-    images: "/public/thumbnail.png",  
-    
-    // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
+    // images: "/favicon.ico",  
+    // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg", 
+    images: "/thumbnail.jpg", 
   },
   icons:{
     icon:'/favicon.ico',
@@ -70,7 +71,7 @@ export default function RootLayout({
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={false}  position="bottom-center" richColors />
+            <Toaster expand={false}  position="top-center" richColors />
             <Analytics />
           </body>
         </MyContextProvider>

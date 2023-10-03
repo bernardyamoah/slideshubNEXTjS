@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 
-import {  getProgramsByCampusId } from '@/lib/functions';
+import {  getProgramsByCampusId, successMessage } from '@/lib/functions';
 import ProgramCard from '@/components/ProgramCard';
 import EmptyProgram from '@/components/EmptyPrograms';
 import Loading from '@/components/ui/Cloading';
@@ -15,6 +15,7 @@ const [loading, setLoading]=useState(true)
         const fetchPrograms = async () => {
           const result = await getProgramsByCampusId(campusId);
           setPrograms(result);
+          successMessage('Programs fetched successfully')
           setLoading(false);
         };
     
