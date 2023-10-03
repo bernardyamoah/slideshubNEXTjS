@@ -21,7 +21,7 @@ export default function Breadcrumbs() {
 
           return (
             <NavigationMenuItem key={index}>
-              <NavigationMenuList>
+              <NavigationMenuList className='hidden lg:block'>
                 <NavigationMenuLink className='flex items-center gap-1 text-muted-foreground text-xs ' href={to}>
                {value} {'  /'}
                 </NavigationMenuLink>
