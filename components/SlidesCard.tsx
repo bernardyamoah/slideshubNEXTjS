@@ -6,7 +6,7 @@ import { formatUserTime, getSlidesByCourseId } from '@/lib/functions';
 
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { FolderOpen, ShieldCheck } from "lucide-react";
 import { Badge } from "./ui/badge";
@@ -69,7 +69,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
 
         <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange flex gap-1">
+              <span className="flex gap-1 text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
               
                 <FolderOpen className='w-4 h-4 text-muted-foreground' />  {slide.size}
               </span>
@@ -77,7 +77,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
               <ShieldCheck className='w-4 h-4 text-muted-foreground' /><span className='text-xs text-muted-background'>{slide.fileType}</span>
               </span>
             </div>
-            <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-500  group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+            <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-500 group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
             {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
             </CardTitle>
           <div className="z-20 flex gap-4 mt-2">

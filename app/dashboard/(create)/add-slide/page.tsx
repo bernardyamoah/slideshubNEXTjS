@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useCallback } from "react";
 
+import {toast} from 'sonner'
 
-import toast from "react-hot-toast";
 import {
   bytesToSize,
   createSlide,

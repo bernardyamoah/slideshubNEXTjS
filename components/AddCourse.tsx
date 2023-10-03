@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/popover";
 
 
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { Badge } from "./ui/badge";
 import { useMyContext } from "./MyContext";
 
@@ -265,14 +265,14 @@ export default function AddCourse() {
 
 <div>
 <Badge
-          className="flex items-center justify-center  w-fit   mx-auto"
+          className="flex items-center justify-center mx-auto w-fit"
           variant="secondary"
         >
           {activeStep} / out of {totalSteps}
         </Badge>
-        <form onSubmit={handleSubmit} className="w-full mx-auto  flex">
+        <form onSubmit={handleSubmit} className="flex w-full mx-auto">
      
-     <div className="grid w-full items-center gap-2 space-y-6">
+     <div className="grid items-center w-full gap-2 space-y-6">
        {activeStep === 0 && (
          <div className="flex flex-col space-y-1.5">
            <Label htmlFor="name">Course Name</Label>
@@ -297,14 +297,14 @@ export default function AddCourse() {
                  variant="outline"
                  role="combobox"
                  aria-expanded={open1}
-                 className="w-full justify-between"
+                 className="justify-between w-full"
                >
                  {programId
                    ? programs.find(
                      (program) => program.$id === programId
                    )?.name
                    : "Select Programme"}
-                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                 <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                </Button>
              </PopoverTrigger>
              <PopoverContent className="w-full p-0">
@@ -360,7 +360,7 @@ export default function AddCourse() {
 
 
        {activeStep === 3 && (
-         <div className="gap-4 md:gap-8 grid grid-cols-2">
+         <div className="grid grid-cols-2 gap-4 md:gap-8">
            {/* Course code */}
            <div className="flex flex-col space-y-1.5 w-full ">
              <Label htmlFor="coursecode">Course Code</Label>
@@ -384,12 +384,12 @@ export default function AddCourse() {
                    variant="outline"
                    role="combobox"
                    aria-expanded={open2}
-                   className="w-full justify-between  overflow-hidden no-wrap"
+                   className="justify-between w-full overflow-hidden no-wrap"
                  >
                    {year
                      ? Years.find((level) => level.id === year)?.level
                      : "Select Level"}
-                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                   <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                  </Button>
                </PopoverTrigger>
                <PopoverContent className="w-[200px] p-0">
@@ -430,14 +430,14 @@ export default function AddCourse() {
                    variant="outline"
                    role="combobox"
                    aria-expanded={open}
-                   className="w-full justify-between  overflow-hidden no-wrap"
+                   className="justify-between w-full overflow-hidden no-wrap"
                  >
                    {credit
                      ? creditHours.find(
                        (creditHour) => creditHour.id === credit
                      )?.hour
                      : "Select credit hour"}
-                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                   <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                  </Button>
                </PopoverTrigger>
                <PopoverContent className="w-[200px] p-0">
@@ -482,12 +482,12 @@ export default function AddCourse() {
                    variant="outline"
                    role="combobox"
                    aria-expanded={open2}
-                   className="w-full justify-between  overflow-hidden no-wrap"
+                   className="justify-between w-full overflow-hidden no-wrap"
                  >
                    {semester
                      ? Semesters.find((sem) => sem.id === semester)?.semester
                      : "Select Semester"}
-                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                   <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                  </Button>
                </PopoverTrigger>
                <PopoverContent className="w-[200px] p-0">
@@ -531,7 +531,7 @@ export default function AddCourse() {
            ))}
          </div>
        )}
-       <div className="mt-10 flex justify-between">
+       <div className="flex justify-between mt-10">
        {/* {activeStep > 0 && (
               <Button onClick={handlePreviousStep}>Previous</Button>
             )}

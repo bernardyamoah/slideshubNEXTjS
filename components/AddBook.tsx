@@ -3,8 +3,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 
 
-import toast, { Toaster } from 'react-hot-toast';
-
 
 
 
@@ -42,7 +40,6 @@ export default function AddBook() {
 
       
 
-      <Toaster />
 
     </>
   );

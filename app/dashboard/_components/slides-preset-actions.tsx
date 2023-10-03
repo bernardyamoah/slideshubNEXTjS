@@ -45,7 +45,7 @@ import DocumentUpload from "@/components/document-upload";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { ID, databases, storage } from "@/appwrite";
 import { UploadProgress } from "appwrite";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 interface PresetActionsProps {
   name: string;

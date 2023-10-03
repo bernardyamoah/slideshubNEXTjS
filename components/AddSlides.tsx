@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 
-import toast, { Toaster } from "react-hot-toast";
+import {toast} from "sonner";
 import {
   bytesToSize,
   createSlide,
@@ -137,8 +137,8 @@ export default function AddSlides() {
         const uploadedFileUrl = fileUrlResponse.toString();
         return { uploadedFileUrl, filePreviewResponse };
       } catch (error) {
-        console.error("Upload failed:", error);
-        toast.error("File upload failed");
+       
+        toast.error('Event has not been created')
         throw error; // Rethrow the error to be caught in the calling function
       }
     }
@@ -509,7 +509,7 @@ export default function AddSlides() {
             </div>
           </form>
         </div>
-        <Toaster />
+    
       </div>
     </>
   );

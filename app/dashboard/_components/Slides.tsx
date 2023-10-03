@@ -3,7 +3,7 @@ import { formatTime, formatUserTime } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
-
+import {toast } from 'sonner'
 
 import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
@@ -20,19 +20,23 @@ interface UserProps {
 export default function Slides ({user}:UserProps){
   const [slides, setSlides] = useState<Slides[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(0); // Declare and initialize totalPages
+
   const [loading,setLoading]=useState(false)
-  const memoizedFetchSlides = useMemo(async () => {
-    await getUserSlides(user.$id, currentPage, setTotalPages, setSlides, setLoading);
-  }, [ currentPage]);
-  
-  
   useEffect(() => {
     const fetchData = async () => {
-      await memoizedFetchSlides;
+      try {
+     const   {totalPages, documents}=await getUserSlides(user.$id, currentPage, setSlides, setLoading);
+      setTotalPages(totalPages)
+      setSlides(documents)
+      localStorage.setItem('slides', JSON.stringify(documents));
+      } catch (error) {
+        // Handle fetch error
+        console.error(error); // Access the rejected error here
+      }
     };
     fetchData();
-  }, [memoizedFetchSlides]);
+  }, [currentPage]);
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
@@ -44,11 +48,10 @@ export default function Slides ({user}:UserProps){
 
 
   return(
-
 <>
-
 {!loading && slides.length === 0 && <NoEvent />}
 {loading && <SlidesLoading />}
+{totalPages !== 0 && (
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
 {slides.map((slide) => (
@@ -96,15 +99,17 @@ export default function Slides ({user}:UserProps){
     </Card>   
         ))}
 </aside>
-  {slides.length > 0 && (
+)}
+ {slides.length > 0 && (
                   <PaginationComponent
                     pageCount={totalPages}
                     activePage={currentPage}
-                    onPageChange={changePage}
-                  />
+                    onPageChange={changePage}/>
+                    
                 )}
-  </>
 
-  )
-} 
+</>
 
+
+
+  )}
