@@ -85,7 +85,7 @@ const Courses = () => {
       </div>
       <div className='grid space-y-2'>
         <Label>Date</Label>
-      <Button variant='secondary' className='w-fit'  onClick={toggleSorting}>
+      <Button variant='outline' size='sm' className='w-fit'  onClick={toggleSorting}>
     {sorting === 'asc' ? <ArrowUpIcon className='w-4 h-4 rounded-md text-foreground-muted' /> : <ArrowDownIcon  className='w-4 h-4 rounded-md text-foreground-muted' />}
 </Button>
       </div>

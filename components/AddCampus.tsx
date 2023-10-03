@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 
 import { createCampus } from "@/lib/functions";
 import { Progress } from "@/components/ui/progress";
-import toast, { Toaster } from "react-hot-toast";
+import {toast} from "sonner";
 
 
 import DocumentUpload from "./document-upload";
@@ -38,27 +38,14 @@ export default function AddCampus() {
 		if (imageFile) {
 			try {
 				const file = imageFile;
-				const uploader = await toast.promise(
-					storage.createFile(
+				const uploader =  await storage.createFile(
 						process.env.NEXT_PUBLIC_CAMPUS_IMAGES_ID!,
 						ID.unique(),
 						file,
 						undefined,
 						handleProgress
-						//   (progress:UploadProgress)  => {
-						// 	// Update the progress bar with the progress value (0-100)
-						// 	const uploadprogress = Math.round((progress.chunksUploaded * 100) / progress.chunksTotal);
-						// 	console.log('Upload progress:', uploadprogress);
-						// 	return uploadprogress
-						// 	setUploadProgress(uploadprogress);
-						//   }
-					),
-					{
-						loading: "Uploading file",
-						success: "image uploaded! 🎉",
-						error: "Not authorized",
-					}
-				);
+						
+					)
 
 				const fileId = uploader.$id;
 				const fileResponse = await storage.getFileView(
@@ -130,9 +117,9 @@ export default function AddCampus() {
 
 	return (
 		<>
-			<div className="max-w-3xl mx-auto w-full ">
+			<div className="w-full max-w-3xl mx-auto ">
 				<form onSubmit={handleSubmit}>
-					<div className="grid w-full items-center gap-6">
+					<div className="grid items-center w-full gap-6">
 						{activeStep === 0 && (
 							<>
 								<div className="flex flex-col space-y-1.5">
@@ -167,8 +154,8 @@ export default function AddCampus() {
 							</div>
 						)}
 
-						<div className="w-full py-4 px-8">
-							<div className="mt-16 flex justify-between">
+						<div className="w-full px-8 py-4">
+							<div className="flex justify-between mt-16">
 								<Button
 									type="button"
 									onClick={handlePrev}
@@ -199,7 +186,7 @@ export default function AddCampus() {
 				)}
 			</div>
 
-			<Toaster />
+		
 		</>
 	);
 }

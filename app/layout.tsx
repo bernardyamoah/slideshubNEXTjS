@@ -1,44 +1,50 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-// import { Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import { Analytics } from "@vercel/analytics/react";
 
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
+import { Toaster } from 'sonner';
 
 import BackButtonNavigation from "@/components/ui/back";
-import { MyContextProvider, useMyContext } from "@/components/MyContext";
+import { MyContextProvider } from "@/components/MyContext";
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
-import Loading from "@/components/ui/Cloading";
 import Breadcrumbs from "@/components/breadcrumbs";
-
-export const metadata = {
-  title: "Slideshub",
-  description: "Download your slides from Slideshub and more!",
-  charset: "utf-8",
-  type: "website",
-  url: "https://slideshub.vercel.app",
-  site_name: "Slideshub",
-  author: "Slideshub",
-  // twitter_username: '@slideshub',
-
-  og: {
-    title: "Slideshub",
-    type: "website",
-    url: "https://slideshub.vercel.app",
-    description: "Download your slides from Slideshub and more!",
-    site_name: "Slideshub",
-    images: [
-      {
-        url: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Slideshub",
-      },
-    ],
+import { Metadata } from "next";
+export const metadata:Metadata = {
+  title:{
+    default:"Slideshub",
+    template:'%s | Slideshub',
   },
+  description: "Download your slides from Slideshub and more!",
+ 
+ metadataBase:new URL ("https://slideshub.vercel.app"),
+  applicationName: "Slideshub",
+  authors: [{name:"Bernard Yamoah"},{name:'Joeseph Adofo'}],
+  colorScheme:'dark',
+
+
+  openGraph: {
+    title:'Slideshub',
+    type:'website',
+    description:'Download your slides from Slideshub and more!',
+    
+    images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
+  },
+  icons:{
+    icon:'/favicon.ico',
+    apple:'/apple-touch-icon.png',
+   
+
+  },
+  viewport:{
+    width:'device-width',
+    initialScale:1,
+    maximumScale:1,
+  }
 };
 
 export default function RootLayout({
@@ -63,7 +69,7 @@ export default function RootLayout({
             <MobileMenu />
             <Footer />
 
-            <Toaster />
+            <Toaster expand={false}  position="bottom-center" richColors />
             <Analytics />
           </body>
         </MyContextProvider>

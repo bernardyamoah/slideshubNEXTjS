@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { createProgram, errorMessage, getCurrentUserAndSetUser } from '@/lib/functions';
 
 import { UploadProgress } from 'appwrite';
-import toast, { Toaster } from 'react-hot-toast';
+import {toast} from 'sonner';
 
 import {
   Select,
@@ -182,7 +182,7 @@ export default function AddProgram() {
 
         </div>
 
-        <Toaster />
+     
       </form>
 
    

@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 import {
 	databases,
@@ -11,27 +11,22 @@ import {
 	teams,
 } from "@/appwrite";
 import { UploadProgress } from "appwrite";
+import { toast } from "sonner";
 
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
-	toast.success(message, {
-		position: "top-right",
-	});
+	toast.success(message);
 };
 
 // Error toast notification
 export const errorMessage = (message: string) => {
-	toast.error(message, {
-		position: "top-right",
-	});
+	toast.error(message);
 };
 // Error toast notification
-export const warnMessage = (message: string) => {
-	toast.custom(message, {
-		position: "top-right",
-	});
-};
+// export const warnMessage = (message: string) => {
+// 	toast.custom(message);
+// };
 
 // Error toast notification
 
@@ -159,19 +154,13 @@ export const createProgram = async (programData: ProgramData) => {
 export const createBook = async (bookData: BooksData) => {
 	try {
 		// Retrieve all documents from the collection
-		const responseCampus = await toast.promise(
-			databases.listDocuments(
+		const response = await databases.listDocuments(
 				process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
 				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
-			),
-			{
-				loading: "Retrieving documents...",
-				success: "",
-				error: "Failed to retrieve documents",
-			}
-		);
+			)
+	
 
-		const documents = responseCampus.documents;
+		const documents = response.documents;
 
 		// Check if a document with the same name already exists
 		const existingBook = documents.find((doc) => doc.name === bookData.name);
@@ -181,7 +170,7 @@ export const createBook = async (bookData: BooksData) => {
 			return;
 		}
 
-		const data = await toast.promise(
+		const data =  toast.promise(
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
@@ -986,11 +975,11 @@ const getTotalPages = async (
 export const getUserSlides = async (
 	userId: string,
 	page: number,
-	setTotalPages: (totalPages: number) => void,
+	
 
 	setSlides: (slides: any[]) => void,
 	setLoading: (loading: boolean) => void
-): Promise<any[]> => {
+): Promise<{ documents: any[]; totalPages: number; }> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -1013,16 +1002,16 @@ export const getUserSlides = async (
 			);
 
 			setSlides(response.documents);
-			setTotalPages(totalPages)
+			
 			setLoading(false);
-			return response.documents; // Add this return statement
+			return { documents: response.documents, totalPages: totalPages }// Add this return statement
 		} catch (error) {
 			console.error(error);
 			throw error;
 			setLoading(false);
 		}
 
-		return []; // Fallback return statement (empty array)
+	 
 	} catch (error) {
 		console.error(error);
 		throw error;

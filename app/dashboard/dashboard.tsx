@@ -3,7 +3,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import Slides from "@/app/dashboard/_components/Slides";
 
-import Courses from "@/components/Courses";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -31,7 +30,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('slide');
   const {userInTeam,user,loading } = useMyContext(); 
   const userLabel = user?.labels || [];
-
+  // const [loading, setLoading] = useState(loading);
   // useEffect(() => {
   //   setLoading(true);
   //   // Simulating an asynchronous user data fetch
@@ -39,7 +38,8 @@ export default function Dashboard() {
   //     setLoading(false);
   //   }, 200);
   // }, []);
-  // if (loading) return <Loading />;
+  if (loading) return <Loading />;
+    
   const handleAddButtonClick = () => {
     let route = '/dashboard';
 
@@ -55,13 +55,21 @@ export default function Dashboard() {
 
     router.push(route);
   };
+  
 
   return (
    <>
       {loading ? (
+        <>   
+      toast.loading('Loading...')
       <LoadingSkeleton/>
+      </>
       ) : (
       <>
+       <div>
+    
+    
+    </div>
       <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
