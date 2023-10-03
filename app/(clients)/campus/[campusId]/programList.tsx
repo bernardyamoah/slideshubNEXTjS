@@ -15,12 +15,12 @@ const [loading, setLoading]=useState(true)
         const fetchPrograms = async () => {
           const result = await getProgramsByCampusId(campusId);
           setPrograms(result);
-          successMessage('Programs fetched successfully')
           setLoading(false);
+          successMessage('Programs fetched successfully')
         };
     
         fetchPrograms();
-      }, []); // Only re-run the effect if campus.$id changes
+      }, [campusId]); // Only re-run the effect if campus.$id changes
     
       
   if (loading) {

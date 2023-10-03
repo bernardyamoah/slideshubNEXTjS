@@ -36,17 +36,12 @@ const {name,location}=await getCampusDetails(params.campusId)||{name:'',location
   return (
 
     <>
-   
-
-
- 
-
         
         <div className="mx-auto text-center lg:mx-0">
-        <p className="mb-3 text-zinc-400">
+        <p className="mb-1 md:text-lg text-emerald-500">
         {location}
         </p> 
-        <h2 className="text-3xl font-bold tracking-tight text-center text-transparent dark:text-zinc-100 xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  {name} 
+        <h2 className="text-3xl font-bold tracking-tight text-center text-transparent dark:text-zinc-100 xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 lg:text-4xl ">  {name} 
         </h2>
        
       </div>
