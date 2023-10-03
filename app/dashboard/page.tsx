@@ -1,15 +1,18 @@
 
+import { Metadata } from "next"
 import Dashboard from "./dashboard"
-
-
+export const metadata:Metadata={
+  title:'Dashboard',
+  
+}
 export default function Home() {
   return (
   <>
-  <header className=" lg:flex items-center justify-cener  w-full ">
-        <div className="max-w-screen-xl px-4   py-8 mx-auto ">
+  <header className="items-center w-full lg:flex justify-cener">
+        <div className="max-w-screen-xl px-4 py-8 mx-auto ">
         <div className="space-y-2 " >
               <h1
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600 text-center"
+                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-5xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600"
               >
                                 Discover Our Unique Features
               </h1>

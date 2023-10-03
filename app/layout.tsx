@@ -17,7 +17,7 @@ import { Metadata } from "next";
 export const metadata:Metadata = {
   title:{
     default:"Slideshub",
-    template:'Slideshub | %s'
+    template:'%s | Slideshub',
   },
   description: "Download your slides from Slideshub and more!",
  
@@ -35,8 +35,8 @@ export const metadata:Metadata = {
     images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
   },
   icons:{
-    icon:'/public/favicon.ico',
-    apple:'/public/apple-touch-icon.png',
+    icon:'/favicon.ico',
+    apple:'/apple-touch-icon.png',
    
 
   },

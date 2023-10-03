@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Locate } from 'lucide-react';
 import { Card, CardTitle } from './ui/card';
 import { useCampuses } from '@/customHooks/useCampuses';
+import { Suspense } from 'react';
+import Loading from './ui/Cloading';
 
 
 interface Campus {
@@ -22,6 +24,7 @@ const CampusCard = () => {
   const campuses: Campus[] = useCampuses()
   return (
     <>
+    <Suspense fallback={<Loading />}>
       {campuses.map((campus) => (
 
 <Card key={campus.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">
@@ -64,6 +67,7 @@ const CampusCard = () => {
 
 
       ))}
+      </Suspense>
     </>
   )
 }
