@@ -12,6 +12,7 @@ import { MyContextProvider, useMyContext } from "@/components/MyContext";
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 import Loading from "@/components/ui/Cloading";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const metadata = {
   title: "Slideshub",
@@ -55,6 +56,7 @@ export default function RootLayout({
            
 
             <Navbar />
+            <Breadcrumbs />
             <BackButtonNavigation />
 
             {children}

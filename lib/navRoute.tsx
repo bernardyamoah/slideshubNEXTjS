@@ -35,3 +35,21 @@ export const tabTriggers = [
 
   ];
  
+  export const LevelTabItems = [
+    {
+      label: "Level 100",
+      value: "Level 100",
+    },
+    {
+      label: "Level 200",
+      value: "Level 200",
+    },
+    {
+      label: "Level 300",
+      value: "Level 300",
+    },
+    {
+      label: "Level 400",
+      value: "Level 400",
+    },
+  ];

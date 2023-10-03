@@ -802,13 +802,13 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 	}
 }
 
-export const getProgramsByCampusId = async (id: string) => {
+export async function getProgramsByCampusId (campusId: string): Promise<any[]>   {
 	try {
 		// Fetch the courses by programId
 		const response = await databases.listDocuments(
 			process.env.NEXT_PUBLIC_DATABASE_ID!,
 			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-			[Query.equal("campusId", id)] // Filter documents by the campus ID
+			[Query.equal("campusId", campusId)] // Filter documents by the campus ID
 		);
 
 		// Return the courses data
@@ -850,6 +850,28 @@ export async function getCourseName(CourseId: string) {
 		return Course.name;
 	} catch (error) {
 		console.error("Failed to fetch course name:", error);
+		throw error;
+	}
+}
+export async function getCampusDetails(campusId: string) {
+	try {
+		// Fetch the program document from Appwrite database
+
+		const response = await databases.getDocument(
+			process.env.NEXT_PUBLIC_DATABASE_ID!,
+			process.env.NEXT_PUBLIC_CAMPUSES_COLLECTION_ID!,
+			campusId
+		);
+
+		if (response.$id) {
+			const location = response.location;
+			const name = response.name;
+			return { location, name };
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error("Failed to fetch program name:", error);
 		throw error;
 	}
 }

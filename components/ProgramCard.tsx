@@ -1,4 +1,4 @@
-import { formatTime, formatUserTime } from '@/lib/functions';
+import {  formatUserTime } from '@/lib/functions';
 import { GraduationCap } from 'lucide-react';
 
 import Link from 'next/link';
@@ -17,9 +17,7 @@ const programId=$id
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
         </div>
-        <Link href={{ pathname:`/campus/${campusId}/programs/${programId}`,
-        query: { programId, campusId}
-        }}
+        <Link href={`/campus/${campusId}/${programId}`}
         
         
       >

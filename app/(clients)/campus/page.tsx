@@ -31,18 +31,7 @@ export default function CampusList() {
           </div>
 
       </section>
-      {/* <div className='flex justify-center'>
-        <div className="flex gap-5 p-4 pb-10 mx-auto mt-10">
-          <Button className="mt-6" onClick={() => router.back()}>
-            <ChevronsLeftIcon className="w-4 h-4 mr-2" aria-hidden="true" />
-            Go Back
-          </Button>
-          <Button className="mt-6" onClick={() => router.forward()} disabled={!router.forward}>
-            Go Forward
-            <ChevronsRightIcon className="w-4 h-4 mr-2" aria-hidden="true" />
-          </Button>
-        </div>
-      </div> */}
+    
   
 
       

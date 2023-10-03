@@ -1,5 +1,4 @@
 
-
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -16,7 +15,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
             
           
             <div className="flex-1 w-full h-full mx-auto max-w-screen-3xl lg:p-2">
-            {/* <Breadcrumbs /> */}
+   
               <div className=" ">{children}</div>
 
             </div>
