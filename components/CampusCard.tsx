@@ -48,7 +48,7 @@ const CampusCard = () => {
        {campus.location}
       </span>
     </div>
-    <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+    <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-500 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
     {campus.name.toLocaleLowerCase()}
     </CardTitle>
   

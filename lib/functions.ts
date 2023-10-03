@@ -792,7 +792,7 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 		const response = await databases.listDocuments(
 			process.env.NEXT_PUBLIC_DATABASE_ID!,
 			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			[Query.equal("programId", programId), Query.limit(99)]
+			[Query.equal("programId", programId), Query.limit(99),Query.orderAsc('semester')]
 		);
 
 		// Return the courses data
