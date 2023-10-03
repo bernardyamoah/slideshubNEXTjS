@@ -31,9 +31,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
         </div>
-        <Link href={{ pathname:`/campus/${campusId}/programs/${programId}/${courseId}`,
-        query: { courseId}
-        }}
+        <Link href={`/campus/${campusId}/${programId}/${courseId}`}
         
         
       >

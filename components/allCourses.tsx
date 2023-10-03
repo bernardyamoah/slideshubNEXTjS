@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardTitle } from './ui/card';
-import { CourseEdit } from './course-edit';
+import { CourseEdit } from '../app/dashboard/_components/course-edit';
 import React from 'react';
 
 

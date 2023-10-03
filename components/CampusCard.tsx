@@ -3,7 +3,7 @@ import {formatUserTime} from '@/lib/functions';
 
 import Link from 'next/link';
 
-import { Locate, MapPin } from 'lucide-react';
+import { Locate } from 'lucide-react';
 import { Card, CardTitle } from './ui/card';
 import { useCampuses } from '@/customHooks/useCampuses';
 
@@ -30,10 +30,8 @@ const CampusCard = () => {
   <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
   <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
 </div>
-<Link href={{
-              pathname: `/campus/${campus.$id}/programs/`,
-              query: { campus:JSON.stringify(campus)}
-            }}
+<Link href={`/campus/${campus.$id}`}
+
      
 
 >
@@ -50,7 +48,7 @@ const CampusCard = () => {
        {campus.location}
       </span>
     </div>
-    <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+    <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-500 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
     {campus.name.toLocaleLowerCase()}
     </CardTitle>
   

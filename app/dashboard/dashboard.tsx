@@ -18,25 +18,27 @@ import Loading from "@/components/ui/Cloading";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 import { tabTriggers } from "@/lib/navRoute";
+import Programs from "./_components/adminProgram";
+import MemoizedCourses from "@/components/Courses";
 
 
 
 
 
 export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
-  const {userInTeam,user } = useMyContext(); 
+  const {userInTeam,user,loading } = useMyContext(); 
   const userLabel = user?.labels || [];
 
-  useEffect(() => {
-    setLoading(true);
-    // Simulating an asynchronous user data fetch
-    setTimeout(() => {
-      setLoading(false);
-    }, 200);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   // Simulating an asynchronous user data fetch
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 200);
+  // }, []);
   // if (loading) return <Loading />;
   const handleAddButtonClick = () => {
     let route = '/dashboard';
@@ -139,7 +141,6 @@ export default function Dashboard() {
               </div>
               <Separator className="my-4" />
               <div className="relative">
-               
                   <Suspense fallback={<Loading/>}>
                   {user ?(
                    <Slides user={user}/>
@@ -155,8 +156,6 @@ export default function Dashboard() {
                      
                    
                   </Suspense>
-              
-                
               </div>
             
             
@@ -179,8 +178,8 @@ export default function Dashboard() {
               <Separator className="my-4" />
               <EmptyBooks/>
             </TabsContent>
-            {/* All Courses */}
             {userInTeam ? (
+              <>
               <TabsContent
                 value="course"
                 className="h-full flex-col border-none p-0 data-[state=active]:flex"
@@ -199,11 +198,36 @@ export default function Dashboard() {
                 <div className="relative">
                  
 
-                      <Courses />
+                      <MemoizedCourses />
                    
                  
                 </div>
               </TabsContent>
+              
+              <TabsContent
+                value="program"
+                className="h-full flex-col border-none p-0 data-[state=active]:flex"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                      Programs
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Your favorite programs.
+                    </p>
+                  </div>
+                </div>
+                <Separator className="my-4" />
+                <div className="relative">
+                 
+
+                  
+                   <Programs/>
+                 
+                </div>
+              </TabsContent>
+              </>
             ) : null
             }
           </Tabs>

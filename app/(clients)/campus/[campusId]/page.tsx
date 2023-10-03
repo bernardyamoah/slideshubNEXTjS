@@ -1,0 +1,63 @@
+
+import ProgramList from './programList';
+import { getCampusDetails } from '@/lib/functions';
+
+import { Metadata, ResolvingMetadata } from 'next';
+
+type Props = {
+  params: { campusId: string };
+};
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { campusId } = params;
+
+  // Fetch campus details using the campusId
+  const { name, location } = await getCampusDetails(campusId)?? { name: '', location: '' };;
+
+  // Define the metadata fields
+  const pageTitle = campusId ? `${name}, ${location} Programs` : "Campus";
+  const pageDescription = `Browse programs available at ${name}, ${location} campus.`;
+
+  return {
+    title: pageTitle,
+    description: pageDescription,
+  };
+}
+
+
+export default async function Page({params}: Props) {
+const {name,location}=await getCampusDetails(params.campusId)||{name:'',location:''}
+
+
+  const pageTitle = params.campusId ? `${name},${location} Programs` : "Campus";
+  const pageDescription = `Browse programs available at ${name},${location} campus.`
+  
+  
+
+  return (
+
+    <>
+   
+
+
+ 
+
+        
+        <div className=" mx-auto lg:mx-0 text-center ">
+        <p className="mb-3 text-zinc-400">
+        {location}
+        </p> 
+        <h2 className="text-center text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100  xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  {name} 
+        </h2>
+       
+      </div>
+    
+
+       <ProgramList campusId={params.campusId} />
+       
+
+    </>
+  );
+}

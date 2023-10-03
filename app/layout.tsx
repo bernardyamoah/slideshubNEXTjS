@@ -8,8 +8,11 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 
 import BackButtonNavigation from "@/components/ui/back";
-import { MyContextProvider } from "@/components/MyContext";
-import MobileMenu from "./dashboard/_components/mobile-menu";
+import { MyContextProvider, useMyContext } from "@/components/MyContext";
+import MobileMenu from "../components/mobile-menu";
+import Footer from "@/components/Footer";
+import Loading from "@/components/ui/Cloading";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const metadata = {
   title: "Slideshub",
@@ -44,18 +47,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+
     <html lang="en" suppressHydrationWarning>
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <MyContextProvider>
           <body>
+           
+
             <Navbar />
+            <Breadcrumbs />
             <BackButtonNavigation />
 
             {children}
-<MobileMenu/>
-            <Toaster />
+            <MobileMenu />
+            <Footer />
 
+            <Toaster />
             <Analytics />
           </body>
         </MyContextProvider>

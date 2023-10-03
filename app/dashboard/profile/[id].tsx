@@ -1,14 +1,11 @@
-'use client'
+
 import React, { useEffect, useState } from "react";
-import { getUserData, updateUserData } from "@/lib/functions";
-import LoadingScreen from "../_components/LoadingScreen";
-import { useMyContext } from "@/components/MyContext";
 
 
 
-const ModernProfilePage: React.FC = () => {
-  const { user } = useMyContext();
- 
+
+const UserProfilePage: React.FC = () => {
+  
 
 
 
@@ -19,4 +16,4 @@ const ModernProfilePage: React.FC = () => {
   );
 };
 
-export default ModernProfilePage;
+export default UserProfilePage;
