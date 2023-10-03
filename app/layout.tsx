@@ -23,7 +23,7 @@ export const metadata:Metadata = {
  
  metadataBase:new URL ("https://slideshub.vercel.app"),
   applicationName: "Slideshub",
-  authors: [{name:"Bernard Yamoah"},{name:'Joeseph Adofo'}],
+  authors: [{name:"Bernard Yamoah"}],
   colorScheme:'dark',
 
 
@@ -31,8 +31,9 @@ export const metadata:Metadata = {
     title:'Slideshub',
     type:'website',
     description:'Download your slides from Slideshub and more!',
+    images: "/public/thumbnail.png",  
     
-    images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
+    // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
   },
   icons:{
     icon:'/favicon.ico',
