@@ -18,7 +18,7 @@ export async function generateMetadata(
   const {name  } = await getProgramDetails(programId)?? { name: ''};;
 
   // Define the metadata fields
-  const pageTitle = programId ? `${name} Courses` : "Courses";
+  const pageTitle = programId ? `${name} Courses` : "Program";
   const pageDescription = `Browse programs available at ${name} campus.`;
 
   return {

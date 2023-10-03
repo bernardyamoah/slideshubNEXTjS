@@ -22,7 +22,7 @@ export default function Breadcrumbs() {
           return (
             <NavigationMenuItem key={index}>
               <NavigationMenuList>
-                <NavigationMenuLink className='flex items-center gap-1 text-muted-foreground ' href={to}>
+                <NavigationMenuLink className='flex items-center gap-1 text-muted-foreground text-xs ' href={to}>
                {value} {'  /'}
                 </NavigationMenuLink>
               </NavigationMenuList>

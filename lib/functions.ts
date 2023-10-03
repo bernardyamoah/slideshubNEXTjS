@@ -911,6 +911,7 @@ export async function getCourseDetails(courseId: string) {
 
 		if (response.$id) {
 			const programId = response.programId;
+			
 			const name = response.name;
 			return { programId, name };
 		} else {
