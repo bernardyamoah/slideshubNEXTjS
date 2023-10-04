@@ -8,9 +8,10 @@ const nextConfig = {
 			"media.istockphoto.com",
 		],
 	},
-	// experimental: {
-	// 	serverActions: true,
-	// },
+	experimental: {
+		serverActions: true,
+		
+	},
 };
 
 module.exports = nextConfig;

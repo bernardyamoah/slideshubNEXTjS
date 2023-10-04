@@ -146,8 +146,8 @@ const{user}=useMyContext();
     }
 
     if (currentFiles.length > 0) {
-      let successfulUploads = 0;
       const toastId = toast.loading("Uploading files..."); // Show a loading toast
+      let successfulUploads = 0;
      
       for (let i = 0; i < currentFiles.length; i++) {
         const currentFile = currentFiles[i] as File;
@@ -175,10 +175,9 @@ const{user}=useMyContext();
   programme: programs.find((program) => program.$id === programId)?.name,
             };
       
-            const response = await createSlide(slideData);
-            if (response) {
-              successfulUploads++;
-            }
+       await createSlide(slideData);
+       successfulUploads++;
+            
           }
 
 
@@ -194,12 +193,18 @@ const{user}=useMyContext();
       // Update the state after the loop
   setUploadCounter(successfulUploads);
       if (successfulUploads === currentFiles.length) {
-        toast.success("All files have been uploaded successfully!", { id: toastId });
+        toast.success('All files have been uploaded successfully',{
+          id:toastId
+        });
   
         // Clear the fields after successful upload
         setCurrentFiles([]);
         setProgramId("");
         setCourseId("");
+        setCampusId("");
+        handleProgramChange("");
+        handleCampusChange("");
+        handleSelectCourseChange("");
         setUploadProgress(0);
         setUploadCounter(0); // Reset the upload counter
         

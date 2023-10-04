@@ -1,5 +1,5 @@
 'use client'
-import { formatTime, formatUserTime } from '@/lib/functions';
+import { formatTime, formatUserTime, successMessage } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
@@ -19,6 +19,7 @@ interface UserProps {
 
 export default function Slides ({user}:UserProps){
   const [slides, setSlides] = useState<Slides[]>([]);
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0); // Declare and initialize totalPages
 
@@ -29,10 +30,11 @@ export default function Slides ({user}:UserProps){
      const   {totalPages, documents}=await getUserSlides(user.$id, currentPage, setSlides, setLoading);
       setTotalPages(totalPages)
       setSlides(documents)
-      localStorage.setItem('slides', JSON.stringify(documents));
+      // successMessage('Slides loaded successfully')
+      
       } catch (error) {
         // Handle fetch error
-        console.error(error); // Access the rejected error here
+        console.error(error); 
       }
     };
     fetchData();

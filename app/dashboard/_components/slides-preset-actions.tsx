@@ -1,7 +1,8 @@
 "use client";
 
-import React, {  useState } from "react";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
+
+import React, {  experimental_useOptimistic as useOptimistic, useCallback, useState } from "react";
+import { Badge, Edit, MoreHorizontal, Trash } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -23,10 +24,11 @@ import {
 
 import {
   updateSlide,
-  deleteSlide,
   bytesToSize,
   extractIdFromUrl,
   handleFileUpload,
+  successMessage,
+  errorMessage,
 } from "@/lib/functions";
 
 import { Button } from "@/components/ui/button";
@@ -37,15 +39,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import DocumentUpload from "@/components/document-upload";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { ID, databases, storage } from "@/appwrite";
+import {  databases, storage } from "@/appwrite";
 import { UploadProgress } from "appwrite";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 interface PresetActionsProps {
   name: string;
@@ -64,77 +67,122 @@ export function PresetActions({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [updatedName, setUpdatedName] = useState(name);
   const [showDialog, setShowDialog] = useState(false);
+  const [optimisticSlides, setOptimisticSlides] = useOptimistic<Slides[]>(slides);
 
+  const deleteSlideHandler = useCallback(async (id: string) => {
+    try {
+      // Optimistically remove the slide from the state
+      setOptimisticSlides(slides.filter((slide) => slide.$id !== id)
+    );
+    
+   
+
+      const getDoc = await databases.getDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID!,
+        process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+        id
+      );
+      const fileID = extractIdFromUrl(getDoc.fileUrl);
+
+      if (getDoc.$id === id && fileID !== null) {
+       toast.promise(databases.deleteDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+          id
+        ),{
+          loading: "Deleting slide...",
+          success: "Slide deleted! 🎉",
+          error: "Failed to delete slide ❌",
+        });
+        setSlides(optimisticSlides)
+        setShowDeleteDialog(false);
+     
+        await storage.deleteFile(
+          process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+          fileID
+        );
+      } else {
+        // If an error occurs, revert the state back to the original
+        setOptimisticSlides(slides);
+      errorMessage("Failed to delete Slide ❌");
+       
+      }
+    } catch (err) {
+      errorMessage("Action declined ❌");
+    }
+  }, [slides, setOptimisticSlides]);
+
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+
+      try {
+        const fileExtension = currentFile?.name.split(".").pop()?.toUpperCase();
+        const updatedAttributes: {
+          name?: string;
+          fileUrl?: string;
+          previewUrl?: URL;
+          size?: string;
+          fileType?: string;
+        } = {};
+        if (updatedName !== name) {
+          updatedAttributes.name = updatedName;
+        }
+
+        if (currentFile !== null) {
+          const result = await handleFileUpload(
+            currentFile,
+            id,
+            setUploadProgress
+          );
+          if (result) {
+            const fileName = currentFile.name.replace(/_/g, " ");
+            updatedAttributes.name = fileName.slice(0, fileName.lastIndexOf("."));
+            updatedAttributes.fileUrl = result.uploadedFileUrl;
+            updatedAttributes.size = bytesToSize(currentFile.size);
+            updatedAttributes.fileUrl = result.uploadedFileUrl;
+            updatedAttributes.fileType = fileExtension ? fileExtension.toString() : "";
+            updatedAttributes.previewUrl = result.filePreviewResponse;
+          }
+        }
+
+        await updateSlide(id, updatedAttributes);
+
+        setCurrentFile(null);
+        setUpdatedName(updatedName);
+        setSlides((prevSlides) =>
+          prevSlides.map((slide) => {
+            if (slide.$id === id) {
+              return {
+                ...slide,
+                ...updatedAttributes,
+              };
+            }
+            return slide;
+          })
+        );
+        setShowDialog(false);
+        successMessage("Slide updated! 🎉");
+      } catch (error) {
+        errorMessage("Failed to update slide ❌");
+        setCurrentFile(null);
+      }
+    },
+    [currentFile, id, name, setSlides, updatedName]
+  );
 
  
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
+  const handleDeleteSlide = useCallback(async () => {
     try {
-      // Perform the update
-      const fileExtension = currentFile?.name.split(".").pop()?.toUpperCase();
-      const updatedAttributes: {
-        name?: string;
-        fileUrl?: string;
-        previewUrl?: URL;
-        size?: string;
-        fileType?: string;
-      } = {};
-      if (updatedName !== name) {
-        updatedAttributes.name = updatedName;
-      }
+      await deleteSlideHandler(id);
 
-      if (currentFile !== null) {
-        const result = await handleFileUpload(currentFile,id,setUploadProgress);
-        if (result) {
-          const fileName= currentFile.name.replace(/_/g, " ");
-          updatedAttributes.name = fileName.slice(0, fileName.lastIndexOf("."))
-          updatedAttributes.fileUrl = result.uploadedFileUrl;
-          updatedAttributes.size = bytesToSize(currentFile.size);
-          updatedAttributes.fileUrl = result.uploadedFileUrl;
-          updatedAttributes.fileType = fileExtension
-            ? fileExtension.toString()
-            : "";
-          updatedAttributes.previewUrl = result.filePreviewResponse;
-        }
-      }
-
-      await updateSlide(id, updatedAttributes);
-
-      // Reset form fields
-      setCurrentFile(null);
-      setUpdatedName(updatedName);
-      setSlides((prevSlides) =>
-        prevSlides.map((slide) => {
-          if (slide.$id === id) {
-            return {
-              ...slide,
-              ...updatedAttributes,
-            };
-          }
-          return slide;
-        })
-      );
-    } catch (error) {
-      console.error("Error updating slide:", error);
-      setCurrentFile(null);
-    }
-  };
-
-  const handleDeleteSlide = async () => {
-    try {
-      // Call the deleteSlide function to delete the slide
-      await deleteSlide(id);
-
-      // Update the slides state by filtering out the deleted slide
       const updatedSlides = slides.filter((slide) => slide.$id !== id);
       setSlides(updatedSlides);
+      setShowDeleteDialog(false);
     } catch (error) {
       // Handle error
     }
-  };
-
+  }, [deleteSlideHandler, id, setSlides, optimisticSlides]);
  
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -198,6 +246,12 @@ export function PresetActions({
               />
             </div>
 
+{uploadProgress > 0 && (
+ <>
+  <Progress value={uploadProgress} max={100} className="mt-3" />
+  <Badge >{uploadProgress} %</Badge>
+ </>
+)}
           </div>
           <DialogFooter>
             <Button type="submit" onClick={handleSubmit}>
@@ -213,7 +267,7 @@ export function PresetActions({
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete{" "}
-              <span className="text-gray-700 dark:text-gray-200">{name}</span>.
+              {/* <span className="text-gray-700 dark:text-gray-200">{name}</span>. */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">
