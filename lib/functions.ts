@@ -213,12 +213,16 @@ export const createSlide = async (slideData: SlidesData) => {
 		// }
 
 		const data = await 
-			databases.createDocument(
+			toast.promise(databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				ID.unique(),
 				slideData
-			)
+			),{
+				loading: 	`Uploading ${slideData.name} to database...`,
+				success: `${slideData.name} successfully uploaded! 🎉`,
+				error: `Failed to upload ${slideData.name}`,
+			})
 		return data;
 	} catch (error) {
 		errorMessage("Error adding slide");

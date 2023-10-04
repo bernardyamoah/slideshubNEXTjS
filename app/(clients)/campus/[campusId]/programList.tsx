@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 
-import {  getProgramsByCampusId } from '@/lib/functions';
+import {  getProgramsByCampusId, successMessage } from '@/lib/functions';
 import ProgramCard from '@/components/ProgramCard';
 import EmptyProgram from '@/components/EmptyPrograms';
 import Loading from '@/components/ui/Cloading';
@@ -16,10 +16,11 @@ const [loading, setLoading]=useState(true)
           const result = await getProgramsByCampusId(campusId);
           setPrograms(result);
           setLoading(false);
+          successMessage('Programs fetched successfully')
         };
     
         fetchPrograms();
-      }, []); // Only re-run the effect if campus.$id changes
+      }, [campusId]); // Only re-run the effect if campus.$id changes
     
       
   if (loading) {

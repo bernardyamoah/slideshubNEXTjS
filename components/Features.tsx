@@ -31,14 +31,11 @@ const Features = () => {
   return (
     <>
       <section className=" w-full flex items-center justify-center">
-        <div className="w-full">
-          <div className="space-y-10 w-full">
-            <div className="sm:text-3xl md:text-4xl mx-auto mb-20 text-center">
-              <h1>Here's what you'll love about Slideshub</h1>
-            </div>
-
+        <div>
+          <div className="space-y-10 w-full max-w-4xl">
+              <h1 className="sm:text-3xl md:text-4xl mx-auto  text-center">Here's what you'll love about Slideshub</h1>
             {/* Feature cards */}
-            <div className="w-full grid sm:grid-cols-2  gap-8 mx-auto md:p-16">
+            <div className="w-full grid sm:grid-cols-2  gap-8 md:gap-10 mx-auto md:px-16">
               {features.map((feature) => (
                 // <Card key={feature.title} className="backdrop-blur-md bg-opacity-70 w-full">
                 //   <CardHeader className="space-y-4">
@@ -51,7 +48,8 @@ const Features = () => {
                 // </Card>
 
 
-<Card key={feature.title} className="w-full max-w-full space-y-4 mx-auto md:p-4">
+
+        <Card key={feature.title} className="w-full max-w-xl space-y-4  mx-auto md:p-4">
 
                 <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
                   <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
@@ -64,15 +62,14 @@ const Features = () => {
                   </p>
                 </div>
              
-            </Card>
-       
+            </Card> 
 
               ))}
             </div>
           </div>
         </div>
       </section>
-      <Separator className="mb-8" />
+    
     </>
   );
 };

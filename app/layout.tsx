@@ -23,16 +23,18 @@ export const metadata:Metadata = {
  
  metadataBase:new URL ("https://slideshub.vercel.app"),
   applicationName: "Slideshub",
-  authors: [{name:"Bernard Yamoah"},{name:'Joeseph Adofo'}],
+  authors: [{name:"Bernard Yamoah"}],
   colorScheme:'dark',
+  
 
 
   openGraph: {
     title:'Slideshub',
     type:'website',
     description:'Download your slides from Slideshub and more!',
-    
-    images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",  
+    // images: "/favicon.ico",  
+    // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg", 
+    images: "/thumbnail.jpg", 
   },
   icons:{
     icon:'/favicon.ico',
@@ -69,7 +71,7 @@ export default function RootLayout({
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={false}  position="bottom-center" richColors />
+            <Toaster expand={false}  position="top-center" richColors />
             <Analytics />
           </body>
         </MyContextProvider>

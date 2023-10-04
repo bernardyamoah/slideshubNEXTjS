@@ -40,14 +40,14 @@ const MyContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     }
 
     fetchUser();
-  }, []);
+  }, [user]);
 
   const checkUserMembership = useCallback(async (): Promise<void> => {
     try {
       const isUserInTeam = await checkUserInTeam();
       setUserInTeam(isUserInTeam);
     } catch (error) {
-      console.error("Error checking team membership:", error);
+      
       setUserInTeam(false);
     }
   }, []);
