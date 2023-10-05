@@ -12,7 +12,7 @@ export default function Home() {
 				
 
 			<main >
-			<div className="bg-pattern opacity-10 dark:opacity-40 w-full h-full absolute bg-repeat bg-center  -z-10"></div>
+			
 				{/* <-- Hero section --> */}
 				<Hero />
 
