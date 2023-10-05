@@ -1,7 +1,15 @@
+'use client'
 import Image from "next/image";
 
 import heroimage3 from "/assets/details-1.png";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { ChevronRightCircleIcon } from "lucide-react";
+
 const Hero = () => {
+  const route=useRouter()
+  const handleRouteToCampus = () => {
+   route.push("/campus");}
   return (
     <>
       <header className="flex  items-center w-full justify-center">
@@ -9,15 +17,14 @@ const Hero = () => {
 
         <div className="max-w-screen-xl  py-8 mx-auto space-y-16">
           <div className="space-y-6 ">
-            <h1 className="text-4xl font-bold tracking-tighter text-center  sm:text-5xl xl:text-6xl/none  ">
-              Elevate Your Education Game! 🚀
+            <h1 className="[text-wrap:balance] text-4xl font-bold tracking-tighter text-center  sm:text-5xl xl:text-6xl/none  ">
+              Elevate Your Education Game!🚀
             </h1>
-            <p className="max-w-4xl text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-left sm:text-center">
-              At SlidesHub, we've revolutionized the way you access educational
-              materials. No more endless searches or hours spent scanning
-              libraries. With just a few clicks, you can instantly download and
-              print lecture slides and books.
+            <p className="[text-wrap:balance] max-w-4xl text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center">
+            Welcome to <span className="text-emerald-600 font-bold border-b-2 border-dashed border-emerald-700">SlidesHub</span>, where education meets modern convenience with a friendly touch. Tired of endless searches and library hunts? Say goodbye to those hassles! With just a few clicks, you can effortlessly download and print lecture slides and books. It's the easiest way to access educational materials, making your learning journey a breeze!🍃
             </p>
+            <Button className="mx-auto text-center flex gap-2 " onClick={handleRouteToCampus}> Get Started <ChevronRightCircleIcon className="w-4 h-4 "/> </Button>
+            {/* <Button variant='outline' className="ml-5" > A lecturer / Course Rep?</Button> */}
           </div>
 
           <div className="relative w-full flex items-center justify-center ">

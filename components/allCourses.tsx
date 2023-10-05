@@ -19,13 +19,13 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
 
       <div className="sm:flex sm:justify-between sm:gap-4">
         <div>
-        <CardTitle className=" leading-2 tracking-wider capitalize text-sm   ">
+        <CardTitle className=" leading-2 tracking-wider capitalize text-2xl [text-wrap:balance] mt-4 ">
           {course.name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
           <div className="absolute flex justify-end flex-1 gap-1 text-xs text-gray-500 right-1 top-2 dark:text-gray-500/90">
             <CourseEdit course={course} key={course.$id} courses={courses} setCourses={setCourses}/>
           </div>
-          <p className="mt-1 text-xs font-medium text-gray-600">Posted by  <span className=" text-accent-foreground">{course.user_id}</span></p>
+          <p className="mt-1  text-zinc-700 text-xs">Posted by  </p><span className=" text-muted-foreground text-xs font-medium">{course.user_id}</span>
         </div>
 
       
@@ -33,27 +33,27 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
 
 
       <CardContent className='!p-0'>
-        <dl className="grid grid-cols-2 gap-4 mt-6 text-[0.65rem]">
+        <dl className="flex justify-between flex-wrap gap-4 mt-6 text-[0.65rem]">
 
-          <div className="flex flex-col justify-between">
-            <dt className="text-xs font-medium text-foreground-accent">Semester</dt>
-            <dd className="text-xs text-gray-500 capitalize">{course.semester}</dd>
+          <div className="flex flex-col max-w-fit justify-between">
+            <dt className="text-xs font-medium text-zinc-700">Semester</dt>
+            <dd className="text-xs text-muted-foreground capitalize">{course.semester}</dd>
           </div>
-          <div className="flex flex-col justify-between">
-            <dt className="text-xs font-medium text-foreground-accent">Course Code</dt>
-            <dd className="text-xs text-gray-500">{course.courseCode}</dd>
+          <div className="flex flex-col max-w-fit justify-between">
+            <dt className="text-xs font-medium text-zinc-700">Course Code</dt>
+            <dd className="text-xs text-muted-foreground">{course.courseCode}</dd>
           </div>
-          <div className="flex flex-col justify-between">
-            <dt className="text-xs font-medium text-foreground-accent">Lecturer</dt>
-            <dd className="text-xs text-gray-500">{course.lecturer}</dd>
+          <div className="flex flex-col max-w-fit justify-between">
+            <dt className="text-xs font-medium text-zinc-700">Lecturer</dt>
+            <dd className="text-xs text-muted-foreground">{course.lecturer}</dd>
           </div>
-          <div className="flex flex-col justify-between">
-            <dt className="text-xs font-medium text-foreground-accent">Year</dt>
-            <dd className="text-xs text-gray-500">{course.year}</dd>
+          <div className="flex flex-col max-w-fit justify-between">
+            <dt className="text-xs font-medium text-zinc-700">Year</dt>
+            <dd className="text-xs text-muted-foreground">{course.year}</dd>
           </div>
-          <div className="flex flex-col justify-between">
-            <dt className="text-xs font-medium text-foreground-accent">Credit </dt>
-            <dd className="text-xs text-gray-500">{course.credit} {' '}Hour(s)</dd>
+          <div className="flex flex-col max-w-fit justify-between">
+            <dt className="text-xs font-medium text-zinc-700">Credit </dt>
+            <dd className="text-xs text-muted-foreground">{course.credit} {' '}Hour(s)</dd>
           </div>
         </dl>
       </CardContent>
