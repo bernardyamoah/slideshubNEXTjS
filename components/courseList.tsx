@@ -21,7 +21,7 @@ const [loading, setLoading]=useState(true)
         setLoading(false);
         successMessage('Courses fetched successfully')  
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        
         errorMessage('Error fetching courses')
       }
     };
@@ -35,13 +35,13 @@ const [loading, setLoading]=useState(true)
     <div>
       {/* <h2>Course List of : {programId}</h2> */}
 
-      <Tabs value={selectedTab}>
-                  <TabsList className="max-w-2xl mx-auto mb-10">
+      <Tabs value={selectedTab} className='w-full relative flex flex-col'>
+                  <TabsList className=" mx-auto mb-16 min-w-fit relative">
           {LevelTabItems.map(({ label, value }) => (
             <TabsTrigger
               key={value}
               value={value}
-              className="relative"
+              className="relative text-xs sm:text-sm font-medium text-zinc-500 hover:text-zinc-800 dark:text-zinc-200 dark:hover:text-zinc-100"
               onClick={() => setSelectedTab(value)}
             >
               {label}

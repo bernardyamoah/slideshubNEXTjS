@@ -24,7 +24,7 @@ const ProgramDetails = ({ programId }) => {
 
   return (
     <>
-      <div>
+      <div className="text-center max-w-4xl mx-auto mb-6">
         <h1>{program.name}</h1>
       </div>
     </>
