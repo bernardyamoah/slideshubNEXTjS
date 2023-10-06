@@ -23,7 +23,7 @@ const Hero = () => {
             <p className="lg:[text-wrap:balance] max-w-4xl text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center lg:text-2xl">
             Welcome to <span className="text-emerald-600 font-bold border-b-2 border-dashed border-emerald-700">SlidesHub</span> where learning is a breeze🍃! No more endless searches or library trips. With a few clicks, download and print lecture slides and books. Education made easy!
             </p>
-            <Button className="mx-auto text-center flex gap-2 " onClick={handleRouteToCampus}> Get Started <ChevronRightCircleIcon className="w-5 h-5 animate-pulse duration-1000"/> </Button>
+            <Button className="mx-auto text-center flex gap-2 " onClick={handleRouteToCampus}> Get Started <ChevronRightCircleIcon className="w-5 h-5 "/> </Button>
             {/* <Button variant='outline' className="ml-5" > A lecturer / Course Rep?</Button> */}
           </div>
 
