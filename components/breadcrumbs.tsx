@@ -10,11 +10,13 @@ import {
 
 
 export default function Breadcrumbs() {
+  const pathname=usePathname()
+  
+  const pathnames = pathname.split('/').filter((x) => x)
+if (pathname==='/') return null
 
-  const pathnames = usePathname().split('/').filter((x) => x)
- 
   return (
-    <NavigationMenu className='my-6 mx-auto'>
+    <NavigationMenu className='my-6 mx-auto '>
       <NavigationMenuList className='gap-2'>
         {pathnames.map((value, index) => {
           const to = `/${pathnames.slice(0, index + 1).join('/')}`

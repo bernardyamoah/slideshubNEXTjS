@@ -60,13 +60,14 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <MyContextProvider>
-          <body>
+          <body className="
+          dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-800/50 dark:to-zinc-950 px-2">
            
 
             <Navbar />
             <Breadcrumbs />
             <BackButtonNavigation />
-            <div className="inset-0 absolute bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
+            <div className="inset-0 bg-fixed absolute bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
             {children}
             <MobileMenu />
             <Footer />

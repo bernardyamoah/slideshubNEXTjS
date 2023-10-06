@@ -11,7 +11,7 @@ export default function Home() {
 
 				
 
-			<main >
+			
 			
 				{/* <-- Hero section --> */}
 				<Hero />
@@ -21,7 +21,7 @@ export default function Home() {
 
 				{/*Testimonial Section */}
 				<Testimonials />
-			</main>
+			
 		</>
 	);
 }

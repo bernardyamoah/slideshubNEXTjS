@@ -100,44 +100,21 @@
 		@apply hidden text-sm font-bold text-zinc-900 sm:flex dark:text-white md:text-xl font-title;
 	}
 	
-	/* ------------------------------------------------ */
 
 
 
-	/* TIMELINE */
-
-	#myUL {
-		@apply w-full;
-	}
-
-	/* --------------PROGRAM--------------- */
-
-	.title-heading {
-		@apply mb-4 text-xl font-extrabold tracking-widest text-center text-zinc-900 uppercase md:text-3xl font-body;
-	}
-
-
-	.card_image {
-		@apply absolute top-0 left-0 object-cover w-full h-full transition-transform duration-500 ease-in-out rounded-t-3xl;
-	}
+	
 	.course-code {
 		@apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600;
 	}
-	.card_heading {
-		@apply w-full text-sm font-bold text-left text-zinc-800 capitalize align-middle lg:text-lg dark:text-white font-title md:w-5/6;
-	}
+	
 
-	.footer_copyright {
-		@apply text-xs leading-6 text-center sm:text-sm md:text-base;
-	}
+	
 }
 
 .pattern {
-	/* background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png"); */
-	background-position-x: center;
-background-image: url('/public/pattern.svg');
-	background-size: initial;
-	background-repeat: repeat;
+	background-image: url("https://www.amoyshare.com/asset/products/watermark/css/images/swiper-bg-4d75ab61.png");
+	
 }
 
 .nav-bar {

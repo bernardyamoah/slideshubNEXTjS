@@ -49,7 +49,7 @@ const Features = () => {
 
 
 
-        <Card key={feature.title} className="w-full max-w-xl space-y-4  mx-auto md:p-4">
+        <Card key={feature.title} className="hover:shadow-emerald-600/50 duration-1000 rounded-xl w-full max-w-md space-y-4  mx-auto md:p-4">
 
                 <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
                   <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
