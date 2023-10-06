@@ -67,7 +67,7 @@ export default function RootLayout({
             <Navbar />
             <Breadcrumbs />
             <BackButtonNavigation />
-            <div className="inset-0  absolute bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
+            <div className="inset-0 bg-fixed absolute bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
             {children}
             <MobileMenu />
             <Footer />
