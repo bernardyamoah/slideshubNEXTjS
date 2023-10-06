@@ -61,7 +61,7 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="dark">
         <MyContextProvider>
           <body className="
-          dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-800/50 dark:to-zinc-950 px-2">
+         ">
            
 
             <Navbar />
