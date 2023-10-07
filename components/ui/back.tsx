@@ -19,9 +19,10 @@ const BackButtonNavigation = () => {
   }
   return (
   
+  
 
-       <Button size='sm' className="left-6" onClick={handleNavigation}>
-        <ChevronLeftIcon className="w-4 h-4 mr-2 text-foreground-muted" />
+       <Button size='sm' className="relative block my-4 left-10" onClick={handleNavigation}>
+        <ChevronLeftIcon className="w-4 h-4 text-foreground-muted" />
       
        </Button>
     

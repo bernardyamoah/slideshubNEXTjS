@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { LevelTabItems } from '@/lib/navRoute';
 import CourseCard from './CourseCard';
@@ -33,7 +33,7 @@ const [loading, setLoading]=useState(true)
     return <Loading/>}
   return (
     <div>
-      {/* <h2>Course List of : {programId}</h2> */}
+
 
       <Tabs value={selectedTab} className='relative flex flex-col w-full'>
                   <TabsList className="relative mx-auto mb-16 min-w-fit">

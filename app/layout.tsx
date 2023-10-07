@@ -9,7 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from 'sonner';
 
 import BackButtonNavigation from "@/components/ui/back";
-import { MyContextProvider } from "@/components/MyContext";
+import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/breadcrumbs";
@@ -59,7 +59,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <MyContextProvider>
+        <UserContextProvider>
           <body className="
          ">
            
@@ -74,7 +74,7 @@ export default function RootLayout({
             <Toaster expand={false}  position="top-center" richColors />
             <Analytics />
           </body>
-        </MyContextProvider>
+        </UserContextProvider>
       </ThemeProvider>
     </html>
   );

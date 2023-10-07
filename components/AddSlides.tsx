@@ -36,7 +36,7 @@ import { usePrograms } from "@/customHooks/usePrograms";
 import { useCourses } from "@/customHooks/useCourse";
 import { Badge } from "./ui/badge";
 import FileUpload from "./fileUpload";
-import { useMyContext } from "./MyContext";
+import { useUserContext } from "./UserContext";
 
 
 function isStepValid(
@@ -61,7 +61,7 @@ function isStepValid(
 
 
 export default function AddSlides() {
-  const {user}=useMyContext();
+  const {user}=useUserContext();
   const [currentFiles, setCurrentFiles] = useState([]);
   const [courseId, setCourseId] = useState<string>("");
 

@@ -24,9 +24,10 @@ import Link from "next/link";
 ;
 import { getUserInitials } from "@/lib/functions";
 import { useEffect, useState } from "react";
-import { useMyContext } from "./MyContext";
+import {  useUserContext } from "./UserContext";
 export const UserProfile= () => {
-  const {user}=useMyContext();
+  const {user}=useUserContext();
+  const{signOut}=useUserContext()
   const firstName = user?.name?.split(' ')[0] || '';
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   useEffect(() => {
@@ -72,7 +73,7 @@ export const UserProfile= () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
+          <DropdownMenuItem>
             <User className="w-4 h-4 mr-2" />
             <span>Profile</span>
            
@@ -80,7 +81,7 @@ export const UserProfile= () => {
 
         </DropdownMenuGroup>
 
-        <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={() => logOut(router)}>
+        <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={signOut}>
           <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>
         </DropdownMenuItem>

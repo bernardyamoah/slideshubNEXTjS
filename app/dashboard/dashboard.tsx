@@ -1,6 +1,6 @@
 
 'use client'
-import React, { Suspense, useEffect, useState } from "react";
+import  { Suspense, useState } from "react";
 import Slides from "@/app/dashboard/_components/Slides";
 
 
@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import EmptyBooks from "@/components/EmptyBooks";
-import { useMyContext } from "@/components/MyContext";
+import { useUserContext} from "@/components/UserContext";
 import { useRouter } from "next/navigation";
 
 import Loading from "@/components/ui/Cloading";
@@ -28,16 +28,9 @@ export default function Dashboard() {
 
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
-  const {userInTeam,user,loading } = useMyContext(); 
+  const {userInTeam,user,loading } = useUserContext(); 
   const userLabel = user?.labels || [];
-  // const [loading, setLoading] = useState(loading);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   // Simulating an asynchronous user data fetch
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 200);
-  // }, []);
+ 
   if (loading) return <Loading />;
     
   const handleAddButtonClick = () => {
