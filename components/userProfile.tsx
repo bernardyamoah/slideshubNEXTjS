@@ -75,7 +75,7 @@ export const UserProfile= () => {
           <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
             <User className="w-4 h-4 mr-2" />
             <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+           
           </DropdownMenuItem>
 
         </DropdownMenuGroup>

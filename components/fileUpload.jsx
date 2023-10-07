@@ -79,12 +79,8 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
           ) : null}
           <div className="text-center hover:text-white flex flex-col items-center justify-center space-y-1">
             {files[0] ? (
-              // <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-gray-500">
-              //   <div>{fileIcon(currentFile.type)}</div>
-              //   <p>{currentFile.name.replace(/_/g, " ")}</p>
-              //   <p className="text-gray-500">{bytesToSize(currentFile.size)}</p>
-              // </div>
-              <ul>
+              
+              <ul className='flex flex-col justify-between '>
 {files.map((file, index) => (
   <>
   

@@ -8,7 +8,7 @@ import EmptyCourse from './EmptyCourse';
 import { errorMessage, getCoursesByProgramId, successMessage } from '@/lib/functions';
 import Loading from './ui/Cloading';
 
-const CourseList = ({ programId }) => {
+const CourseList = ({ programId, campusId}) => {
 const [courses, setCourses] = useState<Course[]>([]);
   const [selectedTab, setSelectedTab] = useState(LevelTabItems[0].value);
 const [loading, setLoading]=useState(true)
@@ -35,13 +35,13 @@ const [loading, setLoading]=useState(true)
     <div>
       {/* <h2>Course List of : {programId}</h2> */}
 
-      <Tabs value={selectedTab} className='w-full relative flex flex-col'>
-                  <TabsList className=" mx-auto mb-16 min-w-fit relative">
+      <Tabs value={selectedTab} className='relative flex flex-col w-full'>
+                  <TabsList className="relative mx-auto mb-16 min-w-fit">
           {LevelTabItems.map(({ label, value }) => (
             <TabsTrigger
               key={value}
               value={value}
-              className="relative text-xs sm:text-sm font-medium text-zinc-500 hover:text-zinc-800 dark:text-zinc-200 dark:hover:text-zinc-100"
+              className="relative text-xs font-medium sm:text-sm text-zinc-500 hover:text-zinc-800 dark:text-zinc-200 dark:hover:text-zinc-100"
               onClick={() => setSelectedTab(value)}
             >
               {label}
@@ -56,7 +56,7 @@ const [loading, setLoading]=useState(true)
                 {courses
                    .filter((course) => course.year === value)
                    .map((course) => (
-                      <CourseCard key={course.$id} course={course} courses={courses} setCourses={setCourses} />
+                      <CourseCard key={course.$id} course={course} campusId={campusId} />
                    ))}               </div>
              ) : (
               <div className="flex justify-center w-full">
