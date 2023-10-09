@@ -52,7 +52,7 @@ title:'SlidesHub',
 creator:'@byayamoah',
     card:'summary_large_image',
 site:'https://slideshub.vercel.app',
-images: [{url:"/thumbnail.jpg",}]
+images: [{url:"https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg",}]
 
 
   }
