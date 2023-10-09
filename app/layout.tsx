@@ -23,7 +23,7 @@ export const metadata:Metadata = {
  
  metadataBase:new URL ("https://slideshub.vercel.app"),
   applicationName: "Slideshub",
-  authors: [{name:"Bernard Yamoah"}],
+  authors: [{name:"Slideshub Team",url:'https://slideshub.vercel.app'}],
   colorScheme:'dark',
   
 
@@ -34,7 +34,7 @@ export const metadata:Metadata = {
     description:'Download your slides from Slideshub and more!',
     // images: "/favicon.ico",  
     // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg", 
-    images: "/thumbnail.jpg", 
+    images: [{url:"/thumbnail.jpg",}] 
   },
   icons:{
     icon:'/favicon.ico',
@@ -46,6 +46,15 @@ export const metadata:Metadata = {
     width:'device-width',
     initialScale:1,
     maximumScale:1,
+  },
+  twitter:{
+title:'SlidesHub',
+creator:'@byayamoah',
+    card:'summary_large_image',
+site:'https://slideshub.vercel.app',
+images: [{url:"/thumbnail.jpg",}]
+
+
   }
 };
 
@@ -60,8 +69,7 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-          <body className="
-         ">
+          <body>
            
 <Navbar/>
             <BackButtonNavigation />
