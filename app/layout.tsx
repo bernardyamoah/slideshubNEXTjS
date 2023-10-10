@@ -14,6 +14,7 @@ import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { Metadata } from "next";
+import { url } from "inspector";
 export const metadata:Metadata = {
   title:{
     default:"Slideshub",
@@ -52,11 +53,27 @@ title:'SlidesHub',
 creator:'@byayamoah',
     card:'summary_large_image',
 site:'https://slideshub.vercel.app',
-images: ["https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"]
+images: [
+  {
+    url: '/thumbnail.jpg',
+    width: 800,
+    height: 600,
+    alt: 'Og Image Alt',
+  },
+  {
+    url: '/thumbnail.jpg',
+    width: 900,
+    height: 800,
+    alt: 'Og Image Alt Second',
+  },
+  { url: '/thumbnail.jpg' },
+  { url: '/thumbnail.jpg' },
 
 
-  }
+],
+  },
 };
+// "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"
 
 export default function RootLayout({
   children,

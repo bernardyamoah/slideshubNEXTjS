@@ -7,6 +7,7 @@ import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { UserAuth } from "@/components/component/user-auth";
 
 
 
@@ -55,7 +56,8 @@ export default function Page()
                 Enter your email below to create your account
               </p>
             </div>
-            <UserAuthForm />
+            {/* <UserAuthForm /> */}
+            <UserAuth/>
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
