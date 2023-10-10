@@ -38,8 +38,8 @@ export const metadata:Metadata = {
     images: [{url:"/thumbnail.jpg",}] 
   },
   icons:{
-    icon:'/favicon.ico',
-    apple:'/apple-touch-icon.png',
+    icon:'https://slideshub.vercel.app/favicon.ico',
+    apple:'https://slideshub.vercel.app/apple-touch-icon.png',
    
 
   },
@@ -55,19 +55,19 @@ creator:'@byayamoah',
 site:'https://slideshub.vercel.app',
 images: [
   {
-    url: '/thumbnail.jpg',
+    url: 'https://slideshub.vercel.app/thumbnail.jpg',
     width: 800,
     height: 600,
-    alt: 'Og Image Alt',
+    alt: 'Slideshub',
   },
   {
-    url: '/thumbnail.jpg',
+    url: 'https://slideshub.vercel.app/thumbnail.jpg',
     width: 900,
     height: 800,
-    alt: 'Og Image Alt Second',
+    alt: 'Slideshub Image Alt',
   },
-  { url: '/thumbnail.jpg' },
-  { url: '/thumbnail.jpg' },
+  { url: 'https://slideshub.vercel.app/thumbnail.jpg' },
+  { url: 'https://slideshub.vercel.app/thumbnail.jpg' },
 
 
 ],
@@ -91,7 +91,7 @@ export default function RootLayout({
 <Navbar/>
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="inset-0  absolute bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
+            <div className="fixed inset-0 bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
           <div className="px-2">  {children}</div>
             <MobileMenu />
             <Footer />

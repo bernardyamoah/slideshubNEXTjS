@@ -68,7 +68,7 @@ export default function Dashboard() {
         Welcome
                       </p>
               <h1
-                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-5xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600"
+                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl  bg-clip-text dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600"
               >
                         {user?.name || ''}
               </h1>
