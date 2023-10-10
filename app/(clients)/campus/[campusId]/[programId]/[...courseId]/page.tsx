@@ -2,12 +2,13 @@ import { getCourseDetails } from '@/lib/functions';
 import { Metadata, ResolvingMetadata } from 'next';
 import { formatUserTime, getSlidesByCourseId } from '@/lib/functions';
 
-import { FolderOpen, ShieldCheck } from "lucide-react";
+import { ExternalLink, FolderOpen, ShieldCheck } from "lucide-react";
 // import Loading from '@/components/ui/Cloading';
 import { Card, CardTitle } from '@/components/ui/card';
 import DownloadBtn from '@/components/ui/downloadBtn';
 import { EmptySlides } from '@/components/EmptySlides';
 import { Suspense } from 'react';
+import Link from 'next/link';
 
 
 type Props = {
@@ -81,6 +82,14 @@ return (
                   </time>
                 
               </span>
+             {slide.fileType==='pdf' ? (
+
+<Link href={'/slide-preview'}
+ className='gap-2'>
+  <ExternalLink className='w-4 h-4 text-muted-foreground'/>
+Preview 
+</Link>
+             ):null}
              
             </div>
             <DownloadBtn Fileurl={slide.fileUrl} filename={slide.name} />
