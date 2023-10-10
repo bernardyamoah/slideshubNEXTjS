@@ -26,16 +26,13 @@ export const metadata:Metadata = {
   applicationName: "Slideshub",
   authors: [{name:"Slideshub Team",url:'https://slideshub.vercel.app'}],
   colorScheme:'dark',
-  
-
-
   openGraph: {
     title:'Slideshub',
     type:'website',
     description:'Download your slides from Slideshub and more!',
-    // images: "/favicon.ico",  
-    // images: "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg", 
-    images: [{url:"/thumbnail.jpg",}] 
+    url:'https://slideshub.vercel.app',
+    images: [{url:"/thumbnail.jpg",}] ,
+   
   },
   icons:{
     icon:'https://slideshub.vercel.app/favicon.ico',
@@ -48,11 +45,13 @@ export const metadata:Metadata = {
     initialScale:1,
     maximumScale:1,
   },
+  
   twitter:{
 title:'SlidesHub',
 creator:'@byayamoah',
     card:'summary_large_image',
 site:'https://slideshub.vercel.app',
+
 images: [
   {
     url: 'https://slideshub.vercel.app/thumbnail.jpg',
@@ -72,6 +71,7 @@ images: [
 
 ],
   },
+      
 };
 // "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"
 
@@ -86,13 +86,13 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-          <body>
+          <body className="min-h-screen">
            
 <Navbar/>
             <BackButtonNavigation />
-            <Breadcrumbs />
+            {/* <Breadcrumbs /> */}
             <div className="fixed inset-0 bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
-          <div className="px-2">  {children}</div>
+          <div className="px-2 mb-10">  {children}</div>
             <MobileMenu />
             <Footer />
 

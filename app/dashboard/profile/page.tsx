@@ -1,8 +1,5 @@
 
-import React, { useEffect, useState } from "react";
-
-
-
+import { UserProfile } from "@/components/component/user-profile";
 
 const UserProfilePage: React.FC = () => {
   
@@ -11,7 +8,8 @@ const UserProfilePage: React.FC = () => {
 
   return (
    <>
-   <h1>Profile Page</h1>
+   
+   <UserProfile/>
    </>
   );
 };
