@@ -1,12 +1,12 @@
 
 import { UserAuthForm } from "../components/user-register"; 
 
-import Image from "next/image"
-import Link from "next/link"
-
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { UserAuth } from "@/components/component/user-auth";
+import Link from "next/link";
+import Image from "next/image";
 
 
 
@@ -32,12 +32,12 @@ export default function Page()
           className="hidden dark:block"
         />
       </div>
-      <div className="container backdrop-blur-lg relative h-screen lg:h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container pb-10 backdrop-blur-lg relative  lg:h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/login"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 sm:top-4 md:right-8 md:top-8 -top-16"
           )}
         >
           Login
@@ -56,6 +56,7 @@ export default function Page()
               </p>
             </div>
             <UserAuthForm />
+            {/* <UserAuth/> */}
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

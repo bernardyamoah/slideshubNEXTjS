@@ -61,7 +61,22 @@ export default function Dashboard() {
       <>
        <div>
     
-    
+       <header className="items-center w-full lg:flex justify-cener">
+        <div className="max-w-screen-xl px-4 py-8 mx-auto ">
+        <div className="space-y-2 " >
+        <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
+        Welcome
+                      </p>
+              <h1
+                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl  bg-clip-text dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600"
+              >
+                        {user?.name || ''}
+              </h1>
+              
+            </div>
+        </div>
+        
+      </header>
     </div>
       <div className="relative col-span-3 lg:col-span-4 lg:border-l">
         <div className="h-full px-4 py-6 lg:px-8">
