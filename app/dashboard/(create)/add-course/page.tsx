@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
-import { useMyContext } from "@/components/MyContext";
+import { useUserContext } from "@/components/UserContext";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -88,7 +88,7 @@ const formSchema = z.object({
 export default function AddCourse() {
     const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
     const [campuses, setCampuses] = useState<any[]>([]); 
-    const {user } = useMyContext();
+    const {user } = useUserContext();
   
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),

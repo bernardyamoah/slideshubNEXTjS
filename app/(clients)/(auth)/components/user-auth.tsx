@@ -7,26 +7,23 @@ import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useRouter } from "next/navigation"
-import { handleGoogleSignIn, logIn } from "@/lib/functions"
+
+import { handleGoogleSignIn } from "@/lib/functions"
 import { Loader2 } from "lucide-react"
+import { useUserContext } from "@/components/UserContext"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+ 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const router = useRouter();
+  const {login,loading}=useUserContext();
 
  
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
-    setIsLoading(true)
-    logIn(email, setEmail, password, setPassword, router);
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    login(email, password);
   }
 
   return (
@@ -44,7 +41,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -59,14 +56,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={loading}
               value={password}
 			 onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button disabled={isLoading} className="mt-4">
-            {isLoading && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Button disabled={loading} className="mt-4">
+            {loading && (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               
             )}
             Login
@@ -78,16 +75,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="px-2 bg-background text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading} onClick={handleGoogleSignIn}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+      <Button variant="outline" type="button" disabled={loading} onClick={handleGoogleSignIn}>
+        {loading ? (
+          <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Icons.google className="w-4 h-4 mr-2" />
         )}{" "}
     Google
       </Button>

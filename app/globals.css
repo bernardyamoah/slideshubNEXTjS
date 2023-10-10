@@ -62,7 +62,7 @@
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground  font-body dark:bg-black bg-background relative  dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none  ;
+		@apply text-foreground   font-body dark:bg-black bg-background relative  dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none  ;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }

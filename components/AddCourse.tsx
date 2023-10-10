@@ -30,7 +30,7 @@ import {
 
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
-import { useMyContext } from "./MyContext";
+import { useUserContext } from "./UserContext";
 
 function isStepValid(
   activeStep: number,
@@ -66,7 +66,7 @@ export default function AddCourse() {
   const [programId, setprogramId] = React.useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [programs, setPrograms] = useState<any[]>([]); // Initialize as an empty array
-  const {user}=useMyContext()
+  const {user}=useUserContext()
 
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);

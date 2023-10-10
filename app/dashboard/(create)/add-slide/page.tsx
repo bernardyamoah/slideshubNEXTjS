@@ -38,7 +38,7 @@ import FileUpload from "@/components/fileUpload";
 import { Progress } from "@/components/ui/progress";
 
 import { Separator } from "@/components/ui/separator";
-import { useMyContext } from "@/components/MyContext";
+import { useUserContext } from "@/components/UserContext";
 
 
 function isStepValid(
@@ -65,7 +65,7 @@ function isStepValid(
 export default function AddSlides() {
   const [currentFiles, setCurrentFiles] = useState([]);
   const [courseId, setCourseId] = useState<string>("");
-const{user}=useMyContext();
+const{user}=useUserContext();
   const [programId, setProgramId] = useState<string>("");
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses

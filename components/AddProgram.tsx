@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
-import { useMyContext } from "./MyContext";
+import { useUserContext } from "./UserContext";
 
 interface AddProgramProps {
   user: any;
@@ -31,7 +31,7 @@ interface AddProgramProps {
 
 
 export default function AddProgram() {
-  const {user}=useMyContext();
+  const {user}=useUserContext();
   const [name, setName] = useState('');
 
   const [duration, setDuration] = useState('');

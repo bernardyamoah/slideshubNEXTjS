@@ -1051,54 +1051,43 @@ export const signUp = async (
 	name: string,
 	email: string,
 	password: string,
-	router: any
+
 ) => {
 	try {
 		await account.create(ID.unique(), email, password, name);
 		await account.createEmailSession(email, password);
 
 		successMessage("Account created! 🎉");
-		router.push("/dashboard");
+	
 	} catch (error) {
 		errorMessage("Check your network / User already exists ❌");
-		router.push("/register");
+		
 	}
 };
 
 // Login function
 export const logIn = async (
 	email: string,
-	setEmail: (email: string) => void,
 	password: string,
-	setPassword: (password: string) => void,
-	router: any
+	
 ) => {
 	try {
 		await account.createEmailSession(email, password);
-		
-	setEmail("");
-	setPassword("");
-		
 		successMessage("Welcome back! 🎉");
-		router.push("/dashboard");
-
-	
 	
 	} catch (error) {
-		errorMessage("Invalid credentials ❌");
+		
 	}
 };
 
 // Logout function
-export const logOut = async (router: any) => {
+export const logOut = async () => {
 	try {
 		const sessID = (await account.getSession("current")).$id;
-
 		await account.deleteSession(sessID);
-		router.push("/");
 		successMessage("See you later! 🎉");
 	} catch (error) {
-		console.error(error);
+	
 		errorMessage("Encountered an error 😪");
 	}
 };
@@ -1193,6 +1182,7 @@ export const handleGoogleSignIn = async () => {
 	  // Go to OAuth provider login page (Google)
 	  const result = await account.createOAuth2Session("google", redirectUrl);
 	  return result;
+	 
 	} catch (error) {
 	  console.error("Error initiating Google OAuth:", error);
 	  throw new Error("Error initiating Google OAuth");

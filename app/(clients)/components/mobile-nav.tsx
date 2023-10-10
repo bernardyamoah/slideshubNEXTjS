@@ -7,13 +7,13 @@ import { usePathname, useRouter } from "next/navigation"
 import {UserSidebarRoutes} from "@/lib/navRoute";  
 import {  PanelLeftOpen } from "lucide-react";
 import { sidebarRoutes } from "@/lib/navRoute";
-import { useMyContext } from "@/components/MyContext";
+import { useUserContext } from "@/components/UserContext";
 import { useState } from "react";
 
 
 const MobileNav = ()=>{
   const [isOpen, setIsOpen] = useState(false);
-  const {user}=useMyContext()
+  const {user}=useUserContext()
   const router =useRouter()
   const pathname = usePathname();
   const handleOnClick = (link:any) => {

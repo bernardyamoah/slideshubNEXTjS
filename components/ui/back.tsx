@@ -18,14 +18,15 @@ const BackButtonNavigation = () => {
     return null;
   }
   return (
-    <NavigationMenu className="left-4 my-5 max-w-4xl hidden">
-      <NavigationMenuLink>
-       <Button variant='outline'onClick={handleNavigation}>
-        <ChevronLeftIcon className="w-4 h-4 mr-2 text-foreground-muted" />
-        Back
+  
+  
+
+       <Button size='sm' className="relative block my-4 left-10" onClick={handleNavigation}>
+        <ChevronLeftIcon className="w-4 h-4 text-foreground-muted" />
+      
        </Button>
-      </NavigationMenuLink>
-    </NavigationMenu>
+    
+  
   );
 };
 

@@ -12,12 +12,13 @@ import {UserSidebarRoutes, sidebarRoutes} from "@/lib/navRoute";
 import { usePathname, useRouter } from "next/navigation"
 
 import Link from "next/link";
-import { useMyContext } from "./MyContext";
+import { useMyContextActions, useUserContext } from "./UserContext";
 import { UserProfile } from "./userProfile";
 
 
 export default function Navbar() {
-  const {user}=useMyContext();
+  const {user}=useUserContext();
+
   const pathname = usePathname();
  
   const router = useRouter();

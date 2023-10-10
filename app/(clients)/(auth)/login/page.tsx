@@ -33,7 +33,7 @@ export default function Login()
           className="hidden dark:block"
         />
       </div>
-      <div className="container backdrop-blur-lg relative h-screen  flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container pb-10 backdrop-blur-lg relative h-screen  flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/register"
           className={cn(

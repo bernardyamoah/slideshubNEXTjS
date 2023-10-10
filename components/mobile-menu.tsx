@@ -1,5 +1,5 @@
 'use client'
-import { useMyContext } from "@/components/MyContext";
+import { useUserContext } from "@/components/UserContext";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-    const {user}=useMyContext();
+    const {user}=useUserContext();
     const pathname = usePathname()
     const router=useRouter();
     const isAdmin = user?.labels?.includes("admin") || user?.labels?.includes("SuperAdmin");

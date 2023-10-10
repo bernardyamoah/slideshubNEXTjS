@@ -23,7 +23,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(event: React.SyntheticEvent) {
     if (password === cpassword) {
-      signUp(name, email, password, router);
+      signUp(name, email, password);
       setName("");
       setEmail("");
       setPassword("");
@@ -82,7 +82,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="grid gap-1 relative ">
+          <div className="relative grid gap-1 ">
             <Label className="sr-only" htmlFor="password">
               Password
             </Label>
@@ -105,7 +105,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         					<BadgeCheck  className="absolute text-emerald-500 top-[1.6rem] right-1"/>
          					)}
           </div>
-          <div className="grid gap-1 relative">
+          <div className="relative grid gap-1">
             <Label className="sr-only" htmlFor="cpassword">
             Confirm Password
             </Label>
@@ -129,13 +129,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         					<BadgeCheck  className="absolute text-emerald-500 top-[1.6rem] right-1"/>
          					)}
             {password !== cpassword && (
-							<p className='text-red-500 mb-2'>Password does not match</p>
+							<p className='mb-2 text-red-500'>Password does not match</p>
 					)}
           </div>
           
           <Button disabled={isLoading} className="mt-4">
             {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4  animate-spin" />
+              <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
             )}
           Sign Up
           </Button>
@@ -146,16 +146,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="px-2 bg-background text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
       <Button variant="outline" type="button" disabled={isLoading}  onClick={handleGoogleSignIn}>
         {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Icons.google className="w-4 h-4 mr-2" />
         )}{" "}
     Google
       </Button>

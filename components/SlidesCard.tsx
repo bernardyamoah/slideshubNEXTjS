@@ -4,13 +4,12 @@
 import { useEffect, useState } from 'react';
 import { formatUserTime, getSlidesByCourseId } from '@/lib/functions';
 
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { FolderOpen, ShieldCheck } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { Suspense } from "react";
+
 import { EmptySlides } from './EmptySlides';
 import Loading from './ui/Cloading';
 
@@ -60,7 +59,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
 
 {slides.map((slide) => (
     
-    <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 ">
+    <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
        <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -110,46 +109,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
         </Button>
           
           </article>
-      {/* <CardHeader className="relative">
-        <CardTitle className="w-full text-sm capitalize ">{slide.name.replace(/_/g, ' ').toLocaleLowerCase()}</CardTitle>
-
-      </CardHeader>
-      <CardContent className="flex flex-col">
-        <Badge variant="secondary" className="bg-emerald-500 absolute -top-2 left-4  text-[10px] font-light sm:text-xs ">
-          
-        </Badge>
-        <div className="flex items-center gap-1 text-xs text-gray-500 rounded-sm dark:text-gray-500/90 ">
-
-          <aside className='flex justify-between gap-3 '>
-            <div className="flex gap-1 text-xs text-muted-foreground">
-              <FolderOpen className='w-4 h-4 text-muted-foreground' />  {slide.size}
-            </div>
-
-            <div className='flex gap-1 text-xs text-muted-foreground'> <ShieldCheck className='w-4 h-4 text-muted-foreground' /><span className='text-xs text-muted-background'>{slide.fileType}</span></div>
-          </aside>
-        </div>
-
-        <Button
-          size="sm"
-          className="flex items-center w-full gap-3 mt-4"
-          onClick={() => {
-            toast("Download started!", {
-              icon: "📥",
-            });
-          }}
-        >
-          <a
-            href={slide.fileUrl}
-            download={slide.fileUrl}
-            className="flex items-center gap-2"
-          >
-            <CloudArrowDownIcon strokeWidth={2} className="w-5 h-5" /> Download
-          </a>
-        </Button>
-
-      </CardContent> */}
-
-
+  
     </Card>
       ))}
 
