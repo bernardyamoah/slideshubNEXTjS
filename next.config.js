@@ -14,6 +14,9 @@ const nextConfig = {
 	},
 	webpack: (config)=>{
 		config.resolve.alias.canvas=false;
+		config.resolve.extensionAlias={
+			'.js':['.js','jsx','ts','tsx'],
+		};
 		return config
 	}
 };
