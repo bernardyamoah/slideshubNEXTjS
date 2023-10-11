@@ -11,8 +11,7 @@ import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { Button } from '@/components/ui/button';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
+  '@/lib/pdf.worker.js',
 ).toString();
 
 const options = {
@@ -89,22 +88,6 @@ export default function Sample() {
 
 
 
-
-
-
-// 'use client'
-
-// import Loading from '@/components/ui/Cloading';
-// import { Badge } from '@/components/ui/badge';
-// import { Button } from '@/components/ui/button';
-// import { useState } from 'react'
-
-// import {Document,Page,pdfjs} from 'react-pdf'
-
-// pdfjs.GlobalWorkerOptions.workerSrc=new URL(
-//   'pdfjs-dist/build/pdf.worker.min.js',
-//   import.meta.url,
-// ).toString();
 
 
 // export default function Sample() {
