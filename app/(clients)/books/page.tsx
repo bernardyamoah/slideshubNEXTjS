@@ -11,7 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc=new URL(
 ).toString()
 import {Document,Page} from 'react-pdf'
 
-export default function page() {
+export default function Book() {
   const [numPages, setNumPages]=useState<number>()
   const [pageNumber, setPageNumber]=useState<number>(1)
   function onDocumentLoadSuccess({numPages}:{numPages:number}):void{
