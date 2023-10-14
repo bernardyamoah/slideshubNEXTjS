@@ -4,11 +4,13 @@ import { buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"
-import {UserSidebarRoutes} from "@/lib/navRoute";  
+ 
 import {  PanelLeftOpen } from "lucide-react";
-import { sidebarRoutes } from "@/lib/navRoute";
+
 import { useUserContext } from "@/components/UserContext";
 import { useState } from "react";
+import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
+import { ModeToggle } from "@/components/ModeToggle";
 
 
 const MobileNav = ()=>{
@@ -21,14 +23,14 @@ const MobileNav = ()=>{
     setIsOpen(false);
   }
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen} >
       <SheetTrigger className="flex items-center" asChild >
 
         <PanelLeftOpen />
 
       </SheetTrigger>
-      <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0">
-        <div className="grid gap-4 py-16 ">
+      <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0  h-screen top-[10%] space-y-4 ">
+        <div className="grid gap-4 py-20 ">
         {user ? (
   <>
     {UserSidebarRoutes.map((item) => (
@@ -76,7 +78,10 @@ const MobileNav = ()=>{
 )} 
         </div>
 
-        <SheetFooter className="space-x-2 flex flex-row items-center !justify-start absolute bottom-6"></SheetFooter>
+        <SheetFooter className="border-t bottom-0  pt-4 flex">
+        <ModeToggle />
+      
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

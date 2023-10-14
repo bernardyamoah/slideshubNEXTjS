@@ -5,10 +5,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import {AdmintabRoutes, UsertabRoutes} from "@/lib/navRoute";
+// import {AdmintabRoutes, UsertabRoutes} from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { AdmintabRoutes, UsertabRoutes } from "@/constants";
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
     const {user}=useUserContext();

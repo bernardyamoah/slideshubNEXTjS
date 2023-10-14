@@ -16,64 +16,57 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { Metadata } from "next";
 
 import { url } from "inspector";
-export const metadata:Metadata = {
-  title:{
-    default:"Slideshub",
-    template:'%s | Slideshub',
+export const metadata: Metadata = {
+  title: {
+    default: "Slideshub",
+    template: "%s | Slideshub",
   },
   description: "Download your slides from Slideshub and more!",
- 
- metadataBase:new URL ("https://slideshub.vercel.app"),
+
+  metadataBase: new URL("https://slideshub.vercel.app"),
   applicationName: "Slideshub",
-  authors: [{name:"Slideshub Team",url:'https://slideshub.vercel.app'}],
-  colorScheme:'dark',
+  authors: [{ name: "Slideshub Team", url: "https://slideshub.vercel.app" }],
+  colorScheme: "dark",
   openGraph: {
-    title:'Slideshub',
-    type:'website',
-    description:'Download your slides from Slideshub and more!',
-    url:'https://slideshub.vercel.app',
-    images: [{url:"/thumbnail.jpg",}] ,
-   
+    title: "Slideshub",
+    type: "website",
+    description: "Download your slides from Slideshub and more!",
+    url: "https://slideshub.vercel.app",
+    images: [{ url: "/thumbnail.jpg" }],
   },
-  icons:{
-    icon:'https://slideshub.vercel.app/favicon.ico',
-    apple:'https://slideshub.vercel.app/apple-touch-icon.png',
-   
-
-
+  icons: {
+    // icon:'https://slideshub.vercel.app/favicon.ico',
+    apple: "https://slideshub.vercel.app/apple-touch-icon.png",
   },
   viewport: {
     width: "device-width",
     initialScale: 1,
     maximumScale: 1,
   },
-  
-  twitter:{
-title:'SlidesHub',
-creator:'@byayamoah',
-    card:'summary_large_image',
-site:'https://slideshub.vercel.app',
 
-images: [
-  {
-    url: 'https://slideshub.vercel.app/thumbnail.jpg',
-    width: 800,
-    height: 600,
-    alt: 'Slideshub',
+  twitter: {
+    title: "SlidesHub",
+    creator: "@byayamoah",
+    card: "summary_large_image",
+    site: "https://slideshub.vercel.app",
+
+    images: [
+      {
+        url: "https://slideshub.vercel.app/thumbnail.jpg",
+        width: 800,
+        height: 600,
+        alt: "Slideshub",
+      },
+      {
+        url: "https://slideshub.vercel.app/thumbnail.jpg",
+        width: 900,
+        height: 800,
+        alt: "Slideshub Image Alt",
+      },
+      { url: "https://slideshub.vercel.app/thumbnail.jpg" },
+      { url: "https://slideshub.vercel.app/thumbnail.jpg" },
+    ],
   },
-  {
-    url: 'https://slideshub.vercel.app/thumbnail.jpg',
-    width: 900,
-    height: 800,
-    alt: 'Slideshub Image Alt',
-  },
-  { url: 'https://slideshub.vercel.app/thumbnail.jpg' },
-  { url: 'https://slideshub.vercel.app/thumbnail.jpg' },
-
-
-],
-  },
-
 };
 // "https://slideshub.netlify.app/assets/favicon_io/thumbnail.jpg"
 
@@ -87,14 +80,12 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-
-          <body className="min-h-screen">
-           
-<Navbar/>
+          <body className="relative">
+            <Navbar />
             <BackButtonNavigation />
-            {/* <Breadcrumbs /> */}
-            <div className="fixed inset-0 bg-pattern opacity-10 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
-          <div className="px-2 mb-10">  {children}</div>
+            <Breadcrumbs />
+            <div className="fixed inset-0 bg-pattern-1 opacity-5 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
+            <main className="px-2 "> {children}</main>
 
             <MobileMenu />
             <Footer />

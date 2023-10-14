@@ -16,9 +16,10 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/ui/Cloading";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 
-import { tabTriggers } from "@/lib/navRoute";
+import { tabTriggers } from "@/constants";
 import Programs from "./_components/adminProgram";
 import MemoizedCourses from "@/components/Courses";
+// border-b border-zinc-200
 
 
 

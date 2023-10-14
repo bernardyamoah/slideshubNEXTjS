@@ -1,8 +1,10 @@
-import EmptyBooks from '@/components/EmptyBooks'
-import React from 'react'
 
-export default function page() {
+const Page = () => {
   return (
-  <EmptyBooks/>
+    <div>
+      Books 
+    </div>
   )
 }
+
+export default Page

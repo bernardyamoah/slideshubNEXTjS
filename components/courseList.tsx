@@ -1,7 +1,7 @@
 'use client'
 import  { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { LevelTabItems } from '@/lib/navRoute';
+import { LevelTabItems } from '@/constants';
 import CourseCard from './CourseCard';
 import EmptyCourse from './EmptyCourse';
 
