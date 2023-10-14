@@ -1,19 +1,13 @@
 'use client'
-import React, {} from "react";
-
-
 import { ModeToggle } from "./ModeToggle";
 import Logo from "./Logo";
-import MobileNav from "@/app/(clients)/components/mobile-nav";
+import MobileNav from "@/app/(clients)/_components/mobile-nav";
 import { Button } from "@/components/ui/button";
-
-import {UserSidebarRoutes, sidebarRoutes} from "@/lib/navRoute";
-
 import { usePathname, useRouter } from "next/navigation"
-
 import Link from "next/link";
-import { useMyContextActions, useUserContext } from "./UserContext";
+import { useUserContext } from "./UserContext";
 import { UserProfile } from "./userProfile";
+import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
 
 
 export default function Navbar() {
@@ -26,8 +20,8 @@ export default function Navbar() {
 
 
   return (
-    <nav className="sticky top-0 z-20 nav-bar bg-currents">
-      <div className="flex items-center justify-between w-full space-x-2">
+    <header className="bg-background/80 sticky top-4 z-[1000] backdrop-blur-2xl  px-4 py-4 border max-w-xl lg:max-w-5xl rounded-2xl mx-auto">
+      <nav className="flex items-center justify-between w-full space-x-2 ">
         <Logo />
 
         <ul className="justify-between hidden text-slate-900 dark:text-white lg:flex">
@@ -53,7 +47,9 @@ export default function Navbar() {
         </ul>
 
         <div className="flex space-x-4">
-          <ModeToggle />
+        <div className="hidden lg:block">
+        <ModeToggle />
+        </div>
 
           {user ? (
             <UserProfile  />
@@ -68,7 +64,7 @@ export default function Navbar() {
             <MobileNav />
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }

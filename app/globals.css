@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap");
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -55,6 +57,119 @@
   }
   
   
+  @layer utilities {
+
+	
+
+
+	.max-container {
+	  @apply mx-auto max-w-[1440px];
+	}
+  
+	.padding-container {
+	  @apply px-6 lg:px-20 3xl:px-0;
+	}
+  
+	.flexCenter {
+	  @apply flex items-center justify-center;
+	}
+  
+	.flexBetween {
+	  @apply flex items-center justify-between;
+	}
+  
+	.flexStart {
+	  @apply flex items-center justify-start;
+	}
+  
+	.flexEnd {
+	  @apply flex items-center justify-end;
+	}
+  
+	/* FONTS */
+	.regular-64 {
+	  @apply text-[64px] font-[400] leading-[120%];
+	}
+  
+	.regular-40 {
+	  @apply text-[40px] font-[400] leading-[120%];
+	}
+  
+	.regular-32 {
+	  @apply text-[32px] font-[400];
+	}
+  
+	.regular-24 {
+	  @apply text-[24px] font-[400];
+	}
+  
+	.regular-20 {
+	  @apply text-[20px] font-[400];
+	}
+  
+	.regular-18 {
+	  @apply text-[18px] font-[400];
+	}
+  
+	.regular-16 {
+	  @apply text-[16px] font-[400];
+	}
+  
+	.regular-14 {
+	  @apply text-[14px] font-[400];
+	}
+  
+	.medium-14 {
+	  @apply text-[14px] font-[600];
+	}
+  
+	.bold-88 {
+	  @apply text-[88px] font-[700] leading-[120%];
+	}
+  
+	.bold-64 {
+	  @apply text-[64px] font-[700] leading-[120%];
+	}
+  
+	.bold-52 {
+	  @apply text-[52px] font-[700] leading-[120%];
+	}
+  
+	.bold-40 {
+	  @apply text-[40px] font-[700] leading-[120%];
+	}
+  
+	.bold-32 {
+	  @apply text-[32px] font-[700] leading-[120%];
+	}
+  
+	.bold-20 {
+	  @apply text-[20px] font-[700];
+	}
+  
+	.bold-18 {
+	  @apply text-[18px] font-[700];
+	}
+  
+	.bold-16 {
+	  @apply text-[16px] font-[700];
+	}
+  
+	/* Hero */
+	.hero-map {
+	  @apply absolute right-0 top-0 h-screen w-screen bg-pattern-2 bg-cover bg-center md:-right-28 xl:-top-60 ;
+	}
+  
+
+  
+	/* Feature */
+	.feature-phone {
+	  @apply absolute top-[13%] z-10 hidden max-w-[1500px] rotate-[15deg] md:-left-16 lg:flex  3xl:left-20 rounded-3xl;
+	}
+  
+
+
+  }
   
 
 @layer base {
@@ -62,31 +177,20 @@
 		@apply antialiased border-border sm:subpixel-antialiased;
 	}
 	body {
-		@apply text-foreground   font-body dark:bg-black bg-background relative  dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none  ;
-		font-feature-settings: "rlig" 1, "calt" 1;
+		@apply  text-foreground   font-body dark:bg-black bg-background relative  dark:bg-gradient-to-tl dark:from-zinc-900 dark:via-zinc-400/10 dark:to-zinc-900  rounded-md dark:bg-inherit dark:border-none  ;
+		font-feature-settings: "rlig" 1, "calt" 1;  
 	}
+	
 }
 
-@layer base {
-	h1 {
-		@apply text-3xl font-bold text-black dark:text-white font-title;
-	}
-}
+
 
 @layer components {
-	.header {
-		@apply inset-x-0 top-0 flex flex-wrap w-full py-4 text-sm border-b border-zinc-300 md:justify-start md:flex-nowrap lg:absolute backdrop-blur-md dark:bg-black dark:border-zinc-600;
-	}
-	.heading {
-		@apply mb-12 text-2xl font-bold text-center text-zinc-800 capitalize md:text-3xl dark:text-zinc-50;
-	}
 
-	.nav-bar {
-		@apply relative flex font-bold border-b border-zinc-200 bg-background font-body lg:space-x-6 dark:border-zinc-800 backdrop-blur-md;
-	}
-	.navbar_item {
-		@apply font-bold hover:text-emerald-600 dark:text-zinc-50 dark:hover:text-emerald-400;
-	}
+
+
+
+	
 
 	/* --------------- logo -------------------- */
 
@@ -104,10 +208,7 @@
 
 
 	
-	.course-code {
-		@apply w-max uppercase tracking-widest md:text-white text-[10px]   bottom-4 right-4 absolute  md:bg-emerald-900 md:ring-2  ring-emerald-500 backdrop-blur-2xl px-2 py-1 rounded-md antialiased text-emerald-600;
-	}
-	
+
 
 	
 }
@@ -165,19 +266,10 @@ section {
 
 
 
-.heading-link p {
-	font-size: 1.2rem;
-	line-height: 2;
-	color: #777;
-}
 
-.heading-link p a {
-	color: #0eb582;
-}
 
-.heading-link p a:hover {
-	text-decoration: underline;
-}
+
+
 
 @media (max-width: 1200px) {
 	section {
@@ -205,4 +297,19 @@ section {
   }
   .fileUploadBackground:hover {
 	opacity: 5%;
+  }
+  body {
+	font-family: Inter;
+  }
+  
+ 
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scrollbar::-webkit-scrollbar {
+	display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
   }
