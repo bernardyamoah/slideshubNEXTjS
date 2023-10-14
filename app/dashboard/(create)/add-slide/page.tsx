@@ -39,6 +39,7 @@ import { Progress } from "@/components/ui/progress";
 
 import { Separator } from "@/components/ui/separator";
 import { useUserContext } from "@/components/UserContext";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 
 function isStepValid(
@@ -233,16 +234,18 @@ const{user}=useUserContext();
   return (
     <>
      
-     <h2 className="p-5 mb-4 text-2xl font-bold">
-  Upload Slides
-</h2>
-        
-     
-      <Separator className="mb-4"/>
+
+    
       
-        <div className="w-full max-w-2xl mx-auto">
+        <Card className=" max-w-xl mx-auto mb-10">
+        <CardHeader>
+        <CardTitle>
+            Add Slides
+        </CardTitle>
+     </CardHeader>
+          <CardContent>
           <form onSubmit={handleSubmit} className="pb-10 mx-auto ">
-            <div className="grid items-center w-full gap-2 space-y-6">
+            <div className="grid items-center w-full gap-2 space-y-4">
            
                 <div className="grid md:grid-cols-2">
 
@@ -446,7 +449,8 @@ const{user}=useUserContext();
               </div>
             </div>
           </form>
-        </div>
+          </CardContent>
+        </Card>
  
      
     </>

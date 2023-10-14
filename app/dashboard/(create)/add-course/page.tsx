@@ -150,7 +150,7 @@ export default function AddCourse() {
     <>
     {/* <Image src={pattern} alt="pattern" className="w-full opacity-20 h-full object-cover object-center absolute -z-10 "/>  */}
     <Form {...form} >
-      <Card className="w-full max-w-4xl  mx-auto" >
+      <Card className="max-w-xl  mx-auto mb-10" >
      <CardHeader>
         <CardTitle>
             Add Course 

@@ -1,14 +1,5 @@
-import { UpdateIcon } from "@radix-ui/react-icons";
-import { BookCopy, ClockIcon, FileStackIcon, Home, LayoutDashboard, School, UserIcon } from "lucide-react";
-// NAVIGATION
-// export const NAV_LINKS = [
-//     { href: '/', key: 'home', label: 'Home' },
-//     { href: '/', key: 'how_hilink_work', label: 'How Hilink Work?' },
-//     { href: '/', key: 'services', label: 'Services' },
-//     { href: '/', key: 'pricing ', label: 'Pricing ' },
-//     { href: '/', key: 'contact_us', label: 'Contact Us' },
-//   ];
-  
+import { CaretUpIcon, UpdateIcon } from "@radix-ui/react-icons";
+import { Book, BookCopy, BookMarked, ClockIcon, File, FileStackIcon, GraduationCap, Home, LayoutDashboard, School, UserIcon } from "lucide-react";
 
   
   // FEATURES SECTION
@@ -58,15 +49,16 @@ import { BookCopy, ClockIcon, FileStackIcon, Home, LayoutDashboard, School, User
       { value: 'course', className: 'relative', label: 'Courses' },
     ]
     export const AdmintabRoutes = [
-      { label: 'Slide', path: '/dashboard/add-slide' },
-      { label: 'Book', path: '/dashboard/add-book' },
-      { label: 'Program', path: '/dashboard/add-program' },
-      { label: 'Course', path: '/dashboard/add-course' },
-      {label:'Campus', path:'/dashboard/add-campus'}
+      { label: 'Slide', path: '/dashboard/add-slide', icon: <File /> },
+      { label: 'Book', path: '/dashboard/add-book' , icon: <BookMarked />},
+      { label: 'Program', path: '/dashboard/add-program' ,icon: <GraduationCap />},
+      { label: 'Course', path: '/dashboard/add-course',icon: <CaretUpIcon /> },
+      {label:'Campus', path:'/dashboard/add-campus',icon: <School />}
     ];
     export const UsertabRoutes = [
-      { label: 'Slide', path: '/dashboard/add-slide' },
-      { label: 'Book', path: '/dashboard/add-book' },
+      { label: 'Slide', path: '/dashboard/add-slide', icon: <File/> },
+      { label: 'Book', path: '/dashboard/add-book' , icon: <Book />},
+      
   
     ];
     export const sidebarRoutes = [

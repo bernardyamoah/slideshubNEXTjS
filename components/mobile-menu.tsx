@@ -25,43 +25,42 @@ const MobileMenu = () => {
       <>
  {user && (
   <Sheet open={isOpen} onOpenChange={setIsOpen}  >
-  <SheetTrigger className="fixed z-50 w-12 h-12 bottom-8 right-10 lg:hidden" >
-    <Button className="relative w-full h-full rounded-full">
-      <PlusCircle className="w-10 h-10" />
+  <SheetTrigger className="fixed z-50 bottom-8 right-10 lg:hidden" >
+    <Button className="relative w-fit p-3 h-auto rounded-full">
+      <PlusCircle className="w-7 h-7" />
     </Button>
   </SheetTrigger>
-  <SheetContent className="  text-left w-[250px] grid py-16 px-0 gap-0">
+  <SheetContent className="w-[250px] sm:w-[300px] pl-0  h-screen top-[10%] space-y-10">
 
-  <div className="grid w-full gap-1">
+  <div className="grid gap-8 py-24 ">
   {isAdmin ? (
         AdmintabRoutes.map((tabRoute, index) => (
-          <Button key={index} variant="ghost" className={cn(
+          <span key={index}  className={cn(
             pathname === tabRoute.path
-            ? 'border-l-4 bg-emerald-50/20 border-emerald-500  text-lg '
-             :'text-left hover:border-l-2 hover:border-emerald-500  hover:text-lg' )}>
+            ? 'text-zinc-900 font-bold border-l-4 bg-emerald-50/20 border-emerald-500  text-lg '
+             :'text-left hover:border-l-2 hover:border-emerald-500  hover:text-lg','pl-4 flex gap-2 duration-150 text-zinc-700' )}>
+              {tabRoute.icon}
 
-            <Link href={tabRoute.path} className="duration-150 hover:font-bold" onClick={()=> handleOnClick(tabRoute.path)}>
+            <Link href={tabRoute.path} className="" onClick={()=> handleOnClick(tabRoute.path)}>
               Add {tabRoute.label}
             </Link>
-          </Button>
+          </span>
         ))
       ) : (
         <>
       {UsertabRoutes.map((tabRoute, index) => (
-<Button
+<span
   key={index}
-  variant="ghost"
+  
   className={cn(
     pathname === tabRoute.path
-      ? "border-l-2 border-emerald-500 text-lg"
-      : "h-full text-left hover:border-l-2 hover:border-emerald-500 hover:text-lg"
-  )}
-
->
+    ? 'text-zinc-900 font-bold border-l-4 bg-emerald-50/20 border-emerald-500  text-lg '
+             :'text-left hover:border-l-2 hover:border-emerald-500  hover:text-lg','pl-4 flex gap-2 duration-150 text-zinc-700' )}>
+              {tabRoute.icon}
   <Link href={tabRoute.path} className="duration-150 hover:font-bold" onClick={()=> handleOnClick(tabRoute.path)}>
     Add {tabRoute.label}
   </Link>
-</Button>
+</span>
 ))}
       
       </>

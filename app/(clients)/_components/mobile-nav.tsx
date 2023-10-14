@@ -22,6 +22,7 @@ const MobileNav = ()=>{
     router.push(link.toString());
     setIsOpen(false);
   }
+  
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen} >
       <SheetTrigger className="flex items-center" asChild >

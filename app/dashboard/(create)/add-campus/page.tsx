@@ -44,7 +44,7 @@ export default function AddCampus() {
   return (
     <Form {...form} >
    
-   <Card className="max-w-md mx-auto" >
+   <Card className="max-w-xl mx-auto mb-10" >
      <CardHeader>
         <CardTitle>
             Add Campus 
