@@ -1,16 +1,14 @@
 'use client'
-import * as React from "react"
+
 import { useEffect, useState } from "react"
-import { storage, ID } from '@/appwrite';
+
 import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { createProgram, errorMessage, getCurrentUserAndSetUser } from '@/lib/functions';
+import { createProgram, errorMessage} from '@/lib/functions';
 
-import { UploadProgress } from 'appwrite';
-import {toast} from 'sonner';
 
 import {
   Select,
@@ -23,20 +21,18 @@ import {
 } from "@/components/ui/select"
 import { getCampus } from "@/lib/functions"
 import { useUserContext } from "./UserContext";
+import { toast } from "sonner";
 
-interface AddProgramProps {
-  user: any;
-}
 
 
 
 export default function AddProgram() {
   const {user}=useUserContext();
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
 
-  const [duration, setDuration] = useState('');
- 
-  const [value, setValue] = React.useState("")
+  // const [duration, setDuration] = useState('');
+ const[data,setData]=useState({name:'',duration:'',value:''})
+  // const [value, setValue] = React.useState("")
  
   const [campuses, setCampuses] = useState<any[]>([]); // Initialize as an empty array
  
@@ -55,24 +51,54 @@ export default function AddProgram() {
   }, []);
 
   const handleSelectChange = (selectedValue: string) => {
-    setValue(selectedValue);
+    setData(prevData => ({...prevData, value: selectedValue}));
     
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    let errors: { [key: string]: string } = {}; // Define the type of errors object
   
+    if (!data.name.trim()) {
+      isValid = false;
+      errors = { ...errors, name: "Program Name is required" };
+    }
+  
+    if (!data.duration.trim()) {
+      isValid = false;
+      errors = { ...errors, duration: "Duration is required" };
+    }
+  
+    if (!data.value.trim()) {
+      isValid = false;
+      errors = { ...errors, campus: "Campus is required" };
+    }
+  
+    return { isValid, errors };
+  };
   // Handle form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const { isValid, errors } = validateForm();
+
+    if (!isValid) {
+      // Display errors here
+     
+      Object.values(errors).forEach((errorMessage) => {
+        toast.error(errorMessage);
+      });
+      return;
+    }
+
     try {
      
 
 
       const programData = {
-        name,
-        duration,
-  
-        campusId: value,
-        user_id: user?.$id
+        name: data.name,
+  duration: data.duration,
+  campusId: data.value,
+  user_id: user?.name
 
       };
 
@@ -81,10 +107,7 @@ export default function AddProgram() {
 
 
       // Reset form fields
-      setName('');
-      setValue('')
-      setDuration('');
-     
+      setData({name:'',duration:'',value:''});
     
 
     } catch (error) {
@@ -111,8 +134,8 @@ export default function AddProgram() {
               <Input
                 id="name"
                 placeholder="BSc Materials Engineering"
-                value={name} required
-                onChange={(e) => setName(e.target.value)}
+                value={data.name} 
+                onChange={(e) => setData(prevData => ({...prevData, name: e.target.value}))}
               />
             </div>
 
@@ -159,8 +182,8 @@ export default function AddProgram() {
               <Input
                 id="duration"
                 placeholder="4 years"
-                value={duration} required
-                onChange={(e) => setDuration(e.target.value)}
+                value={data.duration} 
+                onChange={(e) => setData(prevData => ({...prevData, duration: e.target.value}))}
               />
             </div>
 

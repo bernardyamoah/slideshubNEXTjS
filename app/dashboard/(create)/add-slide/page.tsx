@@ -124,17 +124,18 @@ const{user}=useUserContext();
           process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
           fileId
         );
-        const fileName = fileDetails.name || "";
+       
     
-        const fileUrlResponse = await storage.getFileDownload(
+        const fileUrlResponse =  storage.getFileDownload(
           process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
           fileId
         );
     
-        const filePreviewResponse = await storage.getFilePreview(
+        const filePreviewResponse =  storage.getFileView(
           process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
           fileId
         );
+        
     
         const uploadedFileUrl = fileUrlResponse.toString();
         return { uploadedFileUrl, filePreviewResponse };
@@ -179,11 +180,7 @@ const{user}=useUserContext();
        successfulUploads++;
             
           }
-
-
-            
-           
-            
+     
 
         } catch (error) {
           // Handle upload error

@@ -60,24 +60,24 @@ const Semesters = [
 const formSchema = z.object({
     name: z.string({
         required_error: "Course name is required",
-      }),
+      }).nonempty("Course name cannot be empty"),
   programId: z.string({
     required_error: "Please select a program",
-  }),
+  }).nonempty("Please select a program"),
   year: z.string({
     required_error: "Please select a level",
-  }),
+  }).nonempty("Please select a level"),
   credit: z.string({
     required_error: "Credit is required.",
-  }),
+  }).nonempty("Credit is required."),
   courseCode: z.string({
     required_error: "Course code is required",
-  }),
+  }).min(5, "Course code must be at least 5 characters long"),
   semester: z.string({
     required_error: "Please select a semester",
-  }),
+  }).nonempty("Please select a semester"),
   lecturer: z.string().optional(),
-  campusName: z.string(),
+  campusName: z.string().nonempty("Please select a campus"),
   user_id:z.string()
   
 })

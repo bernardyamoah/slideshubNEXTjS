@@ -8,7 +8,9 @@ const metadata: Metadata = {
   }
 function page() {
   return (
-    <AddBook />
+   <>
+   
+   </>
   )
 }
 
