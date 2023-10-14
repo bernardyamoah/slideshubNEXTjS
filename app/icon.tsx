@@ -5,7 +5,7 @@ export const runtime='edge'
 export default function Icon(){
     return new ImageResponse(
     (
-        <img src={'/public/favicon.ico'} alt="" />
+        <img src={'/favicon.ico'} alt="" />
     )
     )
 }
