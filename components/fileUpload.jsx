@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import  { useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
   ArrowUpTrayIcon,
@@ -10,7 +10,7 @@ import {
   PresentationChartBarIcon,
 } from "@heroicons/react/20/solid";
 import { VideoIcon } from "lucide-react";
-import { Separator } from './ui/separator';
+import { CardTitle } from './ui/card';
 
 const FileUpload = ({ currentFiles, setCurrentFiles }) => {
   const [files, setFiles] = useState([]);
@@ -63,10 +63,10 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
     <div className="col-span-full">
       <div
         {...getRootProps()}
-        className="relative cursor-pointer font-semibold text-white hover:text-gray-400 hover:bg-gray-200/80 dark:hover:bg-gray-900 block group"
+        className="relative cursor-pointer font-semibold  hover:bg-zinc-800/80 dark:hover:bg-zinc-900 block group"
       >
         <input {...getInputProps()} name="file" className="sr-only" />
-        <div className="flex justify-center rounded-lg border border-dashed border-white/25 px-6 py-10 min-h-[200px] md:min-w-full items-center">
+        <div className="rounded-lg border border-dashed  px-2 sm:px-6 md:px-8 py-10 min-h-[200px] w-full ">
           {files[0]? (
             <div
               className="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-5 transition-opacity"
@@ -77,44 +77,48 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
               }}
             />
           ) : null}
-          <div className="text-center hover:text-white flex flex-col items-center justify-center space-y-1">
+          <div className="text-center  grid  gap-2 max-w-xl mx-auto">
             {files[0] ? (
               
-              <ul className='flex flex-col justify-between '>
+              <div className=' gap-6 grid divide-x-2'>
 {files.map((file, index) => (
-  <>
   
   
  
-  <li key={index} className=''>
+  <div key={index} className='border p-2 sm:p-6 rounded-md'>
     
-    <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-x-2 text-gray-500">
-                <div className='gap-2 flex'>{getFileIcon(file.type)}
-                {file.name.replace(/_/g, " ")}
+    <div className="grid sm:flex  sm:items-center sm:justify-between sm:flex-1 gap-4 ">
+                <div className='gap-2 flex'>
+                <span>{getFileIcon(file.type)}</span>
+                <CardTitle className='text-left'>{file.name.replace(/_/g, " ")}</CardTitle>
                 </div>
             
-                <p className="text-gray-500">{bytesToSize(file.size)}</p>
+            <div  className=' justify-end gap-2 flex text-muted-foreground'>
+            <span>Size:</span>
+            <p className="text-zinc-500  w-[0.2rem] ">{bytesToSize(file.size)}</p>
+            </div>
+             
               </div>
-  </li>
-  <Separator />
-</>
+  </div>
+
+
 
 
 ))}
-</ul> 
+</div> 
             ) : (
               <ArrowUpTrayIcon
-                className="mx-auto h-12 w-12 text-gray-500"
+                className="mx-auto h-12 w-12 text-zinc-500"
                 aria-hidden="true"
               />
             )}
 
-            <div className="mt-4 flex text-sm leading-6 text-gray-700">
+            <div className="mt-4 flex text-sm leading-6 text-zinc-700">
               <span className="mx-auto">
                 {files[0] ? "" : "Choose file to upload or drag and drop"}
               </span>
             </div>
-            <p className="text-xs leading-5 text-gray-400">
+            <p className="text-xs leading-5 text-zinc-400">
               {files[0]
                 ? "Replace file?"
                 : ".pdf, .docx, .pptx, image files and more"}

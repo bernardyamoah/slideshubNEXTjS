@@ -256,4 +256,14 @@ type CourseCardData= {
 	level: string;
 	user_id: string | null;
 	timePosted: string;
+}
+interface User {
+	$id: string;
+	name: string;
+	email: string;
+	labels?: string[];
+	prefs: {};
+	status: boolean;
+	registration: string;
+	emailVerification: boolean;
   }

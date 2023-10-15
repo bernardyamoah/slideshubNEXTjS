@@ -105,8 +105,8 @@ export default function AddCourse() {
       },
     });
   
-  const { errors } = form.formState;
-  const { control,handleSubmit ,reset} = form;
+ 
+  const { control,handleSubmit ,reset ,formState:{errors,isSubmitting}} = form;
 
  async function onSubmit(data: z.infer<typeof formSchema>) {
   const { campusName, ...formData } = data;

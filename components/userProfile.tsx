@@ -64,7 +64,7 @@ export const UserProfile= () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 z-[100]" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <Link href={'/dashboard/profile'} className="flex flex-col space-y-1">
+          <Link href={`/dashboard/profile/${user?.$id}`} className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user?.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}

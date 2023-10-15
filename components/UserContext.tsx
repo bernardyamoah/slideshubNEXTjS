@@ -51,6 +51,7 @@ function useMyContextActions() {
 
 const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  console.log("🚀 ~ file: UserContext.tsx:54 ~ user:", user)
   const [userInTeam, setUserInTeam] = useState(false);
   const [loading, setLoading] = useState(true);
 const router=useRouter()
@@ -133,64 +134,3 @@ const router=useRouter()
 };
 
 export { UserContextProvider, useUserContext, useMyContextActions };
-
-// import { checkUserInTeam, errorMessage, getCurrentUserAndSetUser} from "@/lib/functions";
-// import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
-
-
-// interface MyContextState {
-//   user: User<any> | null;
-//   loading: boolean;
-// }
-
-// interface MyContextActions {
-//   setUser: (user: User<any> | null) => void;
-//   userInTeam: boolean;
-//   loading: boolean;
-// }
-
-// const UserContext = createContext<MyContextState & MyContextActions>({} as any);
-
-// function useUserContext() {
-//   const context = useContext(UserContext);
-//   if (!context) {
-//     throw new Error("useUserContext must be used within a UserContextProvider");
-//   }
-//   return context;
-// }
-
-// const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-//   const [user, setUser] = useState<User<any> | null>(null);
-//   console.log("🚀 ~ file: UserContext.tsx:30 ~ user:", user)
-//   const [userInTeam, setUserInTeam] = useState(false);
-
-//   useEffect(() => {
-//     async function fetchUser() {
-//       try {
-//         const user = await getCurrentUserAndSetUser();
-//         const isUserInTeam = await checkUserInTeam();
-//         setUser(user);
-//         setUserInTeam(isUserInTeam)
-//       } catch (error) {
-//        errorMessage('Error fetching user')
-//       }
-//     }
-    
-//     fetchUser();
-//   }, [user]);
-
- 
- 
-
-//   const contextValue: MyContextState & MyContextActions = {
-//     user,
-//     setUser,
- 
-//     userInTeam,
-//     loading: !user,
-//   };
-
-//   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
-// };
-
-// export { UserContextProvider, useUserContext };
