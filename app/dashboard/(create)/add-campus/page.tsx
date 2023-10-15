@@ -27,7 +27,7 @@ export default function AddCampus() {
           name: '',
           location:'', 
         },
-      });;
+      });
 
       const { errors } = form.formState;
   const { control,handleSubmit ,reset} = form;
