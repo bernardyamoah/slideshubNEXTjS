@@ -71,8 +71,8 @@ const{user}=useUserContext();
   const [campusId, setCampusId] = useState<string>(""); // Renamed from 'campusId' to 'campusId'
   const campuses: Campus[] = useCampuses(); // Use the custom hook for campuses
 
-  const programs: Program[] = usePrograms(campusId); // Use the custom hook for programs
-  const courses: Course[] = useCourses(programId); // Use the custom hook for courses
+  const programs: Program[] = usePrograms(campusId); 
+  const courses: Course[] = useCourses(programId); 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
 
