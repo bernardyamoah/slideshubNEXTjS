@@ -5,10 +5,6 @@ import ProgramCard from '@/components/ProgramCard';
 import { getCampusDetails, getProgramsByCampusId } from '@/lib/functions';
 
 import { Metadata} from 'next';
-import { Suspense } from 'react';
-import Loading from './loading';
-import { GraduationCap } from 'lucide-react';
-import { Card, CardTitle } from '@/components/ui/card';
 
 type Props = {
   params: { campusId: string };

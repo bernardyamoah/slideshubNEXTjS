@@ -21,7 +21,7 @@ export default function CampusList() {
         </p> 
       </header>
 
-      <section className="relative flex flex-col items-center h-full  md:px-10 py-10 mx-auto border bg-card/10 dark:bg-zinc-900/50 backdrop-blur-sm">
+      <section className="relative flex flex-col items-center h-full  md:px-10 py-10 mx-auto ">
         
 
           <div className="grid grid-cols-1 gap-8 mx-auto lg:mx-0 md:grid-cols-3 ">
