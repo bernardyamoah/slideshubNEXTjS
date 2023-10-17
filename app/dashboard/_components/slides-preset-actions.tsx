@@ -91,7 +91,7 @@ export function PresetActions({
           id
         ),{
           loading: "Deleting slide...",
-          success: "Slide deleted! 🎉",
+          success: ` ${name} deleted! 🎉`,
           error: "Failed to delete slide ❌",
         });
         setSlides(optimisticSlides)

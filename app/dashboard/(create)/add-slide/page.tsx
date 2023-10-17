@@ -52,6 +52,7 @@ import { useUserContext } from "@/components/UserContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Define constants
 const MIN_SELECTION_MESSAGE = `You have to select an option.`;
@@ -300,8 +301,9 @@ export default function CheckboxReactHookFormMultiple() {
                       placeholder="Search course..."
                       className="h-9"
                     />
+                <ScrollArea className="h-[150px] w-full " >
                     <CommandEmpty>No program found.</CommandEmpty>
-                    <CommandGroup>
+                    <CommandGroup >
                       {courses.map((course) => (
                         <CommandItem
                           value={course.name}
@@ -309,6 +311,7 @@ export default function CheckboxReactHookFormMultiple() {
                           onSelect={() => {
                             form.setValue("courses", course.$id);
                           }}
+                          className="capitalize"
                         >
                           {course.name}
                           <CheckIcon
@@ -322,6 +325,7 @@ export default function CheckboxReactHookFormMultiple() {
                         </CommandItem>
                       ))}
                     </CommandGroup>
+                  </ScrollArea>
                   </Command>
                 </PopoverContent>
               </Popover>
