@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useUserContext } from "./UserContext";
 import { UserProfile } from "./userProfile";
 import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
+import { Card } from "./ui/card";
 
 
 export default function Navbar() {
@@ -20,11 +21,11 @@ export default function Navbar() {
 
 
   return (
-    <header className="bg-background/80 sticky top-4 z-[1000] backdrop-blur-2xl  px-4 py-4 border max-w-xl lg:max-w-5xl rounded-2xl mx-auto">
+    <header className="bg-card/80 bg-opacity-40 sticky top-4 z-[1000] backdrop-blur-sm  px-4 py-4 border max-w-sm sm:max-w-xl lg:max-w-5xl rounded-xl xs:mx-auto mx-2 self">
       <nav className="flex items-center justify-between w-full space-x-2 ">
         <Logo />
 
-        <ul className="justify-between hidden text-slate-900 dark:text-white lg:flex">
+        <ul className="justify-between hidden text-zinc-900 dark:text-white lg:flex">
          
   
 

@@ -49,7 +49,7 @@ import { ID, storage } from "@/appwrite";
 
 import { bytesToSize, createSlide } from "@/lib/functions";
 import { useUserContext } from "@/components/UserContext";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
 
@@ -166,14 +166,7 @@ export default function CheckboxReactHookFormMultiple() {
 
   return (
     <Form {...form} >
-      <Card className="max-w-xl mx-auto">
-      <CardHeader className="mb-6">
-        <CardTitle>
-            Add Slides
-        </CardTitle>
-     </CardHeader>
-        <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl border bg-card mx-auto p-8 rounded-md">
         <FormField
           control={form.control}
           name="campus"
@@ -361,9 +354,9 @@ export default function CheckboxReactHookFormMultiple() {
       }
         <Button type="submit" disabled={form.formState.isSubmitting}>Submit</Button>
       </form>
-        </CardContent>
-      </Card>
     </Form>
   );
 }
-  
+   //   toast.success( <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          //   <code className="text-white">{JSON.stringify(slideData, null, 2)}</code>
+          // </pre>)

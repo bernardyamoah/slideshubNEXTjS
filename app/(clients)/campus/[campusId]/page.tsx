@@ -32,11 +32,6 @@ export async function generateMetadata(
   };
 }
 
-async function fetchData(campusId:string) {
-
-
-
-}
 
 
 async function ProgramList ({ campusId })  {
@@ -45,7 +40,7 @@ const mainClassName = programs?.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid
   return (
     <>
      {programs.length> 0 ? ( 
-              <div className={`mx-auto max-w-7xl grid gap-8   auto-rows-max ${mainClassName}`}>
+              <div className={`mx-auto max-w-7xl grid gap-4 md:gap-8   auto-rows-max ${mainClassName}`}>
                 {programs.map((program) => (
                   <ProgramCard key={program.$id} {...program} />
                 ))}
@@ -72,7 +67,7 @@ const {name,location}=await getCampusDetails(params.campusId)||{name:'',location
         <p className="mb-1 md:text-lg text-emerald-500">
         {location}
         </p> 
-        <h2 className="text-3xl font-bold tracking-tight text-center text-transparent dark:text-zinc-100 bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 lg:text-4xl ">  {name} 
+        <h2 className="text-xl md:text-3xl font-bold tracking-tight text-center text-transparent dark:text-zinc-100 bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 lg:text-4xl ">  {name} 
         </h2>
        
       </div>

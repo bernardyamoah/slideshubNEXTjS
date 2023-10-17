@@ -65,11 +65,11 @@ export default function Dashboard() {
        <header className="items-center w-full lg:flex justify-cener">
         <div className="max-w-screen-xl px-4 py-8 mx-auto ">
         <div className="space-y-2 " >
-        <p className="max-w-[600px] text-gray-700 md:text-xl dark:text-gray-300 mx-auto text-center" >
+        <p className="max-w-[600px] text-zinc-700 md:text-xl dark:text-zinc-300 mx-auto text-center" >
         Welcome
                       </p>
               <h1
-                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl  bg-clip-text dark:bg-gradient-to-r dark:from-gray-300 dark:to-gray-600 bg-gradient-to-r from-black to-gray-600"
+                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl  bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-black to-zinc-600"
               >
                         {user?.name || ''}
               </h1>
@@ -79,7 +79,7 @@ export default function Dashboard() {
         
       </header>
     </div>
-      <div className="relative col-span-3 lg:col-span-4 lg:border-l">
+      <div className="  relative col-span-3 lg:col-span-4 lg:border-l ">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
             <div className="flex items-center space-between">

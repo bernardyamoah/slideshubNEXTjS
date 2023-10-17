@@ -84,13 +84,13 @@ export default function RootLayout({
             <Navbar />
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="fixed inset-0 bg-pattern-1 opacity-5 dark:opacity-40 w-full h-full  bg-repeat bg-center  -z-10"></div>
-            <main className="px-2 "> {children}</main>
+            <div className="absolute inset-0 bg-pattern-1 bg-fixed opacity-20 dark:opacity-8550 w-full h-full  bg-repeat bg-center  -z-20"></div>
+            <main className="px-2 pb-24 border bg-card/10 dark:bg-zinc-900/50 backdrop-blur-sm "> {children}</main>
 
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={false} position="top-center" richColors />
+            <Toaster expand={true} position="top-center" richColors />
             <Analytics />
           </body>
         </UserContextProvider>

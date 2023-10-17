@@ -13,7 +13,7 @@ export default function CampusList() {
 
 
    
-   <header className=" mx-auto lg:mx-0 text-center">
+   <header className="mb-10 mx-auto lg:mx-0 text-center">
         <h2 className="text-3xl font-bold tracking-tight text-transparent dark:text-zinc-100 sm:text-4xl xl:text-6xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 ">  Embark on an Adventure! 
         </h2>
         <p className="mt-4  text-zinc-400">
@@ -21,7 +21,7 @@ export default function CampusList() {
         </p> 
       </header>
 
-      <section className="relative flex flex-col items-center h-full px-2 md:px-10 pb-10 mx-auto bg-inherit">
+      <section className="relative flex flex-col items-center h-full  md:px-10 py-10 mx-auto border bg-card/10 dark:bg-zinc-900/50 backdrop-blur-sm">
         
 
           <div className="grid grid-cols-1 gap-8 mx-auto lg:mx-0 md:grid-cols-3 ">

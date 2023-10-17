@@ -1,4 +1,5 @@
-import  { useState, useMemo } from 'react';
+'use client'
+import  { useState, useMemo, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
   ArrowUpTrayIcon,
@@ -13,7 +14,7 @@ import { VideoIcon } from "lucide-react";
 import { CardTitle } from './ui/card';
 
 const FileUpload = ({ currentFiles, setCurrentFiles }) => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(currentFiles);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: '', // Accept all files
@@ -23,7 +24,9 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
       setCurrentFiles(acceptedFiles);
     },
   });
-
+  useEffect(() => {
+    setFiles(currentFiles); // Update the files state when currentFiles prop changes
+  }, [currentFiles]);
   const getFileIcon = (fileType) => {
     switch (fileType) {
       case "application/pdf":

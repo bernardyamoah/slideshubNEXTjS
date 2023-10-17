@@ -51,7 +51,7 @@ function useMyContextActions() {
 
 const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  console.log("🚀 ~ file: UserContext.tsx:54 ~ user:", user)
+  
   const [userInTeam, setUserInTeam] = useState(false);
   const [loading, setLoading] = useState(true);
 const router=useRouter()
