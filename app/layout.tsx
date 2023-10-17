@@ -84,7 +84,7 @@ export default function RootLayout({
             <Navbar />
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="absolute inset-0 bg-pattern-1  opacity-20 dark:opacity-8550 w-full h-full  bg-repeat bg-center  -z-20"></div>
+            <div className="fixed inset-0 bg-pattern-1  opacity-20 dark:opacity-8550 w-full h-full  bg-no-repeat bg-center bg-cover  -z-10"></div>
             <main className="px-2 pb-24 border bg-card/10 dark:bg-zinc-900/50 backdrop-blur-sm "> {children}</main>
 
             <MobileMenu />
