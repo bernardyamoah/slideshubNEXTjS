@@ -267,3 +267,8 @@ interface User {
 	registration: string;
 	emailVerification: boolean;
   }
+  type EmptyStateType = {
+	title: string;
+	label: string;
+	image: string;
+  }[];

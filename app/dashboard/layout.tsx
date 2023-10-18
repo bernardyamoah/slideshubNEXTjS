@@ -12,23 +12,15 @@ interface DashboardLayoutProps {
 function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, loading } = useUserContext();
   const router = useRouter();
-  // useEffect(() => {
-  //   if (!loading && !user) {
-  //     Router.replace('/login');
-  //   }
-  // }, [loading, user]);
 
   if (loading) return <Loading />;
   if(!user) return router.push('/login');
   return (
     <>
     
-   
-    
-      
-              <div className=" min-h-[70vh]">{children}</div>
+      <div className=" ">{children}</div>
 
-     
+
     </>
   );
 }

@@ -3,10 +3,11 @@ import  { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { LevelTabItems } from '@/constants';
 import CourseCard from './CourseCard';
-import EmptyCourse from './EmptyCourse';
+
 
 import { errorMessage, getCoursesByProgramId, successMessage } from '@/lib/functions';
 import Loading from './ui/Cloading';
+import EmptyState from './EmptyUI';
 
 const CourseList = ({ programId, campusId}) => {
 const [courses, setCourses] = useState<Course[]>([]);
@@ -60,7 +61,7 @@ const [loading, setLoading]=useState(true)
                    ))}               </div>
              ) : (
               <div className="flex justify-center w-full">
-                 <EmptyCourse />
+                 <EmptyState title='courses' />
                </div>
              )}
            </TabsContent>

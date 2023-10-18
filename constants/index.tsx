@@ -96,3 +96,27 @@ import { Book, BookCopy, BookMarked, ClockIcon, File, FileStackIcon, GraduationC
         value: "Level 400",
       },
     ];
+
+  export const EmptyUI:EmptyStateType=[
+    {
+      title:'Slides',
+      label: "slides",
+      image: "/undraw_empty_re_opql.svg",
+    },
+    {
+      title:'Books',
+      label: "books",
+      image: "/no books.svg",
+    },
+    {
+      title:'Courses',
+      label: "courses",
+      image: "/undraw_empty_re_opql.svg",
+    },
+    {
+      title:'Programs',
+      label: "programs",
+      image: "/undraw_no_data_re_kwbl.svg",
+    }
+
+  ]

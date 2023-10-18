@@ -6,9 +6,10 @@ import { ExternalLink, FolderOpen, ShieldCheck } from "lucide-react";
 // import Loading from '@/components/ui/Cloading';
 import { Card, CardTitle } from '@/components/ui/card';
 import DownloadBtn from '@/components/ui/downloadBtn';
-import { EmptySlides } from '@/components/EmptySlides';
+
 import { Suspense } from 'react';
 import Link from 'next/link';
+import EmptyState from '@/components/EmptyUI';
 
 
 type Props = {
@@ -104,7 +105,7 @@ Preview
       )
       :  (
       <div className="flex justify-center w-full">
-                <EmptySlides />
+                <EmptyState title='slides' />
               </div>)
               }
   </>

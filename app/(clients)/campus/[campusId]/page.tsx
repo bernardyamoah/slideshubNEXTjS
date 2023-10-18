@@ -1,6 +1,6 @@
 
 
-import EmptyProgram from '@/components/EmptyPrograms';
+import EmptyState from '@/components/EmptyUI';
 import ProgramCard from '@/components/ProgramCard';
 import { getCampusDetails, getProgramsByCampusId } from '@/lib/functions';
 
@@ -43,7 +43,7 @@ const mainClassName = programs?.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid
               </div>
             ) : (
               <div className="flex justify-center w-full">
-                <EmptyProgram />
+                <EmptyState title='programs'/>
               </div>
             )}
     </>

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import EmptyBooks from "@/components/EmptyBooks";
+
 import { useUserContext} from "@/components/UserContext";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +19,8 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { tabTriggers } from "@/constants";
 import Programs from "./_components/adminProgram";
 import MemoizedCourses from "@/components/Courses";
+import Courses from "@/components/Courses";
+import EmptyState from "@/components/EmptyUI";
 // border-b border-zinc-200
 
 
@@ -29,10 +31,10 @@ export default function Dashboard() {
 
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('slide');
-  const {userInTeam,user,loading } = useUserContext(); 
+  const {userInTeam,user} = useUserContext(); 
   const userLabel = user?.labels || [];
  
-  if (loading) return <Loading />;
+
     
   const handleAddButtonClick = () => {
     let route = '/dashboard';
@@ -53,14 +55,9 @@ export default function Dashboard() {
 
   return (
    <>
-      {loading ? (
-        <>   
-      toast.loading('Loading...')
-      <LoadingSkeleton/>
-      </>
-      ) : (
-      <>
-       <div>
+     
+   
+   
     
        <header className="items-center w-full lg:flex justify-cener">
         <div className="max-w-screen-xl px-4 py-8 mx-auto ">
@@ -78,7 +75,7 @@ export default function Dashboard() {
         </div>
         
       </header>
-    </div>
+   
       <div className="  relative col-span-3 lg:col-span-4 lg:border-l ">
         <div className="h-full px-4 py-6 lg:px-8">
           <Tabs defaultValue="slide" className="h-full space-y-6">
@@ -146,7 +143,7 @@ export default function Dashboard() {
               value="slide"
               className="p-0 border-none outline-none"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between ">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-semibold tracking-tight">
                     My Slides
@@ -157,23 +154,12 @@ export default function Dashboard() {
                 </div>
               </div>
               <Separator className="my-4" />
-              <div className="relative">
-                  <Suspense fallback={<Loading/>}>
-                  {user ?(
-                   <Slides user={user}/>
-                  ):
-                <>
-                <p>
-                  No user
-                </p>
-
-                </>
-
-                  }
-                     
-                   
-                  </Suspense>
-              </div>
+            
+               
+                   <Slides user={user!}/>
+                 
+          
+            
             
             
             </TabsContent>
@@ -193,7 +179,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <Separator className="my-4" />
-              <EmptyBooks/>
+              <EmptyState title='books'/>
             </TabsContent>
             {userInTeam ? (
               <>
@@ -215,7 +201,7 @@ export default function Dashboard() {
                 <div className="relative">
                  
 
-                      <MemoizedCourses />
+                      <Courses />
                    
                  
                 </div>
@@ -255,9 +241,9 @@ export default function Dashboard() {
      </div>
   
       </div>
-      </>
+     
       
    
-  )}
+ 
   </>
 )}

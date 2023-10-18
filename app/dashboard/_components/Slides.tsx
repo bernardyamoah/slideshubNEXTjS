@@ -7,9 +7,11 @@ import {toast } from 'sonner'
 
 import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
-import NoEvent from '../../../components/NoEvent';
-import PaginationComponent from '../../../components/PaginationComponent';
+
+
 import SlidesLoading from './slidesLoading';
+import Pagination from '@/components/pagination-button';
+import EmptyState from '@/components/EmptyUI';
 
 
 
@@ -51,7 +53,10 @@ export default function Slides ({user}:UserProps){
 
   return(
 <>
-{!loading && slides.length === 0 && <NoEvent />}
+{!loading && slides.length === 0 &&   
+                  <EmptyState title='slides'/>
+                
+                }
 {loading && <SlidesLoading />}
 {totalPages !== 0 && (
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
@@ -102,13 +107,15 @@ export default function Slides ({user}:UserProps){
         ))}
 </aside>
 )}
- {slides.length > 0 && (
-                  <PaginationComponent
+ {slides.length > 10 && (
+                  <Pagination
                     pageCount={totalPages}
                     activePage={currentPage}
                     onPageChange={changePage}/>
                     
-                )}
+                )
+              
+                }
 
 </>
 
