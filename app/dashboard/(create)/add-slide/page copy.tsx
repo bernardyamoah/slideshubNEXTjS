@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 import {toast} from 'sonner'
 

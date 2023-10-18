@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, {  experimental_useOptimistic as useOptimistic, useCallback, useState } from "react";
+import {  experimental_useOptimistic as useOptimistic, useCallback, useState } from "react";
 import { Badge, Edit, MoreHorizontal, Trash } from "lucide-react";
 import {
   AlertDialog,

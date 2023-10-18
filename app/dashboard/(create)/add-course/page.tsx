@@ -1,7 +1,7 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm} from "react-hook-form";
-import pattern from '@/public/pattern.svg'
+
 import { z } from "zod";
 // import { toast } from sonner";
 import { Button } from "@/components/ui/button";

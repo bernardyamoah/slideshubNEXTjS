@@ -1,7 +1,7 @@
 'use client'
 import { checkUserInTeam, errorMessage, getCurrentUserAndSetUser, logIn, logOut, signUp } from "@/lib/functions";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
   $id: string;

@@ -1,13 +1,13 @@
 'use client'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CoursesCard from './allCourses';
 
 import { getAllCourses,  getTotalCourses } from '@/lib/functions';
-import Loading from './ui/Cloading';
+
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { ArrowDown, ArrowDownIcon, ArrowUp, ArrowUpIcon } from 'lucide-react';
+import {  ArrowDownIcon,  ArrowUpIcon } from 'lucide-react';
 import Pagination from './pagination-button';
 
 const Courses = () => {
