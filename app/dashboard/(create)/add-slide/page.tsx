@@ -53,6 +53,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
 // Define constants
 const MIN_SELECTION_MESSAGE = `You have to select an option.`;
@@ -206,14 +207,15 @@ export default function CheckboxReactHookFormMultiple() {
           )}
         />
         <FormField
+        
           control={form.control}
           name="programs"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel className="block">Program</FormLabel>
-              <Popover>
+              <Popover >
                 <PopoverTrigger asChild>
-                  <FormControl>
+                  <FormControl className="w-full">
                     <Button
                       variant="outline"
                       role="combobox"
@@ -231,16 +233,17 @@ export default function CheckboxReactHookFormMultiple() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="!w-full p-2">
-                  <Command>
+                <PopoverContent className="w-full p-2">
+                  <Command className="w-full">
                     <CommandInput
                       placeholder="Search program..."
-                      className="h-9"
+                      className="w-full h-9"
                     />
                     <CommandEmpty>No program found.</CommandEmpty>
-                    <CommandGroup>
+                    <CommandGroup className="w-full">
                       {programs.map((program) => (
                         <CommandItem
+                        className="w-full"
                           value={program.name}
                           key={program.$id}
                           onSelect={() => {
@@ -278,7 +281,7 @@ export default function CheckboxReactHookFormMultiple() {
               <FormLabel className="block">Course</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
+                  <FormControl className="w-full">
                     <Button
                       variant="outline"
                       role="combobox"
@@ -295,25 +298,27 @@ export default function CheckboxReactHookFormMultiple() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="!w-full p-2">
+                <PopoverContent align="start" className="w-full p-2">
                   <Command>
                     <CommandInput
                       placeholder="Search course..."
                       className="h-9"
                     />
-                <ScrollArea className="h-[150px] w-full " >
+                <ScrollArea className="h-[150px]" >
                     <CommandEmpty>No program found.</CommandEmpty>
                     <CommandGroup >
                       {courses.map((course) => (
-                        <CommandItem
+                     
+                         <CommandItem
                           value={course.name}
                           key={course.$id}
                           onSelect={() => {
                             form.setValue("courses", course.$id);
                           }}
-                          className="capitalize"
+                          className="capitalize "
                         >
-                          {course.name}
+                         
+                         {course.name},   <span  className="flex ml-1 font-medium md:flex-1 md:justify-end text-muted-foreground">{' ' }{course.semester} <Badge variant='outline' className="ml-2 text-xs">{course.year}</Badge></span>
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
@@ -323,6 +328,11 @@ export default function CheckboxReactHookFormMultiple() {
                             )}
                           />
                         </CommandItem>
+                   
+                      
+                      
+                     
+                       
                       ))}
                     </CommandGroup>
                   </ScrollArea>

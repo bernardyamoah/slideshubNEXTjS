@@ -3,6 +3,8 @@ import { useUserContext } from "@/components/UserContext";
 import FileUpload from "@/components/fileUpload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Form,
   FormControl,
@@ -16,15 +18,16 @@ import {
 
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BookCategories from "@/constants";
+import { successMessage } from "@/lib/functions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const bookSchema = z.object({
-  categories: z.array(z.string().min(1, 'Category is required')),
+  categories:z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item."}),
   currentFiles: z.array(z.string().min(1, 'MIN_FILE_SELECTION_MESSAGE')),
 });
 export default function AddBooksForm() {
@@ -34,12 +37,14 @@ export default function AddBooksForm() {
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
-      
+      categories: [], // Initialize as an empty array 
       currentFiles: [],
 
     },
   });
   async function onSubmit(data: z.infer<typeof bookSchema>) {
+    successMessage( JSON.stringify(data, null, 2)
+  )
     console.log(data);
   }
   return (
@@ -53,37 +58,64 @@ export default function AddBooksForm() {
       
 
     
-        <FormField
-           control={form.control}
-           name="categories"
-           render={({ field }) => (
-             <FormItem>
-               <FormLabel>Categories</FormLabel>
-               <Select onValueChange={field.onChange}  >
-               <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a category" />
-          </SelectTrigger>
-        </FormControl>
-               <SelectContent>
-               <ScrollArea className="h-[150px] w-full " >
-               {BookCategories.map((cat, index) => (
-          
-          <SelectItem key={index} value={cat}>
-        {cat}
-        </SelectItem>
-      ))}
-      
-      </ScrollArea>
-               </SelectContent>
-             </Select>
-               <FormDescription>
-                 Choose the campus for the slides.
-               </FormDescription>
-               <FormMessage />
-             </FormItem>
-           )}
-         />
+      <FormField
+          control={form.control}
+          name="categories"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Sidebar</FormLabel>
+                <FormDescription>
+                  Select the items you want to display in the sidebar.
+                </FormDescription>
+              </div>
+              <ScrollArea className="h-44">
+              {BookCategories.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="categories"
+                  
+                  render={({ field }) => {
+                    return (
+<FormItem
+                        key={item.id}
+                        className="flex flex-row items-start mt-1 space-x-3 space-y-0"
+                      >
+                        <FormControl >
+                          <Checkbox 
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                        
+                        
+                        )
+                      }}
+                      />
+                      ))}
+                      </ScrollArea>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+
+
+        
    <FormField
           control={form.control}
           name="currentFiles"

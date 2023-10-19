@@ -80,12 +80,14 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-          <body className="relative">
+          <body className="bg-neutral-50 ">
+            <div className="relative backdrop-blur-md">
             <Navbar />
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="fixed inset-0 bg-pattern-1  opacity-5 dark:opacity-8550 w-full h-full  bg-no-repeat bg-center bg-cover  -z-10"></div>
-            <main className="px-2 pb-24  bg-card/10 dark:bg-zinc-900/50  "> {children}</main>
+            <div className="fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover blur-sm bg-pattern-1 opacity-5 dark:opacity-8550 -z-20"></div>
+            <main className="px-2 pb-24"> {children}</main>
+            </div>
 
             <MobileMenu />
             <Footer />
