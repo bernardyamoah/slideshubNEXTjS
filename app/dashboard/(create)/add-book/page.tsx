@@ -15,16 +15,16 @@ import {
 
 
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import BookCategories from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const bookSchema = z.object({
-categories:z.array(
-  z.string()
-),
+  categories: z.array(z.string().min(1, 'Category is required')),
   currentFiles: z.array(z.string().min(1, 'MIN_FILE_SELECTION_MESSAGE')),
 });
 export default function AddBooksForm() {
@@ -40,7 +40,7 @@ export default function AddBooksForm() {
     },
   });
   async function onSubmit(data: z.infer<typeof bookSchema>) {
-
+    console.log(data);
   }
   return (
     <Form {...form}>
@@ -50,23 +50,31 @@ export default function AddBooksForm() {
       </CardHeader>
       <CardContent>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
-        
+      
 
-       
+    
         <FormField
            control={form.control}
            name="categories"
            render={({ field }) => (
              <FormItem>
                <FormLabel>Categories</FormLabel>
-             
-               <Select>
-               <SelectTrigger>Select categories...</SelectTrigger>
+               <Select onValueChange={field.onChange}  >
+               <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+        </FormControl>
                <SelectContent>
-                 <SelectItem value="fiction">Fiction</SelectItem>
-                 <SelectItem value="non-fiction">Non-fiction</SelectItem>
-                 <SelectItem value="biography">Biography</SelectItem>
-                 {/* Add more categories as needed */}
+               <ScrollArea className="h-[150px] w-full " >
+               {BookCategories.map((cat, index) => (
+          
+          <SelectItem key={index} value={cat}>
+        {cat}
+        </SelectItem>
+      ))}
+      
+      </ScrollArea>
                </SelectContent>
              </Select>
                <FormDescription>

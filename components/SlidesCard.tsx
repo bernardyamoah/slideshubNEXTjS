@@ -1,6 +1,6 @@
 'use client'
 
-// Modify the SlidesCard component to accept courseId as a prop
+
 import { useEffect, useState } from 'react';
 import { formatUserTime, getSlidesByCourseId } from '@/lib/functions';
 
@@ -9,9 +9,8 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { FolderOpen, ShieldCheck } from "lucide-react";
-
-import { EmptySlides } from './EmptySlides';
 import Loading from './ui/Cloading';
+import EmptyState from './EmptyUI';
 
 interface Slide {
   $id: string;
@@ -30,8 +29,7 @@ interface SlidesCardProps {
 
 
 const SlidesCard = ({ courseId }:SlidesCardProps) => {
-// export default function SlidesCard ({ slides }:any){
-  // const {name, size, fileType, fileUrl, $createdAt} = slides
+
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -117,7 +115,7 @@ const SlidesCard = ({ courseId }:SlidesCardProps) => {
     )
     :  (
     <div className="flex justify-center w-full">
-              <EmptySlides />
+              <EmptyState title='slides' />
             </div>)
             }
 </>
