@@ -57,7 +57,7 @@ const Hero = () => {
   const handleRouteToCampus = () => {
    route.push("/campus");}
   return (
-    <section className="max-container padding-container flex flex-col gap-20 py-10 pb-32 md:gap-28 lg:py-20 xl:flex-row">
+    <section className="max-container padding-container flex flex-col gap-10  pb-32 md:gap-16 lg:py-6 xl:flex-row">
       <div className="lg:hero-map dark:hidden" />
 
       <div className="relative z-20 flex flex-1  ">
@@ -73,7 +73,7 @@ const Hero = () => {
         <p className=" dark:xl:text-center dark:xl:mx-auto regular-16 mt-6 text-muted-foreground xl:max-w-[520px] dark:xl:max-w-[620px] xl:text-xl">
         Welcome to <span className="text-emerald-500 font-bold border-b-2 border-dashed border-emerald-400">SlidesHub</span> where learning is a breeze🍃! No more endless searches or library trips. With a few clicks, download and print lecture slides and books. Education made easy!
         </p>
-        <div className="my-11 flex flex-wrap gap-5 dark:xl:justify-center">
+        <div className="my-6 flex flex-wrap gap-5 dark:xl:justify-center">
           <div className="flex items-center gap-2">
             {Array(5).fill(1).map((_, index) => (
               <Image 

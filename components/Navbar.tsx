@@ -21,8 +21,8 @@ export default function Navbar() {
 
 
   return (
-    <header className="bg-card/80 bg-opacity-40 sticky top-0 md:top-4 z-[1000] backdrop-blur-sm  px-4 py-4 border w-full sm:max-w-xl lg:max-w-5xl md:rounded-lg xs:mx-auto  ">
-      <nav className="flex items-center justify-between w-full space-x-2 ">
+    <header className="bg-card/80 bg-opacity-40     px-4 py-4 border w-full sm:max-w-xl lg:max-w-5xl md:rounded-lg xs:mx-auto  ">
+      <nav className="flex items-center justify-between w-full space-x-2 backdrop-blur-sm ">
         <Logo />
 
         <ul className="justify-between hidden text-zinc-900 dark:text-white lg:flex">
