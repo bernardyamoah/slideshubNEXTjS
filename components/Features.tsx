@@ -52,7 +52,7 @@
 
 //         <Card key={feature.title} className="rounded-xl w-full max-w-md space-y-4  mx-auto md:p-4">
 
-//                 <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+//                 <div className="flex flex-col items-center space-y-2 border-zinc-800 p-4 rounded-lg">
 //                   <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
 //                     {feature.icon}
                      
@@ -133,15 +133,21 @@ type FeatureItem = {
 const FeatureItem = ({ title, icon, description }: FeatureItem) => {
   return (
   
-      <Card key={title} className="backdrop-blur-md bg-opacity-70 w-full">
-                  <CardHeader className="space-y-4">
-                    <CardTitle className="flex items-center gap-2">
-                      <span>{icon}</span>
-                      <span>{title}</span>
-                    </CardTitle>
-                    <CardDescription>{description}</CardDescription>
-                  </CardHeader>
-                </Card>
+    <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto md:p-4">
+
+                     <div className="flex flex-col items-center space-y-2 border-zinc-800 p-4 rounded-lg">
+                       <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
+                         {icon}
+                         
+                       </div>
+                       <h2 className="text-xl font-bold dark:text-white text-zinc-950">{title}</h2>
+                       <p className="text-zinc-500 dark:text-zinc-100 text-center">
+                         {description}
+                       </p>
+                     </div>
+                 
+                 </Card> 
+    
   )
 }
 
