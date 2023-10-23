@@ -101,7 +101,7 @@ const Hero = () => {
       
       </div>
 
-      <div className="relative flex flex-1 items-start dark:xl:hidden">
+      <div className="relative flex-1 items-start hidden">
         <div className="relative z-20 flex w-[268px] flex-col gap-8 rounded-3xl bg-gradient-to-br from-emerald-600  to-emerald-700 px-7 py-8">
 
            <div className="flex flex-col">
