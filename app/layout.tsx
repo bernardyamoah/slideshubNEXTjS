@@ -81,11 +81,11 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
           <body className="bg-neutral-50 ">
-            <div className="relative backdrop-blur-md">
+            <div className="relative ">
             <Navbar />
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover  bg-pattern-1 opacity-5 dark:opacity-8550 -z-20"></div>
+            <div className="fixed inset-0 w-full h-full bg-center bg-repeat bg-contain  bg-pattern-1 opacity-5 dark:opacity-8550 -z-20"></div>
             <main className="px-2 pb-24"> {children}</main>
             </div>
 

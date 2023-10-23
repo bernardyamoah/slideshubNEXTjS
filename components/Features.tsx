@@ -80,11 +80,12 @@
 import { FEATURES } from '@/constants'
 import Image from 'next/image'
 import React from 'react'
+import { Card, CardDescription, CardHeader, CardTitle } from './ui/card'
 
 const Features = () => {
   return (
     <div className="flex-col flexCenter overflow-hidden  py-24">
-      <div className="absolute  inset-0 -z-10  bg-feature-bg dark:bg-none bg-center bg-no-repeat"></div>
+
       <div className="max-container padding-container relative w-full flex justify-end">
         <div className="flex flex-1 lg:min-h-[900px]">
           <Image
@@ -107,7 +108,7 @@ const Features = () => {
             />
             <h2 className="bold-40 lg:bold-64">Our Features</h2>
           </div>
-          <ul className="mt-10 grid gap-10 md:grid-cols-2 lg:mg-20 lg:gap-20">
+          <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mg-20 lg:gap-20">
             {FEATURES.map((feature) => (
               <FeatureItem 
                 key={feature.title}
@@ -131,17 +132,16 @@ type FeatureItem = {
 
 const FeatureItem = ({ title, icon, description }: FeatureItem) => {
   return (
-    <li className="flex w-full flex-1 flex-col items-start">
-      <div className="rounded-full p-4  bg-green-50">
-      {icon}
-      </div>
-      <h2 className="bold-20 lg:bold-32 mt-3 capitalize">
-        {title}
-      </h2>
-      <p className="regular-16 mt-3  text-muted-foreground lg:mt-[30px] lg:bg-none">
-        {description}
-      </p>
-    </li>
+  
+      <Card key={title} className="backdrop-blur-md bg-opacity-70 w-full">
+                  <CardHeader className="space-y-4">
+                    <CardTitle className="flex items-center gap-2">
+                      <span>{icon}</span>
+                      <span>{title}</span>
+                    </CardTitle>
+                    <CardDescription>{description}</CardDescription>
+                  </CardHeader>
+                </Card>
   )
 }
 
