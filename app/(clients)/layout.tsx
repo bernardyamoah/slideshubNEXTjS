@@ -16,7 +16,7 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
 
 
-      <div className=" py-10   ">
+      <div className=" md:py-10   ">
 
         {children}
         

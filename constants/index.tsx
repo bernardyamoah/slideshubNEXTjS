@@ -6,29 +6,27 @@ import { Book, BookCopy, BookMarked, ClockIcon, File, FileStackIcon, GraduationC
   export const FEATURES = [
     {
       title: 'Reliable',
-      icon: <ClockIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white dark:text-zinc-900  " />,
-      variant: 'green',
+      icon: <ClockIcon className="w-6 h-6 lg:w-8 lg:h-8 dark:!text-black text-white" />,
       description:
         'Uploaded files are virus-checked, ensuring safe downloads.',
     },
     {
       title: "Brief",
-            icon: <UpdateIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white dark:text-zinc-900  " />,
+            icon: <UpdateIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white dark:text-zinc-950 " />,
             description: "Books and lecture slides by lecturers will be uploaded here weekly.",
-      variant: 'green',
+      
     },
     {
      
       title: "Structured",
-      icon: <FileStackIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white  dark:text-zinc-900 " />,
-      variant: 'green',
+      icon: <FileStackIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white  dark:text-zinc-950" />,
+
       description: "Essential books and slides are organized by program and year of study.",
     },
     {
-      variant: 'orange',
-     
+      
       title: "Intuitive",
-      icon: <UserIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white dark:text-zinc-900  " />,
+      icon: <UserIcon className="w-6 h-6 lg:w-8 lg:h-8 text-white dark:text-zinc-950 " />,
       description: "Easily locate and download what you need hassle-free from Slideshub.",
     },
   ];

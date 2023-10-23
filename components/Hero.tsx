@@ -57,7 +57,7 @@ const Hero = () => {
   const handleRouteToCampus = () => {
    route.push("/campus");}
   return (
-    <section className="max-container padding-container flex flex-col gap-10  pb-32 md:gap-16 lg:py-6 xl:flex-row">
+    <section className="max-container padding-container flex flex-col gap-10  pb-32 md:gap-16 lg:py-6 xl:flex-row ">
       <div className="lg:hero-map dark:hidden" />
 
       <div className="relative z-20 flex flex-1  ">
