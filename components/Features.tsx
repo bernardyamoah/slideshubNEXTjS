@@ -136,7 +136,7 @@ const FeatureItem = ({ title, icon, description }: FeatureItem) => {
     <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto md:p-4">
 
                      <div className="flex flex-col items-center space-y-2 border-zinc-800 p-4 rounded-lg">
-                       <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
+                       <div className="p-4 bg-zinc-950 rounded-full dark:bg-zinc-50">
                          {icon}
                          
                        </div>
