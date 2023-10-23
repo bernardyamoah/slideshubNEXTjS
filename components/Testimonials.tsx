@@ -9,11 +9,11 @@ export default function Testimonials() {
 
 	return (
 		<>
-			<section className=" py-10   mx-auto w-full">
+			<section className=" pb-10 mx-auto w-full">
 				<div className="w-full">
 					<p className="text-lg font-medium text-emerald-500 text-center">Testimonials</p>
 
-					<h1 className="mt-2 text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl text-center">
+					<h1 className="mt-2 bold-40 lg:bold-64 text-center capitalize text-gray-950 dark:text-white ">
 						What users are saying
 					</h1>
 
@@ -35,7 +35,7 @@ export default function Testimonials() {
 											/>
 										</div>
 
-										<blockquote className="md:border rounded-lg bg-card mt-3 p-4 md:max-w-sm self-start">
+										<blockquote className="md:border rounded-xl bg-card  mt-3 p-6 md:max-w-sm self-start">
 											
 											<CardTitle className="mb-2 text-2xl" >
 												Vicentia Agyei

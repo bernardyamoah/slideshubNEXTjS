@@ -84,10 +84,10 @@ import { Card, CardDescription, CardHeader, CardTitle } from './ui/card'
 
 const Features = () => {
   return (
-    <div className="flex-col flexCenter overflow-hidden  py-24">
+    <div className="flex-col flexCenter overflow-hidden  py-10 ">
 
       <div className="max-container padding-container relative w-full flex justify-end">
-        <div className="flex flex-1 lg:min-h-[900px]">
+        <div className="flex flex-1 ">
           <Image
             src="/details-1.png"
             alt="students"
@@ -102,13 +102,13 @@ const Features = () => {
             <Image
               src="/camp.svg"
               alt="camp"
-              width={50}
-              height={50}
-              className="absolute left-[-5px] top-[-28px] w-5 lg:w-[40px]"
+              width={100}
+              height={100}
+              className="absolute mx-auto left-[-5px] top-[-28px] w-10 lg:w-[40px]"
             />
-            <h2 className="bold-40 lg:bold-64">Our Features</h2>
+            <h2 className="bold-40 lg:bold-64 lg:text-left">Our Features</h2>
           </div>
-          <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mg-20 lg:gap-20">
+          <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-20 lg:gap-10">
             {FEATURES.map((feature) => (
               <FeatureItem 
                 key={feature.title}
@@ -133,15 +133,22 @@ type FeatureItem = {
 const FeatureItem = ({ title, icon, description }: FeatureItem) => {
   return (
   
-    <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto md:p-4">
+    <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto  p-6">
 
-                     <div className="flex flex-col items-center space-y-2 border-zinc-800 p-4 rounded-lg">
-                       <div className="p-4 bg-zinc-950 rounded-full dark:bg-zinc-50">
+                     <div className="space-y-2 p-4 rounded-lg">
+                       {/* <div className="p-4 bg-zinc-950 rounded-full dark:bg-zinc-50 dark:text-zinc-950 text-white mb-5 ">
                          {icon}
                          
                        </div>
                        <h2 className="text-xl font-bold dark:text-white text-zinc-950">{title}</h2>
-                       <p className="text-zinc-500 dark:text-zinc-100 text-center">
+                       <p className="text-zinc-500 dark:text-zinc-400 text-center">
+                         {description}
+                       </p> */}
+         <CardTitle className="flex items-center gap-2">
+     <span>{icon}</span>
+      <span className='text-xl font-bold dark:text-white text-zinc-950'>{title}</span>
+        </CardTitle>
+        <p className="text-zinc-500 dark:text-zinc-400 pt-4">
                          {description}
                        </p>
                      </div>
