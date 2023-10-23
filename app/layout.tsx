@@ -16,6 +16,8 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { Metadata } from "next";
 
 import { url } from "inspector";
+import Head from "next/head";
+import Script from "next/script";
 export const metadata: Metadata = {
   title: {
     default: "Slideshub",
@@ -77,6 +79,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+       <script async src="https://cdn.splitbee.io/sb.js"></script>
+      </Head>
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
