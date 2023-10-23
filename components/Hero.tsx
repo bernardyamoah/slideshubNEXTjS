@@ -68,8 +68,9 @@ const Hero = () => {
           width={50}
           height={50}
           className="absolute  dark:xl:left-16 left-[-5px] top-[-32px] w-10 lg:w-[50px]"
+        
         />
-        <h1 className="bold-40 lg:bold-64 xl:text-center">Elevate Your <span className='text-emerald-600 dark:text-emerald-400 '>Education  Game!</span>🚀</h1>
+        <h1 className="bold-52 lg:bold-88 xl:text-center">Elevate Your <span className='text-emerald-600 dark:text-emerald-400 '>Education  Game!</span>🚀</h1>
         <p className=" xl:text-center xl:mx-auto regular-16 mt-6 text-muted-foreground  xl:max-w-[620px] xl:text-xl">
         Welcome to <span className="text-emerald-500 font-bold border-b-2 border-dashed border-emerald-400">SlidesHub</span> where learning is a breeze🍃! No more endless searches or library trips. With a few clicks, download and print lecture slides and books. Education made easy!
         </p>
