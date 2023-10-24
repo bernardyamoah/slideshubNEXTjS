@@ -1,10 +1,11 @@
-import {  formatUserTime } from "@/lib/functions";
+import { formatUserTime } from "@/lib/functions";
 
 import Link from "next/link";
 
 
 import { Calendar, Clock2 } from "lucide-react";
 import { Card, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
 
 
 
@@ -18,8 +19,8 @@ export default function CourseCard({ course, campusId }) {
     $id,
     $createdAt,
   } = course;
-    const courseId=$id
-    
+  const courseId = $id
+
   return (
     <>
       <Card className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
@@ -29,51 +30,57 @@ export default function CourseCard({ course, campusId }) {
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
         </div>
         <Link href={`/campus/${campusId}/${programId}/${courseId}`}
-        
-        
-      >
-        
+
+
+        >
+
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
-                <time dateTime={$createdAt}>{formatUserTime($createdAt)}
-                
-                </time>
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
+
+                <Badge className="flex items-center gap-1 text-xs rounded-2xl uppercase duration-1000 bg-amber-600 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                    />
+                  </svg>{courseCode}
+
+                </Badge>
               </span>
-              <span className="flex items-center gap-1 text-xs text-zinc-500">
-              <Clock2 className='w-4 h-4 dark:stroke' />
-                {credit} credit hours
+
+              <span className="flex gap-2 text-sm capitalize duration-1000 dark:text-zinc-200 text-zinc-400 dark:group-hover:text-zinc-100 ">
+                <Calendar className='w-4 h-4' />{semester}
               </span>
             </div>
-            <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
-            {name.toLocaleLowerCase()}
+            <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+              {name.toLocaleLowerCase()}
             </CardTitle>
-          <div className="z-20 flex gap-4 mt-2">
-          <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
-            <Calendar className='w-4 h-4' />{semester}
-            </span>
-            <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                />
-              </svg>{courseCode}
-              
-            </span>
-          </div>
-          
+            <div className="z-20 flex gap-4 mt-2 items-center ">
+
+              <span className="flex items-center gap-1 text-xs text-zinc-500">
+                <Clock2 className='w-4 h-4 dark:stroke' />
+                {credit} credit hours
+              </span>
+
+              <span className="text-xs flex-1  justify-end duration-700  dark:text-zinc-200 dark:group-hover:text-white text-zinc-400 text-right">
+                <time dateTime={$createdAt}>{formatUserTime($createdAt)}
+
+                </time>
+              </span>
+            </div>
+
           </article>
         </Link>
       </Card>
-</>
+    </>
   );
 }

@@ -36,7 +36,7 @@ const mainClassName = programs?.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid
   return (
     <>
      {programs.length> 0 ? ( 
-              <div className={`mx-auto max-w-7xl grid gap-4 md:gap-8   auto-rows-max ${mainClassName}`}>
+              <div className={` grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl lg:gap-12  py-6  auto-rows-max ${mainClassName}`}>
                 {programs.map((program) => (
                   <ProgramCard key={program.$id} {...program} />
                 ))}
@@ -59,7 +59,7 @@ const {name,location}=await getCampusDetails(params.campusId)||{name:'',location
 
     <>
         
-        <div className="mx-auto text-center lg:mx-0">
+        <div className="mx-auto text-center lg:mx-0 p-2">
         <p className="mb-1 md:text-lg text-emerald-500">
         {location}
         </p> 
@@ -68,11 +68,11 @@ const {name,location}=await getCampusDetails(params.campusId)||{name:'',location
        
       </div>
     
-      <section className="relative flex flex-col items-center pt-20 pb-10 mx-auto">
+      <div className="relative flex flex-col items-center dark:bg-zinc-900/80 border bg-white/80">
     
       <ProgramList campusId={params.campusId}/>
      
-      </section>
+      </div>
 
     </>
   );

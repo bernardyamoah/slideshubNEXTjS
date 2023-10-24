@@ -16,7 +16,7 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
 
 
-      <div className=" md:py-10 space-y-8  ">
+      <div className="  space-y-8  ">
 
         {children}
         
