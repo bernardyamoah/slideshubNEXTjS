@@ -934,9 +934,9 @@ export const formatTime = (timePosted: string) => {
 	} else if (monthsDiff > 0) {
 		return `${monthsDiff} ${monthsDiff === 1 ? "month" : "months"} ago`;
 	} else if (daysDiff > 0) {
-		return `${daysDiff} ${daysDiff === 1 ? "day" : "d"} ago`;
+		return `${daysDiff} ${daysDiff === 1 ? "day" : "days"} ago`;
 	} else if (hoursDiff > 0) {
-		return `${hoursDiff} ${hoursDiff === 1 ? "hour" : "hrs"} ago`;
+		return `${hoursDiff} ${hoursDiff === 1 ? "hour" : "hours"} ago`;
 	} else if (minutesDiff > 0) {
 		return `${minutesDiff} ${minutesDiff === 1 ? "min" : "mins"} ago`;
 	} else {

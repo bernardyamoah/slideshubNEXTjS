@@ -79,10 +79,7 @@ const MobileNav = ()=>{
 )} 
         </div>
 
-        <SheetFooter className="border-t bottom-0  pt-4 flex">
-        <ModeToggle />
       
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

@@ -21,7 +21,7 @@ export default function Navbar() {
 
 
   return (
-    <header className="bg-card/80 bg-opacity-40 sticky top-0 md:top-4 z-[1000]   px-4 py-4 border w-full sm:max-w-xl lg:max-w-5xl md:rounded-lg xs:mx-auto  backdrop-blur-md">
+    <header className="bg-card/80 bg-opacity-40 sticky top-0 md:top-4 z-[1000]   px-4 py-4 border w-full sm:max-w-xl lg:max-w-5xl md:rounded-xl xs:mx-auto  backdrop-blur-md">
       <nav className="flex items-center justify-between w-full space-x-2 ">
         <Logo />
 
@@ -31,7 +31,7 @@ export default function Navbar() {
 
 {user ? (
   UserSidebarRoutes.map((link, index) => (
-    <Button key={index} asChild variant="ghost" className={`text-lg font-medium ${pathname === link.link ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400" : "hover:bg-transparent dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400"}`}>
+    <Button key={index} asChild variant="ghost" className={`text-lg font-medium  ${pathname === link.link ? "text-emerald-500 text-lg font-bold tracking-wide dark:hover:text-emerald-400 " : "dark:hover:text-emerald-500 text-gray-600 dark:text-gray-400 hover:bg-transparent"}`}>
       <Link href={link.link} passHref>
         {link.name}
       </Link>
@@ -47,8 +47,8 @@ export default function Navbar() {
 }
         </ul>
 
-        <div className="flex space-x-4">
-        <div className="hidden lg:block">
+        <div className="flex space-x-4 items-center">
+        <div >
         <ModeToggle />
         </div>
 

@@ -1,6 +1,6 @@
 
 'use client'
-import  { Suspense, useState } from "react";
+import  { useState ,useEffect} from "react";
 import Slides from "@/app/dashboard/_components/Slides";
 
 
@@ -13,12 +13,10 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { useUserContext} from "@/components/UserContext";
 import { useRouter } from "next/navigation";
 
-import Loading from "@/components/ui/Cloading";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
-
+import { motion, useAnimation } from "framer-motion";
 import { tabTriggers } from "@/constants";
 import Programs from "./_components/adminProgram";
-import MemoizedCourses from "@/components/Courses";
+
 import Courses from "@/components/Courses";
 import EmptyState from "@/components/EmptyUI";
 // border-b border-zinc-200
@@ -30,11 +28,19 @@ import EmptyState from "@/components/EmptyUI";
 export default function Dashboard() {
 
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('slide');
   const {userInTeam,user} = useUserContext(); 
   const userLabel = user?.labels || [];
  
+  const [activeTab, setActiveTab] = useState(() => {
+    // Initialize the active tab from localStorage or use a default value.
+    return localStorage.getItem("activeTab") || "slide";
+  });
 
+  const handleTabChange = (value:string) => {
+    setActiveTab(value);
+    // Save the active tab to localStorage.
+    localStorage.setItem("activeTab", value);
+  };
     
   const handleAddButtonClick = () => {
     let route = '/dashboard';
@@ -51,33 +57,60 @@ export default function Dashboard() {
 
     router.push(route);
   };
-  
+  // Create Framer Motion controls for animation
+  const textAnimation = useAnimation();
+  const titleAnimation = useAnimation();
 
+  // Define animations
+  const textVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  useEffect(() => {
+    // Start the animations within the useEffect hook
+    textAnimation.start("visible");
+    titleAnimation.start("visible");
+  }, []); 
+
+
+  
   return (
    <>
      
    
    
     
-       <header className="items-center w-full lg:flex justify-cener">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto ">
-        <div className="space-y-2 " >
-        <p className="max-w-[600px] text-zinc-700 md:text-xl dark:text-zinc-300 mx-auto text-center" >
-        Welcome
-                      </p>
-              <h1
-                className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl  bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-black to-zinc-600"
-              >
-                        {user?.name || ''}
-              </h1>
-              
-            </div>
+     <header className="items-center w-full lg:flex justify-center">
+      <div className="max-w-screen-xl px-4 py-8 mx-auto">
+        <div className="space-y-2">
+          <motion.p
+            className="max-w-[600px] text-zinc-700 md:text-xl dark:text-zinc-300 mx-auto text-center"
+            initial="hidden"
+            animate={textAnimation}
+            variants={textVariants}
+          >
+            Welcome
+          </motion.p>
+          <motion.h1
+            className="text-3xl font-bold tracking-tighter text-center text-transparent sm:text-4xl bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-black to-zinc-600"
+            initial="hidden"
+            animate={titleAnimation}
+            variants={titleVariants}
+          >
+            {user?.name || ""}
+          </motion.h1>
         </div>
-        
-      </header>
+      </div>
+    </header>
    
       <div className="  relative col-span-3 lg:col-span-4 ">
-        <div className="h-full px-4 py-6 lg:px-8 bg-card">
+        <div className="h-full px-4 py-6 lg:px-8  dark:bg-zinc-900/90 border bg-white">
           <Tabs defaultValue="slide" className="h-full space-y-6">
             <div className="flex items-center space-between">
               {/* Tab Triggers */}
@@ -98,7 +131,7 @@ export default function Dashboard() {
       return (
         <TabsTrigger
           key={tabTrigger.value}
-          onClick={() => setActiveTab(tabTrigger.value)}
+          onClick={() => handleTabChange(tabTrigger.value)}
           value={tabTrigger.value}
           className={tabTrigger.className}
           disabled={tabTrigger.disabled}
@@ -111,7 +144,7 @@ export default function Dashboard() {
       return (
         <TabsTrigger
           key={tabTrigger.value}
-          onClick={() => setActiveTab(tabTrigger.value)}
+          onClick={() => handleTabChange(tabTrigger.value)}
           value={tabTrigger.value}
           className={tabTrigger.className}
           disabled={tabTrigger.disabled}

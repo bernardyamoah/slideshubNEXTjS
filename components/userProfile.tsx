@@ -51,13 +51,11 @@ export const UserProfile= () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative w-10 h-10 rounded-full">
-          <Avatar className="w-10 h-10">
-            {avatarUrl ? (
+        <Button variant="ghost" className=" relative w-8 h-8 md:w-10 md:h-10 rounded-full outline-zinc-700">
+          <Avatar className="relative w-8 h-8" >
+            {avatarUrl && (
               <AvatarImage src={avatarUrl} alt={user?.name || ' '} />
-            ) : (
-              <AvatarFallback className="font-bold">{firstName.charAt(0).toLocaleUpperCase()}</AvatarFallback>
-            )}
+            ) }
           </Avatar>
         </Button>
 
@@ -72,15 +70,7 @@ export const UserProfile= () => {
           </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="w-4 h-4 mr-2" />
-            <span>Profile</span>
-           
-          </DropdownMenuItem>
-
-        </DropdownMenuGroup>
-
+      
         <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={signOut}>
           <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>

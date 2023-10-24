@@ -1,10 +1,9 @@
 'use client'
-import { formatTime, formatUserTime, successMessage } from '@/lib/functions';
+import { formatTime } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
-import {toast } from 'sonner'
-
+import { motion, useAnimation } from "framer-motion";
 import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
 
@@ -44,9 +43,26 @@ export default function Slides ({user}:UserProps){
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
-  
+  const slideVariants = {
+    hidden: { opacity: 0, scale: 0.9 , y: -20},
+    visible: (custom) => ({
+      opacity: 1,
+      scale: 1,
+      y:0,
+      transition: {
+        delay: custom * 0.1, // Adjust the delay as needed
+        duration: 0.6,
+      },
+    }),
+  };
+  const controls = useAnimation();
+
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
-  
+  useEffect(() => {
+    // Start the staggered animation when slides change
+    controls.start("visible");
+  }, [slides, controls]);
+
   
   
 
@@ -62,8 +78,16 @@ export default function Slides ({user}:UserProps){
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
 {slides.map((slide) => (
- 
-    <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
+ <motion.div
+ key={slide.$id}
+    custom={ slide.$id}// Pass index as custom prop for staggered animation
+ variants={slideVariants}
+    initial="hidden"
+    
+ animate={controls}
+>
+
+    <Card key={slide.$id} className="h-full relative overflow-hidden duration-500 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-500  dark:border-zinc-600 backdrop-blur-sm ">
     <div className="pointer-events-none">
       <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
       <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -103,8 +127,10 @@ export default function Slides ({user}:UserProps){
       
       </article>
     </div>
-    </Card>   
+    </Card>  
+    </motion.div>
         ))}
+    
 </aside>
 )}
  {slides.length > 10 && (
