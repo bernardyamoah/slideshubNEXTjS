@@ -142,33 +142,33 @@ export default function CheckboxReactHookFormMultiple() {
    // Adding the current files
    const newData = { ...data, currentFiles: currentFiles };
 
+   const toastId = toast.loading("Uploading files..."); 
    if (currentFiles.length > 0) {
-     const toastId = toast.loading("Uploading files..."); 
 
      // Use Promise.all for concurrent uploads
-     const uploadPromises = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData,setUploadProgress));
-     const results = await Promise.all(uploadPromises);
-
-     const successfulUploads = results.filter(result => result).length;
-     if (successfulUploads === currentFiles.length) {
-       toast.dismiss(toastId);
-        toast.message('Task Completed',
-       { description: `Successfully uploaded ${successfulUploads} files.`});
-
+    const uploadPromises: Promise<unknown>[] = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData, setUploadProgress));
+   await Promise.allSettled(uploadPromises);
+    
+         // All uploads were successful
+         toast.message('Task Completed', {
+           description: `Successfully uploaded ${currentFiles.length} files.`,
+          });
+          toast.dismiss(toastId);
+ 
        // Clear the fields after successful upload
        form.reset();
        setCurrentFiles([]);
        form.setValue("campus", "");
        setUploadProgress(0);
 
-     }
+     
    }
  }
   
 
   return (
     <Form {...form} >
-      <Card className="max-w-xl mx-auto">
+      <Card className="max-w-2xl mx-auto">
       <CardHeader  className="mb-6">
         <CardTitle>
             Add Slides

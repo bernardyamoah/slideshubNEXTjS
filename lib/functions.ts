@@ -223,6 +223,7 @@ export const createSlide = async (slideData: SlidesData) => {
 				success: `${slideData.name} successfully uploaded! 🎉`,
 				error: `Failed to upload ${slideData.name}`,
 			})
+		
 		return data;
 	} catch (error) {
 		errorMessage("Error adding slide");

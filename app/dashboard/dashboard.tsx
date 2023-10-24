@@ -76,8 +76,8 @@ export default function Dashboard() {
         
       </header>
    
-      <div className="  relative col-span-3 lg:col-span-4 lg:border-l ">
-        <div className="h-full px-4 py-6 lg:px-8">
+      <div className="  relative col-span-3 lg:col-span-4 ">
+        <div className="h-full px-4 py-6 lg:px-8 bg-card">
           <Tabs defaultValue="slide" className="h-full space-y-6">
             <div className="flex items-center space-between">
               {/* Tab Triggers */}

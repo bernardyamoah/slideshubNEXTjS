@@ -9,7 +9,7 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import {  ArrowDownIcon,  ArrowUpIcon } from 'lucide-react';
 import Pagination from './pagination-button';
-
+import Loading from '@/components/ui/Cloading';
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +60,7 @@ const Courses = () => {
 
   return (
     <>
-
+  {loading && <Loading />}
     <div className='grid grid-cols-2 gap-4 max-w-fit'>
       <div>
       <Label htmlFor="sortBy" className='mb-2'>Sort By:</Label>
