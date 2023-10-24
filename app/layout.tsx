@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 // import { Toaster } from "react-hot-toast";
 import { Toaster } from "sonner";
-
+import { SplitbeeAnalytics } from '@/components/SplitbeeAnalytics'
 import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
@@ -80,9 +80,7 @@ export default function RootLayout({
     splitbee.init()
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
-       <script async src="https://cdn.splitbee.io/sb.js"></script>
-      </Head>
+
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
@@ -100,6 +98,7 @@ export default function RootLayout({
 
             <Toaster expand={true} position="top-center" richColors />
             <Analytics />
+            <SplitbeeAnalytics/>
           </body>
         </UserContextProvider>
       </ThemeProvider>
