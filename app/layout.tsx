@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
-
+import splitbee from '@splitbee/web';
 import { Analytics } from "@vercel/analytics/react";
 
 // import { Toaster } from "react-hot-toast";
@@ -17,7 +17,7 @@ import { Metadata } from "next";
 
 import { url } from "inspector";
 import Head from "next/head";
-import Script from "next/script";
+
 export const metadata: Metadata = {
   title: {
     default: "Slideshub",
@@ -76,7 +76,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+  }) {
+    splitbee.init()
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
