@@ -20,10 +20,10 @@ const nextConfig = {
 			"media.istockphoto.com",
 		],
 	},
-	experimental: {
-		serverActions: true,
+	// experimental: {
+	// 	serverActions: true,
 		
-	},
+	// },
 	webpack: (config)=>{
 		config.resolve.alias.canvas=false;
 		config.resolve.extensionAlias={
