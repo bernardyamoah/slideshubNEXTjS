@@ -64,7 +64,7 @@ return (
                          Images
                         </h2>
                         <p className="text-sm text-muted-foreground">
-                        Displaying {slides.length} files
+                        Displaying {Images.length} files
                         </p>
                        
                       </div>
@@ -97,7 +97,7 @@ return (
                         Files
                         </h2>
                         <p className="text-sm text-muted-foreground">
-                        <span>Displaying {Images.length} files</span>
+                        <span>Displaying {slides.length} files</span>
                         </p>
                       </div>
                       <Separator className="my-4" />
