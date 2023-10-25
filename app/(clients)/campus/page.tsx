@@ -1,7 +1,10 @@
 
+
 import CampusCard from '@/components/CampusCard';
-import { Separator } from '@/components/ui/separator';
+import Loading from '@/components/ui/Cloading';
+
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 export const metadata:Metadata={
   title:'Campus',
   
@@ -26,9 +29,9 @@ export default function CampusList() {
 
           <div className="grid grid-cols-1 gap-8 mx-auto lg:mx-0 md:grid-cols-3 ">
            
-
+          <Suspense fallback={<Loading />}>
               <CampusCard />
-
+          </Suspense>
           </div>
 
       </section>
