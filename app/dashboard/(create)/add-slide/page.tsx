@@ -168,13 +168,13 @@ export default function CheckboxReactHookFormMultiple() {
 
   return (
     <Form {...form} >
-      <Card className="max-w-2xl mx-auto">
+      <Card className="max-w-2xl mx-auto lg:p-10">
       <CardHeader  className="mb-6">
         <CardTitle>
             Add Slides
         </CardTitle>
      </CardHeader>
-        <CardContent>
+        <CardContent >
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
         <FormField
           control={form.control}
