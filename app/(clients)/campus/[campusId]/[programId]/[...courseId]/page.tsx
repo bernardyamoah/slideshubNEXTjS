@@ -53,55 +53,6 @@ const slides = data.filter((slide) => slide.fileType !== 'PNG' && slide.fileType
 const Images = data.filter((slide) => slide.fileType === 'PNG' || slide.fileType === 'JPG');
 return (
  <>
- <div className='bg-zinc-50 dark:bg-background pt-5'>
-
- 
-  {Images.length  !== 0 &&
-  (
-    <>
-    <div className=" container space-y-1 mt-10">
-                        <h2 className="text-2xl font-semibold tracking-tight">
-                         Images
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                        Displaying {slides.length} files
-                        </p>
-                       
-                      </div>
-                      <Separator className="my-4" />
-                      <div className="relative container mx-auto">
-                        <ScrollArea>
-                          <div className="flex space-x-6 pb-4">
-                            <Suspense >
-                            {Images.map((slide) => (
-                              <ImageCard
-                                key={slide.name}
-                                slide={slide}
-                                className="w-[150px]"
-                                aspectRatio="square"
-                                width={150}
-                                height={150}
-                              />
-                            ))}
-
-                            </Suspense>
-                          </div>
-                          <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
-                      </div>
-    </>
-  )}
-
-                      <div className=" container space-y-1 mt-10">
-                        <h2 className="text-2xl font-semibold tracking-tight">
-                        Files
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                        <span>Displaying {slides.length} files</span>
-                        </p>
-                      </div>
-                      <Separator className="my-4" />
-                     
 { slides.length > 0 ?
   (
     <div className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12 place-content-center ">
@@ -175,8 +126,6 @@ Preview
                 <EmptyState title='slides' />
               </div>)
               }
-
-</div>
   </>
 )
 }
