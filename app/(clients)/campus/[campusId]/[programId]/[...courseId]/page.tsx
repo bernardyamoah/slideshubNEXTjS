@@ -10,6 +10,11 @@ import DownloadBtn from '@/components/ui/downloadBtn';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyUI';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { ImageCard} from '@/components/ui/image-card';
 
 
 type Props = {
@@ -43,18 +48,74 @@ async function getFiles (courseId:string) {
 
 
 export default async function FilesList({params:{courseId}}) {
-const slides= await getFiles(courseId)
+const data= await getFiles(courseId)
+const slides = data.filter((slide) => slide.fileType !== 'PNG' && slide.fileType !== 'JPG');
+const Images = data.filter((slide) => slide.fileType === 'PNG' || slide.fileType === 'JPG');
 return (
  <>
+ <div className='bg-zinc-50 dark:bg-background pt-5'>
+
+ 
+  {Images.length  !== 0 &&
+  (
+    <>
+    <div className=" container space-y-1 mt-10">
+                        <h2 className="text-2xl font-semibold tracking-tight">
+                         Images
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                        Displaying {slides.length} files
+                        </p>
+                       
+                      </div>
+                      <Separator className="my-4" />
+                      <div className="relative container mx-auto">
+                        <ScrollArea>
+                          <div className="flex space-x-6 pb-4">
+                            <Suspense >
+                            {Images.map((slide) => (
+                              <ImageCard
+                                key={slide.name}
+                                slide={slide}
+                                className="w-[150px]"
+                                aspectRatio="square"
+                                width={150}
+                                height={150}
+                              />
+                            ))}
+
+                            </Suspense>
+                          </div>
+                          <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
+                      </div>
+    </>
+  )}
+
+                      <div className=" container space-y-1 mt-10">
+                        <h2 className="text-2xl font-semibold tracking-tight">
+                        Files
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                        <span>Displaying {slides.length} files</span>
+                        </p>
+                      </div>
+                      <Separator className="my-4" />
+                     
 { slides.length > 0 ?
   (
-    <div className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+    <div className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12 place-content-center ">
+      
         <Suspense fallback={<div>Loading...</div>}>
 
    
+   
+  
+       
+
  {slides.map((slide) => (
       
-      <Card key={slide.$id} className="relative overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
+      <Card key={slide.$id} className="overflow-hidden duration-700 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
          <div className="pointer-events-none">
             <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
             <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -71,11 +132,17 @@ return (
                 <ShieldCheck className='w-4 h-4 text-muted-foreground' /><span className='text-xs text-muted-background'>{slide.fileType}</span>
                 </span>
               </div>
-              <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-500 group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+   
+              
+
+
+              <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-500 group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display  text-left">
+             
               {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
+
               </CardTitle>
             <div className="z-20 flex gap-4 mt-2">
-         
+      
               <span className="flex gap-2 text-xs capitalize duration-300 text-zinc-400 dark:group-hover:text-zinc-200">
                 Updated on
               <time dateTime={slide.$updatedAt}>{formatUserTime(slide.$updatedAt)}
@@ -108,6 +175,8 @@ Preview
                 <EmptyState title='slides' />
               </div>)
               }
+
+</div>
   </>
 )
 }
