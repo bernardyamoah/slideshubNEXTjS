@@ -89,7 +89,7 @@ export default function RootLayout({
               <BackButtonNavigation />
               <Breadcrumbs />
 
-              <main className="container h-full pb-20"> {children}</main>
+              <main className="px-1 h-full pb-20"> {children}</main>
             </div>
 
             <MobileMenu />
