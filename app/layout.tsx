@@ -74,21 +74,22 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-  }) {
-    splitbee.init()
+}) {
+  splitbee.init()
   return (
     <html lang="en" suppressHydrationWarning>
 
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-          <body className="bg-zinc-50 dark:bg-background ">
-            <div className="relative ">
-            <Navbar />
-            <BackButtonNavigation />
-            <Breadcrumbs />
-            <div className="fixed inset-0 w-full h-full bg-center bg-repeat bg-contain bg-pattern-1 opacity-5 dark:opacity-40 -z-20"></div>
-            <main className="pb-20 "> {children}</main>
+          <body className="relative ">
+            <div className="fixed inset-0 w-full h-screen bg-center bg-repeat bg-contain bg-pattern-1 !opacity-[0.9] !dark:opacity-20 -z-20"></div>
+            <div className="relative min-h-[85vh] bg-zinc-50/95 dark:bg-background/70">
+              <Navbar />
+              <BackButtonNavigation />
+              <Breadcrumbs />
+
+              <main className="container h-full pb-20"> {children}</main>
             </div>
 
             <MobileMenu />
@@ -96,7 +97,7 @@ export default function RootLayout({
 
             <Toaster expand={true} position="top-center" richColors />
             <Analytics />
-            <SplitbeeAnalytics/>
+            <SplitbeeAnalytics />
           </body>
         </UserContextProvider>
       </ThemeProvider>

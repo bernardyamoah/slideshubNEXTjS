@@ -38,7 +38,7 @@ export default function CourseCard({ course, campusId }) {
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
 
-                <Badge className="flex items-center gap-1 text-xs rounded-2xl uppercase duration-1000 bg-amber-600 ">
+                <Badge className="flex items-center gap-1 text-xs text-white uppercase duration-700 rounded-2xl bg-emerald-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-4 h-4"
@@ -64,14 +64,14 @@ export default function CourseCard({ course, campusId }) {
             <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
               {name.toLocaleLowerCase()}
             </CardTitle>
-            <div className="z-20 flex gap-4 mt-2 items-center ">
+            <div className="z-20 flex items-center gap-4 mt-2 ">
 
               <span className="flex items-center gap-1 text-xs text-zinc-500">
                 <Clock2 className='w-4 h-4 dark:stroke' />
                 {credit} credit hours
               </span>
 
-              <span className="text-xs flex-1  justify-end duration-700  dark:text-zinc-200 dark:group-hover:text-white text-zinc-400 text-right">
+              <span className="justify-end flex-1 text-xs text-right duration-700 dark:text-zinc-200 dark:group-hover:text-white text-zinc-400">
                 <time dateTime={$createdAt}>{formatUserTime($createdAt)}
 
                 </time>

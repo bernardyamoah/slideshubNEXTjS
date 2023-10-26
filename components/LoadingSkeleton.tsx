@@ -2,13 +2,13 @@
 export default function LoadingSkeleton() {
 	return (
 		<>
-			<div className="h-screen flex flex-col justify-center container max-w-2xl ">
-				<div className="flex animate-pulse  ">
+			<div className="container flex flex-col justify-center h-screen max-w-2xl ">
+				<div className="flex animate-pulse ">
 					<div className="flex-shrink-0">
-						<span className="w-12 h-12 block bg-gray-200 rounded-full dark:bg-gray-700"></span>
+						<span className="block w-12 h-12 bg-gray-200 rounded-full dark:bg-gray-700"></span>
 					</div>
 
-					<div className="ml-4 mt-2 w-full">
+					<div className="w-full mt-2 ml-4">
 					 <h3
 							className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-[40%]"
 

@@ -48,7 +48,7 @@ const CourseList = ({ programId, campusId }) => {
   }
 
   return (
-    <div className='dark:bg-zinc-900/80 border bg-white/80 py-6 '>
+    <div className='py-6 '>
       <Tabs value={selectedTab} className="relative flex flex-col w-full">
         <TabsList className="relative mx-auto mb-16 min-w-fit">
           {LevelTabItems.map(({ label, value }) => (
@@ -66,7 +66,7 @@ const CourseList = ({ programId, campusId }) => {
         {LevelTabItems.map(({ value }) => (
           <TabsContent key={value} value={value}>
             {courses.filter((course) => course.year === value).length > 0 ? (
-              <div className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+              <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
                 {courses
                   .filter((course) => course.year === value)
                   .map((course) => (

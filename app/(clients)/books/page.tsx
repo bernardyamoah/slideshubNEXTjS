@@ -3,6 +3,8 @@ import algoliasearch from "algoliasearch/lite";
 import { InstantSearch, SearchBox, Hits } 
 	from "react-instantsearch-dom"; 
 import SearchBar from "@/components/searchbar"; 
+import { CardContent,  CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const searchClient = algoliasearch( 
 'APPLICATION_API_KEY', 
@@ -18,38 +20,38 @@ const Page = () => {
   return (
   
     <>
-      <div className="flex items-center justify-center">
-      <InstantSearch 
-		searchClient={searchClient} 
-		indexName="gfg_dev"> 
+    
 
-		{/* Adding Search Box */} 
-		<SearchBar/> 
 
-		{/* Adding Data */} 
-		<Hits /> 
-	</InstantSearch> 
-      </div>
-      <div className="mt-2.5 flex mx-auto max-w-3xl">
       
-    <div
-        className="relative aspect-video max-h-[580px] max-w-[260px] flex items-center bg-black rounded-xl cursor-pointer"
-    >
-        <video 
-            id={`video-${post.id}`}
-            loop
-            controls
-            muted
-            className="object-cover mx-auto aspect-video rounded-xl" 
-            src={post.url}
-        />
-        <img 
-            className="absolute right-2 bottom-10" 
-            width="90" 
-            src="https://images.unsplash.com/photo-1696918950949-45d0d6624a45?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        />
-      </div>
-      </div>
+      <aside className="container ">
+      
+  
+        <CardHeader className="flex mt-6 space-y-4">
+        <CardTitle className="text-2xl">
+          Books
+    
+      </CardTitle>
+      <InstantSearch 
+      searchClient={searchClient} 
+      indexName="gfg_dev" > 
+  
+      {/* Adding Search Box */} 
+      <SearchBar/> 
+  
+      {/* Adding Data */} 
+      <Hits /> 
+    </InstantSearch> 
+        
+  
+    
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-8 mt-20 lg:gap-10 md:grid-cols-3 lg:grid-cols-4 ">
+
+</CardContent>
+        
+    
+      </aside>
     </>
   )
 }

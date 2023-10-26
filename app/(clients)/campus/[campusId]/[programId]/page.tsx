@@ -51,8 +51,8 @@ export  default async function Page({params}: Props) {
 
   return (
     <>
-    <div className="mb-6">
-    <h2 className="text-3xl text-center ">{name}</h2>
+    <div className="my-6">
+    <h2 className="text-xl font-bold tracking-tight text-center text-transparent md:text-3xl dark:text-zinc-100 bg-clip-text dark:bg-gradient-to-r dark:from-zinc-300 dark:to-zinc-600 bg-gradient-to-r from-zinc-950 to-zinc-700 lg:text-4xl">{name}</h2>
     </div>
 
       <CourseList programId={params.programId} campusId={campusId} />

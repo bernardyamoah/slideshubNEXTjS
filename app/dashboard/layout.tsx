@@ -16,12 +16,12 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   if (loading) return <Loading />;
   if(!user) return router.push('/login');
   return (
-    <>
     
-      <div className=" ">{children}</div>
+    
+      <div>{children}</div>
 
 
-    </>
+    
   );
 }
 

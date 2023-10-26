@@ -3,10 +3,10 @@ export default function Footer() {
    
     return (
         <>
-            <footer className="py-10 mt-auto bg-zinc-800 bottom-0  w-full inset-x-0 ">
+            <footer className="sticky inset-x-0 bottom-0 w-full p-4 border-t bg-zinc-800 ">
        
-          <div className="text-center text-gray-100">
-            <h3>Slideshub</h3>
+          <div className="flex justify-between text-sm text-center text-gray-100">
+            <p>Slideshub</p>
             <p>&copy; {new Date().getFullYear()} Slideshub. All rights reserved.</p>
           </div>
         

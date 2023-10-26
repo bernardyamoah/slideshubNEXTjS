@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { ImageCard} from '@/components/ui/image-card';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 
 type Props = {
@@ -53,13 +54,13 @@ const slides = data.filter((slide) => slide.fileType !== 'PNG' && slide.fileType
 const Images = data.filter((slide) => slide.fileType === 'PNG' || slide.fileType === 'JPG');
 return (
  <>
- <div className='bg-zinc-50 dark:bg-background pt-5'>
+ <div className='mt-5 '>
 
  
   {Images.length  !== 0 &&
   (
     <>
-    <div className=" container space-y-1 mt-10">
+    <div className="container mt-10 space-y-1 ">
                         <h2 className="text-2xl font-semibold tracking-tight">
                          Images
                         </h2>
@@ -69,10 +70,10 @@ return (
                        
                       </div>
                       <Separator className="my-4" />
-                      <div className="relative container mx-auto">
+                      <div className="container relative mx-auto">
                         <ScrollArea>
-                          <div className="flex space-x-6 pb-4">
-                            <Suspense >
+                          <div className="flex pb-4 space-x-6">
+                            <Suspense fallback={<LoadingSkeleton/>}>
                             {Images.map((slide) => (
                               <ImageCard
                                 key={slide.name}
@@ -92,7 +93,7 @@ return (
     </>
   )}
 
-                      <div className=" container space-y-1 mt-10">
+                      <div className="container mt-10 space-y-1 ">
                         <h2 className="text-2xl font-semibold tracking-tight">
                         Files
                         </h2>
@@ -136,7 +137,7 @@ return (
               
 
 
-              <CardTitle className="z-20 mt-2 text-xl font-medium capitalize duration-500 group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display  text-left">
+              <CardTitle className="z-20 mt-2 text-xl font-medium text-left capitalize duration-500 group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
              
               {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
 
