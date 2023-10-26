@@ -3,7 +3,7 @@ import { formatTime } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation , stagger, animate} from "framer-motion";
 import {  useCallback, useEffect, useMemo, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
 
@@ -43,24 +43,13 @@ export default function Slides ({user}:UserProps){
   const changePage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
-  const slideVariants = {
-    hidden: { opacity: 0, scale: 0.9 , y: -20},
-    visible: (custom) => ({
-      opacity: 1,
-      scale: 1,
-      y:0,
-      transition: {
-        delay: custom * 0.1, // Adjust the delay as needed
-        duration: 0.6,
-      },
-    }),
-  };
+
   const controls = useAnimation();
 
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
   useEffect(() => {
     // Start the staggered animation when slides change
-    controls.start("visible");
+    animate("div", { opacity: 1 }, { delay: stagger(0.1) })
   }, [slides, controls]);
 
   
@@ -80,14 +69,12 @@ export default function Slides ({user}:UserProps){
 {slides.map((slide) => (
  <motion.div
  key={slide.$id}
-    custom={ slide.$id}// Pass index as custom prop for staggered animation
- variants={slideVariants}
-    initial="hidden"
+
     
- animate={controls}
+ 
 >
 
-    <Card key={slide.$id} className="h-full relative overflow-hidden duration-500 border rounded-xl dark:hover:bg-zinc-800/10 group md:gap-8 hover:border-zinc-500  dark:border-zinc-600 backdrop-blur-sm ">
+    <Card key={slide.$id} className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
     <div className="pointer-events-none">
       <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
       <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -100,7 +87,7 @@ export default function Slides ({user}:UserProps){
     
       <article className="p-4 md:p-8">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+          <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-400 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
             <time dateTime={slide.$createdAt}>{formatTime(slide.$createdAt)}
             
             </time>
@@ -109,7 +96,7 @@ export default function Slides ({user}:UserProps){
           <PresetActions name={slide.name} id={slide.$id} slides={slides} setSlides={setSlides} />
           </span>
         </div>
-        <CardTitle className="z-20 mt-4 text-xl font-medium capitalize duration-1000 lg:text-2xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+        <CardTitle className="z-20 mt-4 text-lg font-medium capitalize duration-1000 lg:text-xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
         {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
         </CardTitle>
         <div className="z-20 flex gap-4 mt-2">

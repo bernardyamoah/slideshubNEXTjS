@@ -15,8 +15,6 @@ import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { Metadata } from "next";
 
-import { url } from "inspector";
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: {
@@ -84,13 +82,13 @@ export default function RootLayout({
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
-          <body className="bg-neutral-50 ">
+          <body className="bg-zinc-50 dark:bg-background ">
             <div className="relative ">
             <Navbar />
             <BackButtonNavigation />
             <Breadcrumbs />
-            <div className="fixed inset-0 w-full h-full bg-center bg-repeat bg-contain  bg-pattern-1 opacity-5 dark:opacity-40 -z-20"></div>
-            <main className=" pb-20 "> {children}</main>
+            <div className="fixed inset-0 w-full h-full bg-center bg-repeat bg-contain bg-pattern-1 opacity-5 dark:opacity-40 -z-20"></div>
+            <main className="pb-20 "> {children}</main>
             </div>
 
             <MobileMenu />
