@@ -26,7 +26,7 @@ const MobileMenu = () => {
     <>
       {user && (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger className="fixed z-50 bottom-8 right-10 lg:hidden">
+          <SheetTrigger className="fixed z-[100] bottom-10 right-10 lg:hidden">
             <Button className="relative w-fit p-3 h-auto rounded-full">
               <PlusCircle className="w-7 h-7" />
             </Button>

@@ -78,7 +78,7 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
           <body className="relative ">
-            <div className="fixed inset-0 w-full h-screen bg-center bg-repeat bg-contain bg-pattern-1 !opacity-[0.9] !dark:opacity-20 -z-20"></div>
+            <div className="absolute inset-0 bg-center bg-repeat bg-contain bg-pattern-1 !opacity-[0.9] !dark:opacity-20 -z-20"></div>
             <main className="relative min-h-[85vh] bg-zinc-50/95 dark:bg-background/70">
               <Navbar />
               <BackButtonNavigation />
@@ -92,7 +92,7 @@ export default function RootLayout({
 
             <Toaster expand={true} position="top-center" richColors />
             <Analytics />
-            <SplitbeeAnalytics />
+          
           </body>
         </UserContextProvider>
       </ThemeProvider>

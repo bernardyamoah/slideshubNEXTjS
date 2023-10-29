@@ -2,6 +2,9 @@
 import { Card, CardContent, CardTitle } from './ui/card';
 import { CourseEdit } from '../app/dashboard/_components/course-edit';
 import React from 'react';
+import { formatUserTime } from '@/lib/functions';
+import { Clock1Icon, UserIcon } from 'lucide-react';
+import { Separator } from './ui/separator';
 
 
 const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
@@ -15,7 +18,7 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
         className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-emerald-600 to-emerald-700"
       ></span>
 
-      <div className="sm:flex sm:justify-between sm:gap-4">
+      <div className="">
         <div>
         <CardTitle className=" leading-2 tracking-wider capitalize text-2xl [text-wrap:balance] mt-4 ">
           {course.name.replace(/_/g, ' ').toLocaleLowerCase()}
@@ -23,15 +26,21 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
           <div className="absolute flex justify-end flex-1 gap-1 text-xs text-gray-500 right-1 top-2 dark:text-gray-500/90">
             <CourseEdit course={course} key={course.$id} courses={courses} setCourses={setCourses}/>
           </div>
-          <p className="mt-1  text-zinc-700 text-xs">Posted by  </p><span className=" text-muted-foreground text-xs font-medium">{course.user_id}</span>
+        
+          <div className='flex items-center justify-between mt-1'>
+            <span className=" text-muted-foreground text-xs font-medium flex gap-1"><UserIcon className='w-4 h-4'/>{course.user_id}</span>
+            <span className=" text-muted-foreground text-xs font-medium flex gap-1"><Clock1Icon className='w-4 h-4 '/> {formatUserTime(course.$createdAt)}</span>
+          </div>
+        
         </div>
 
       
       </div>
+      <Separator className='mt-4'/>
 
 
       <CardContent className='!p-0'>
-        <dl className="flex justify-between flex-wrap gap-4 mt-6 text-[0.65rem]">
+        <dl className="flex justify-between flex-wrap gap-4 mt-4 text-[0.65rem]">
 
           <div className="flex flex-col max-w-fit justify-between">
             <dt className="text-xs font-medium text-zinc-700">Semester</dt>
