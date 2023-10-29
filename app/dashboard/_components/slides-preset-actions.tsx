@@ -68,14 +68,11 @@ export function PresetActions({
   const [updatedName, setUpdatedName] = useState(name);
   const [showDialog, setShowDialog] = useState(false);
   const [optimisticSlides, setOptimisticSlides] = useOptimistic<Slides[]>(slides);
-
   const deleteSlideHandler = useCallback(async (id: string) => {
     try {
-      // Optimistically remove the slide from the state
-      setOptimisticSlides(slides.filter((slide) => slide.$id !== id)
-    );
+      setOptimisticSlides(slides.filter((slide) => slide.$id !== id));
     
-   
+
 
       const getDoc = await databases.getDocument(
         process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -84,7 +81,9 @@ export function PresetActions({
       );
       const fileID = extractIdFromUrl(getDoc.fileUrl);
 
-      if (getDoc.$id === id && fileID !== null) {
+      if (getDoc.$id !== id && fileID !== null) { 
+        return 
+      }
        toast.promise(databases.deleteDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
@@ -97,18 +96,22 @@ export function PresetActions({
         setSlides(optimisticSlides)
         setShowDeleteDialog(false);
      
-        await storage.deleteFile(
-          process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-          fileID
-        );
-      } else {
-        // If an error occurs, revert the state back to the original
-        setOptimisticSlides(slides);
-      errorMessage("Failed to delete Slide ❌");
+        if (fileID !== null) {
+           storage.deleteFile(
+            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+            fileID
+          );
+        }
        
-      }
+      
     } catch (err) {
       errorMessage("Action declined ❌");
+    }
+    finally {
+      toast.success('The slide has been successfully deleted', {
+        duration: 3000,
+
+      });
     }
   }, [slides, setOptimisticSlides]);
 

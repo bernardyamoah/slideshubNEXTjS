@@ -6,6 +6,8 @@ import { getCampusDetails, getProgramsByCampusId } from '@/lib/functions';
 
 import { Metadata} from 'next';
 
+
+
 type Props = {
   params: { campusId: string };
 };
@@ -37,8 +39,9 @@ const mainClassName = programs?.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid
     <>
      {programs.length> 0 ? ( 
               <div className={` grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl lg:gap-12  py-6  auto-rows-max ${mainClassName}`}>
-                {programs.map((program) => (
-                  <ProgramCard key={program.$id} {...program} />
+                {programs.map((program,index) => (
+              
+                    <ProgramCard key={program.$id} {...program} />
                 ))}
               </div>
             ) : (

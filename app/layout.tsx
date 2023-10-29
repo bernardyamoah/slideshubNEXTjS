@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
-import splitbee from '@splitbee/web';
 import { Analytics } from "@vercel/analytics/react";
 
 // import { Toaster } from "react-hot-toast";
@@ -38,11 +37,7 @@ export const metadata: Metadata = {
     // icon:'https://slideshub.vercel.app/favicon.ico',
     apple: "https://slideshub.vercel.app/apple-touch-icon.png",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+
 
   twitter: {
     title: "SlidesHub",
@@ -75,7 +70,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  splitbee.init()
+
   return (
     <html lang="en" suppressHydrationWarning>
 
@@ -84,13 +79,13 @@ export default function RootLayout({
         <UserContextProvider>
           <body className="relative ">
             <div className="fixed inset-0 w-full h-screen bg-center bg-repeat bg-contain bg-pattern-1 !opacity-[0.9] !dark:opacity-20 -z-20"></div>
-            <div className="relative min-h-[85vh] bg-zinc-50/95 dark:bg-background/70">
+            <main className="relative min-h-[85vh] bg-zinc-50/95 dark:bg-background/70">
               <Navbar />
               <BackButtonNavigation />
               <Breadcrumbs />
 
-              <main className="px-1 h-full pb-20"> {children}</main>
-            </div>
+              <div className="px-1 h-full pb-20"> {children}</div>
+            </main>
 
             <MobileMenu />
             <Footer />

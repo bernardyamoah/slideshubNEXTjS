@@ -16,7 +16,7 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
 
 
-      <div className="  space-y-8  ">
+      <div className="  space-y-8 px-4 ">
 
         {children}
         

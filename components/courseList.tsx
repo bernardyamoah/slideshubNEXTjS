@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { LevelTabItems } from '@/constants';
 import CourseCard from './CourseCard';
+import { motion } from "framer-motion";
+import { fadeInAnimationVariants } from '@/constants/motion';
 
 
 import { errorMessage, getCoursesByProgramId, successMessage } from '@/lib/functions';
@@ -69,8 +71,17 @@ const CourseList = ({ programId, campusId }) => {
               <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
                 {courses
                   .filter((course) => course.year === value)
-                  .map((course) => (
-                    <CourseCard key={course.$id} course={course} campusId={campusId} />
+                  .map((course,index) => (
+                    <motion.div variants={fadeInAnimationVariants}
+                    initial='initial'
+                    whileInView='animate'
+                    viewport={{
+                      once: true,
+                    }}
+                    custom={index}>
+                        <CourseCard key={course.$id} course={course} campusId={campusId} />
+                    </motion.div>
+                  
                   ))}
               </div>
             ) : (

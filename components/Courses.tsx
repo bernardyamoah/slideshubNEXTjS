@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import CoursesCard from './allCourses';
 
 import { getAllCourses,  getTotalCourses } from '@/lib/functions';
+import {motion} from 'framer-motion'
 
 import { Button } from './ui/button';
 import { Label } from './ui/label';
@@ -10,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import {  ArrowDownIcon,  ArrowUpIcon } from 'lucide-react';
 import Pagination from './pagination-button';
 import Loading from '@/components/ui/Cloading';
+import { fadeInAnimationVariants } from '@/constants/motion';
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,8 +85,16 @@ const Courses = () => {
       </div>
    
     <aside className= 'grid grid-cols-1 gap-8 py-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto '>
-      {courses.map((course) => (
-       <CoursesCard key={course.$id} course={course} courses={courses} setCourses={setCourses}/>
+      {courses.map((course, index) => (
+        <motion.div   variants={fadeInAnimationVariants}
+        initial='initial'
+        whileInView='animate'
+        viewport={{
+          once: true,
+        }}
+        custom={index}>
+           <CoursesCard key={course.$id} course={course} courses={courses} setCourses={setCourses}/>
+      </motion.div>
       ))}
       </aside>
       {courses.length > 0 && (

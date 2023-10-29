@@ -4,13 +4,11 @@ import { CourseEdit } from '../app/dashboard/_components/course-edit';
 import React from 'react';
 
 
-
-
 const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
   
   return (
-
-    <Card 
+  
+  <Card 
       className="relative block p-4 overflow-hidden border rounded-lg shadow-md  lg:p-6"
     >
       <span
@@ -59,6 +57,8 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
       </CardContent>
 
     </Card>
+  
+  
   );
 };
 

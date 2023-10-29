@@ -3,14 +3,15 @@ import { formatTime } from '@/lib/functions';
 import { Card, CardTitle } from '../../../components/ui/card';
 import { FolderOpen, ShieldCheck } from 'lucide-react';
 import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
-import { motion, useAnimation , stagger, animate} from "framer-motion";
-import {  useCallback, useEffect, useMemo, useState } from 'react';
+import { motion } from "framer-motion";
+import {  useCallback, useEffect, useState } from 'react';
 import { getUserSlides } from '@/lib/functions';
 
 
 import SlidesLoading from './slidesLoading';
 import Pagination from '@/components/pagination-button';
 import EmptyState from '@/components/EmptyUI';
+import { fadeInAnimationVariants } from '@/constants/motion';
 
 
 
@@ -44,15 +45,10 @@ export default function Slides ({user}:UserProps){
     setCurrentPage(page);
   }, []);
 
-  const controls = useAnimation();
+
 
   const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
-  useEffect(() => {
-    // Start the staggered animation when slides change
-    animate("div", { opacity: 1 }, { delay: stagger(0.1) })
-  }, [slides, controls]);
 
-  
   
 
 
@@ -66,10 +62,16 @@ export default function Slides ({user}:UserProps){
 {totalPages !== 0 && (
 <aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
 
-{slides.map((slide) => (
+{slides.map((slide,index) => (
  <motion.div
- key={slide.$id}
-
+    key={slide.$id}
+    variants={fadeInAnimationVariants}
+    initial='initial'
+    whileInView='animate'
+    viewport={{
+      once: true,
+    }}
+    custom={index}
     
  
 >
