@@ -1,6 +1,7 @@
 
 
 import CampusCard from '@/components/CampusCard';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import Loading from '@/components/ui/Cloading';
 
 import { Metadata } from 'next';
@@ -29,7 +30,7 @@ export default function CampusList() {
 
           <div className="grid grid-cols-1 gap-8 mx-auto lg:mx-0 md:grid-cols-3 ">
            
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<LoadingSkeleton />}>
               <CampusCard />
           </Suspense>
           </div>

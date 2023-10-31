@@ -7,7 +7,7 @@ export default function Loading() {
     <>
       <section className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
 
-        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
+        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
           <div className="pointer-events-none">
             <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
             <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -43,7 +43,7 @@ export default function Loading() {
 
         </Card>
 
-        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
+        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
           <div className="pointer-events-none">
             <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
             <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -79,7 +79,7 @@ export default function Loading() {
 
         </Card>
 
-        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
+        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
           <div className="pointer-events-none">
             <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
             <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -115,7 +115,7 @@ export default function Loading() {
 
         </Card>
 
-        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
+        <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
           <div className="pointer-events-none">
             <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
             <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>

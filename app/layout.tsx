@@ -78,7 +78,8 @@ export default function RootLayout({
         <UserContextProvider>
           <body className="relative ">
            <Navbar />
-            <main className="relative min-h-[85vh]  dark:bg-background/70 pb-20 ">
+          
+            <main className="relative min-h-[85vh]   pb-20 "> {/* dark:bg-background/70 */}
               <BackButtonNavigation />
               
 
