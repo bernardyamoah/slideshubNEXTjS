@@ -15,12 +15,10 @@ const FileCard = ({slide,index}) => {
         <motion.div variants={fadeInAnimationVariants}
         initial='initial'
         whileInView='animate'
-        viewport={{
-          once: true,
-        }}
+      
             custom={index}
         className="overflow-hidden duration-700">
-        <Card key={slide.$id} className=" border rounded-xl dark:hover:bg-zinc-800/10  md:gap-8 hover:border-zinc-400/50 dark:border-zinc-600 backdrop-blur-sm ">
+        <Card key={slide.$id} className=" border rounded-xl dark:hover:bg-zinc-800/40  md:gap-8 hover:border-zinc-400 dark:border-zinc-800 backdrop-blur-sm  dark:hover:border-zinc-800">
     <div className="pointer-events-none">
        <div className="absolute inset-0 z-0  transition duration-300 [mask-image:linear-gradient(black,transparent)]"></div>
        <div className="absolute inset-0 z-10 transition duration-300 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -29,7 +27,7 @@ const FileCard = ({slide,index}) => {
 
      <article className="p-4 md:p-6">
          <div className="flex items-center justify-between gap-2">
-           <span className="flex gap-1 text-xs duration-300 text-emerald-700 dark:text-emerald-200 bg-gradient-to-tr from-emerald-200/30 to-emerald-500/20 dark:from-emerald-800/20 dark:to-emerald-600/30 px-2 py-1 rounded-full dark:group-hover:!border-emerald-600  ">
+           <span className="flex gap-1 text-xs duration-300 text-emerald-700 dark:text-emerald-500 bg-gradient-to-tr from-emerald-200/20 to-emerald-500/10 dark:from-emerald-800/10 dark:to-emerald-600/10 px-2 py-1 rounded-full dark:group-hover:!border-emerald-600  ">
            
              <FolderOpen className='w-4 h-4  text-xs' />  {slide.size}
            </span>

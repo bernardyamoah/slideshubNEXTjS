@@ -89,18 +89,14 @@ module.exports = {
 				  },
 			},
 			fontFamily: {
-				// body: ["Valera Round", "sans-serif"],
-				// title :["Syne", "serif"],
+				
 				body: ["Inter", "sans-serif"],
 				title: ["Raleway", "sans-serif"],
 			},
 			 backgroundImage: {
-        'pattern-1': 'url("/pattern-1.svg")',
-		'bg-img-1': "url('/img-1.png')",
-				'bg-img-2': "url('/img-2.png')",
-				'feature-bg': "url('/feature-bg.png')",
+        'pattern-1': 'url("/noise.jpg")',
 				pattern: "url('/pattern.png')",
-				'pattern-2': "url('/pattern-bg.png')",
+			
       },
 			borderRadius: {
 				lg: "var(--radius)",

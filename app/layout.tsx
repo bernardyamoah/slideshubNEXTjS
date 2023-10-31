@@ -4,9 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
-// import { Toaster } from "react-hot-toast";
 import { Toaster } from "sonner";
-import { SplitbeeAnalytics } from '@/components/SplitbeeAnalytics'
+
 import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
@@ -78,13 +77,12 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
           <body className="relative ">
-            <div className="absolute inset-0 bg-center bg-repeat bg-contain bg-pattern-1 !opacity-[0.9] !dark:opacity-20 -z-20"></div>
-            <main className="relative min-h-[85vh] bg-zinc-50/95 dark:bg-background/70">
-              <Navbar />
+           <Navbar />
+            <main className="relative min-h-[85vh]  dark:bg-background/70 pb-20 ">
               <BackButtonNavigation />
-              <Breadcrumbs />
+              
 
-              <div className="px-1 h-full pb-20"> {children}</div>
+              {children}
             </main>
 
             <MobileMenu />

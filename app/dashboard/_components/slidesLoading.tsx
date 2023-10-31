@@ -9,7 +9,7 @@ function SlidesLoading() {
 
 
 
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -22,7 +22,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>
@@ -49,7 +49,7 @@ function SlidesLoading() {
           </article>
         </div>
       </Card>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -62,7 +62,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>
@@ -89,7 +89,7 @@ function SlidesLoading() {
           </article>
         </div>
       </Card>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -102,7 +102,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>
@@ -129,7 +129,7 @@ function SlidesLoading() {
           </article>
         </div>
       </Card>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -142,7 +142,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>
@@ -169,7 +169,7 @@ function SlidesLoading() {
           </article>
         </div>
       </Card>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -182,7 +182,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>
@@ -209,7 +209,7 @@ function SlidesLoading() {
           </article>
         </div>
       </Card>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -222,7 +222,7 @@ function SlidesLoading() {
 
           <article className="p-4 md:p-8">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 drop-shadow-orange">
+              <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-200 dark:group-hover:text-white dark:group-hover:border-zinc-200 ">
                 <p className='animate-pulse w-8 h-3 dark:bg-zinc-800  bg-zinc-200'>
 
                 </p>

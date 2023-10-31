@@ -12,7 +12,7 @@ const CoursesCard = ({course, courses, setCourses}:CourseCardProps) => {
   return (
   
   <Card 
-      className="relative block p-4 overflow-hidden border rounded-lg shadow-md  lg:p-6"
+      className="relative block p-4 overflow-hidden border rounded-lg shadow-md  lg:p-6  dark:border-zinc-900"
     >
       <span
         className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-emerald-600 to-emerald-700"

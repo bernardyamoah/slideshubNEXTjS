@@ -23,7 +23,7 @@ export default function CourseCard({ course, campusId }) {
 
   return (
     <>
-      <Card className="relative h-full overflow-hidden duration-500 border-2 rounded-xl dark:bg-zinc-900 group md:gap-8 hover:border-zinc-400 dark:border-zinc-600">
+      <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-950 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-700 dark:border-zinc-900">
         <div className="pointer-events-none">
           <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
           <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
@@ -57,7 +57,7 @@ export default function CourseCard({ course, campusId }) {
                 </Badge>
               </span>
 
-              <span className="flex gap-2 text-sm capitalize duration-1000 dark:text-zinc-200 text-zinc-400 dark:group-hover:text-zinc-100 ">
+              <span className="flex gap-2 text-sm capitalize duration-1000  text-zinc-400 dark:text-zinc-500 dark:group-hover:text-zinc-300 ">
                 <Calendar className='w-4 h-4' />{semester}
               </span>
             </div>
@@ -71,7 +71,7 @@ export default function CourseCard({ course, campusId }) {
                 {credit} credit hours
               </span>
 
-              <span className="justify-end flex-1 text-xs text-right duration-700 dark:text-zinc-200 dark:group-hover:text-white text-zinc-400">
+              <span className="justify-end flex-1 text-xs text-right duration-700 dark:text-zinc-500 dark:group-hover:text-zinc-400 text-zinc-400">
                 <time dateTime={$createdAt}>{formatUserTime($createdAt)}
 
                 </time>
