@@ -55,14 +55,14 @@
 //                 <div className="flex flex-col items-center space-y-2 border-zinc-800 p-4 rounded-lg">
 //                   <div className="p-2 dark:bg-black bg-opacity-50 rounded-full bg-zinc-100">
 //                     {feature.icon}
-                     
+
 //                   </div>
 //                   <h2 className="text-xl font-bold dark:text-white text-zinc-950">{feature.title}</h2>
 //                   <p className="text-zinc-500 dark:text-zinc-100 text-center">
 //                     {feature.description}
 //                   </p>
 //                 </div>
-             
+
 //             </Card> 
 
 //               ))}
@@ -70,7 +70,7 @@
 //           </div>
 //         </div>
 //       </section>
-    
+
 //     </>
 //   );
 // };
@@ -106,13 +106,13 @@ const Features = () => {
               height={100}
               className="absolute mx-auto left-[-5px] top-[-28px] w-10 lg:w-[40px]"
             />
-            <h2 className="bold-40 lg:bold-64 lg:text-left">Our Features</h2>
+            <h4 className="bold-40 lg:bold-54  lg:text-left">Our Features</h4>
           </div>
           <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-20 lg:gap-10">
             {FEATURES.map((feature) => (
-              <FeatureItem 
+              <FeatureItem
                 key={feature.title}
-                title={feature.title} 
+                title={feature.title}
                 icon={feature.icon}
                 description={feature.description}
               />
@@ -132,29 +132,22 @@ type FeatureItem = {
 
 const FeatureItem = ({ title, icon, description }: FeatureItem) => {
   return (
-  
-    <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto  p-6">
 
-                     <div className="space-y-2 p-4 rounded-lg">
-                       {/* <div className="p-4 bg-zinc-950 rounded-full dark:bg-zinc-50 dark:text-zinc-950 text-white mb-5 ">
-                         {icon}
-                         
-                       </div>
-                       <h2 className="text-xl font-bold dark:text-white text-zinc-950">{title}</h2>
-                       <p className="text-zinc-500 dark:text-zinc-400 text-center">
-                         {description}
-                       </p> */}
-         <CardTitle className="flex items-center gap-2">
-     <span>{icon}</span>
-      <span className='text-xl font-bold dark:text-white text-zinc-950'>{title}</span>
+    <Card key={title} className="rounded-xl w-full max-w-md space-y-4  mx-auto  p-6 dark:border-zinc-800 dark:bg-opacity-0 dark:bg-zinc-950/50">
+
+      <div className="space-y-2 p-4 rounded-lg">
+
+        <CardTitle className="flex items-center gap-2">
+          <span>{icon}</span>
+          <span className='text-xl font-bold dark:text-white text-zinc-950'>{title}</span>
         </CardTitle>
         <p className="text-zinc-500 dark:text-zinc-400 pt-4">
-                         {description}
-                       </p>
-                     </div>
-                 
-                 </Card> 
-    
+          {description}
+        </p>
+      </div>
+
+    </Card>
+
   )
 }
 

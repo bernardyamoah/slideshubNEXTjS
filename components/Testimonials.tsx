@@ -1,66 +1,85 @@
 "use client";
+// import Swiper core and required modules
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay'
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { Card, CardTitle } from "./ui/card";
 
+import { TestimonialsData } from '@/constants';
 export default function Testimonials() {
 
 
 	return (
 		<>
-			<section className=" pb-10 mx-auto w-full">
+
+
+			<section className=" pb-10 mx-auto w-full hidden ">
 				<div className="w-full">
 					<p className="text-lg font-medium text-emerald-500 text-center">Testimonials</p>
 
-					<h1 className="mt-2 bold-40 lg:bold-64 text-center capitalize text-gray-950 dark:text-white ">
+					<h4 className="mt-2 bold-40 lg:bold-54 text-center capitalize text-gray-950 dark:text-white ">
 						What users are saying
-					</h1>
+					</h4>
 
 					<main className="relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 mx-auto">
 						<div className="absolute -z-10 w-full rounded-2xl  md:h-72"></div>
 						<div className=" mySwiper w-full rounded-2xl   md:flex md:items-center md:justify-evenly md:bg-none md:p-0 md:shadow-none lg:px-12 ">
 							<div className="">
 
+								<Swiper
+									spaceBetween={10}
+									centeredSlides={true}
+									autoplay={{
+										delay: 500,
+										disableOnInteraction: false,
+									}}
+									pagination={{
+										clickable: true,
+									}}
+									navigation={true}
+									modules={[Autoplay, Pagination, Navigation]}
+									className="mySwiper"
+								>
+									{
+										TestimonialsData.map(({ image, name, testimonial }) => <SwiperSlide className=' max-w-2xl '><Card className="gap-5 p-6   flex items-center dark:border-zinc-800 dark:bg-opacity-0 dark:bg-zinc-950/50">
 
-								{/* First slide*/}
-								<aside className=" ">
-									<div className="md:flex  md:space-x-10 ">
-										<div className="w-1/2 ">
 											<Image
-												className=" h-24 w-24 rounded-full object-cover shadow-md md:!h-[22rem] md:!w-full md:rounded-2xl  lg:w-[26rem]"
-												src="https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-												alt="client photo"
-												width={500} height={500}
+												className=" aspect-square h-full border-2 object-cover rounded-full shadow-md  relative  w-24  "
+												src={image}
+												alt={name}
+												height={700}
+												width={700}
 											/>
-										</div>
 
-										<blockquote className="md:border rounded-xl bg-card  mt-3 p-6 md:max-w-sm self-start">
-											
-											<CardTitle className="mb-2 text-2xl" >
-												Vicentia Agyei
-											</CardTitle>
-											<Badge variant='outline' className="rounded-3xl text-emerald-500 ">
-												BSc Materials Engineering, KNUST
-											</Badge>
-										
 
-											<figcaption className="mt-3 text-xs md:text-sm">
+											<div className="  ">
+												<CardTitle className="">{name}</CardTitle>
+												<small className="mt-4 block italic text-zinc-500 dark:text-zinc-400">{testimonial}</small>
+											</div>
+										</Card>
+										</SwiperSlide>
+										)
+									}
 
-												“Lorem ipsum dolor sit amet, consectetur adipisicing
-												elit. Tempore quibusdam ducimus libero ad tempora
-												doloribus expedita laborum saepe voluptas perferendis
-												delectus assumenda”.
-											</figcaption>
-										</blockquote>
-									</div>
-								</aside>
+
+
+								</Swiper>
+
+
 							</div>
 						</div>
 
-					</main>
-				</div>
-			</section>
+					</main >
+				</div >
+			</section >
 		</>
 	);
 };

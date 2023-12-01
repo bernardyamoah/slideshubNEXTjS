@@ -19,8 +19,6 @@ import Programs from "./_components/adminProgram";
 
 import Courses from "@/components/Courses";
 import EmptyState from "@/components/EmptyUI";
-// border-b border-zinc-200
-
 
 
 
