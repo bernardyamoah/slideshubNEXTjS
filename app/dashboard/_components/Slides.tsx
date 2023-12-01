@@ -1,139 +1,101 @@
 'use client'
-import { formatTime } from '@/lib/functions';
-import { Card, CardTitle } from '../../../components/ui/card';
-import { FolderOpen, ShieldCheck } from 'lucide-react';
-import { PresetActions } from '@/app/dashboard/_components/slides-preset-actions';
-import { motion } from "framer-motion";
-import {  useCallback, useEffect, useState } from 'react';
-import { getUserSlides } from '@/lib/functions';
+
+import { DataTable } from "./data-table"
 
 
-import SlidesLoading from './slidesLoading';
-import Pagination from '@/components/pagination-button';
-import EmptyState from '@/components/EmptyUI';
-import { fadeInAnimationVariants } from '@/constants/motion';
+import {  useCallback, useEffect, useMemo, useState } from 'react';
+import { formatTime, getUserSlides } from '@/lib/functions';
 
-
+import { generateDynamicColumns } from "./generateColumn";
+import { slidesColumnConfig } from "@/constants/columnUtils";
+import { useReactTable } from "@tanstack/react-table";
+import { DataTablePagination } from "./tablePagination";
+import Pagination from "@/components/pagination-button";
 
 interface UserProps {
   user: User<any>;
 }
 
-export default function Slides ({user}:UserProps){
-  const [slides, setSlides] = useState<Slides[]>([]);
- 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0); // Declare and initialize totalPages
+export default function Slides({ user }: UserProps) {
+  const [slides, setSlides] = useState<any>([]);
 
-  const [loading,setLoading]=useState(false)
+  const [pageInfo, setPageInfo] = useState({
+    currentPage: 1,
+    pageCount: 0,
+    pageSize:10
+  }); // Default page size
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-     const   {totalPages, documents}=await getUserSlides(user.$id, currentPage, setSlides, setLoading);
-      setTotalPages(totalPages)
-      setSlides(documents)
-      // successMessage('Slides loaded successfully')
-      
+        const { totalPages, documents } = await getUserSlides(user.$id, pageInfo.currentPage , setSlides, setLoading);
+        setPageInfo(prevState => ({
+          ...prevState,
+          pageCount: totalPages
+        }));
+        
+        setSlides(documents.map(slide => ({
+          ...slide,
+          timePosted: formatTime(slide.$createdAt),
+          id: slide.$id
+        })));
       } catch (error) {
-        // Handle fetch error
-        console.error(error); 
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
-  }, [currentPage]);
-  const changePage = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
+  }, [user.$id, pageInfo.currentPage, pageInfo.pageSize]);
 
-
-
-  const mainClassName = slides.length > 0 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 " : "grid-cols-1 ";
-
+  const slideColumns =generateDynamicColumns<UserSlidesCardProps>(slidesColumnConfig)
+  
+  const tableOptions = {
+    data:slides as [],
+columns:slideColumns,
+    initialState: { pageIndex: pageInfo.currentPage, pageSize: pageInfo.pageSize } ,
+    manualPagination: true,
+    pageCount: pageInfo.pageCount,
+  };
   
 
 
-  return(
-<>
-{!loading && slides.length === 0 &&   
-                  <EmptyState title='slides'/>
-                
-                }
-{loading && <SlidesLoading />}
-{totalPages !== 0 && (
-<aside className= {`grid mx-auto py-6 gap-8 auto-rows-auto ${mainClassName}`}>
+  const tableInstance = useReactTable(tableOptions);
+  
+  // Update page index and page size from the table state
+  useEffect(() => {
+    setPageInfo(prevState => ({
+      ...prevState,
+      currentPage: tableInstance.getState().pagination.pageIndex
+    }));
+    setPageInfo(prevState => ({
+      ...prevState,
+      pageSize: tableInstance.getState().pagination.pageSize
+    }));
+  }, [
+    tableInstance.getState().pagination.pageIndex,
+    tableInstance.getState().pagination.pageSize
+  ]);
 
-{slides.map((slide,index) => (
- <motion.div
-    key={slide.$id}
-    variants={fadeInAnimationVariants}
-    initial='initial'
-    whileInView='animate'
-    viewport={{
-      once: true,
-    }}
-    custom={index}
-    
- 
->
+  const changePage = useCallback((page: number) => {
+    setPageInfo(prevState => ({
+      ...prevState,
+      currentPage: page}));
+  }, []);
+  return (
+    <>
 
-    <Card key={slide.$id} className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
-    <div className="pointer-events-none">
-      <div className="absolute inset-0 z-0  transition duration-1000 [mask-image:linear-gradient(black,transparent)]"></div>
-      <div className="absolute inset-0 z-10 transition duration-1000 opacity-100 bg-gradient-to-br via-zinc-100/10 group-hover:opacity-50 card_style"></div>
-      <div className="absolute inset-0 z-10 transition duration-1000 opacity-0 mix-blend-overlay group-hover:opacity-100 card_style"></div>
-    </div>
-    <div 
-         
-    
-    >
-    
-      <article className="p-4 md:p-8">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-xs duration-1000 text-zinc-500 dark:text-zinc-500 dark:group-hover:text-zinc-400 dark:group-hover:border-zinc-200 ">
-            <time dateTime={slide.$createdAt}>{formatTime(slide.$createdAt)}
-            
-            </time>
-          </span>
-          <span className="flex items-center gap-1 text-xs text-zinc-500">
-          <PresetActions name={slide.name} id={slide.$id} slides={slides} setSlides={setSlides} />
-          </span>
-        </div>
-        <CardTitle className="z-20 mt-4 text-lg font-medium capitalize duration-1000 lg:text-xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
-        {slide.name.replace(/_/g, ' ').toLocaleLowerCase()}
-        </CardTitle>
-        <div className="z-20 flex gap-4 mt-2">
-          <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
-          <FolderOpen className='w-4 h-4 text-muted-foreground' />  {slide.size}
-            </span>
-            <span className="flex gap-2 text-sm capitalize duration-1000 text-zinc-400 dark:group-hover:text-zinc-200">
-            <ShieldCheck className='w-4 h-4 text-muted-foreground' />
-              <span className='text-xs text-muted-background'>{slide.fileType}</span>
-              <a className='text-xs text-muted-background' href={slide.fileUrl} download={slide.fileUrl} >Download</a>
-              
-            </span>
-          </div>
-   
-      
-      </article>
-    </div>
-    </Card>  
-    </motion.div>
-        ))}
-    
-</aside>
-)}
- {slides.length > 10 && (
-                  <Pagination
-                    pageCount={totalPages}
-                    activePage={currentPage}
-                    onPageChange={changePage}/>
-                    
-                )
-              
-                }
-
-</>
+      <DataTable columns={slideColumns} data={slides} pageInfo={ pageInfo} />
+      {/* <DataTablePagination table={tableInstance} /> */}
+      <Pagination
+            activePage={pageInfo.currentPage}
+            pageCount={pageInfo.pageCount}
+            onPageChange={changePage}
+          />
+    </>
 
 
 
-  )}
+  )
+}

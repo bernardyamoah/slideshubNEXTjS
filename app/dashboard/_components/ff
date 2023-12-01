@@ -1,0 +1,9 @@
+ {slides.length > 10 && (
+                  <Pagination
+                    pageCount={totalPages}
+                    activePage={currentPage}
+                    onPageChange={changePage}/>
+                    
+                )
+              
+                } 

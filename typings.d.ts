@@ -82,8 +82,6 @@ interface ProgramCardProps {
 }
 interface UserSlidesCardProps {
 	name: string;
-	fileUrl: string;
-	
 	timePosted: string;
 	id: string;
 	fileUrl: string;

@@ -1,6 +1,7 @@
-'use client'
+"use client";
 
-import { useCallback, useState } from "react";
+
+import {  experimental_useOptimistic as useOptimistic, useCallback, useState } from "react";
 import { Badge, Edit, MoreHorizontal, Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -11,6 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+// import { Button } from "@/components/ui/button"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,8 +22,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { bytesToSize, errorMessage, handleFileUpload, successMessage, updateSlide } from "@/lib/functions";
-import { databases } from "@/appwrite";
+import {
+  updateSlide,
+  bytesToSize,
+  extractIdFromUrl,
+  handleFileUpload,
+  successMessage,
+  errorMessage,
+} from "@/lib/functions";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -35,59 +45,75 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import DocumentUpload from "@/components/document-upload";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import {  storage } from "@/appwrite";
+import {  databases, storage } from "@/appwrite";
+import { UploadProgress } from "appwrite";
+import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
-
-
 
 interface PresetActionsProps {
   name: string;
   id: string;
+  slides: Slides[];
+  setSlides: React.Dispatch<React.SetStateAction<Slides[]>>;
 }
 
-export function PresetActions({ name, id }: PresetActionsProps) {
-  // ...state declarations...
+export function PresetActions({
+  name,
+  id,
+  slides,
+  setSlides,
+}: PresetActionsProps) {
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [updatedName, setUpdatedName] = useState(name);
   const [showDialog, setShowDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
-
-  // Simplified delete handler specific to one slide
-  const deleteSlideHandler = useCallback(async () => {
+  const [optimisticSlides, setOptimisticSlides] = useOptimistic<Slides[]>(slides);
+  const deleteSlideHandler = useCallback(async (id: string) => {
     try {
-      await databases.deleteDocument(
+      setOptimisticSlides(slides.filter((slide) => slide.$id !== id));
+    
+
+
+      const getDoc = await databases.getDocument(
         process.env.NEXT_PUBLIC_DATABASE_ID!,
         process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
         id
       );
+      const fileID = extractIdFromUrl(getDoc.fileUrl);
+
+      if (getDoc.$id !== id && fileID !== null) { 
+        return 
+      }
+       toast.promise(databases.deleteDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+          id
+        ),{
+          loading: "Deleting slide...",
+          success: ` ${name} deleted! 🎉`,
+          error: "Failed to delete slide ❌",
+        });
+        setSlides(optimisticSlides)
+        setShowDeleteDialog(false);
+     
+        if (fileID !== null) {
+           storage.deleteFile(
+            process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+            fileID
+          );
+        }
+       
       
-      successMessage(`Slide deleted successfully!`);
-      setShowDeleteDialog(false);
-    } catch (error) {
-      errorMessage("Failed to delete slide. Please try again.");
+    } catch (err) {
+      errorMessage("Action declined ❌");
     }
-  }, [id]);
+    finally {
+      toast.success('The slide has been successfully deleted', {
+        duration: 3000,
 
-
-  // Simplified edit handler specific to one slide
-  const handleEdit = useCallback(async () => {
-    try {
-      const updatedAttributes = {
-        name: updatedName,
-        // Include other attributes as necessary
-      };
-
-      await updateSlide(id, updatedAttributes);
-
-      successMessage("Slide updated successfully!");
-      setShowDialog(false);
-    } catch (error) {
-      errorMessage("Failed to update slide. Please try again.");
+      });
     }
-  }, [id, updatedName]);
-
+  }, [slides, setOptimisticSlides]);
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent) => {
@@ -127,7 +153,17 @@ export function PresetActions({ name, id }: PresetActionsProps) {
 
         setCurrentFile(null);
         setUpdatedName(updatedName);
-    
+        setSlides((prevSlides) =>
+          prevSlides.map((slide) => {
+            if (slide.$id === id) {
+              return {
+                ...slide,
+                ...updatedAttributes,
+              };
+            }
+            return slide;
+          })
+        );
         setShowDialog(false);
         successMessage("Slide updated! 🎉");
       } catch (error) {
@@ -135,15 +171,26 @@ export function PresetActions({ name, id }: PresetActionsProps) {
         setCurrentFile(null);
       }
     },
-    [currentFile, id, name, updatedName]
+    [currentFile, id, name, setSlides, updatedName]
   );
 
+ 
+  const handleDeleteSlide = useCallback(async () => {
+    try {
+      await deleteSlideHandler(id);
 
-  // ...rest of the component...
+      const updatedSlides = slides.filter((slide) => slide.$id !== id);
+      setSlides(updatedSlides);
+      setShowDeleteDialog(false);
+    } catch (error) {
+      // Handle error
+    }
+  }, [deleteSlideHandler, id, setSlides, optimisticSlides]);
+ 
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   return (
     <>
-      {/* Dropdown menu for actions */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="h-2 p-2 text-gray-700 bg-transparent border-none dark:text-gray-100 hover:bg-transparent">
@@ -166,9 +213,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      
-      {/* Dialog for editing slide */}
-      
+
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-[480px]">
           <DialogHeader>
@@ -219,7 +264,6 @@ export function PresetActions({ name, id }: PresetActionsProps) {
         </DialogContent>
       </Dialog>
 
-      {/* AlertDialog for confirming deletion */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -231,7 +275,7 @@ export function PresetActions({ name, id }: PresetActionsProps) {
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button variant="destructive" onClick={deleteSlideHandler}>
+            <Button variant="destructive" onClick={handleDeleteSlide}>
               Delete
             </Button>
           </AlertDialogFooter>

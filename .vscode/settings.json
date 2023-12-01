@@ -1,4 +1,24 @@
 {
 	"editor.fontLigatures": true,
-	"githubPullRequests.ignoredPullRequestBranches": ["main"]
+	"githubPullRequests.ignoredPullRequestBranches": ["main"],
+	"workbench.colorCustomizations": {
+		"activityBar.activeBackground": "#e6e62c",
+		"activityBar.background": "#e6e62c",
+		"activityBar.foreground": "#15202b",
+		"activityBar.inactiveForeground": "#15202b99",
+		"activityBarBadge.background": "#14abab",
+		"activityBarBadge.foreground": "#e7e7e7",
+		"commandCenter.border": "#15202b99",
+		"sash.hoverBorder": "#e6e62c",
+		"statusBar.background": "#c7c718",
+		"statusBar.foreground": "#15202b",
+		"statusBarItem.hoverBackground": "#999913",
+		"statusBarItem.remoteBackground": "#c7c718",
+		"statusBarItem.remoteForeground": "#15202b",
+		"titleBar.activeBackground": "#c7c718",
+		"titleBar.activeForeground": "#15202b",
+		"titleBar.inactiveBackground": "#c7c71899",
+		"titleBar.inactiveForeground": "#15202b99"
+	},
+	"peacock.color": "#c7c718"
 }

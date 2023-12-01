@@ -177,7 +177,7 @@ export const TestimonialsData =
     },
     {
       "name": "John Doe",
-      "image": "https://example.com/john_doe.jpg",
+      "image": "https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
       "testimonial": "This is a testimonial from John Doe."
     },
     {
@@ -186,3 +186,76 @@ export const TestimonialsData =
       "testimonial": "This is a testimonial from Jane Smith."
     }
   ]
+
+
+
+// export const uploadedSlides: UserSlidesCardProps[] = [
+
+//   {
+//     "name": "John Doe",
+//     "timePosted": "2023-12-01T13:54:51Z",
+//     "id": "123456789",
+//     "fileUrl": "https://example.com/file1.pdf",
+//     "fileType": "pdf",
+//     "size": "1MB",
+//     "courseId": "COURSE_001",
+//     "user_id": "USER_001",
+//     "previewUrl": new URL("https://example.com/preview1.png")
+//   },
+//   {
+//     "name": "Jane Doe",
+//     "timePosted": "2023-12-02T13:54:51Z",
+//     "id": "123456790",
+//     "fileUrl": "https://example.com/file2.pdf",
+//     "fileType": "pdf",
+//     "size": "2MB",
+//     "courseId": "COURSE_002",
+//     "user_id": "USER_002",
+//     "previewUrl": new URL("https://example.com/preview2.png")
+//   },
+//   {
+//     "name": "Jane Doe",
+//     "timePosted": "2023-12-02T13:54:51Z",
+//     "id": "123456790",
+//     "fileUrl": "https://example.com/file2.pdf",
+//     "fileType": "pdf",
+//     "size": "2MB",
+//     "courseId": "COURSE_002",
+//     "user_id": "USER_002",
+//     "previewUrl": new URL("https://example.com/preview2.png")
+//   },
+//   {
+//     "name": "Jane Doe",
+//     "timePosted": "2023-12-02T13:54:51Z",
+//     "id": "123456790",
+//     "fileUrl": "https://example.com/file2.pdf",
+//     "fileType": "pdf",
+//     "size": "2MB",
+//     "courseId": "COURSE_002",
+//     "user_id": "USER_002",
+//     "previewUrl": new URL("https://example.com/preview2.png")
+//   },
+//   {
+//     "name": "Jane Doe",
+//     "timePosted": "2023-12-02T13:54:51Z",
+//     "id": "123456790",
+//     "fileUrl": "https://example.com/file2.pdf",
+//     "fileType": "pdf",
+//     "size": "2MB",
+//     "courseId": "COURSE_002",
+//     "user_id": "USER_002",
+//     "previewUrl": new URL("https://example.com/preview2.png")
+//   },
+//   {
+//     "name": "Jane Doe",
+//     "timePosted": "2023-12-02T13:54:51Z",
+//     "id": "123456790",
+//     "fileUrl": "https://example.com/file2.pdf",
+//     "fileType": "pdf",
+//     "size": "2MB",
+//     "courseId": "COURSE_002",
+//     "user_id": "USER_002",
+//     "previewUrl": new URL("https://example.com/preview2.png")
+//   },
+// ]
+
