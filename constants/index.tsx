@@ -1,6 +1,9 @@
 import { CaretUpIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Book, BookCopy, BookMarked, ClockIcon, File, FileStackIcon, GraduationCap, Home, LayoutDashboard, School, UserIcon } from "lucide-react";
 
+//Page Size
+
+
 
 // FEATURES SECTION
 export const FEATURES = [

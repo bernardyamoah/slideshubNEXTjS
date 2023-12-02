@@ -28,11 +28,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../../../components/ui/command";
 import { cn } from "@/lib/utils";
-interface CourseCardProps {
-  course: Course;
-  courses: Course[]; // Add this line
-  setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-}
+
 const creditHours = [
   {
     id: "1",
@@ -81,19 +77,32 @@ const Semesters = [
   }
 ];
 
-export function CourseEdit({course, courses, setCourses }:CourseCardProps) {
-  let courseId = course.$id;
+export function CourseEdit({data}) {
+
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
 
-  const [updatedName, setupdatedName] = useState(course.name);
-  const [updatedLecturer, setupdatedLecturer] = useState(course.lecturer);
-  const [updatedCourseCode, setupdatedCourseCode] = useState(course.courseCode);
-  const [updatedYear, setupdatedYear] = useState(course.year);
-  const [updatedCredit, setupdatedCredit] = useState(course.credit);
-  const [updatedSemester, setupdatedSemester] = useState(course.semester);
+  const [courseData, setCourseData] = useState({
+    name: data.name,
+    lecturer: data.lecturer,
+    courseCode: data.courseCode,
+    year: data.year,
+    credit: data.credit,
+    semester: data.semester,
+  
+  });
+  const [updateCourseData, setUpdatedCourseData] = useState({
+    name: data.name,
+    lecturer: data.lecturer,
+    courseCode: data.courseCode,
+    year: data.year,
+    credit: data.credit,
+    semester: data.semester,
+  
+  });
+  
   const [showDialog, setShowDialog] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -108,51 +117,51 @@ export function CourseEdit({course, courses, setCourses }:CourseCardProps) {
         credit?: string;
         year?: string;
       } = {
-        name: updatedName,
-        lecturer: updatedLecturer,
-        courseCode: updatedCourseCode,
-        semester: updatedSemester,
-        credit: updatedCredit,
-        year: updatedYear,
+        name: courseData.name,
+        lecturer: courseData.lecturer,
+        courseCode: courseData.courseCode,
+        semester: courseData.semester,
+        credit: courseData.credit,
+        year: courseData.year,
       };
   
-      await updateCourse(course.$id, updatedAttributes);
+      await updateCourse(data.$id, updatedAttributes);
   
-      setupdatedName("");
-      setupdatedLecturer("");
-      setupdatedCourseCode("");
-      setupdatedSemester("");
-      setupdatedYear("");
+      setCourseData({
+        name: '',
+    lecturer: '',
+    courseCode: '',
+    year: '',
+    credit: '',
+    semester:'',
+    })
   
       setOpen(false);
   
-      const updatedCourses = courses.map((c) => {
-        if (c.$id === course.$id) {
+      const updatedCourses = data.map((c) => {
+        if (c.$id === data.$id) {
           return { ...c, ...updatedAttributes };
         }
         return c;
       });
-      setCourses(updatedCourses);
+      setCourseData(updatedCourses);
     } catch (error) {
       console.error("Error updating course:", error);
     }
   };
   const handleDeleteCourse = () => {
-    deleteCourse(courseId);
+    deleteCourse(data.$id);
     setShowDeleteDialog(false);
-    const updatedCourse = courses.filter((course) => course.$id !== courseId);
-setCourses(updatedCourse);
+    
+  };
+  const handleChange = (e:any) => {
+  
+    setCourseData(prevData => ({
+      ...prevData,
+      [e.target.name]: e.target.value
+    }));
   };
 
-  const handleSemesterChange = (selectedValue: string) => {
-    setupdatedSemester(selectedValue);
-  };
-  const handleYearChange = (selectedValue: string) => {
-    setupdatedYear(selectedValue);
-  };
-  const handleCreditChange = (selectedValue: string) => {
-    setupdatedCredit(selectedValue);
-  };
   const [showDeleteDialog, setShowDeleteDialog] =useState(false)
 
   return (
@@ -191,9 +200,10 @@ setCourses(updatedCourse);
                   Name
                 </Label>
                 <Input
-                  id="name"
-                  value={updatedName}
-                  onChange={(event) => setupdatedName(event.target.value)}
+                    id="name"
+                    name="name"
+                  value={courseData.name}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -203,9 +213,10 @@ setCourses(updatedCourse);
                   Lecturer
                 </Label>
                 <Input
-                  id="lecturer"
-                  value={updatedLecturer}
-                  onChange={(event) => setupdatedLecturer(event.target.value)}
+                    id="lecturer"
+                    name="lecturer"
+                  value={courseData.lecturer}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -216,9 +227,10 @@ setCourses(updatedCourse);
                   Course Code
                 </Label>
                 <Input
-                  id="courseCode"
-                  value={updatedCourseCode}
-                  onChange={(event) => setupdatedCourseCode(event.target.value)}
+                      id="courseCode"
+                      name="courseCode"
+                  value={''}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -234,29 +246,34 @@ setCourses(updatedCourse);
                       aria-expanded={open2}
                       className="justify-between w-full overflow-hidden no-wrap"
                     >
-                      {updatedYear
-                        ? Years.find((level) => level.id === updatedYear)?.level
+                          {courseData.year
+                            
+                        ? Years.find((level) => level.id === courseData.year)?.level
                         : "Select Level"}
                       <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0">
-                    <Command onValueChange={handleYearChange} >
+                    <Command onValueChange={handleChange} >
                       <CommandInput placeholder="Search ..." />
                       <CommandEmpty>No year found</CommandEmpty>
                       <CommandGroup>
                         {Years.map((level) => (
                           <CommandItem
                             key={level.id}
-                            onSelect={(currentValue) => {
-                              setupdatedYear(currentValue.toUpperCase() === updatedYear ? "" : currentValue);
+                            onSelect={(currentValue) => {  if (currentValue !== courseData.year) {
+                              setCourseData(prevData => ({
+                                ...prevData,
+                                year: currentValue
+                              }));
+                            }
                               setOpen2(false); // Updated from setOpen2(false)
                             }}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                updatedYear === level.id ? "opacity-100" : "opacity-0"
+                                courseData.year === level.id ? "opacity-100" : "opacity-0"
                               )}
                             />
                             {level.level}
@@ -283,14 +300,14 @@ setCourses(updatedCourse);
                       aria-expanded={open1}
                       className="justify-between w-full overflow-hidden no-wrap"
                     >
-                      {updatedCredit
-                        ? creditHours.find((credit) => credit.id === updatedCredit)?.hour
+                      {courseData.year
+                        ? creditHours.find((credit) => credit.id === courseData.year)?.hour
                         : "Select Level"}
                       <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0">
-                    <Command onValueChange={handleCreditChange} >
+                    <Command onValueChange={handleChange} >
                       <CommandInput placeholder="Search ..." />
                       <CommandEmpty>No year found</CommandEmpty>
                       <CommandGroup>
@@ -298,14 +315,19 @@ setCourses(updatedCourse);
                           <CommandItem
                             key={credit.id}
                             onSelect={(currentValue) => {
-                              setupdatedCredit(currentValue.toUpperCase() === updatedCredit ? "" : currentValue);
+                              if (currentValue !== courseData.credit) {
+                                setCourseData(prevData => ({
+                                  ...prevData,
+                                  credit: currentValue
+                                }));
+                              }
                               setOpen2(false); // Updated from setOpen2(false)
                             }}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                updatedCredit === credit.id ? "opacity-100" : "opacity-0"
+                                courseData.credit === credit.id ? "opacity-100" : "opacity-0"
                               )}
                             />
                             {credit.hour}
@@ -329,14 +351,14 @@ setCourses(updatedCourse);
                       aria-expanded={open2}
                       className="justify-between w-full overflow-hidden no-wrap"
                     >
-                      {updatedSemester
-                        ? Semesters.find((sem) => sem.id === updatedSemester)?.semester
+                      {courseData.semester
+                        ? Semesters.find((sem) => sem.id === courseData.semester)?.semester
                         : "Select Semester"}
                       <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0">
-                    <Command onValueChange={handleSemesterChange} >
+                    <Command onValueChange={handleChange} >
                       <CommandInput placeholder="Search ..." />
                       <CommandEmpty>No semester found</CommandEmpty>
                       <CommandGroup>
@@ -344,14 +366,19 @@ setCourses(updatedCourse);
                           <CommandItem
                             key={sem.id}
                             onSelect={(currentValue) => {
-                              setupdatedSemester(currentValue.toUpperCase() === updatedSemester ? "" : currentValue);
-                              setOpen2(false); // Updated from setOpen2(false)
+                              if (currentValue !== courseData.semester) {
+                                setCourseData(prevData => ({
+                                  ...prevData,
+                                  semester: currentValue
+                                }));
+                              }
+                              setOpen2(false); 
                             }}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                updatedSemester === sem.id ? "opacity-100" : "opacity-0"
+                                courseData.semester === sem.id ? "opacity-100" : "opacity-0"
                               )}
                             />
                             {sem.semester}

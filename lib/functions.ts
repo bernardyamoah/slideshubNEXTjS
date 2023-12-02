@@ -1,4 +1,4 @@
-// import toast from "react-hot-toast";
+import Courses from "@/app/dashboard/_components/Courses";
 
 import {
 	databases,
@@ -23,15 +23,7 @@ export const successMessage = (message: string) => {
 export const errorMessage = (message: string) => {
 	toast.error(message);
 };
-// Error toast notification
-// export const warnMessage = (message: string) => {
-// 	toast.custom(message);
-// };
 
-// Error toast notification
-
-
- 
 // Create campus function
 export const createCampus = async (campusData: CampusData) => {
 	try {
@@ -155,10 +147,9 @@ export const createBook = async (bookData: BooksData) => {
 	try {
 		// Retrieve all documents from the collection
 		const response = await databases.listDocuments(
-				process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
-			)
-	
+			process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
+		);
 
 		const documents = response.documents;
 
@@ -170,7 +161,7 @@ export const createBook = async (bookData: BooksData) => {
 			return;
 		}
 
-		const data =  toast.promise(
+		const data = toast.promise(
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
@@ -212,18 +203,20 @@ export const createSlide = async (slideData: SlidesData) => {
 		// return;
 		// }
 
-		const data = await 
-			toast.promise(databases.createDocument(
+		const data = await toast.promise(
+			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				ID.unique(),
 				slideData
-			),{
-				loading: 	`Uploading ${slideData.name} to database...`,
+			),
+			{
+				loading: `Uploading ${slideData.name} to database...`,
 				success: `${slideData.name} successfully uploaded! 🎉`,
 				error: `Failed to upload ${slideData.name}`,
-			})
-		
+			}
+		);
+
 		return data;
 	} catch (error) {
 		errorMessage("Error adding slide");
@@ -231,33 +224,23 @@ export const createSlide = async (slideData: SlidesData) => {
 	}
 };
 
-
-
-
-
-
-
 //    Update Functions
 
 export const updateSlide = async (id: string, updatedAttributes: any) => {
 	try {
-		
 		await databases.updateDocument(
 			databaseId!,
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, 
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 			id,
 			updatedAttributes
 		);
 
-			successMessage("Successfully updated slide");
-		
+		successMessage("Successfully updated slide");
 	} catch (error) {
 		// Handle any errors that occur during the update process
 		errorMessage("Failed to update slide:" + error);
 	}
 };
-
-
 
 export const updateCourse = async (id: string, updatedAttributes: any) => {
 	try {
@@ -291,61 +274,60 @@ export const updateCourse = async (id: string, updatedAttributes: any) => {
 // Update Book
 export const updateBook = async (id: string, updatedAttributes: any) => {
 	try {
-	  // Update the book in the database
-	  await databases.updateDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
-		id,
-		updatedAttributes
-	  );
-  
-	  successMessage("Book updated successfully");
+		// Update the book in the database
+		await databases.updateDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
+			id,
+			updatedAttributes
+		);
+
+		successMessage("Book updated successfully");
 	} catch (error) {
-	  console.error("Error updating book:", error);
-	  errorMessage("Failed to update book");
+		console.error("Error updating book:", error);
+		errorMessage("Failed to update book");
 	}
-  };
+};
 // Update Program
 export const updateProgram = async (id: string, updatedAttributes: any) => {
 	try {
-	  // Update the program in the database
-	  await databases.updateDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-		id,
-		updatedAttributes
-	  );
-  
-	  successMessage("Program updated successfully");
-	} catch (error) {
-	  console.error("Error updating program:", error);
-	  errorMessage("Failed to update program");
-	}
-  };
+		// Update the program in the database
+		await databases.updateDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+			id,
+			updatedAttributes
+		);
 
-  // Update Campus
+		successMessage("Program updated successfully");
+	} catch (error) {
+		console.error("Error updating program:", error);
+		errorMessage("Failed to update program");
+	}
+};
+
+// Update Campus
 export const updateCampus = async (id: string, updatedAttributes: any) => {
 	try {
-	  // Update the campus in the database
-	  await databases.updateDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
-		id,
-		updatedAttributes
-	  );
-  
-	  successMessage("Campus updated successfully");
+		// Update the campus in the database
+		await databases.updateDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
+			id,
+			updatedAttributes
+		);
+
+		successMessage("Campus updated successfully");
 	} catch (error) {
-	  console.error("Error updating campus:", error);
-	  errorMessage("Failed to update campus");
+		console.error("Error updating campus:", error);
+		errorMessage("Failed to update campus");
 	}
-  };
+};
 // Function to update user data
 export const updateUserData = async (updatedUserData: ProfileData) => {
 	try {
 		// Get the current user's information
 		const response = await account.get();
-		
 
 		// Merge the updated user data with the existing user data
 		const userData = { ...response, ...updatedUserData };
@@ -357,7 +339,6 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 		if (prefs) {
 			// Make sure to handle each preference property (bio, avatarUrl, coverPhotoUrl, phoneNumber, country) individually
 			const updatedPrefs: Partial<ProfileData["prefs"]> = {};
-			
 
 			if (prefs.bio) {
 				// Update the bio
@@ -405,64 +386,65 @@ export const updateUserData = async (updatedUserData: ProfileData) => {
 	}
 };
 
+export async function handleFileUpload(
+	file: File,
+	id: string,
+	setUploadProgress: (progress: number) => void
+) {
+	const toastId = toast.loading("Uploading file..."); // Display a loading toast
 
-export async function handleFileUpload(file: File, id: string, setUploadProgress: (progress: number) => void) {
-	const toastId = toast.loading('Uploading file...'); // Display a loading toast
-  
 	try {
-	  const getDoc = await databases.getDocument(
-		process.env.NEXT_PUBLIC_DATABASE_ID!,
-		process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-		id
-	  );
-	  const oldFileID = extractIdFromUrl(getDoc.fileUrl);
-  
-	  //  Delete file from storage
-	  if (getDoc.$id === id && oldFileID !== null) {
-		await storage.deleteFile(
-		  process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-		  oldFileID
+		const getDoc = await databases.getDocument(
+			process.env.NEXT_PUBLIC_DATABASE_ID!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			id
 		);
-	  }
-  
-	  // Create a new Appwrite file
-	  const response = await storage.createFile(
-		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-		ID.unique(),
-		file,
-		undefined,
-		(progress: UploadProgress) => {
-		  const uploadProgress = Math.round(
-			(progress.chunksUploaded * 100) / progress.chunksTotal
-		  );
-  
-		  setUploadProgress(uploadProgress);
+		const oldFileID = extractIdFromUrl(getDoc.fileUrl);
+
+		//  Delete file from storage
+		if (getDoc.$id === id && oldFileID !== null) {
+			await storage.deleteFile(
+				process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+				oldFileID
+			);
 		}
-	  );
-  
-	  const newFileId = response.$id;
-  
-	  const fileUrlResponse = storage.getFileDownload(
-		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-		newFileId
-	  );
-  
-	  const filePreviewResponse = storage.getFilePreview(
-		process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-		newFileId
-	  );
-  
-	  const uploadedFileUrl = fileUrlResponse.toString();
-	  toast.dismiss(toastId); // Update the toast to a success toast
-	  return { uploadedFileUrl, filePreviewResponse };
+
+		// Create a new Appwrite file
+		const response = await storage.createFile(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			ID.unique(),
+			file,
+			undefined,
+			(progress: UploadProgress) => {
+				const uploadProgress = Math.round(
+					(progress.chunksUploaded * 100) / progress.chunksTotal
+				);
+
+				setUploadProgress(uploadProgress);
+			}
+		);
+
+		const newFileId = response.$id;
+
+		const fileUrlResponse = storage.getFileDownload(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			newFileId
+		);
+
+		const filePreviewResponse = storage.getFilePreview(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			newFileId
+		);
+
+		const uploadedFileUrl = fileUrlResponse.toString();
+		toast.dismiss(toastId); // Update the toast to a success toast
+		return { uploadedFileUrl, filePreviewResponse };
 	} catch (error) {
-	  console.error("Upload failed:", error);
-	  toast.error('File upload failed', { id: toastId }); // Update the toast to an error toast
-	  throw error; // Rethrow the error to be caught in the calling function
+		console.error("Upload failed:", error);
+		toast.error("File upload failed", { id: toastId }); // Update the toast to an error toast
+		throw error; // Rethrow the error to be caught in the calling function
 	}
-  }
-
-
+}
 
 //  Delete Functions
 
@@ -480,7 +462,6 @@ export const deleteCourse = async (id: string) => {
 				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
 				id
 			);
-			
 		} else {
 			errorMessage("Failed to delete Course ❌");
 		}
@@ -489,7 +470,6 @@ export const deleteCourse = async (id: string) => {
 		errorMessage("Action declined ❌");
 	}
 };
-
 
 //👇🏻 delete a Slide
 export const deleteSlide = async (id: string) => {
@@ -511,17 +491,15 @@ export const deleteSlide = async (id: string) => {
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				id
 			);
-			
-			 successMessage("Slide deleted! 🎉");
+
+			successMessage("Slide deleted! 🎉");
 		} else {
 			errorMessage("Failed to delete Slide ❌");
 		}
-		
 	} catch (err) {
 		errorMessage("Action declined ❌");
 	}
 };
-
 
 // Delete Program
 export const deleteProgram = async (id: string) => {
@@ -532,23 +510,24 @@ export const deleteProgram = async (id: string) => {
 			id
 		);
 
-		if (getDoc.$id === id) {// Delete the program from the database
-	  await databases.deleteDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-		id
-	  )};
-  
-	  successMessage("Program deleted successfully");
-	} catch (error) {
-	  console.error("Error deleting program:", error);
-	  errorMessage("Failed to delete program");
-	}
-  };
+		if (getDoc.$id === id) {
+			// Delete the program from the database
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+				id
+			);
+		}
 
- 
-  // Delete Book
-  export const deleteBook = async (id: string) => {
+		successMessage("Program deleted successfully");
+	} catch (error) {
+		console.error("Error deleting program:", error);
+		errorMessage("Failed to delete program");
+	}
+};
+
+// Delete Book
+export const deleteBook = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -557,22 +536,23 @@ export const deleteProgram = async (id: string) => {
 		);
 
 		if (getDoc.$id === id) {
-		// Delete the book from the database
-	  await databases.deleteDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-		id
-	  );}
-  
-	  successMessage("Book deleted successfully");
+			// Delete the book from the database
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+				id
+			);
+		}
+
+		successMessage("Book deleted successfully");
 	} catch (error) {
-	  console.error("Error deleting book:", error);
-	  errorMessage("Failed to delete book");
+		console.error("Error deleting book:", error);
+		errorMessage("Failed to delete book");
 	}
-  };
-  
-  // Delete Campus
-  export const deleteCampus = async (id: string) => {
+};
+
+// Delete Campus
+export const deleteCampus = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -580,25 +560,20 @@ export const deleteProgram = async (id: string) => {
 			id
 		);
 
-		if (getDoc.$id === id) {// Delete the campus from the database
-	  await databases.deleteDocument(
-		databaseId!,
-		process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
-		id
-	  );
-	  }
-	  successMessage("Campus deleted successfully");
+		if (getDoc.$id === id) {
+			// Delete the campus from the database
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_CAMPUS_COLLECTION_ID!,
+				id
+			);
+		}
+		successMessage("Campus deleted successfully");
 	} catch (error) {
-	  console.error("Error deleting campus:", error);
-	  errorMessage("Failed to delete campus");
+		console.error("Error deleting campus:", error);
+		errorMessage("Failed to delete campus");
 	}
-  };
-
-
-
-
-
-
+};
 
 //===========  FETCH DATA =========================================
 
@@ -622,7 +597,6 @@ export const getCampus = async (): Promise<any[]> => {
 
 // Get Courses
 export const getCourses = async (): Promise<any[]> => {
-	
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -640,9 +614,15 @@ export const getCourses = async (): Promise<any[]> => {
 		throw error;
 	}
 };
-export const getAllCourses = async (currentPage: number,setLoading: (loading: boolean) => void,sortOrder: string,sortBy:string): Promise<any[]> => {
-	const limit = 9; // Set your desired number of courses per page
-	
+export const getAllCourses = async ({
+	currentPage,
+	setLoading,
+	perPage,
+}: {
+	currentPage: number;
+	perPage: number;
+	setLoading: (loading: boolean) => void;
+}): Promise<{ data: any[]; total_pages: number }> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -651,36 +631,18 @@ export const getAllCourses = async (currentPage: number,setLoading: (loading: bo
 		const response = await databases.listDocuments(
 			databaseId,
 			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			[Query.limit(limit), Query.offset((currentPage - 1) * limit),  sortOrder === 'asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)]
+			[Query.limit(perPage), Query.offset((currentPage - 1) * perPage)]
 		);
-		
+		const pages = Math.ceil(response.total / perPage);
 
-		
 		setLoading(false);
-		return response.documents;
+		return { data: response.documents, total_pages: pages };
 	} catch (error) {
 		console.error(error);
 		throw error;
 	}
 };
-export const getTotalCourses = async (): Promise<number> => {
-	if (!databaseId) {
-		throw new Error("Database ID is not defined");
-	}
 
-	try {
-		const response = await databases.listDocuments(
-			databaseId,
-			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			[ Query.orderDesc("$createdAt")]
-		);
-		
-		return response.total;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-}
 // Get Programs
 export const getPrograms = async (): Promise<any[]> => {
 	if (!databaseId) {
@@ -699,46 +661,79 @@ export const getPrograms = async (): Promise<any[]> => {
 		throw error;
 	}
 };
-export const getAllPrograms = async (currentPage: number, setLoading: (loading: boolean) => void): Promise<any[]> => {
+export const getAllPrograms = async ({
+	currentPage,
+	setLoading,
+	perPage,
+}: {
+	currentPage: number;
+	perPage: number;
+	setLoading: (loading: boolean) => void;
+}): Promise<{ data: any[]; total_pages: number }> => {
 	if (!databaseId) {
-	  throw new Error("Database ID is not defined");
+		throw new Error("Database ID is not defined");
 	}
 	setLoading(true);
 	try {
-		const perPage=9
-	  const response = await databases.listDocuments(
-		databaseId,
-		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
-		[
-		  Query.limit(perPage),
-		  Query.offset((currentPage - 1) * perPage),
-		  Query.orderDesc("$createdAt")
-		]
-	  );
-	  setLoading(false);
-	  return response.documents;
+		const response = await databases.listDocuments(
+			databaseId,
+			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+			[Query.limit(perPage), Query.offset((currentPage - 1) * perPage)]
+		);
+		const pages = response.total / perPage;
+		setLoading(false);
+		return { data: response.documents, total_pages: pages };
 	} catch (error) {
-	  console.error(error);
-	  throw error;
+		console.error(error);
+		throw error;
 	}
-  };
-  export const getTotalProgrammesPages = async (perPage: number): Promise<number> => {
+};
+export const getAllBooks = async ({
+	currentPage,
+	setLoading,
+	perPage,
+}: {
+	currentPage: number;
+	perPage: number;
+	setLoading: (loading: boolean) => void;
+}): Promise<{ data: any[]; total_pages: number }> => {
 	if (!databaseId) {
-	  throw new Error("Database ID is not defined");
+		throw new Error("Database ID is not defined");
 	}
+	setLoading(true);
 	try {
-	  const response = await databases.listDocuments(
-		databaseId,
-		process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!
-	  );
-	  const totalProgram = response.total;
-	  const totalPages = Math.ceil(totalProgram / perPage);
-	  return totalPages;
+		const response = await databases.listDocuments(
+			databaseId,
+			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+			[Query.limit(perPage), Query.offset((currentPage - 1) * perPage)]
+		);
+		const pages = Math.ceil(response.total / perPage);
+		setLoading(false);
+		return { data: response.documents, total_pages: pages };
 	} catch (error) {
-	  console.error(error);
-	  throw error;
+		console.error(error);
+		throw error;
 	}
-  };
+};
+// export const getTotalProgrammesPages = async (
+// 	perPage: number
+// ): Promise<number> => {
+// 	if (!databaseId) {
+// 		throw new Error("Database ID is not defined");
+// 	}
+// 	try {
+// 		const response = await databases.listDocuments(
+// 			databaseId,
+// 			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!
+// 		);
+// 		const totalProgram = response.total;
+// 		const totalPages = Math.ceil(totalProgram / perPage);
+// 		return totalPages;
+// 	} catch (error) {
+// 		console.error(error);
+// 		throw error;
+// 	}
+// };
 
 export const getSlides = async (): Promise<any[]> => {
 	if (!databaseId) {
@@ -751,7 +746,6 @@ export const getSlides = async (): Promise<any[]> => {
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
 			[Query.limit(99), Query.orderDesc("$createdAt")]
 		);
-		
 
 		return response.documents;
 	} catch (error) {
@@ -760,8 +754,7 @@ export const getSlides = async (): Promise<any[]> => {
 	}
 };
 
-export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
-	
+export const getSlidesByCourseId = async (courseId: string): Promise<any[]> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
@@ -772,7 +765,7 @@ export const getSlidesByCourseId = async (courseId:string): Promise<any[]> => {
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!, // Replace with your collection ID
 			[Query.limit(99), Query.equal("courseId", courseId)]
 		);
-	
+
 		return response.documents;
 	} catch (error) {
 		console.error(error);
@@ -786,7 +779,11 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 		const response = await databases.listDocuments(
 			process.env.NEXT_PUBLIC_DATABASE_ID!,
 			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
-			[Query.equal("programId", programId), Query.limit(99),Query.orderAsc('semester')]
+			[
+				Query.equal("programId", programId),
+				Query.limit(99),
+				Query.orderAsc("semester"),
+			]
 		);
 
 		// Return the courses data
@@ -796,7 +793,7 @@ export async function getCoursesByProgramId(programId: string): Promise<any[]> {
 	}
 }
 
-export async function getProgramsByCampusId (campusId: string): Promise<any[]>   {
+export async function getProgramsByCampusId(campusId: string): Promise<any[]> {
 	try {
 		// Fetch the courses by programId
 		const response = await databases.listDocuments(
@@ -810,7 +807,7 @@ export async function getProgramsByCampusId (campusId: string): Promise<any[]>  
 	} catch (error) {
 		throw new Error("Failed to fetch courses by programId: " + error);
 	}
-};
+}
 
 export async function getProgramName(programId: string) {
 	try {
@@ -905,7 +902,7 @@ export async function getCourseDetails(courseId: string) {
 
 		if (response.$id) {
 			const programId = response.programId;
-			
+
 			const name = response.name;
 			return { programId, name };
 		} else {
@@ -948,52 +945,51 @@ export const formatUserTime = (timePosted: string) => {
 	return new Date(timePosted).toLocaleString("en-US", {
 		dateStyle: "medium",
 		// timeStyle: "short",
-
 	});
 };
 
-const getTotalPages = async (
-	userId: string,
-	perPage: number
-): Promise<number> => {
+// const getTotalPages = async (
+// 	userId: string,
+// 	perPage: number
+// ): Promise<number> => {
+// 	if (!databaseId) {
+// 		throw new Error("Database ID is not defined");
+// 	}
+
+// 	try {
+// 		const response = await databases.listDocuments(
+// 			databaseId!,
+// 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+// 			[Query.equal("user_id", userId)]
+// 		);
+
+// 		const totalSlides = response.total;
+
+// 		const totalPages = Math.ceil(totalSlides / perPage);
+
+// 		return totalPages;
+// 	} catch (error) {
+// 		console.error(error);
+// 		throw error;
+// 	}
+// };
+export const getUserSlides = async ({
+	userId,
+	currentPage,
+	setLoading,
+	perPage,
+}: {
+	userId: string;
+	currentPage: number;
+	perPage: number;
+	setLoading: (loading: boolean) => void;
+}): Promise<{ data: any[]; total_pages: number }> => {
 	if (!databaseId) {
 		throw new Error("Database ID is not defined");
 	}
-
 	try {
-		const response = await databases.listDocuments(
-			databaseId!,
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-			[Query.equal("user_id", userId)]
-		);
-
-		const totalSlides = response.total;
-
-		const totalPages = Math.ceil(totalSlides / perPage);
-
-		return totalPages;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-};
-export const getUserSlides = async (
-	userId: string,
-	page: number,
-	
-
-	setSlides: (slides: any[]) => void,
-	setLoading: (loading: boolean) => void
-): Promise<{ documents: any[]; totalPages: number; }> => {
-	if (!databaseId) {
-		throw new Error("Database ID is not defined");
-	}
-	try {
-	
-		
 		setLoading(true);
-		const perPage = 12; 
-		const totalPages = await getTotalPages(userId, perPage);
+		// const totalPages = await getTotalPages(userId, perPage);
 		try {
 			const response = await databases.listDocuments(
 				databaseId!,
@@ -1002,21 +998,18 @@ export const getUserSlides = async (
 					Query.equal("user_id", userId),
 					Query.orderDesc("$createdAt"),
 					Query.limit(perPage),
-					Query.offset((page - 1) * perPage),
+					Query.offset((currentPage - 1) * perPage),
 				]
 			);
-
-			setSlides(response.documents);
-			
+			const pages = Math.ceil(response.total / perPage);
 			setLoading(false);
-			return { documents: response.documents, totalPages: totalPages }// Add this return statement
+
+			return { data: response.documents, total_pages: pages };
 		} catch (error) {
 			console.error(error);
-			throw error;
 			setLoading(false);
+			throw error;
 		}
-
-	 
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -1035,50 +1028,26 @@ export function bytesToSize(bytes: number) {
 	return `${Math.round(sizeInCurrentUnit)} ${sizes[i]}`;
 }
 
-
-
-
-
-
-
-
-
-
 //  AUTHENTICATION FUNCTIONS
 
-
 // Sign-up function
-export const signUp = async (
-	name: string,
-	email: string,
-	password: string,
-
-) => {
+export const signUp = async (name: string, email: string, password: string) => {
 	try {
 		await account.create(ID.unique(), email, password, name);
 		await account.createEmailSession(email, password);
 
 		successMessage("Account created! 🎉");
-	
 	} catch (error) {
 		errorMessage("Check your network / User already exists ❌");
-		
 	}
 };
 
 // Login function
-export const logIn = async (
-	email: string,
-	password: string,
-	
-) => {
+export const logIn = async (email: string, password: string) => {
 	try {
 		await account.createEmailSession(email, password);
 		successMessage("Welcome back! 🎉");
-	
-	} catch (error) {
-		
-	}
+	} catch (error) {}
 };
 
 // Logout function
@@ -1088,34 +1057,30 @@ export const logOut = async () => {
 		await account.deleteSession(sessID);
 		successMessage("See you later! 🎉");
 	} catch (error) {
-	
 		errorMessage("Encountered an error 😪");
 	}
 };
 
-
 export const getCurrentUser = async (): Promise<string | null> => {
 	try {
-	  const request = await account.get();
+		const request = await account.get();
 
-	  return request.$id;
+		return request.$id;
 	} catch (error) {
-	  console.error("Error fetching user ID:", error);
-	  return null;
+		console.error("Error fetching user ID:", error);
+		return null;
 	}
-  };
+};
 
-  
-export const getCurrentUserAndSetUser = async ()  => {
+export const getCurrentUserAndSetUser = async () => {
 	try {
-	  const response = await account.get();
-	  return response;
-	  
+		const response = await account.get();
+		return response;
 	} catch (error) {
-	  console.error("Error fetching user:", error);
-	  return null;
+		console.error("Error fetching user:", error);
+		return null;
 	}
-  };
+};
 // Check authentication status function
 export const checkAuthStatus = async (
 	setUser: (user: any) => void,
@@ -1133,19 +1098,15 @@ export const checkAuthStatus = async (
 
 export const checkAuthStatusDashboard = async (
 	setUser: (user: any) => void,
-	setLoading: (loading: boolean) => void,
-	
-	
-	
+	setLoading: (loading: boolean) => void
 ) => {
 	try {
 		const request = await account.get();
-		
+
 		setUser(request);
-		setLoading(false)
-		
+		setLoading(false);
 	} catch (err) {
-		throw new Error('error')
+		throw new Error("error");
 	}
 };
 
@@ -1155,7 +1116,6 @@ export const extractIdFromUrl = (url: string) => {
 	const match = url.match(regex);
 	return match ? match[1] : null;
 };
-
 
 // OAuth functions
 // export const handleGoogleSignIn = async () => {
@@ -1174,33 +1134,26 @@ export const extractIdFromUrl = (url: string) => {
 // };
 export const handleGoogleSignIn = async () => {
 	try {
-	  // Define the redirect URL based on the environment
-	  const redirectUrl =
-		process.env.NODE_ENV === "production"
-		  ? "https://slideshub.vercel.app/dashboard"
-		  : "http://localhost:3000/dashboard";
-  
-	  // Go to OAuth provider login page (Google)
-	  const result = await account.createOAuth2Session("google", redirectUrl);
-	  return result;
-	 
+		// Define the redirect URL based on the environment
+		const redirectUrl =
+			process.env.NODE_ENV === "production"
+				? "https://slideshub.vercel.app/dashboard"
+				: "http://localhost:3000/dashboard";
+
+		// Go to OAuth provider login page (Google)
+		const result = await account.createOAuth2Session("google", redirectUrl);
+		return result;
 	} catch (error) {
-	  console.error("Error initiating Google OAuth:", error);
-	  throw new Error("Error initiating Google OAuth");
+		console.error("Error initiating Google OAuth:", error);
+		throw new Error("Error initiating Google OAuth");
 	}
-  };
-
-
-
-
-
-
+};
 
 // Get Avatars
 
 export const getUserInitials = async (name: string) => {
 	try {
-		const result =  avatars.getInitials(name);
+		const result = avatars.getInitials(name);
 
 		return result.href.toString();
 	} catch (error) {
@@ -1236,44 +1189,43 @@ export const checkUserInTeam = async () => {
 		return false;
 	}
 };
- 
-  export const getUserData = async () => {
-	try {
-	  const response = await account.get();
-	  const logistics = await account.getSession("current");
-	  
-	  const { countryName, countryCode, ...userSessionData } = logistics;
-	  const country_icon =  avatars.getFlag(countryCode).href.toString();
-  
-	  // Extract the user data from the response and return it
-	  const userData: UserData = {
-		id: response.$id,
-		name: response.name,
-		email: response.email,
-		
-		prefs: {
-		  bio: response.prefs?.bio || "",
-		  avatarUrl: response.prefs?.avatarUrl || "",
-		  coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
-		  phoneNumber: response.prefs?.phoneNumber || "",
-		  country: countryName || "",
-		  countryFlagEmoji: country_icon || "",
-		  profileImage: response.prefs?.profileImage || "",
-		  profileImageId: response.prefs?.profileImageId || "",
-		  // Pass the countryIcon to the prefs object
-		},
-		status: response.status,
-		registration: response.registration,
-		emailVerification: response.emailVerification,
-  
-		// Add more fields as needed
-	  };
-  
-	  return userData;
-	} catch (error) {
-	  // Handle any errors that occurred during the data retrieval
-	  console.error("Error fetching user data:", error);
-	  throw error;
-	}
-  };
 
+export const getUserData = async () => {
+	try {
+		const response = await account.get();
+		const logistics = await account.getSession("current");
+
+		const { countryName, countryCode, ...userSessionData } = logistics;
+		const country_icon = avatars.getFlag(countryCode).href.toString();
+
+		// Extract the user data from the response and return it
+		const userData: UserData = {
+			id: response.$id,
+			name: response.name,
+			email: response.email,
+
+			prefs: {
+				bio: response.prefs?.bio || "",
+				avatarUrl: response.prefs?.avatarUrl || "",
+				coverPhotoUrl: response.prefs?.coverPhotoUrl || "",
+				phoneNumber: response.prefs?.phoneNumber || "",
+				country: countryName || "",
+				countryFlagEmoji: country_icon || "",
+				profileImage: response.prefs?.profileImage || "",
+				profileImageId: response.prefs?.profileImageId || "",
+				// Pass the countryIcon to the prefs object
+			},
+			status: response.status,
+			registration: response.registration,
+			emailVerification: response.emailVerification,
+
+			// Add more fields as needed
+		};
+
+		return userData;
+	} catch (error) {
+		// Handle any errors that occurred during the data retrieval
+		console.error("Error fetching user data:", error);
+		throw error;
+	}
+};

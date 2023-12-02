@@ -28,43 +28,58 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from '@/components/ui/button';
-import { DataTablePagination } from "./tablePagination";
+
 import { DataTableViewOptions } from "./table-view";
+import { DataTablePagination } from "./tablePagination";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-
+    title: string
     pageInfo: {
         pageCount: number
         currentPage: number
+        pageSize: number
     }
+    setPageInfo: any
 }
 export function DataTable<TData, TValue>({
     columns,
     data,
-    pageInfo
+    title,
+    pageInfo,
+    setPageInfo // Assuming setPageInfo is passed from Books compone
 
 
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
-    const [pageSize, setPageSize] = React.useState(10); // Default page size
-
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
     const [rowSelection, setRowSelection] = React.useState({})
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
-
+        const handlePageSizeChange = (newSize: number) => {
+            setPageInfo(prevState => ({
+                ...prevState,
+                pageSize: newSize,
+                currentPage: 0 // Reset to first page on pageSize change
+            }));
+        };
+    
+        const handlePageChange = (newPageIndex: number) => {
+            setPageInfo(prevState => ({
+                ...prevState,
+                currentPage: newPageIndex
+            }));
+        };
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        initialState: { pageIndex: pageInfo.currentPage, pageSize },
+        // initialState: { pageIndex: pageInfo.currentPage, pageSize },
         manualPagination: true,
-        pageCount:pageInfo.pageCount,
+        pageCount: pageInfo.pageCount,
 
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
@@ -86,7 +101,7 @@ export function DataTable<TData, TValue>({
         <>
             <div className="flex justify-between items-center py-4">
                 <Input
-                    placeholder="Filter Slides"
+                    placeholder={`Filter by ${title} name `}
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn("name")?.setFilterValue(event.target.value)
@@ -131,7 +146,7 @@ export function DataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="capitalize">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
@@ -147,8 +162,11 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-        
 
+            <DataTablePagination  table={table} 
+                onPageSizeChange={handlePageSizeChange}
+                onPageChange={handlePageChange} 
+                pageInfo={pageInfo}   />
 
         </>
     )

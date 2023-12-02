@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { PresetActions } from "./slides-preset-actions";
 // import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DataTableColumnHeader } from "./dataTableColumnHeader";
+import { DataTableColumnHeader } from "./TableColumnHeaderFilter";
 
 
 

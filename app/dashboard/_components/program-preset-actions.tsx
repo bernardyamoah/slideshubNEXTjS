@@ -40,127 +40,119 @@ import { deleteProgram, getCampus, updateProgram } from "@/lib/functions";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-interface PresetActionsProps {
- 
-  id: string;
-  programs: Program[];
-  setPrograms: React.Dispatch<React.SetStateAction<Program[]>>;
-}
 
 export function PresetActions({
-  id,
-  programs,
-  setPrograms,
-}: PresetActionsProps) {
+data
+}) {
  
   const [showDialog, setShowDialog] = useState(false);
-  const programData = programs.find((program) => program.$id === id);
-  const [campuses, setCampuses] = useState<any[]>([]); // 
+  // const programData = programs.find((program) => program.$id === id);
+  
   
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   
-  const [formFields, setFormFields] = useState({
-    updatedName: programData?.name || '',
-    updatedDuration: programData?.duration || '',
-    updatedDescription: programData?.description || '',
-    updatedCampusId: programData?.campusId || '',
-    });
+  // const [formFields, setFormFields] = useState({
+  //   updatedName: programData?.name || '',
+  //   updatedDuration: programData?.duration || '',
+  //   updatedDescription: programData?.description || '',
+  //   updatedCampusId: programData?.campusId || '',
+  //   });
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      // Perform the update
+//     try {
+//       // Perform the update
      
-      const updatedAttributes: {
-        name?: string;
-     duration?:string;
-     campusId?:string;
-      } = {};
-      if (formFields.updatedName !== programData?.name) {
-        updatedAttributes.name = formFields.updatedName;
-      }
-      if (formFields.updatedDuration !== programData?.duration) {
-        updatedAttributes.duration = formFields.updatedDuration;
-        }
-        if (formFields.updatedDescription !== programData?.description) {
-          updatedAttributes.duration = formFields.updatedDuration;
-          }
+//       const updatedAttributes: {
+//         name?: string;
+//      duration?:string;
+//      campusId?:string;
+//       } = {};
+//       if (formFields.updatedName !== programData?.name) {
+//         updatedAttributes.name = formFields.updatedName;
+//       }
+//       if (formFields.updatedDuration !== programData?.duration) {
+//         updatedAttributes.duration = formFields.updatedDuration;
+//         }
+//         if (formFields.updatedDescription !== programData?.description) {
+//           updatedAttributes.duration = formFields.updatedDuration;
+//           }
         
-        if (formFields.updatedCampusId !== programData?.campusId) {
-          updatedAttributes.campusId = formFields.updatedCampusId;
-          }
+//         if (formFields.updatedCampusId !== programData?.campusId) {
+//           updatedAttributes.campusId = formFields.updatedCampusId;
+//           }
 
-      await updateProgram(id, updatedAttributes);
+//       await updateProgram(id, updatedAttributes);
 
       
       
-      //  Reset form fields
-setFormFields({
-updatedName: formFields.updatedName || '',
-updatedDuration: formFields.updatedDuration || '',
-updatedCampusId: formFields.updatedCampusId || '',
-updatedDescription:formFields.updatedDescription || '',
-});
+//       //  Reset form fields
+// setFormFields({
+// updatedName: formFields.updatedName || '',
+// updatedDuration: formFields.updatedDuration || '',
+// updatedCampusId: formFields.updatedCampusId || '',
+// updatedDescription:formFields.updatedDescription || '',
+// });
 
-      setPrograms((prevPrograms) =>
-        prevPrograms.map((program) => {
-          if (program.$id === id) {
-            return {
-              ...program,
-              ...updatedAttributes,
-            };
-          }
-          return program;
-        })
-      );
-    } catch (error) {
-      console.error("Error updating program:", error);
+//       setPrograms((prevPrograms) =>
+//         prevPrograms.map((program) => {
+//           if (program.$id === id) {
+//             return {
+//               ...program,
+//               ...updatedAttributes,
+//             };
+//           }
+//           return program;
+//         })
+//       );
+//     } catch (error) {
+//       console.error("Error updating program:", error);
       
-    }
+//     }
   };
 
 
 
  
-  useEffect(() => {
-    async function fetchCampuses() {
-      try {
-        const response = await getCampus();
-        setCampuses(response)
-        // const selectedCampus = response.find((campus) => campus.$id === programData?.campusId);
+  // useEffect(() => {
+  //   async function fetchCampuses() {
+  //     try {
+  //       const response = await getCampus();
+  //       setCampuses(response)
+  //       // const selectedCampus = response.find((campus) => campus.$id === programData?.campusId);
   
-        // if (selectedCampus) {
-        //   setFormFields((prevFormFields) => ({
-        //     ...prevFormFields,
-        //     updatedCampusId: selectedCampus.name,
-        //   }));
-        // };
+  //       // if (selectedCampus) {
+  //       //   setFormFields((prevFormFields) => ({
+  //       //     ...prevFormFields,
+  //       //     updatedCampusId: selectedCampus.name,
+  //       //   }));
+  //       // };
         
-      } catch (error) {
+  //     } catch (error) {
 
-      }
-    }
+  //     }
+  //   }
 
-    fetchCampuses();
-  }, []);
+  //   fetchCampuses();
+  // }, []);
   const handleDeleteSlide = async () => {
     try {
       // Call the deleteSlide function to delete the slide
-      await deleteProgram(id);
+      // await deleteProgram(id);
 
       // Update the slides state by filtering out the deleted slide
-      const updatedPrograms = programs.filter((program) => program.$id !== id);
-      setPrograms(updatedPrograms);
+      // const updatedPrograms = programs.filter((program) => program.$id !== id);
+      // setPrograms(updatedPrograms);
     } catch (error) {
       // Handle error
     }
   };
   const handleSelectChange = (selectedValue: string) => {
   
-    setFormFields((prevFormFields) => ({
-      ...prevFormFields,
-      updatedCampusId: selectedValue,
-    }));
+    // setFormFields((prevFormFields) => ({
+    //   ...prevFormFields,
+    //   updatedCampusId: selectedValue,
+    // }));
     
   };
   return (
@@ -205,11 +197,11 @@ updatedDescription:formFields.updatedDescription || '',
               </Label>
               <Input
                 id="name"
-                value={formFields.updatedName}
-                onChange={(event) => setFormFields((prevFormFields) => ({
-                  ...prevFormFields,
-                  updatedName: event.target.value,
-                }))}
+                // value={formFields.updatedName}
+                // onChange={(event) => setFormFields((prevFormFields) => ({
+                //   ...prevFormFields,
+                //   updatedName: event.target.value,
+                // }))}
                 className="block col-span-4"
               />
             </div>
@@ -223,11 +215,11 @@ updatedDescription:formFields.updatedDescription || '',
               <Input
                 id="duration"
                 placeholder="4 years"
-                value={formFields.updatedDuration}
-                onChange={(event) => setFormFields((prevFormFields) => ({
-                  ...prevFormFields,
-                  updatedDuration: event.target.value,
-                }))}
+                // value={formFields.updatedDuration}
+                // onChange={(event) => setFormFields((prevFormFields) => ({
+                //   ...prevFormFields,
+                //   updatedDuration: event.target.value,
+                // }))}
               />
              
             </div>
@@ -237,13 +229,15 @@ updatedDescription:formFields.updatedDescription || '',
               <Label htmlFor="description" className="col-span-4 text-left">
                 Update Description
               </Label>
-              <Textarea className="col-span-4" value={formFields.updatedDescription}
-    onChange={(event) =>
-      setFormFields((prevFormFields) => ({
-        ...prevFormFields,
-        updatedDescription: event.target.value,
-      }))
-    }/>
+              <Textarea className="col-span-4"
+                // value={formFields.updatedDescription}
+    // onChange={(event) =>
+    //   setFormFields((prevFormFields) => ({
+    //     ...prevFormFields,
+    //     updatedDescription: event.target.value,
+    //   }))
+    // }
+              />
              
             </div>
              {/* Update program Campus */}
@@ -289,7 +283,7 @@ updatedDescription:formFields.updatedDescription || '',
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete{" "}
-              <span className="text-gray-700 dark:text-gray-200">{programData?.name}</span>.
+              <span className="text-gray-700 dark:text-gray-200">name</span>.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-3 mt-2">

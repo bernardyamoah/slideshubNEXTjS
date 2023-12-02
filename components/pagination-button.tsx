@@ -57,7 +57,7 @@ export default function Pagination({ pageCount, activePage, onPageChange }: Pagi
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} row(s) selected.
     </div> */}
-    <div className="flex items-center space-x-6 lg:space-x-8">
+    <div className="flex items-center space-x-6 lg:space-x-8 mx-auto">
   
       <div className="flex w-[100px] items-center justify-center text-sm font-medium">
         Page {activePage } of{" "}

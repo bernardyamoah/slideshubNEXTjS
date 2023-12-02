@@ -18,7 +18,7 @@ import {
 
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import BookCategories from "@/constants";
+import { BookCategories } from "@/constants";
 import { successMessage } from "@/lib/functions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";

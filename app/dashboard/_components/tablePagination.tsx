@@ -16,11 +16,21 @@ import {
 } from "@/components/ui/select"
 
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
+  onPageSizeChange: (newSize: number) => void;
+  onPageChange: (newPageIndex: number) => void;
+  pageInfo: {
+    currentPage: number;
+    pageSize: number;
+    pageCount: number;
+  };
 }
 
 export function DataTablePagination<TData>({
   table,
+  onPageSizeChange,
+  onPageChange,
+  pageInfo
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="mt-5 flex items-center justify-between px-2">
@@ -34,7 +44,9 @@ export function DataTablePagination<TData>({
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value))
+              const newSize = Number(value);
+              table.setPageSize(newSize);
+              onPageSizeChange(newSize); // call the callback function
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
