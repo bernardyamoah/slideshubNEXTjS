@@ -42,7 +42,7 @@ const Programs = ({ title }) => {
 
 
 
-  const programColumns = generateDynamicColumns(programsColumnConfig)
+  const programColumns = generateDynamicColumns(programsColumnConfig,title)
   // const tableOptions = {
   //   data: programs as [],
   //   columns: programColumns,

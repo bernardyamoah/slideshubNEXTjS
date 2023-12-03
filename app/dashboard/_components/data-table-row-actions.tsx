@@ -21,20 +21,38 @@ import {
 
 
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu"
-import { deleteCourse } from "@/lib/functions"
+import { deleteBook, deleteCourse, deleteProgram, deleteSlide } from "@/lib/functions"
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { useState } from "react"
+import { successMessage } from "@/lib/functions"
 
 
 
 export function DataTableRowActions({
   row,
+  title
 }) {
-  const {id}=row
+  const {id,name}=row
   const [showDeleteDialog, setShowDeleteDialog] =useState(false)
 
   const handleDelete = () => {
-    alert(id)
+    
+    if (title === 'Course') {
+      successMessage(`${title} id= ${id}`)
+      // deleteCourse(id)
+    }
+    else if (title === 'Slides') {
+      successMessage(`${title}  ${id}`)
+      deleteSlide(id)
+    }
+    else if (title === 'Program') {
+      successMessage(`${title}  ${id}`)
+      // deleteProgram(id)
+    }
+    else {
+      successMessage(`${title}  ${id}`)
+      // deleteBook(id)
+    }
     setShowDeleteDialog(false);
     
   };
@@ -54,7 +72,7 @@ export function DataTableRowActions({
         <DropdownMenuItem>Edit</DropdownMenuItem>
     
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="bg-red-100 text-red-700 hover:!text-white hover:!bg-red-700">
+        <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="">
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
@@ -64,10 +82,10 @@ export function DataTableRowActions({
 <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 <AlertDialogContent>
   <AlertDialogHeader>
-    <AlertDialogTitle>Delete Course</AlertDialogTitle>
+            <AlertDialogTitle>Delete { title}</AlertDialogTitle>
   </AlertDialogHeader>
   <AlertDialogDescription>
-    Are you sure you want to delete this course? This action cannot be
+            Are you sure you want to delete {name} file? This action cannot be
     undone.
   </AlertDialogDescription>
   <AlertDialogFooter className="gap-4 mt-6">

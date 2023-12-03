@@ -1,4 +1,3 @@
-import Courses from "@/app/dashboard/_components/Courses";
 
 import {
 	databases,

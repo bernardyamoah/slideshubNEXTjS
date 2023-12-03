@@ -7,6 +7,7 @@ import {
     ColumnFiltersState,
     SortingState,
     VisibilityState,
+    PaginationState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -28,9 +29,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import { DataTableViewOptions } from "./table-view";
 import { DataTablePagination } from "./tablePagination";
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -52,27 +53,48 @@ export function DataTable<TData, TValue>({
 
 
 }: DataTableProps<TData, TValue>) {
+    const [{ pageIndex, pageSize }, setPagination] =
+        React.useState<PaginationState>({
+            pageIndex: 0,
+            pageSize: 10,
+        })
+
+
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
+
     const [rowSelection, setRowSelection] = React.useState({})
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
-        const handlePageSizeChange = (newSize: number) => {
-            setPageInfo(prevState => ({
-                ...prevState,
-                pageSize: newSize,
-            
-            }));
-        };
-    
-        const handlePageChange = (newPageIndex: number) => {
-            setPageInfo(prevState => ({
-                ...prevState,
-                currentPage: newPageIndex
-            }));
-        };
+
+
+    const handlePageSizeChange = (newSize: number) => {
+        setPageInfo(prevState => ({
+            ...prevState,
+            pageSize: newSize,
+            currentPage: 0 // Reset to first page on pageSize change
+        }));
+        console.log(pageInfo.pageSize)
+
+    };
+
+    const handlePageChange = () => {
+        setPageInfo(prevState => ({
+            ...prevState,
+            currentPage: pageIndex
+        }));
+        
+        console.log(pageInfo.currentPage)
+    };
+    const pagination = React.useMemo(
+        () => ({
+            pageIndex,
+            pageSize,
+        }),
+        [pageIndex, pageSize]
+    )
     const table = useReactTable({
         data,
         columns,
@@ -87,15 +109,18 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
-
+        onPaginationChange: setPagination,
         state: {
             sorting,
             columnFilters,
             columnVisibility,
             rowSelection,
+            pagination,
 
         },
     })
+
+
 
     return (
         <>
@@ -162,11 +187,11 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-
-            <DataTablePagination  table={table} 
+            <p>{pageIndex}</p>
+            <DataTablePagination table={table}
                 onPageSizeChange={handlePageSizeChange}
-                onPageChange={handlePageChange} 
-                pageInfo={pageInfo}   />
+                onPageChange={handlePageChange}
+                pageInfo={pageInfo} />
 
         </>
     )

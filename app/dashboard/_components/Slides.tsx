@@ -20,7 +20,7 @@ export default function Slides({ user, title }: UserProps) {
   const [slides, setSlides] = useState<any>([]);
 
   const [pageInfo, setPageInfo] = useState({
-    currentPage: 1,
+    currentPage: 0,
     pageCount: 0,
     pageSize: 10
   }); // Default page size
@@ -30,7 +30,7 @@ export default function Slides({ user, title }: UserProps) {
   useEffect(() => {
     const fetchData = async () => {
 
-      const { total_pages, data } = await getUserSlides({ userId: user.$id, currentPage: pageInfo.currentPage + 1, perPage: pageInfo.pageSize, setLoading });
+      const { total_pages, data } = await getUserSlides({ userId: user.$id, currentPage: pageInfo.currentPage+1 , perPage: pageInfo.pageSize, setLoading });
 
       setPageInfo(prevState => ({
         ...prevState,
@@ -47,41 +47,9 @@ export default function Slides({ user, title }: UserProps) {
     fetchData();
   }, [user.$id, pageInfo.currentPage, pageInfo.pageSize]);
 
-  const slideColumns = generateDynamicColumns<UserSlidesCardProps>(slidesColumnConfig)
-
-  //   const tableOptions = {
-  //     data:slides as [],
-  // columns:slideColumns,
-  //     initialState: { pageIndex: pageInfo.currentPage, pageSize: pageInfo.pageSize } ,
-  //     manualPagination: true,
-  //     pageCount: pageInfo.pageCount,
-  //   };
+  const slideColumns = generateDynamicColumns<UserSlidesCardProps>(slidesColumnConfig,title)
 
 
-
-  // const tableInstance = useReactTable(tableOptions);
-
-  // Update page index and page size from the table state
-  // useEffect(() => {
-  //   setPageInfo(prevState => ({
-  //     ...prevState,
-  //     currentPage: tableInstance.getState().pagination.pageIndex
-  //   }));
-  //   setPageInfo(prevState => ({
-  //     ...prevState,
-  //     pageSize: tableInstance.getState().pagination.pageSize
-  //   }));
-  // }, [
-  //   tableInstance.getState().pagination.pageIndex,
-  //   tableInstance.getState().pagination.pageSize
-  // ]);
-
-  // const changePage = useCallback((page: number) => {
-  //   setPageInfo(prevState => ({
-  //     ...prevState,
-  //     currentPage: page
-  //   }));
-  // }, []);
   return (
     <>
 

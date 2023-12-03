@@ -39,7 +39,7 @@ export default function Books({ title }) {
 
 
 
-    const bookColumns = generateDynamicColumns(booksColumnConfig)
+    const bookColumns = generateDynamicColumns(booksColumnConfig,title)
     
 
 

@@ -46,50 +46,7 @@ const Courses = ({ title }) => {
   }, [pageInfo.currentPage, pageInfo.pageSize]);
 
 
-
-
-  const changePage = useCallback((page: number) => {
-    setPageInfo(prevState => ({
-      ...prevState,
-      currentPage: page,
-
-
-    }));
-  }, []);
-
-
-  const courseColumns = generateDynamicColumns(coursesColumnConfig)
-  // const tableOptions = {
-  //   data: courses as [],
-  //   columns: courseColumns,
-  //   initialState: { pageIndex: pageInfo.currentPage, pageSize: pageInfo.pageSize },
-  //   manualPagination: true,
-  //   pageCount: pageInfo.pageCount,
-  // };
-  // const tableInstance = useReactTable(tableOptions);
-
-
-  // const updatePageSize = useCallback((newSize: number) => {
-  //   setPageInfo(prevState => ({
-  //     ...prevState,
-  //     currentPage: tableInstance.getState().pagination.pageIndex + 1,
-  //     pageSize: newSize
-  //   }));
-  // }, [tableInstance.getState().pagination.pageIndex,
-  // tableInstance.getState().pagination.pageSize]);
-  // console.log('Updated = ' + pageInfo.pageSize)
-
-  // useEffect(() => {
-  //   setPageInfo(prevState => ({
-  //     ...prevState,
-  //     currentPage: tableInstance.getState().pagination.pageIndex,
-  //     pageSize: tableInstance.getState().pagination.pageSize
-  //   }));
-  // }, [
-  //   tableInstance.getState().pagination.pageIndex,
-  //   tableInstance.getState().pagination.pageSize
-  // ]);
-
+  const courseColumns = generateDynamicColumns(coursesColumnConfig,title)
   return (
     <>
 
@@ -97,7 +54,6 @@ const Courses = ({ title }) => {
         <DataTable columns={courseColumns} data={courses} pageInfo={pageInfo} title={title}  setPageInfo={setPageInfo} />
       </Suspense>
 
-      {/* <DataTablePagination table={tableInstance} onPageSizeChange={updatePageSize} /> */}
   
 
     </>
