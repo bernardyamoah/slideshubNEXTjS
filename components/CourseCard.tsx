@@ -16,10 +16,10 @@ export default function CourseCard({ course, campusId }) {
     credit,
     programId,
     semester,
-    $id,
+   $id  :courseId,
     $createdAt,
   } = course;
-  const courseId = $id
+  // const courseId = $id
 
   return (
     <>

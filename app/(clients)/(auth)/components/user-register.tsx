@@ -34,7 +34,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     setTimeout(() => {
       setIsLoading(false)
-    }, 3000)
+    }, 1000)
   }
   
   

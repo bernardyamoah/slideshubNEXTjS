@@ -1,16 +1,11 @@
 'use client'
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { formatTime, getAllCourses } from '@/lib/functions';
-import { motion } from 'framer-motion'
-import Pagination from '../../../components/pagination-button';
-import { fadeInAnimationVariants } from '@/constants/motion';
+
 import Loading from '@/components/ui/Cloading';
 import { DataTable } from '@/app/dashboard/_components/data-table';
 import { generateDynamicColumns } from '@/app/dashboard/_components/generateColumn';
 import { coursesColumnConfig } from '@/constants/columnUtils';
-import { DataTablePagination } from '@/app/dashboard/_components/tablePagination';
-import { useReactTable } from '@tanstack/react-table';
-
 
 const Courses = ({ title }) => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -46,12 +41,23 @@ const Courses = ({ title }) => {
   }, [pageInfo.currentPage, pageInfo.pageSize]);
 
 
-  const courseColumns = generateDynamicColumns(coursesColumnConfig,title)
+  const courseColumns = generateDynamicColumns(coursesColumnConfig, title)
+  
+  const dataTableProps = {
+    columns: courseColumns,
+    data: courses,
+    title: title,
+    pageInfo: pageInfo,
+    setPageInfo: setPageInfo,
+    loading:loading,
+  };
   return (
     <>
 
       <Suspense fallback={<Loading />}>
-        <DataTable columns={courseColumns} data={courses} pageInfo={pageInfo} title={title}  setPageInfo={setPageInfo} />
+        <DataTable
+          dataTable={dataTableProps}
+           />
       </Suspense>
 
   

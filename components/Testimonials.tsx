@@ -49,10 +49,10 @@ export default function Testimonials() {
 
 							>
 								{
-									TestimonialsData.map(({ image, name, testimonial }) => <SwiperSlide className=' mx-auto   w-full'><Card className="gap-5 p-6 w-fit mx-auto  flex items-center justify-center dark:border-zinc-800 dark:bg-opacity-0 dark:bg-zinc-950/50 rounded-3xl">
+									TestimonialsData.map(({ image, name, testimonial }) => <SwiperSlide className=' mx-auto   w-full'><Card className="gap-5 p-3 md:p-6 w-fit mx-auto  flex items-center justify-center dark:border-zinc-800 dark:bg-opacity-0 dark:bg-zinc-950/50 rounded-3xl">
 
 										<Image
-											className=" aspect-square h-full  object-cover rounded-full shadow-md ring-4 p-0.5 ring-emerald-500  relative  w-24  "
+											className=" aspect-square h-full  object-cover rounded-full shadow-md ring-4 p-0.5 ring-emerald-500  relative w-12   "
 											src={image}
 											alt={name}
 											height={700}
@@ -60,9 +60,9 @@ export default function Testimonials() {
 										/>
 
 
-										<div className="  ">
+										<div className=" flex-1 ">
 											<CardTitle className="">{name}</CardTitle>
-											<small className="mt-4 block italic text-zinc-500 dark:text-zinc-400">{testimonial}</small>
+											<small className="mt-4 w-44 md:w-full  block italic text-zinc-500 dark:text-zinc-400">{testimonial}</small>
 										</div>
 									</Card>
 									</SwiperSlide>

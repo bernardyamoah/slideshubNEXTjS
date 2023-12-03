@@ -8,8 +8,7 @@ import { formatTime, getUserSlides } from '@/lib/functions';
 
 import { generateDynamicColumns } from "./generateColumn";
 import { slidesColumnConfig } from "@/constants/columnUtils";
-
-import Pagination from "@/components/pagination-button";
+import Loading from "@/components/ui/Cloading";
 
 interface UserProps {
   user: User<any>;
@@ -49,20 +48,26 @@ export default function Slides({ user, title }: UserProps) {
 
   const slideColumns = generateDynamicColumns<UserSlidesCardProps>(slidesColumnConfig,title)
 
-
+  const dataTableProps = {
+    columns: slideColumns,
+    data: slides,
+    title: title,
+    pageInfo: pageInfo,
+    setPageInfo: setPageInfo,
+    loading:loading,
+  };
   return (
     <>
-
-      <DataTable title={title} columns={slideColumns} data={slides} pageInfo={pageInfo} setPageInfo={setPageInfo} />
-
-      {/* <Pagination
-        activePage={pageInfo.currentPage}
-        pageCount={pageInfo.pageCount}
-        onPageChange={changePage}
-      /> */}
+      
+      <DataTable 
+dataTable={dataTableProps}
+         />
+    
+    
     </>
 
 
 
   )
 }
+
