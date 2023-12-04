@@ -50,7 +50,6 @@ const Programs = ({ title }) => {
     loading: loading,
   };
 
-
   return (
     <>
       <Suspense fallback={<Loading />}>

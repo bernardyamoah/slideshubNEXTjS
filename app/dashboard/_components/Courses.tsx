@@ -6,7 +6,6 @@ import Loading from '@/components/ui/Cloading';
 import { DataTable } from '@/app/dashboard/_components/data-table';
 import { generateDynamicColumns } from '@/app/dashboard/_components/generateColumn';
 import { coursesColumnConfig } from '@/constants/columnUtils';
-
 const Courses = ({ title }) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(false)

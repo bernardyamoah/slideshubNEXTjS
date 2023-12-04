@@ -3,7 +3,6 @@ import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { generateDynamicColumns } from './generateColumn';
 import { booksColumnConfig } from '@/constants/columnUtils';
 import { formatTime, getAllBooks } from '@/lib/functions';
-
 import { DataTable } from './data-table';
 import { DataTablePagination } from './tablePagination';
 import Loading from '../loading';
@@ -41,16 +40,23 @@ export default function Books({ title }) {
 
     const bookColumns = generateDynamicColumns(booksColumnConfig,title)
     
-
+    const dataTableProps = {
+        columns: bookColumns,
+        data: books,
+        title: title,
+        pageInfo: pageInfo,
+        setPageInfo: setPageInfo,
+        loading:loading,
+      };
 
     return (
-        <><div>{title}</div>
+        <>
 
             <Suspense fallback={<Loading />}>
-                <DataTable columns={bookColumns} data={books} pageInfo={pageInfo} title={title}  setPageInfo={setPageInfo} />
+                <DataTable dataTable={dataTableProps}/>
             </Suspense>
 
-            {/* <DataTablePagination table={tableInstance} onPageSizeChange={updatePageSize} /> */}
+            
         </>
     )
 }

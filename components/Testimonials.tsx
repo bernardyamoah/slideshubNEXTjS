@@ -1,18 +1,17 @@
 "use client";
 // import Swiper core and required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from "next/image";
 
-// import required modules
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
+import { Autoplay } from 'swiper/modules';
+import { Badge } from './ui/badge'
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import 'swiper/css/autoplay'
-import Image from "next/image";
-import { Card, CardTitle } from "./ui/card";
 
+import { Card, CardTitle } from "./ui/card";
 import { TestimonialsData } from '@/constants';
 export default function Testimonials() {
 
@@ -23,9 +22,9 @@ export default function Testimonials() {
 
 			<section className=" pb-10 mx-auto w-full ">
 				<div className="w-full">
-					<p className="text-lg font-medium text-emerald-500 text-center">Testimonials</p>
+					<Badge variant='outline' className="rounded-full text-sm border-emerald-500 block text-emerald-500 w-fit px-4 py-1 mx-auto text-center ">Testimonials</Badge>
 
-					<h4 className="mt-2 bold-40 lg:bold-54 text-center capitalize text-gray-950 dark:text-white ">
+					<h4 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-2 mt-4 text-center ">
 						What users are saying
 					</h4>
 
