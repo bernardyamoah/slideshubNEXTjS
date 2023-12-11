@@ -6,14 +6,10 @@ import Link from 'next/link';
 import { Locate } from 'lucide-react';
 import { Card, CardTitle } from './ui/card';
 import { useCampuses } from '@/customHooks/useCampuses';
-import { Suspense } from 'react';
-import Loading from './ui/Cloading';
-
 
 interface Campus {
   $id: string;
   name: string;
-  image: string;
   location: string;
   $createdAt: string;
 }

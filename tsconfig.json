@@ -24,6 +24,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/Empty.tsx", "lib/createCampus.ts", "pages/_app.tsx", "customHooks/useCampuses.js", "customHooks/useCourse.js", "customHooks/usePrograms.js", "app/api/route/getUploadedBy.js", "customHooks/useCourses.js", "components/course-edit.jsx", "app/(clients)/campus/[campusId]/programs/[programId]/[...courseId]/page.jsx", "app/(clients)/campus/[campusId]/programs/page.jsx", "components/fileUpload.tsx", "components/AddSlides.jsx", "customHooks/useOptimistic.js", "app/dashboard/_components/tc"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/empty/page.js", "lib/Empty.tsx", "lib/createCampus.ts", "pages/_app.tsx", "customHooks/useCampuses.js", "customHooks/useCourse.js", "customHooks/usePrograms.js", "app/api/route/getUploadedBy.js", "customHooks/useCourses.js", "components/course-edit.jsx", "app/(clients)/campus/[campusId]/programs/[programId]/[...courseId]/page.jsx", "app/(clients)/campus/[campusId]/programs/page.jsx", "components/fileUpload.tsx", "components/AddSlides.jsx", "customHooks/useOptimistic.js", "app/dashboard/_components/tc", "app/icon"],
   "exclude": ["node_modules"]
 }

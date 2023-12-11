@@ -12,6 +12,7 @@ import { programsColumnConfig } from '@/constants/columnUtils';
 const Programs = ({ title }) => {
   const [programs, setProgram] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true)
+  const [refresh, setRefresh] = useState(false)
   const [pageInfo, setPageInfo] = useState({
     currentPage: 0,
     pageCount: 0,
@@ -35,12 +36,12 @@ const Programs = ({ title }) => {
       }));
     };
     fetchProgram();
-  }, [pageInfo.currentPage, pageInfo.pageSize])
+  }, [pageInfo.currentPage, pageInfo.pageSize,refresh])
 
 
 
 
-  const programColumns = generateDynamicColumns(programsColumnConfig, title)
+  const programColumns = generateDynamicColumns(programsColumnConfig, title,setRefresh)
   const dataTableProps = {
     columns: programColumns,
     data: programs,

@@ -41,6 +41,7 @@ interface DataTableProps<TData, TValue> {
         }
         setPageInfo: any,
         loading: boolean
+    
     }
 }
 export function DataTable<TData, TValue>({ dataTable: {
@@ -49,7 +50,8 @@ export function DataTable<TData, TValue>({ dataTable: {
     title,
     pageInfo,
     setPageInfo,
-    loading
+    loading,
+
 }}: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

@@ -33,7 +33,6 @@ export const metadata: Metadata = {
     images: [{ url: "/thumbnail.jpg" }],
   },
   icons: {
-    // icon:'https://slideshub.vercel.app/favicon.ico',
     apple: "https://slideshub.vercel.app/apple-touch-icon.png",
   },
 
@@ -57,7 +56,9 @@ export const metadata: Metadata = {
         height: 800,
         alt: "Slideshub Image Alt",
       },
-      { url: "https://slideshub.vercel.app/thumbnail.jpg" },
+  
+      
+      
       { url: "https://slideshub.vercel.app/thumbnail.jpg" },
     ],
   },

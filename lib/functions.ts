@@ -20,7 +20,7 @@ export const successMessage = (message: string) => {
 
 // Error toast notification
 export const errorMessage = (message: string) => {
-	toast.error(message);
+	toast.error(message,);
 };
 
 // Create campus function
@@ -60,7 +60,7 @@ export const createCampus = async (campusData: CampusData) => {
 		return response;
 	} catch (error) {
 		throw error;
-		errorMessage("Error: " + error);
+		
 	}
 };
 
@@ -225,7 +225,7 @@ export const createSlide = async (slideData: SlidesData) => {
 
 //    Update Functions
 
-export const updateSlide = async (id: string, updatedAttributes: any) => {
+export const updateSlide = async (id: string, updatedAttributes: any, setRefresh:any) => {
 	try {
 		await databases.updateDocument(
 			databaseId!,
@@ -235,6 +235,7 @@ export const updateSlide = async (id: string, updatedAttributes: any) => {
 		);
 
 		successMessage("Successfully updated slide");
+setRefresh(true)
 	} catch (error) {
 		// Handle any errors that occur during the update process
 		errorMessage("Failed to update slide:" + error);
@@ -447,7 +448,7 @@ export async function handleFileUpload(
 
 //  Delete Functions
 
-export const deleteCourse = async (id: string) => {
+export const deleteCourse = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -461,6 +462,7 @@ export const deleteCourse = async (id: string) => {
 				process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
 				id
 			);
+			successMessage(`${name} deleted! 🎉`);
 		} else {
 			errorMessage("Failed to delete Course ❌");
 		}
@@ -471,7 +473,7 @@ export const deleteCourse = async (id: string) => {
 };
 
 //👇🏻 delete a Slide
-export const deleteSlide = async (id: string) => {
+export const deleteSlide = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -490,18 +492,15 @@ export const deleteSlide = async (id: string) => {
 				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 				id
 			);
-
-			successMessage("Slide deleted! 🎉");
-		} else {
-			errorMessage("Failed to delete Slide ❌");
 		}
+		setRefresh(true);
 	} catch (err) {
 		errorMessage("Action declined ❌");
 	}
 };
 
 // Delete Program
-export const deleteProgram = async (id: string) => {
+export const deleteProgram = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -517,8 +516,8 @@ export const deleteProgram = async (id: string) => {
 				id
 			);
 		}
-
-		successMessage("Program deleted successfully");
+	
+		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting program:", error);
 		errorMessage("Failed to delete program");
@@ -526,7 +525,7 @@ export const deleteProgram = async (id: string) => {
 };
 
 // Delete Book
-export const deleteBook = async (id: string) => {
+export const deleteBook = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -543,7 +542,7 @@ export const deleteBook = async (id: string) => {
 			);
 		}
 
-		successMessage("Book deleted successfully");
+		successMessage(`${name} deleted! 🎉`);
 	} catch (error) {
 		console.error("Error deleting book:", error);
 		errorMessage("Failed to delete book");
@@ -551,7 +550,7 @@ export const deleteBook = async (id: string) => {
 };
 
 // Delete Campus
-export const deleteCampus = async (id: string) => {
+export const deleteCampus = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -567,7 +566,8 @@ export const deleteCampus = async (id: string) => {
 				id
 			);
 		}
-		successMessage("Campus deleted successfully");
+		
+		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting campus:", error);
 		errorMessage("Failed to delete campus");

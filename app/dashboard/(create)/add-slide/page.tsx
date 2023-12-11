@@ -52,8 +52,6 @@ import { useUserContext } from "@/components/UserContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
 
 // Define constants
 const MIN_SELECTION_MESSAGE = `You have to select an option.`;
@@ -142,39 +140,39 @@ export default function CheckboxReactHookFormMultiple() {
    // Adding the current files
    const newData = { ...data, currentFiles: currentFiles };
 
-   const toastId = toast.loading("Uploading files..."); 
    if (currentFiles.length > 0) {
+     const toastId = toast.loading("Uploading files..."); 
 
      // Use Promise.all for concurrent uploads
-    const uploadPromises: Promise<unknown>[] = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData, setUploadProgress));
-   await Promise.allSettled(uploadPromises);
-    
-         // All uploads were successful
-         toast.message('Task Completed', {
-           description: `Successfully uploaded ${currentFiles.length} files.`,
-          });
-          toast.dismiss(toastId);
- 
+     const uploadPromises = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData,setUploadProgress));
+     const results = await Promise.all(uploadPromises);
+
+     const successfulUploads = results.filter(result => result).length;
+     if (successfulUploads === currentFiles.length) {
+       toast.dismiss(toastId);
+        toast.message('Task Completed',
+       { description: `Successfully uploaded ${successfulUploads} files.`});
+
        // Clear the fields after successful upload
        form.reset();
        setCurrentFiles([]);
        form.setValue("campus", "");
        setUploadProgress(0);
 
-     
+     }
    }
  }
   
 
   return (
     <Form {...form} >
-      <Card className="max-w-2xl mx-auto lg:p-10">
-      <CardHeader  className="mb-6">
+      <Card className="max-w-xl mx-auto">
+      <CardHeader className="mb-6">
         <CardTitle>
             Add Slides
         </CardTitle>
      </CardHeader>
-        <CardContent >
+        <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
         <FormField
           control={form.control}
@@ -207,15 +205,14 @@ export default function CheckboxReactHookFormMultiple() {
           )}
         />
         <FormField
-        
           control={form.control}
           name="programs"
           render={({ field }) => (
-            <FormItem className="w-full">
+            <FormItem>
               <FormLabel className="block">Program</FormLabel>
-              <Popover >
+              <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl className="w-full">
+                  <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
@@ -233,17 +230,16 @@ export default function CheckboxReactHookFormMultiple() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-full p-2">
-                  <Command className="w-full">
+                <PopoverContent className="!w-full p-2">
+                  <Command>
                     <CommandInput
                       placeholder="Search program..."
-                      className="w-full h-9"
+                      className="h-9"
                     />
                     <CommandEmpty>No program found.</CommandEmpty>
-                    <CommandGroup className="w-full">
+                    <CommandGroup>
                       {programs.map((program) => (
                         <CommandItem
-                        className="w-full"
                           value={program.name}
                           key={program.$id}
                           onSelect={() => {
@@ -281,7 +277,7 @@ export default function CheckboxReactHookFormMultiple() {
               <FormLabel className="block">Course</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl className="w-full">
+                  <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
@@ -298,27 +294,23 @@ export default function CheckboxReactHookFormMultiple() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-full p-2">
+                <PopoverContent className="!w-full p-2">
                   <Command>
                     <CommandInput
                       placeholder="Search course..."
                       className="h-9"
                     />
-                <ScrollArea className="h-[150px]" >
                     <CommandEmpty>No program found.</CommandEmpty>
-                    <CommandGroup >
+                    <CommandGroup>
                       {courses.map((course) => (
-                     
-                         <CommandItem
+                        <CommandItem
                           value={course.name}
                           key={course.$id}
                           onSelect={() => {
                             form.setValue("courses", course.$id);
                           }}
-                          className="capitalize "
                         >
-                         
-                         {course.name},   <span  className="flex ml-1 font-medium md:flex-1 md:justify-end text-muted-foreground">{' ' }{course.semester} <Badge variant='outline' className="ml-2 text-xs">{course.year}</Badge></span>
+                          {course.name}
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
@@ -328,14 +320,8 @@ export default function CheckboxReactHookFormMultiple() {
                             )}
                           />
                         </CommandItem>
-                   
-                      
-                      
-                     
-                       
                       ))}
                     </CommandGroup>
-                  </ScrollArea>
                   </Command>
                 </PopoverContent>
               </Popover>

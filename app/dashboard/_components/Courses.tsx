@@ -8,6 +8,7 @@ import { generateDynamicColumns } from '@/app/dashboard/_components/generateColu
 import { coursesColumnConfig } from '@/constants/columnUtils';
 const Courses = ({ title }) => {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [refresh, setRefresh] = useState(false)
   const [loading, setLoading] = useState(false)
   const [pageInfo, setPageInfo] = useState({
     currentPage: 0,
@@ -37,10 +38,10 @@ const Courses = ({ title }) => {
 
 
     fetchCourses();
-  }, [pageInfo.currentPage, pageInfo.pageSize]);
+  }, [pageInfo.currentPage, pageInfo.pageSize,refresh]);
 
 
-  const courseColumns = generateDynamicColumns(coursesColumnConfig, title)
+  const courseColumns = generateDynamicColumns(coursesColumnConfig, title,setRefresh)
   
   const dataTableProps = {
     columns: courseColumns,

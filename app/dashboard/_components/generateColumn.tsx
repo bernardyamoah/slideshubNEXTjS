@@ -8,7 +8,7 @@ import { DataTableRowActions } from "./data-table-row-actions";
 //     name: string;
 
 // }
-export function generateDynamicColumns<T>(columnConfig: { [key: string]: string },title:string): ColumnDef<T>[] {
+export function generateDynamicColumns<T>(columnConfig: { [key: string]: string },title:string,setRefresh:any): ColumnDef<T>[] {
     const columns: ColumnDef<T>[] = [];
 
     for (const key in columnConfig) {
@@ -34,9 +34,8 @@ export function generateDynamicColumns<T>(columnConfig: { [key: string]: string 
     columns.push({
         
         id: "actions",
-        accessorKey: 'Actions',
         cell: ({ row }) => {
-            return <DataTableRowActions row={row.original} title={title}/>;
+            return <DataTableRowActions row={row} title={title} setRefresh={setRefresh}/>;
         },
 
     },)

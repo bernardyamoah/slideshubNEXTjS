@@ -191,74 +191,50 @@ export const TestimonialsData =
   ]
 
 
-
-// export const uploadedSlides: UserSlidesCardProps[] = [
-
-//   {
-//     "name": "John Doe",
-//     "timePosted": "2023-12-01T13:54:51Z",
-//     "id": "123456789",
-//     "fileUrl": "https://example.com/file1.pdf",
-//     "fileType": "pdf",
-//     "size": "1MB",
-//     "courseId": "COURSE_001",
-//     "user_id": "USER_001",
-//     "previewUrl": new URL("https://example.com/preview1.png")
-//   },
-//   {
-//     "name": "Jane Doe",
-//     "timePosted": "2023-12-02T13:54:51Z",
-//     "id": "123456790",
-//     "fileUrl": "https://example.com/file2.pdf",
-//     "fileType": "pdf",
-//     "size": "2MB",
-//     "courseId": "COURSE_002",
-//     "user_id": "USER_002",
-//     "previewUrl": new URL("https://example.com/preview2.png")
-//   },
-//   {
-//     "name": "Jane Doe",
-//     "timePosted": "2023-12-02T13:54:51Z",
-//     "id": "123456790",
-//     "fileUrl": "https://example.com/file2.pdf",
-//     "fileType": "pdf",
-//     "size": "2MB",
-//     "courseId": "COURSE_002",
-//     "user_id": "USER_002",
-//     "previewUrl": new URL("https://example.com/preview2.png")
-//   },
-//   {
-//     "name": "Jane Doe",
-//     "timePosted": "2023-12-02T13:54:51Z",
-//     "id": "123456790",
-//     "fileUrl": "https://example.com/file2.pdf",
-//     "fileType": "pdf",
-//     "size": "2MB",
-//     "courseId": "COURSE_002",
-//     "user_id": "USER_002",
-//     "previewUrl": new URL("https://example.com/preview2.png")
-//   },
-//   {
-//     "name": "Jane Doe",
-//     "timePosted": "2023-12-02T13:54:51Z",
-//     "id": "123456790",
-//     "fileUrl": "https://example.com/file2.pdf",
-//     "fileType": "pdf",
-//     "size": "2MB",
-//     "courseId": "COURSE_002",
-//     "user_id": "USER_002",
-//     "previewUrl": new URL("https://example.com/preview2.png")
-//   },
-//   {
-//     "name": "Jane Doe",
-//     "timePosted": "2023-12-02T13:54:51Z",
-//     "id": "123456790",
-//     "fileUrl": "https://example.com/file2.pdf",
-//     "fileType": "pdf",
-//     "size": "2MB",
-//     "courseId": "COURSE_002",
-//     "user_id": "USER_002",
-//     "previewUrl": new URL("https://example.com/preview2.png")
-//   },
-// ]
-
+  export const creditHours = [
+    {
+      id: "1",
+      hour: "1",
+    },
+    {
+      id: "2",
+      hour: "2",
+    },
+    {
+      id: "3",
+      hour: "3",
+    },
+    {
+      id: "4",
+      hour: "4",
+    },
+  ];
+  export const Years = [
+    {
+      id: "level 100",
+      level: "Level 100",
+    },
+    {
+      id: "level 200",
+      level: "Level 200",
+    },
+    {
+      id: "level 300",
+      level: "Level 300",
+    },
+    {
+      id: "level 400",
+      level: "Level 400",
+    },
+  ];
+  
+  export  const Semesters = [
+    {
+      id: "first semester",
+      semester: "First Semester",
+    },
+    {
+      id: "second semester",
+      semester: "Second Semester",
+    }
+  ];

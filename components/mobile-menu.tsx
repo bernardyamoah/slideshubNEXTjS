@@ -28,7 +28,7 @@ const MobileMenu = () => {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger className="fixed z-[100] bottom-10 right-10 lg:hidden">
             <Button className="relative w-fit p-3 h-auto rounded-full">
-              <PlusCircle className="w-7 h-7" />
+              <PlusCircle className="w-6 h-6" />
             </Button>
           </SheetTrigger>
           <SheetContent className="w-[250px] sm:w-[300px] pl-0  h-screen top-[10%] space-y-10">

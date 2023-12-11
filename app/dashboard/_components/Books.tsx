@@ -4,12 +4,13 @@ import { generateDynamicColumns } from './generateColumn';
 import { booksColumnConfig } from '@/constants/columnUtils';
 import { formatTime, getAllBooks } from '@/lib/functions';
 import { DataTable } from './data-table';
-import { DataTablePagination } from './tablePagination';
+
 import Loading from '../loading';
 
 export default function Books({ title }) {
     const [books, setBooks] = useState<BooksData[]>([]);
     const [loading, setLoading] = useState(true)
+    const [refresh, setRefresh] = useState(false)
     const [pageInfo, setPageInfo] = useState({
         currentPage: 0,
         pageCount: 0,
@@ -33,12 +34,12 @@ export default function Books({ title }) {
             }));
         };
         fetchProgram();
-    }, [pageInfo.currentPage, pageInfo.pageSize])
+    }, [pageInfo.currentPage, pageInfo.pageSize,refresh])
 
 
 
 
-    const bookColumns = generateDynamicColumns(booksColumnConfig,title)
+    const bookColumns = generateDynamicColumns(booksColumnConfig,title,setRefresh)
     
     const dataTableProps = {
         columns: bookColumns,
