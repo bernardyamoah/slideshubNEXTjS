@@ -19,8 +19,8 @@ export default function Books({ title }) {
 
 
     useEffect(() => {
-        // Fetch Program for the current page
-        const fetchProgram = async () => {
+        // Fetch Book for the current page
+        const fetchBook = async () => {
             const { data, total_pages } = await getAllBooks({ currentPage: pageInfo.currentPage + 1, perPage: pageInfo.pageSize, setLoading });
             setBooks(data.map(book => ({
                 ...book,
@@ -33,7 +33,7 @@ export default function Books({ title }) {
 
             }));
         };
-        fetchProgram();
+        fetchBook();
     }, [pageInfo.currentPage, pageInfo.pageSize,refresh])
 
 
@@ -53,9 +53,9 @@ export default function Books({ title }) {
     return (
         <>
 
-            <Suspense fallback={<Loading />}>
+            {/* <Suspense fallback={<Loading />}>
                 <DataTable dataTable={dataTableProps}/>
-            </Suspense>
+            </Suspense> */}
 
             
         </>

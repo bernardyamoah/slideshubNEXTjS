@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "sonner";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
@@ -92,7 +92,7 @@ export default function RootLayout({
 
             <Toaster expand={true} position="top-center" richColors />
             <Analytics />
-          
+            <SpeedInsights/>
           </body>
         </UserContextProvider>
       </ThemeProvider>

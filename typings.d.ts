@@ -45,6 +45,25 @@ interface BooksData {
 	size: string;
 	fileType: string;
 }
+interface Book {
+  title: string;
+  author: string;
+  edition: number;
+  publisher: string;
+  year_published: number;
+  ISBN: string;
+  language: string;
+  pages: number;
+  format: string;
+  weight: string;
+  dimensions: string;
+  categories: string[];
+  keywords: string[];
+  description: string;
+  image_url: string;
+  download_link: string;
+}
+
 
 interface Slides {
 	$id: string;
