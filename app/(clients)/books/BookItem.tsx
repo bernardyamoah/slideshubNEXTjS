@@ -34,7 +34,7 @@ const BookItem = ({ book }) => {
 					<p className="mt-1 text-xs font-medium text-gray-600">By {book.authors.join(', ')}</p>
 				</div>
 
-				<div className="hidden sm:block sm:shrink-0">
+				<div className="block sm:shrink-0 mt-2 sm:mt-0">
 					<img
 						alt="Paul Clapton"
 						src={book.thumbnail}
@@ -68,7 +68,7 @@ const BookItem = ({ book }) => {
 		</Card>
 
 
-	
+
 	</>
 	);
 };
