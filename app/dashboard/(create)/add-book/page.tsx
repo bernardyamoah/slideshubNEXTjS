@@ -1,9 +1,6 @@
 'use client'
 import { useUserContext } from "@/components/UserContext";
 import FileUpload from "@/components/fileUpload";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   Form,
@@ -18,158 +15,401 @@ import {
 
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { BookCategories } from "@/constants";
+import { bytesToSize, createBook } from "@/lib/functions";
 import { successMessage } from "@/lib/functions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { getBookCover, searchBooksByTitle } from "./bookService";
-import BookSelector from "./bookSelector";
-import Search from "./search";
+
 import { toast } from "sonner";
 
-// const bookSchema = z.object({
-//   categories:z.array(z.string()).refine((value) => value.some((item) => item), {
-//     message: "You have to select at least one item."}),
-//   currentFiles: z.array(z.string().min(1, 'MIN_FILE_SELECTION_MESSAGE')),
-// });
 
-interface Book {
 
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+
+import BookItem from './BookItem';
+import { Loader } from './loader';
+import coverImg from "@/public/cover_not_found.jpg";
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { fetchBookDetails } from '@/lib/functions';
+import { Button } from '@/components/ui/button';
+import { SearchIcon } from 'lucide-react';
+import { ID, UploadProgress } from "appwrite";
+import { storage } from "@/appwrite";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+
+
+
+const BookFormSchema = z.object({
+  userId: z.string().optional(),
+  uploadedBy: z.string().optional(),
+  title: z.string().min(1).max(255),
+  description: z.string().min(1).max(4500).optional(),
+  authors: z.array(z.string()).default([]),
+  publisher: z.string().min(1).max(255).optional(),
+  thumbnail: z.string().url().optional(),
+  categories: z.array(z.string()).default([]).optional(),
+  previewLink: z.string().url().optional(),
+  pageCount: z.number().int().optional(),
+  publishedDate: z.string().min(1).max(20).optional(),
+
+});
+
+
+async function uploadFile(file: File, storage: any, newData: any, setUploadProgress: (value: number) => void, setOpen: (boolean) => void) {
+  try {
+    // Create a new Appwrite file
+    setOpen(true)
+    const response = await storage.createFile(
+      process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
+      ID.unique(),
+      file,
+      undefined,
+      (progress: UploadProgress) => {
+        const uploadProgress = Math.round(
+          (progress.chunksUploaded * 100) / progress.chunksTotal
+        );
+
+        setUploadProgress(uploadProgress);
+      }
+    );
+    const fileId = response.$id;
+
+    const fileUrlResponse = storage.getFileDownload(
+      process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
+      fileId
+    );
+
+
+
+    const uploadedFileUrl = fileUrlResponse.toString();
+    const fileExtension = file.name.split(".").pop()?.toUpperCase();
+
+    newData = {
+      ...newData,
+      size: bytesToSize(file.size),
+      downloadLink: uploadedFileUrl,
+      fileType: fileExtension ? fileExtension.toString() : ""
+
+    };
+
+    await createBook(newData);
+
+    // Clear the fields after successful upload
+
+    setUploadProgress(0);
+    setOpen(false);
+    return true;
+  } catch (error) {
+    console.log(error);
+    toast.error("File upload failed");
+    setOpen(false);
+  }
 }
 
 
-export default function AddBooksForm() {
+export default function Page() {
+  const { user } = useUserContext();
+  const [open, setOpen] = useState(false)
+  const [bookData, setBookData] = useState({
+    title: '',
+    size: '',
+    authors: [],
+    description: '',
+    categories: [],
+    publishedDate: '',
+    thumbnail: '',
+    pageCount: 0,
+    publisher: '',
+    previewLink: '',
+    fileType: '',
+    uploadedBy: user?.name,
+    userId: user?.$id,
 
 
-  // const handleSearch = async (query) => {
-  //   if (!query) return;
-  //   fetchBook(query);
-  // };
-  // const { user } = useUserContext();
-  // const [currentFiles, setCurrentFiles] = useState([]);
-  // const [uploadProgress, setUploadProgress] = useState<number>(0);
-  // const form = useForm<z.infer<typeof bookSchema>>({
-  //   resolver: zodResolver(bookSchema),
-  //   defaultValues: {
-  //     categories: [], // Initialize as an empty array 
-  //     currentFiles: [],
+  })
+  const [loading, setLoading] = useState(false)
+  const [book, setBook] = useState<Book | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [file, setFile] = useState<File | null>(null)
+  const form = useForm<z.infer<typeof BookFormSchema>>({
+    resolver: zodResolver(BookFormSchema),
+    defaultValues: {
 
-  //   },
-  // });
-  // async function onSubmit(data: z.infer<typeof bookSchema>) {
-  //   // successMessage( JSON.stringify(data, null, 2))
-  //   console.log(data);
-  // }
+
+    },
+  });
+  const { register } = form
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Special handling for the title field
+    if (name === 'title') {
+      setBookData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      // Clear book if the title becomes empty
+      if (value.trim() === '') {
+        setBook(null);
+
+      }
+    } else {
+      // For other fields, update normally
+      setBookData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const fileName = selectedFile.name.replace(/_/g, " ");
+      const fileExtension = selectedFile.name.split(".").pop()?.toUpperCase();
+      setLoading(true)
+      setBookData((prevState) => ({ ...prevState, title: fileName }));
+      const book = await fetchBookDetails(fileName);
+      if (book) {
+
+
+        setBook(book);
+
+        setBookData((prevState) => ({
+          ...prevState,
+          title: book.title,
+          authors: book.authors,
+          size: bytesToSize(selectedFile.size),
+          fileType: fileExtension ? fileExtension.toString() : "",
+          description: book.description,
+          categories: book.categories,
+          publishedDate: book.publishedDate,
+          thumbnail: book?.thumbnail || coverImg,
+          pageCount: book.pageCount,
+          publisher: book.publisher,
+          previewLink: book.previewLink,
+
+        }));
+
+        // Update the input field with the fetched book title
+        Object.keys(book).forEach((field) => {
+          const fieldName = field as keyof typeof book;
+
+          form.setValue(fieldName, book[fieldName]);
+        });
+        setLoading(false)
+      }
+    }
+
+
+  };
+
+
+  const handleSearchClick = async () => {
+    // Trigger search when the button is clicked
+    setLoading(true);
+
+    try {
+      const fetchedBook = await fetchBookDetails(bookData.title);
+
+      if (fetchedBook) {
+
+        setBook(fetchedBook);
+        setBookData((prevState) => ({
+          ...prevState,
+          title: fetchedBook.title,
+          authors: fetchedBook.authors || [],
+          description: fetchedBook.description,
+          categories: fetchedBook.categories || [],
+          publishedDate: fetchedBook.publishedDate,
+          thumbnail: fetchedBook.thumbnail || coverImg,
+          pageCount: fetchedBook.pageCount,
+          publisher: fetchedBook.publisher,
+          previewLink: fetchedBook.previewLink,
+        }));
+        // Update the input field with the fetched book title
+        // form.setValue('title', fetchedBook.title);
+
+        Object.keys(fetchedBook).forEach((field) => {
+          const fieldName = field as keyof typeof fetchedBook;
+
+          form.setValue(fieldName, fetchedBook[fieldName]);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching book details:', error);
+      // Handle the error as needed (e.g., display an error message)
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  async function onSubmit(data: z.infer<typeof BookFormSchema>) {
+    // const newData = { ...data, file: file };
+
+    uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen);
+    form.reset();
+
+
+
+
+  }
+
   return (
-    //     <Form {...form}>
-    //      <Card className="max-w-xl mx-auto">
-    //       <CardHeader className="mb-6">
-    //         <h2 className="text-xl font-semibold">Add Books</h2>
-    //       </CardHeader>
-    //       <CardContent>
-    //       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
 
 
 
-    //       <FormField
-    //           control={form.control}
-    //           name="categories"
-    //           render={() => (
-    //             <FormItem>
-    //               <div className="mb-4">
-    //                 <FormLabel className="text-base">Sidebar</FormLabel>
-    //                 <FormDescription>
-    //                   Select the items you want to display in the sidebar.
-    //                 </FormDescription>
-    //               </div>
-    //               <ScrollArea className="h-44">
-    //               {BookCategories.map((item) => (
-    //                 <FormField
-    //                   key={item.id}
-    //                   control={form.control}
-    //                   name="categories"
-
-    //                   render={({ field }) => {
-    //                     return (
-    // <FormItem
-    //                         key={item.id}
-    //                         className="flex flex-row items-start mt-1 space-x-3 space-y-0"
-    //                       >
-    //                         <FormControl >
-    //                           <Checkbox 
-    //                             checked={field.value?.includes(item.id)}
-    //                             onCheckedChange={(checked) => {
-    //                               return checked
-    //                                 ? field.onChange([...field.value, item.id])
-    //                                 : field.onChange(
-    //                                     field.value?.filter(
-    //                                       (value) => value !== item.id
-    //                                     )
-    //                                   )
-    //                             }}
-    //                           />
-    //                         </FormControl>
-    //                         <FormLabel className="font-normal">
-    //                           {item.label}
-    //                         </FormLabel>
-    //                       </FormItem>
+    <div className='gap-10 flex items-center justify-center flex-col md:flex-row  '>
+      {loading ? (
+        <Loader />
+      ) : (
+        book && <BookItem book={bookData} />
+      )}
+      <Form {...form} >
+        <Card className=' max-w-2xl w-full'>
+          <CardHeader className="mb-6">
+            <CardTitle>
+              Add Book
+            </CardTitle>
+          </CardHeader>
+          <form className=' p-4' onSubmit={form.handleSubmit(onSubmit)}>
+            <Label>File:</Label>
+            <Input type="file" onChange={handleFileChange} />
 
 
-    //                         )
-    //                       }}
-    //                       />
-    //                       ))}
-    //                       </ScrollArea>
-    //               <FormMessage />
-    //             </FormItem>
-    //           )}
-    //         />
+            <FormField
+              control={form.control}
+              {...register}
+
+              name="title"
+
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl onChange={handleChange}>
+
+                    <div className="flex gap-2">
+                      <Input placeholder="Material Science"  {...field} />
+                      <Button
+                        type="button"
+                        className=' gap-1 flex items-center'
+                        onClick={handleSearchClick}
+                      >
+                        <SearchIcon className='w-4 h-4' /> Search
+                      </Button>
+
+                    </div>
+                  </FormControl>
+                  <FormDescription>
+                    This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Auhtors */}
+
+            <FormField
+              control={form.control}
+              {...register}
+
+              name="authors"
+
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Author</FormLabel>
+                  <FormControl onChange={handleChange}>
+                    <Input   {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is your authors names.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Publisher */}
+
+            <FormField
+              control={form.control}
+              {...register}
+
+              name="publisher"
+
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Publisher</FormLabel>
+                  <FormControl onChange={handleChange}>
+                    <Input   {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Publisher names.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Description */}
+            <FormField
+              control={form.control}
+              {...register}
+
+              name="description"
+
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl onChange={handleChange}>
+                    <Textarea className='h-44' {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Book Description.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
 
 
 
+            <Button className='mt-6 ' disabled={form.formState.isSubmitting}>Submit</Button>
+          </form>
 
-    //    <FormField
-    //           control={form.control}
-    //           name="currentFiles"
-    //           render={({ field }) => (
-    //             <FormItem>
-    //               <FormLabel>Files</FormLabel>
+        </Card>
+      </Form>
 
-    //               <FileUpload
-    //                 currentFiles={currentFiles}
-    //                 setCurrentFiles={setCurrentFiles}
-    //               />
+      <Dialog open={open} onOpenChange={setOpen}>
 
-    //               <FormDescription>
-    //             Select the books to upload.
+        <DialogContent className="sm:max-w-[425px]">
 
-    //               </FormDescription>
-    //               <FormMessage />
-    //             </FormItem>
-    //           )}
-    //         />
-    //          {uploadProgress >  0 &&
-    //         <CardFooter>
-    //         <Progress value={uploadProgress} />
-    //         </CardFooter>
-    //       }
-    //          <Button type="submit">Submit</Button>
-    //        </form>
-    //       </CardContent>
-    //      </Card>
-    //     </Form>
+          <div>
+            <Loader />
 
-    <>
+            {uploadProgress > 0 &&
+              <div className="w-full mt-6 space-y-3 text-center">
+                <Badge variant='outline' className="rounded-3xl px-3 py-1 text-center">{uploadProgress}%</Badge>
+                <Progress value={uploadProgress} className="" />
 
-        
-        
-    
+              </div>
+            }
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
 
-
-    </>
 
   );
-}
+};
+

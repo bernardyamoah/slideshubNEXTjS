@@ -40,8 +40,8 @@ export function DataTableRowActions({
   title,
   setRefresh
 }) {
-  const { id, name, } = row.original
-  console.log(row.original)
+  const { id, name } = row.original
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showDialog, setShowDialog] = useState(false);
 
@@ -56,16 +56,16 @@ export function DataTableRowActions({
     const deleteFunction = deleteFunctionMap[title];
 
     if (deleteFunction) {
-      const toastId = id
-      toast.promise(deleteFunction(id, setRefresh)
-        , {
-          loading: `Deleting ${name}`,
-          success: `${name} deleted! 🎉`
-          ,
-          error: `Failed to delete ${name} ❌`
-        }
-      )
-      id: toastId
+
+      toast.promise(deleteFunction(id, setRefresh),{
+          loading: 'Deleting...',
+          error: 'Failed to delete ❌'
+        },
+        )
+        
+        toast.dismiss(id)
+
+
     }
 
 
@@ -75,14 +75,14 @@ export function DataTableRowActions({
   const renderDropdownMenu = () => {
     switch (title) {
       case 'Courses':
-        return <CourseEdit data={row.original}setShowDialog={setShowDialog } setRefresh={setRefresh}  />;
+        return <CourseEdit data={row.original} setShowDialog={setShowDialog} setRefresh={setRefresh} />;
       case 'Books':
-        return <BookEdit data={row.original} setRefresh={setRefresh} setShowDialog={setShowDialog } />;
+        return <BookEdit data={row.original} setRefresh={setRefresh} setShowDialog={setShowDialog} />;
       case 'Programs':
-        return <ProgramEdit data={row.original} id={id} setRefresh={setRefresh} setShowDialog={setShowDialog }/>;
+        return <ProgramEdit data={row.original} id={id} setRefresh={setRefresh} setShowDialog={setShowDialog} />;
       case 'Slides':
         return (
-          <SlideEdit data={row.original} id={id} setRefresh={setRefresh} setShowDialog={setShowDialog } />
+          <SlideEdit data={row.original} id={id} setRefresh={setRefresh} setShowDialog={setShowDialog} />
         );
     }
   };

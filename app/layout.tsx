@@ -56,9 +56,9 @@ export const metadata: Metadata = {
         height: 800,
         alt: "Slideshub Image Alt",
       },
-  
-      
-      
+
+
+
       { url: "https://slideshub.vercel.app/thumbnail.jpg" },
     ],
   },
@@ -78,11 +78,11 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserContextProvider>
           <body className="relative ">
-           <Navbar />
-          
+            <Navbar />
+
             <main className="relative min-h-[85vh]   pb-20 "> {/* dark:bg-background/70 */}
               <BackButtonNavigation />
-              
+
 
               {children}
             </main>
@@ -90,9 +90,9 @@ export default function RootLayout({
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={true} position="top-center" richColors />
+            <Toaster expand={false} position="top-center" richColors  closeButton={true} />
             <Analytics />
-            <SpeedInsights/>
+            <SpeedInsights />
           </body>
         </UserContextProvider>
       </ThemeProvider>

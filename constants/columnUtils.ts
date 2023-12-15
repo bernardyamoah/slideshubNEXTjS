@@ -7,22 +7,22 @@ export const slidesColumnConfig = {
 	size: "Size",
 	fileType: "File Type",
 	// courseId: "Course ID",
-	
 };
 export const booksColumnConfig = {
-	name: "Name",
+	title: "Title",
 	timePosted: "Time Posted",
-	category: "Category",
+	categories: "Category",
 	size: "Size",
+	authors: "Author",
 	fileType: "File Type",
-	
+	uploadedBy: "Uploaded By",
+	thumbnail: "Cover Image",
 };
 export const programsColumnConfig = {
 	name: "Name",
 	campusId: "Campus ID",
 	duration: "Duration",
 	timePosted: "Time Posted",
-	
 };
 export const coursesColumnConfig = {
 	name: "Name",
@@ -33,5 +33,4 @@ export const coursesColumnConfig = {
 	lecturer: "Lecturer",
 	// programId: string;
 	timePosted: "Time Posted",
-
 };

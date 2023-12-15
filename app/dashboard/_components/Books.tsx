@@ -47,15 +47,17 @@ export default function Books({ title }) {
         title: title,
         pageInfo: pageInfo,
         setPageInfo: setPageInfo,
-        loading:loading,
+        loading: loading,
+        
       };
+      
 
     return (
         <>
 
-            {/* <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading />}>
                 <DataTable dataTable={dataTableProps}/>
-            </Suspense> */}
+            </Suspense>
 
             
         </>

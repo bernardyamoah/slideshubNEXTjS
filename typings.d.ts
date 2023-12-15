@@ -34,36 +34,38 @@ interface SlidesData {
 	fileType: string;
 	previewUrl: URL;
 	user_id: string | undefined;
-
-
 }
 
 interface BooksData {
-	name: string;
-	user_id: string | undefined;
-	bookcategory: string;
+	title: string;
 	size: string;
+	categories: string[];
+	authors: string[];
+	thumbnail: string;
+	description: string;
+	publisher: string;
+	previewLink: string;
+	downloadLink: string;
+	pageCount: number;
+	publishedDate: string;
 	fileType: string;
+	userId: string;
+	uploadedBy: string;
 }
 interface Book {
-  title: string;
-  author: string;
-  edition: number;
-  publisher: string;
-  year_published: number;
-  ISBN: string;
-  language: string;
-  pages: number;
-  format: string;
-  weight: string;
-  dimensions: string;
-  categories: string[];
-  keywords: string[];
-  description: string;
-  image_url: string;
-  download_link: string;
+	title: string;
+	size?: string;
+	categories: string[];
+	authors: string[];
+	thumbnail: string;
+	description: string;
+	publisher: string;
+	previewLink: string;
+	downloadLink?: string;
+	pageCount: number;
+	publishedDate: string;
+	fileType?: string;
 }
-
 
 interface Slides {
 	$id: string;
@@ -77,8 +79,6 @@ interface Slides {
 	previewUrl: URL;
 	programme?: string;
 }
-
-
 
 interface SlidesCardProps {
 	name: string;
@@ -96,7 +96,7 @@ interface ProgramCardProps {
 	name: string;
 	image: string;
 	campusId: string;
-   $createdAt: string;
+	$createdAt: string;
 	duration: string;
 }
 interface UserSlidesCardProps {
@@ -111,20 +111,17 @@ interface UserSlidesCardProps {
 	previewUrl: URL;
 }
 
-type User<T>  ={
+type User<T> = {
 	$id: string;
 	name: string;
 	email: string;
-	labels?:string[],
-	prefs: {
-	};
+	labels?: string[];
+	prefs: {};
 	status: boolean;
 	registration: string;
 	emailVerification: boolean;
-	
-
-  }
-  interface User extends Preferences {
+};
+interface User extends Preferences {
 	bio: string;
 	avatarUrl: string;
 	coverPhotoUrl: string;
@@ -133,23 +130,15 @@ type User<T>  ={
 	countryFlagEmoji: string;
 	profileImage: string;
 	profileImageId: string;
-  }
+}
 
+interface UserProps {
+	user: User | null | undefined;
+}
 
-
-
- 
-  interface UserProps {
-	user: User | null| undefined;
-  }
-  
-  interface UserNavProps {
+interface UserNavProps {
 	user: User | null;
-  }
-  
- 
-  
-
+}
 
 interface SlideResponse {
 	slides: Models.Document[];
@@ -159,7 +148,7 @@ interface UserData {
 	id?: string;
 	name: string;
 	email: string;
-	labels?:string[],
+	labels?: string[];
 	prefs: {
 		bio: string;
 		avatarUrl: string;
@@ -202,11 +191,10 @@ interface Campus {
 	name: string;
 	location: string;
 	image: string;
-
 }
 
 interface Program {
-	$id:string;
+	$id: string;
 	name: string;
 	campusId: string;
 	image: string;
@@ -215,53 +203,48 @@ interface Program {
 	$createdAt: string;
 	$updatedAt: string;
 	id?: string;
-	
 }
-
-
-
-
 
 interface Course {
 	$id: string;
 	name: string;
 	semester: string;
 	courseCode: string;
-	credit: string ;
+	credit: string;
 	lecturer: string;
 	programId: string;
 	year: string;
 	user_id: string;
 	$createdAt: string;
 	campusId?: string;
-  }
-  interface CourseCardProps {
+}
+interface CourseCardProps {
 	course: Course;
 	courses: Course[];
 	setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-  }
+}
 interface CourseCardProps {
 	course: {
-	  $id: string;
-	  name: string;
-	  semester: string;
-	  courseCode: string;
-	  credit: string;
-	  lecturer: string;
-	  programId: string;
-	  year: string;
-	  user_id: string;
-	  campusId?: string;
-	  courseId?: string;
-	  $createdAt: string;
+		$id: string;
+		name: string;
+		semester: string;
+		courseCode: string;
+		credit: string;
+		lecturer: string;
+		programId: string;
+		year: string;
+		user_id: string;
+		campusId?: string;
+		courseId?: string;
+		$createdAt: string;
 	};
-  }
-type CourseListProps ={
+}
+type CourseListProps = {
 	programName: string;
 	programId: string;
-}
+};
 
-type CourseCardData= {
+type CourseCardData = {
 	id: string;
 	name: string;
 	semester: string;
@@ -273,7 +256,7 @@ type CourseCardData= {
 	level: string;
 	user_id: string | null;
 	timePosted: string;
-}
+};
 interface User {
 	$id: string;
 	name: string;
@@ -283,9 +266,9 @@ interface User {
 	status: boolean;
 	registration: string;
 	emailVerification: boolean;
-  }
-  type EmptyStateType = {
+}
+type EmptyStateType = {
 	title: string;
 	label: string;
 	image: string;
-  }[];
+}[];

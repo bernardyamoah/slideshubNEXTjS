@@ -144,40 +144,47 @@ export const createProgram = async (programData: ProgramData) => {
 
 export const createBook = async (bookData: BooksData) => {
 	try {
-		// Retrieve all documents from the collection
-		const response = await databases.listDocuments(
-			process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
-		);
+		// // Retrieve all documents from the collection
+		// const response = await databases.listDocuments(
+		// 	process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
+		// 	process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
+		// );
 
-		const documents = response.documents;
+		// const documents = response.documents;
 
-		// Check if a document with the same name already exists
-		const existingBook = documents.find((doc) => doc.name === bookData.name);
+		// // Check if a document with the same name already exists
+		// const existingBook = documents.find((doc) => doc.name === bookData.name);
 
-		if (existingBook) {
-			errorMessage("This book  already exists.");
-			return;
-		}
+		// if (existingBook) {
+		// 	errorMessage("This book  already exists.");
+		// 	return;
+		// }
 
-		const data = toast.promise(
-			databases.createDocument(
-				process.env.NEXT_PUBLIC_DATABASE_ID!,
-				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-				ID.unique(),
-				bookData
-			),
-			{
-				loading: "Creating book...",
-				success: "Book created! 🎉",
-				error: "Failed to create book",
-			}
-		);
+		// const data = toast.promise(
+		// 	databases.createDocument(
+		// 		process.env.NEXT_PUBLIC_DATABASE_ID!,
+		// 		process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+		// 		ID.unique(),
+		// 		bookData
+		// 	),
+		// 	{
+		// 		loading: "Creating book...",
+		// 		success: "Book created! 🎉",
+		// 		error: "Failed to create book",
+		// 	}
+		// );
+		databases.createDocument(
+					process.env.NEXT_PUBLIC_DATABASE_ID!,
+					process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+					ID.unique(),
+					bookData
+				)
 
-		return data;
+		
 	} catch (error) {
-		errorMessage("Error adding book");
-		throw error;
+		console.log(error);
+		// errorMessage("Error adding book");
+		// throw error;
 	}
 };
 
@@ -277,7 +284,7 @@ export const updateBook = async (id: string, updatedAttributes: any) => {
 		// Update the book in the database
 		await databases.updateDocument(
 			databaseId!,
-			process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			id,
 			updatedAttributes
 		);
@@ -529,23 +536,33 @@ export const deleteBook = async (id: string, setRefresh:any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
-			process.env.NEXT_PUBLIC_BOOK_COLLECTION_ID!,
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			id
 		);
+		
 
-		if (getDoc.$id === id) {
-			// Delete the book from the database
+		const fileID = extractIdFromUrl(getDoc.downloadLink);
+		
+	
+
+		if (getDoc.$id === id && fileID !== null) {
+			await storage.deleteFile(
+				process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
+				fileID
+			);
 			await databases.deleteDocument(
 				databaseId!,
 				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 				id
 			);
 		}
-
-		successMessage(`${name} deleted! 🎉`);
+		
+		successMessage(`${getDoc.title} deleted! 🎉`);
+		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting book:", error);
 		errorMessage("Failed to delete book");
+		setRefresh(true);
 	}
 };
 
@@ -703,7 +720,7 @@ export const getAllBooks = async ({
 	try {
 		const response = await databases.listDocuments(
 			databaseId,
-			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			[Query.limit(perPage), Query.offset((currentPage - 1) * perPage)]
 		);
 		const pages = Math.ceil(response.total / perPage);
@@ -1228,3 +1245,51 @@ export const getUserData = async () => {
 		throw error;
 	}
 };
+
+export const fetchBookDetails = async (title:String) => {
+	if (!title) {
+	  // Handle the case where the title is empty
+	  return null;
+	}
+  
+	const API_ENDPOINT = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOK_API_KEY}`;
+	
+  
+	try {
+	  const bookDataResponse = await fetch(API_ENDPOINT);
+  
+	  if (bookDataResponse.ok) {
+		const bookData = await bookDataResponse.json();
+		
+  
+		const { id, volumeInfo } = bookData.items[0];
+		const { title, authors, publishedDate, publisher, description, pageCount, categories, previewLink, imageLinks } = volumeInfo;
+		const thumbnail = imageLinks?.thumbnail 
+  
+		const book = {
+	
+		  title,
+		  authors,
+		  publishedDate,
+		  description,
+		  pageCount,
+		  publisher,
+		  categories,
+		  previewLink,
+		  thumbnail,
+		
+		};
+  
+		return book;
+	  } else {
+		console.error('Failed to fetch book data');
+		return null;
+	  }
+	} catch (error) {
+	  console.error('Error:', error);
+	  return null;
+	} finally {
+	//   setLoading(false);
+	}
+  };
+  

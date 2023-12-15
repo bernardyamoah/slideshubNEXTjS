@@ -119,7 +119,7 @@ async function uploadFile(file: File,storage:any, user: any, programs:Program[],
     throw error; // Rethrow the error to be caught in the calling function
   }
 }
-export default function CheckboxReactHookFormMultiple() {
+export default function Page() {
   const { user } = useUserContext();
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -146,7 +146,7 @@ export default function CheckboxReactHookFormMultiple() {
      // Use Promise.all for concurrent uploads
      const uploadPromises = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData,setUploadProgress));
      const results = await Promise.all(uploadPromises);
-
+     toast.dismiss(toastId);
      const successfulUploads = results.filter(result => result).length;
      if (successfulUploads === currentFiles.length) {
        toast.dismiss(toastId);
