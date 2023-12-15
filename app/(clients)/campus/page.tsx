@@ -2,7 +2,6 @@
 
 import CampusCard from '@/components/CampusCard';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import Loading from '@/components/ui/Cloading';
 
 import { Metadata } from 'next';
 import { Suspense } from 'react';

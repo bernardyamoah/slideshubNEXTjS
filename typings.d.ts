@@ -51,6 +51,7 @@ interface BooksData {
 	fileType: string;
 	userId: string;
 	uploadedBy: string;
+	name: string;
 }
 interface Book {
 	title: string;

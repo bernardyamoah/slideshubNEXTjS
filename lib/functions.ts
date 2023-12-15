@@ -142,7 +142,7 @@ export const createProgram = async (programData: ProgramData) => {
 	}
 };
 
-export const createBook = async (bookData: BooksData) => {
+export const createBook = async (bookData: BooksData, toastId:any) => {
 	try {
 		// // Retrieve all documents from the collection
 		// const response = await databases.listDocuments(
@@ -160,30 +160,25 @@ export const createBook = async (bookData: BooksData) => {
 		// 	return;
 		// }
 
-		// const data = toast.promise(
-		// 	databases.createDocument(
-		// 		process.env.NEXT_PUBLIC_DATABASE_ID!,
-		// 		process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-		// 		ID.unique(),
-		// 		bookData
-		// 	),
-		// 	{
-		// 		loading: "Creating book...",
-		// 		success: "Book created! 🎉",
-		// 		error: "Failed to create book",
-		// 	}
-		// );
-		databases.createDocument(
-					process.env.NEXT_PUBLIC_DATABASE_ID!,
-					process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-					ID.unique(),
-					bookData
-				)
-
-		
+		toast.promise(
+			databases.createDocument(
+				process.env.NEXT_PUBLIC_DATABASE_ID!,
+				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+				ID.unique(),
+				bookData
+			),
+			{
+				loading: "Creating book...",
+				success: "Book created! 🎉",
+				error: "Failed to create book",
+			
+			}
+			
+		);
+		toast.dismiss(toastId)
 	} catch (error) {
 		console.log(error);
-		// errorMessage("Error adding book");
+		errorMessage("Error adding book");
 		// throw error;
 	}
 };

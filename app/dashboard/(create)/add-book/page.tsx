@@ -1,7 +1,12 @@
 'use client'
-import { useUserContext } from "@/components/UserContext";
-import FileUpload from "@/components/fileUpload";
 
+// Library Imports
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -13,16 +18,10 @@ import {
 } from "@/components/ui/form";
 
 
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea } from "@/components/ui/scroll-area";
+// Custom Hooks
 import { bytesToSize, createBook } from "@/lib/functions";
-import { successMessage } from "@/lib/functions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useUserContext } from "@/components/UserContext";
 
-import { toast } from "sonner";
 
 
 
@@ -39,11 +38,11 @@ import { Button } from '@/components/ui/button';
 import { SearchIcon } from 'lucide-react';
 import { ID, UploadProgress } from "appwrite";
 import { storage } from "@/appwrite";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
-
-
+// Form Schema
 const BookFormSchema = z.object({
   userId: z.string().optional(),
   uploadedBy: z.string().optional(),
@@ -60,10 +59,11 @@ const BookFormSchema = z.object({
 });
 
 
-async function uploadFile(file: File, storage: any, newData: any, setUploadProgress: (value: number) => void, setOpen: (boolean) => void) {
+async function uploadFile(file: File, storage: any, bookData: any, setUploadProgress: (value: number) => void, setOpen: (boolean) => void, router: any) {
   try {
     // Create a new Appwrite file
     setOpen(true)
+    const toastId = toast.loading("Uploading files..."); 
     const response = await storage.createFile(
       process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
       ID.unique(),
@@ -76,7 +76,9 @@ async function uploadFile(file: File, storage: any, newData: any, setUploadProgr
 
         setUploadProgress(uploadProgress);
       }
-    );
+    )
+  
+
     const fileId = response.$id;
 
     const fileUrlResponse = storage.getFileDownload(
@@ -89,20 +91,22 @@ async function uploadFile(file: File, storage: any, newData: any, setUploadProgr
     const uploadedFileUrl = fileUrlResponse.toString();
     const fileExtension = file.name.split(".").pop()?.toUpperCase();
 
-    newData = {
-      ...newData,
+    bookData = {
+      ...bookData,
+      name:bookData.title,
       size: bytesToSize(file.size),
       downloadLink: uploadedFileUrl,
       fileType: fileExtension ? fileExtension.toString() : ""
 
     };
 
-    await createBook(newData);
-
+    await createBook(bookData, toastId);
     // Clear the fields after successful upload
-
     setUploadProgress(0);
+    
     setOpen(false);
+  
+    router.push('/dashboard')
     return true;
   } catch (error) {
     console.log(error);
@@ -113,6 +117,9 @@ async function uploadFile(file: File, storage: any, newData: any, setUploadProgr
 
 
 export default function Page() {
+
+  // Variables
+  const router = useRouter()
   const { user } = useUserContext();
   const [open, setOpen] = useState(false)
   const [bookData, setBookData] = useState({
@@ -129,6 +136,7 @@ export default function Page() {
     fileType: '',
     uploadedBy: user?.name,
     userId: user?.$id,
+    name: '',
 
 
   })
@@ -136,6 +144,9 @@ export default function Page() {
   const [book, setBook] = useState<Book | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null)
+  // ================================================================
+
+  // React hook Form Initialization
   const form = useForm<z.infer<typeof BookFormSchema>>({
     resolver: zodResolver(BookFormSchema),
     defaultValues: {
@@ -144,6 +155,9 @@ export default function Page() {
     },
   });
   const { register } = form
+
+
+  // Function  to handle form input
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -167,6 +181,7 @@ export default function Page() {
     }
   };
 
+  // Function  to handle file change
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -253,13 +268,11 @@ export default function Page() {
 
 
   async function onSubmit(data: z.infer<typeof BookFormSchema>) {
-    // const newData = { ...data, file: file };
-
-    uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen);
+    console.log(data)
+    uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen, router);
     form.reset();
 
-
-
+    // go back to the dashboard after complete submission
 
   }
 
@@ -381,17 +394,18 @@ export default function Page() {
               )}
             />
 
-
-
-
-            <Button className='mt-6 ' disabled={form.formState.isSubmitting}>Submit</Button>
+            <CardFooter className='mt-6 '>
+              <Button disabled={form.formState.isSubmitting}>
+                Submit
+              </Button>
+            </CardFooter>
           </form>
 
         </Card>
       </Form>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-
+      <Dialog open={open} onOpenChange={setOpen} >
+        <DialogClose hidden={true}></DialogClose>
         <DialogContent className="sm:max-w-[425px]">
 
           <div>

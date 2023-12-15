@@ -9,7 +9,7 @@ export const slidesColumnConfig = {
 	// courseId: "Course ID",
 };
 export const booksColumnConfig = {
-	title: "Title",
+	name: "Title",
 	timePosted: "Time Posted",
 	categories: "Category",
 	size: "Size",

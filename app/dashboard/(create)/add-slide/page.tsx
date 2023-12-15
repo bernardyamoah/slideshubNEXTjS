@@ -43,7 +43,6 @@ import {
 } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
 import FileUpload from "@/components/fileUpload";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ID, storage } from "@/appwrite";
 

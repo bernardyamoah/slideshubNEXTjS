@@ -14,13 +14,7 @@ export default function Search({ onSearch }) {
         event.preventDefault();
         onSearch(query);
     };
-// size: z.string().min(1).max(50),
-  // thumbnail: z.string().url(),
-  // categories: z.array(z.string()).default([]),
-  // previewLink: z.string().url(),
-  // downloadLink: z.string().url(),
-  // pageCount: z.number().int(),
-  // publishedDate: z.string().min(1).max(20),
+
     return (
 
         <Card className='max-w-xl mx-auto'>
