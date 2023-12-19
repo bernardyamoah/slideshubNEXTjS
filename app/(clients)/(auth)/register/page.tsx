@@ -4,7 +4,7 @@ import { UserAuthForm } from "../components/user-register";
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { UserAuth } from "@/components/component/user-auth";
+
 import Link from "next/link";
 import Image from "next/image";
 
