@@ -179,8 +179,7 @@ interface ProfileData {
 		countryFlagEmoji: string;
 		profileImage: string;
 		profileImageId: string;
-		// Pass the countryIcon to the prefs object
-		// Add more prefs properties as needed
+		
 	};
 	status?: boolean;
 	registration?: string;

@@ -58,7 +58,8 @@ export function DataTableRowActions({
     if (deleteFunction) {
 
       toast.promise(deleteFunction(id, setRefresh),{
-          loading: 'Deleting...',
+        loading: 'Deleting...',
+        success:'Success',
           error: 'Failed to delete ❌'
         },
         )
