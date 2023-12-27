@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.0.2",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -70,7 +71,6 @@
     "react-pdf": "^7.5.0",
     "sharp": "^0.32.6",
     "sonner": "^1.0.3",
-    "swiper": "^11.0.5",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.3",

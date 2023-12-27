@@ -10,7 +10,7 @@ import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
-import Breadcrumbs from "@/components/breadcrumbs";
+
 import { Metadata } from "next";
 
 
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
   applicationName: "Slideshub",
   authors: [{ name: "Slideshub Team", url: "https://slideshub.vercel.app" }],
   colorScheme: "dark",
+  manifest: '/manifest.json',
   openGraph: {
     title: "Slideshub",
     type: "website",
@@ -90,7 +91,7 @@ export default function RootLayout({
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={false} position="top-center" richColors  closeButton={true} />
+            <Toaster expand={false} position="top-center" richColors closeButton={true} />
             <Analytics />
             <SpeedInsights />
           </body>
