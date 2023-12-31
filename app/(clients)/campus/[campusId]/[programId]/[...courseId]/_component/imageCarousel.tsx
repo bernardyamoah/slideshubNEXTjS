@@ -39,11 +39,11 @@ export function ImageCarousel({ images }) {
 
                     loop: true,
                 }}
-                // plugins={[
-                //     Autoplay({
-                //         delay: 2000,
-                //     }),
-                // ]}
+                plugins={[
+                    Autoplay({
+                        delay: 2000,
+                    }),
+                ]}
                 className=" md:max-w-6xl w-full -ml-6 mx-auto  "
             >
                 <CarouselContent>
