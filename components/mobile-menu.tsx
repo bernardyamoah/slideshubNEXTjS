@@ -31,8 +31,9 @@ const MobileMenu = () => {
               <PlusCircle className="w-6 h-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-[250px] sm:w-[300px] pl-0  h-screen top-[10%] space-y-10">
-            <div className="grid gap-8 py-24 ">
+
+          <SheetContent className="w-[250px] sm:w-[300px] pl-0  h-screen space-y-10">
+            <div className="grid gap-8 py-20 ">
               {isAdmin ? (
                 AdmintabRoutes.map((tabRoute, index) => (
                  

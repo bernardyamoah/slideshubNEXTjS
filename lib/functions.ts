@@ -959,7 +959,6 @@ export const formatUserTime = (timePosted: string) => {
 	});
 };
 
-// const getTotalPages = async (
 // 	userId: string,
 // 	perPage: number
 // ): Promise<number> => {
@@ -1026,7 +1025,48 @@ export const getUserSlides = async ({
 		throw error;
 	}
 };
+export const getUserBooks = async ({
+	userId,
+	currentPage,
+	setLoading,
+	perPage,
+}: {
+	userId: string;
+	currentPage: number;
+	perPage: number;
+	setLoading: (loading: boolean) => void;
+}): Promise<{ data: any[]; total_pages: number }> => {
+	if (!databaseId) {
+		throw new Error("Database ID is not defined");
+	}
+	try {
+		setLoading(true);
+		// const totalPages = await getTotalPages(userId, perPage);
+		try {
+			const response = await databases.listDocuments(
+				databaseId!,
+				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+				[
+					Query.equal("user_id", userId),
+					Query.orderDesc("$createdAt"),
+					Query.limit(perPage),
+					Query.offset((currentPage - 1) * perPage),
+				]
+			);
+			const pages = Math.ceil(response.total / perPage);
+			setLoading(false);
 
+			return { data: response.documents, total_pages: pages };
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+			throw error;
+		}
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
 export function bytesToSize(bytes: number) {
 	const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
 	if (bytes === 0) return "n/a";

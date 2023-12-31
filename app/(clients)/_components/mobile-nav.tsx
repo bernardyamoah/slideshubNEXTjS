@@ -1,7 +1,7 @@
 'use client'
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"
  
@@ -10,7 +10,6 @@ import {  PanelLeftOpen } from "lucide-react";
 import { useUserContext } from "@/components/UserContext";
 import { useState } from "react";
 import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
-import { ModeToggle } from "@/components/ModeToggle";
 
 
 const MobileNav = ()=>{
@@ -30,7 +29,7 @@ const MobileNav = ()=>{
         <PanelLeftOpen />
 
       </SheetTrigger>
-      <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0  h-screen top-[10%] space-y-4 ">
+      <SheetContent side="left" className=" w-[250px] sm:w-[300px] pr-0  h-screen  space-y-4 ">
         <div className="grid gap-4 py-20 ">
         {user ? (
   <>
