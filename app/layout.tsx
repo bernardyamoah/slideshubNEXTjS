@@ -75,13 +75,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
 
-      {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
-      <ThemeProvider attribute="class" defaultTheme="dark">
-        <UserContextProvider>
-          <body className="relative ">
+
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <body className="relative min-h-screen">
+          <UserContextProvider>
             <Navbar />
 
-            <main className="relative min-h-[85vh]   pb-20 "> {/* dark:bg-background/70 */}
+            <main className="relative pb-20 bg-white dark:bg-zinc-950/40"> {/* dark:bg-background/70 */}
               <BackButtonNavigation />
 
 
@@ -94,8 +94,8 @@ export default function RootLayout({
             <Toaster expand={false} position="top-center" richColors closeButton={true} />
             <Analytics />
             <SpeedInsights />
-          </body>
-        </UserContextProvider>
+          </UserContextProvider>
+        </body>
       </ThemeProvider>
     </html>
   );

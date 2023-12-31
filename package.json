@@ -55,6 +55,8 @@
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "date-fns": "^3.0.0-alpha.2",
+    "embla-carousel-autoplay": "^8.0.0-rc17",
+    "embla-carousel-react": "^8.0.0-rc17",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "framer-motion": "^10.16.4",

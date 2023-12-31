@@ -2,12 +2,16 @@ import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { generateDynamicColumns } from './generateColumn';
 import { booksColumnConfig } from '@/constants/columnUtils';
-import { formatTime, getAllBooks } from '@/lib/functions';
+import { formatTime, getAllBooks, getUserBooks } from '@/lib/functions';
 import { DataTable } from './data-table';
 
 import Loading from '../loading';
+interface UserProps {
+    user: User<any>;
+    title: string;
+}
+export default function Books({ user, title }: UserProps) {
 
-export default function Books({ title }) {
     const [books, setBooks] = useState<BooksData[]>([]);
     const [loading, setLoading] = useState(true)
     const [refresh, setRefresh] = useState(false)
@@ -21,7 +25,7 @@ export default function Books({ title }) {
     useEffect(() => {
         // Fetch Book for the current page
         const fetchBook = async () => {
-            const { data, total_pages } = await getAllBooks({ currentPage: pageInfo.currentPage + 1, perPage: pageInfo.pageSize, setLoading });
+            const { data, total_pages } = await getUserBooks({ currentPage: pageInfo.currentPage + 1, perPage: pageInfo.pageSize, setLoading, userId: user.$id });
             setBooks(data.map(book => ({
                 ...book,
                 timePosted: formatTime(book.$createdAt),
@@ -34,13 +38,13 @@ export default function Books({ title }) {
             }));
         };
         fetchBook();
-    }, [pageInfo.currentPage, pageInfo.pageSize,refresh])
+    }, [pageInfo.currentPage, pageInfo.pageSize, refresh])
 
 
 
 
-    const bookColumns = generateDynamicColumns(booksColumnConfig,title,setRefresh)
-    
+    const bookColumns = generateDynamicColumns(booksColumnConfig, title, setRefresh)
+
     const dataTableProps = {
         columns: bookColumns,
         data: books,
@@ -48,18 +52,18 @@ export default function Books({ title }) {
         pageInfo: pageInfo,
         setPageInfo: setPageInfo,
         loading: loading,
-        
-      };
-      
+
+    };
+
 
     return (
         <>
 
             <Suspense fallback={<Loading />}>
-                <DataTable dataTable={dataTableProps}/>
+                <DataTable dataTable={dataTableProps} />
             </Suspense>
 
-            
+
         </>
     )
 }

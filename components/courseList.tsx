@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { LevelTabItems } from '@/constants';
 import CourseCard from './CourseCard';
-import { motion } from "framer-motion";
-import { fadeInAnimationVariants } from '@/constants/motion';
 
-
-import { errorMessage, getCoursesByProgramId, successMessage } from '@/lib/functions';
+import { getCoursesByProgramId } from '@/lib/functions';
 import Loading from './ui/Cloading';
 import EmptyState from './EmptyUI';
+import { Separator } from './ui/separator';
+import { Badge } from './ui/badge';
 const CourseList = ({ programId, campusId }) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedTab, setSelectedTab] = useState(() => {
@@ -31,9 +30,9 @@ const CourseList = ({ programId, campusId }) => {
         const response = await getCoursesByProgramId(programId);
         setCourses(response);
         setLoading(false);
-        successMessage('Courses fetched successfully');
+
       } catch (error) {
-        errorMessage('Error fetching courses');
+        throw new Error('Could not fetch courses');
       }
     };
 
@@ -68,22 +67,38 @@ const CourseList = ({ programId, campusId }) => {
         {LevelTabItems.map(({ value }) => (
           <TabsContent key={value} value={value}>
             {courses.filter((course) => course.year === value).length > 0 ? (
-              <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-                {courses
-                  .filter((course) => course.year === value)
-                  .map((course,index) => (
-                    <motion.div variants={fadeInAnimationVariants}
-                    initial='initial'
-                    whileInView='animate'
-                    viewport={{
-                      once: true,
-                    }}
-                    custom={index}>
+              <div className='grid gap-8 pb-10'>
+                <section>
+                  <h3 className='text-center  text-muted-foreground mb-10 mx-auto py-3 rounded-3xl regular-32 '>First Semester</h3>
+                  <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+                    {courses
+                      .filter((course) => course.year === value && course.semester === 'first semester')
+                      .map((course) => (
+
                         <CourseCard key={course.$id} course={course} campusId={campusId} />
-                    </motion.div>
-                  
-                  ))}
+
+
+                      ))}
+
+                  </div>
+                </section>
+                <Separator />
+                <section>
+                  <h3 className='text-center  text-muted-foreground mb-10 mx-auto py-3 rounded-3xl regular-32  '>Second Semester</h3>
+                  <div className="grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+                    {courses
+                      .filter((course) => course.year === value && course.semester === 'second semester')
+                      .map((course) => (
+
+                        <CourseCard key={course.$id} course={course} campusId={campusId} />
+
+
+                      ))}
+
+                  </div>
+                </section>
               </div>
+
             ) : (
               <div className="flex justify-center w-full">
                 <EmptyState title="courses" />

@@ -206,7 +206,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <Separator className="my-4" />
-              <Books title='Books' />
+              <Books user={user!}  title='Books' />
             </TabsContent>
             {userInTeam ? (
               <>

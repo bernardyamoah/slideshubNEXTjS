@@ -36,7 +36,7 @@ export default function ProgramCard(program: ProgramCardProps) {
                 {duration}
               </span>
             </div>
-            <CardTitle className="z-20 mt-4 text-lg font-medium capitalize duration-1000 lg:text-xl group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
+            <CardTitle className="z-20 bold-32 mt-4 font-medium capitalize duration-500  group-hover:text-zinc-800 dark:text-zinc-200 dark:group-hover:text-white font-display">
               {name}
             </CardTitle>
 

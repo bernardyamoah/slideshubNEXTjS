@@ -16,10 +16,9 @@ export default function CourseCard({ course, campusId }) {
     credit,
     programId,
     semester,
-   $id  :courseId,
+    $id: courseId,
     $createdAt,
   } = course;
-  // const courseId = $id
 
   return (
     <>
@@ -57,7 +56,7 @@ export default function CourseCard({ course, campusId }) {
                 </Badge>
               </span>
 
-              <span className="flex gap-2 text-sm capitalize duration-1000  text-zinc-400 dark:text-zinc-500 dark:group-hover:text-zinc-300 ">
+              <span className="flex items-center gap-2 text-sm capitalize duration-1000  text-zinc-400 dark:text-zinc-500 dark:group-hover:text-zinc-300 ">
                 <Calendar className='w-4 h-4' />{semester}
               </span>
             </div>

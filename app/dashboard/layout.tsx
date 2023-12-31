@@ -14,14 +14,16 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
 
   if (loading) return <Loading />;
-  if(!user) return router.push('/login');
+  if (!user) return router.push('/login');
   return (
-    
-    
-      <div>{children}</div>
+    <>
 
 
-    
+      {children}
+
+    </>
+
+
   );
 }
 
