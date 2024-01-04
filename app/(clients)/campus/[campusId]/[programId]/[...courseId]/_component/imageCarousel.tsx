@@ -74,16 +74,8 @@ export function ImageCarousel({ images }) {
                     ))}
 
 
-                    {/* {Images.map((slide) => (
-                        <ImageCard
-                          key={slide.name}
-                          slide={slide}
-                          className="w-[150px]"
-                          aspectRatio="square"
-                          width={150}
-                          height={150}
-                        />
-                      ))} */}
+                
+            
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />

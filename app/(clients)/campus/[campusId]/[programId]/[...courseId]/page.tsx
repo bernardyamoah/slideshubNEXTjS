@@ -7,9 +7,9 @@ import { Suspense } from 'react';
 
 import EmptyState from '@/components/EmptyUI';
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
 import { Separator } from '@/components/ui/separator';
-import { ImageCard } from '@/components/ui/image-card';
+
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import FileCard from './file';
 import { ImageCarousel } from './_component/imageCarousel';
@@ -68,7 +68,7 @@ export default async function FilesList({ params: { courseId } }) {
 
               </div>
               <Separator className="my-4" />
-              <div className=" relative mx-auto max-w-xs  min-w-[15rem] w-full  md:max-w-6xl px-3">
+              <div className=" relative mx-auto max-w-xs  w-[14rem] md:w-full  md:max-w-6xl px-3">
 
 
                 <Suspense fallback={<LoadingSkeleton />}>

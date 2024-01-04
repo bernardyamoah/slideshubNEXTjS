@@ -77,8 +77,8 @@ export default function RootLayout({
 
 
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <body className="relative min-h-screen">
-          <UserContextProvider>
+        <UserContextProvider>
+          <body className="relative min-h-screen">
             <Navbar />
 
             <main className="relative pb-20 bg-white dark:bg-zinc-950/40"> {/* dark:bg-background/70 */}
@@ -94,8 +94,8 @@ export default function RootLayout({
             <Toaster expand={false} position="top-center" richColors closeButton={true} />
             <Analytics />
             <SpeedInsights />
-          </UserContextProvider>
-        </body>
+          </body>
+        </UserContextProvider>
       </ThemeProvider>
     </html>
   );

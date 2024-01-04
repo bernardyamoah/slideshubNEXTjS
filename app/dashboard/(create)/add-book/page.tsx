@@ -97,9 +97,9 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
       size: bytesToSize(file.size),
       downloadLink: uploadedFileUrl,
       fileType: fileExtension ? fileExtension.toString() : ""
-
+ 
     };
-
+    bookData
     await createBook(bookData, toastId);
     // Clear the fields after successful upload
     setUploadProgress(0);
@@ -113,6 +113,7 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
     toast.error("File upload failed");
     setOpen(false);
   }
+    console.log("🚀 ~ file: page.tsx:116 ~ uploadFile ~   bookData:",   bookData)
 }
 
 
@@ -268,7 +269,7 @@ export default function Page() {
 
 
   async function onSubmit(data: z.infer<typeof BookFormSchema>) {
-    console.log(data)
+  
     uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen, router);
     form.reset();
 
