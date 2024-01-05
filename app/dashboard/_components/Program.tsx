@@ -45,7 +45,7 @@ const Programs = ({ title }) => {
     title,
     setRefresh,
   );
-  const dataTableProps = {
+  const dataTable = {
     columns: programColumns,
     data: programs,
     title: title,
@@ -57,7 +57,7 @@ const Programs = ({ title }) => {
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <DataTable dataTable={dataTableProps} />
+        <DataTable dataTable={dataTable} setRefresh={setRefresh} />
       </Suspense>
     </>
   );

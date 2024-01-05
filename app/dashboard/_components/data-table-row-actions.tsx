@@ -25,13 +25,10 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 // custom Hooks and functions
 import {
@@ -47,13 +44,13 @@ import { BookEdit } from "./bookEdit";
 import { ProgramEdit } from "./programEdit";
 import { toast } from "sonner";
 
+
 export function DataTableRowActions({ row, title, setRefresh }) {
   const { id, name } = row.original;
-
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const deleteFunctionMap = {
       Course: deleteCourse,
       Slides: deleteSlide,
@@ -64,13 +61,14 @@ export function DataTableRowActions({ row, title, setRefresh }) {
     const deleteFunction = deleteFunctionMap[title];
 
     if (deleteFunction) {
-      toast.promise(deleteFunction(id, setRefresh), {
+      await toast.promise(deleteFunction(id), {
         loading: "Deleting...",
         success: "Success",
         error: "Failed to delete ❌",
       });
-
+      
       toast.dismiss(id);
+      setRefresh(true)
     }
 
     setShowDeleteDialog(false);

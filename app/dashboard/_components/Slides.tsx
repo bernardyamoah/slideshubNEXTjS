@@ -2,7 +2,7 @@
 
 import { DataTable } from "./data-table";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatTime, getUserSlides } from "@/lib/functions";
 
 import { generateDynamicColumns } from "./generateColumn";
@@ -15,6 +15,8 @@ interface UserProps {
 
 export default function Slides({ user, title }: UserProps) {
   const [slides, setSlides] = useState<any>([]);
+  
+  
   const [refresh, setRefresh] = useState(false);
   const [pageInfo, setPageInfo] = useState({
     currentPage: 0,
@@ -56,7 +58,7 @@ export default function Slides({ user, title }: UserProps) {
     setRefresh,
   );
 
-  const dataTableProps = {
+  const dataTable = {
     columns: slideColumns,
     data: slides,
     title: title,
@@ -66,7 +68,7 @@ export default function Slides({ user, title }: UserProps) {
   };
   return (
     <>
-      <DataTable dataTable={dataTableProps} />
+      <DataTable dataTable={dataTable} setRefresh={setRefresh}  />
     </>
   );
 }

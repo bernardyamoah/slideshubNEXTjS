@@ -28,7 +28,9 @@ import {
 import { DataTableViewOptions } from "./table-view";
 import { DataTablePagination } from "./tablePagination";
 
-interface DataTableProps<TData, TValue> {
+
+
+interface DataTableProps<TData , TValue> {
   dataTable: {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -40,11 +42,12 @@ interface DataTableProps<TData, TValue> {
     };
     setPageInfo: any;
     loading: boolean;
-  };
+  }
+  setRefresh:any;
+
 }
 export function DataTable<TData, TValue>({
-  dataTable: { columns, data, title, pageInfo, setPageInfo, loading },
-}: DataTableProps<TData, TValue>) {
+  dataTable: { columns, data, title, pageInfo, setPageInfo, loading }, setRefresh }: DataTableProps<TData, TValue> ) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -66,7 +69,7 @@ export function DataTable<TData, TValue>({
       currentPage: newPageIndex,
     }));
   };
-  const table = useReactTable({
+ const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -88,6 +91,7 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+const selectedRowIds=table.getFilteredSelectedRowModel().rows.map(row => (row.original as any)?.id);
 
   return (
     <>
@@ -102,7 +106,7 @@ export function DataTable<TData, TValue>({
         />
 
         {/* Column Visiblily  */}
-        <DataTableViewOptions table={table} />
+        <DataTableViewOptions table={table} selectedRowIds={selectedRowIds} setRefresh={setRefresh} />
       </div>
 
       <div className="rounded-md border">
@@ -139,9 +143,9 @@ export function DataTable<TData, TValue>({
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
                         </TableHead>
                       );
                     })}
@@ -191,6 +195,10 @@ export function DataTable<TData, TValue>({
             </>
           )}
         </Table>
+      </div>
+      <div className="flex-1 text-sm text-muted-foreground">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
 
       <DataTablePagination
