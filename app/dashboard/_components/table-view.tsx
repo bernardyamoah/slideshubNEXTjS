@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
@@ -12,33 +13,57 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
-import { deleteSelectedSlides } from "@/lib/functions";
+import { deleteSelectedSlides, deleteSelectedCourses, deleteSelectedBooks, deleteSelectedPrograms } from "@/lib/functions";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
   selectedRowIds: any[];
   setRefresh: any;
+  title: string
 }
 
 export function DataTableViewOptions<TData>({
   table,
   selectedRowIds,
-  setRefresh
+  setRefresh,
+  title
 }: DataTableViewOptionsProps<TData>) {
-  const handleDelete = () => {
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
+
+
+
+  const handleDelete = () => {
+    const deleteFunctionMap = {
+      Course: deleteSelectedCourses,
+      Slides: deleteSelectedSlides,
+      Program: deleteSelectedPrograms,
+      Books: deleteSelectedBooks,
+    };
+
+    const deleteFunction = deleteFunctionMap[title];
     try {
-      let id = toast.promise(deleteSelectedSlides(selectedRowIds), {
+      let id = toast.promise(deleteFunction(selectedRowIds, setRefresh), {
         loading: "Deleting...",
         success: "Success",
         error: "Failed to delete!",
       })
       toast.dismiss(id);
-      setRefresh(true)
+      setShowDeleteDialog(false);
+    
     } catch (error) {
       console.log(error);
+      setShowDeleteDialog(false);
     }
   }
 
@@ -49,7 +74,8 @@ export function DataTableViewOptions<TData>({
         size="sm"
         className={` h-8 duration-400 transition-all   ${selectedRowIds.length > 0 ? 'flex' : 'hidden'}`}
         onClick={() =>
-          handleDelete()
+          setShowDeleteDialog(true)
+
         }
       >
         <Trash2Icon className=" h-4 w-4" />
@@ -89,7 +115,26 @@ export function DataTableViewOptions<TData>({
             })}
         </DropdownMenuContent>
       </DropdownMenu>
-
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {title}</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription>
+            Are you sure you want to proceed? This action cannot be
+            undone.
+          </AlertDialogDescription>
+          <AlertDialogFooter className="gap-4 mt-6">
+            <Button onClick={handleDelete}>Delete</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setShowDeleteDialog(false)}
+            >
+              Cancel
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

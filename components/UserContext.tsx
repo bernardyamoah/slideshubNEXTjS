@@ -1,6 +1,10 @@
 "use client";
 import {
-  checkUserInTeam,
+  account,
+  teams,
+} from "@/appwrite";
+import {
+
   errorMessage,
   getCurrentUserAndSetUser,
   logIn,
@@ -98,6 +102,34 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(null);
     } catch (error) {
       errorMessage("Error signing out");
+    }
+  };
+  const getUserID = async (): Promise<string> => {
+    try {
+      const request = await account.get();
+      return request.$id;
+    } catch (error) {
+      throw new Error("Error fetching user ID: " + error);
+    }
+  };
+
+  const checkUserInTeam = async () => {
+    try {
+      const response = await teams.listMemberships(
+        process.env.NEXT_PUBLIC_TEAM_ID!
+      );
+      const userId = await getUserID();
+
+      // Check if the user's ID exists in the list of team members
+      const userIds = response.memberships.map(
+        (membership: any) => membership.userId
+      );
+      const isUserInTeam = userIds.includes(userId);
+      if (isUserInTeam) return isUserInTeam;
+      else return false;
+    } catch (error) {
+      console.error("Error checking team membership:", error);
+      return false;
     }
   };
   useEffect(() => {

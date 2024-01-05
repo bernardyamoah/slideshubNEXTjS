@@ -91,7 +91,7 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
-const selectedRowIds=table.getFilteredSelectedRowModel().rows.map(row => (row.original as any)?.id);
+let selectedRowIds=table.getFilteredSelectedRowModel().rows.map(row => (row.original as any)?.id);
 
   return (
     <>
@@ -106,7 +106,7 @@ const selectedRowIds=table.getFilteredSelectedRowModel().rows.map(row => (row.or
         />
 
         {/* Column Visiblily  */}
-        <DataTableViewOptions table={table} selectedRowIds={selectedRowIds} setRefresh={setRefresh} />
+        <DataTableViewOptions table={table} selectedRowIds={selectedRowIds} setRefresh={setRefresh} title={title} />
       </div>
 
       <div className="rounded-md border">

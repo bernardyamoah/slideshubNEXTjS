@@ -1,13 +1,4 @@
-import {
-	databases,
-	ID,
-	Query,
-	account,
-	storage,
-	client,
-	avatars,
-	teams,
-} from "@/appwrite";
+import { databases, ID, Query, account, storage, avatars } from "@/appwrite";
 import { UploadProgress } from "appwrite";
 import { toast } from "sonner";
 
@@ -142,22 +133,6 @@ export const createProgram = async (programData: ProgramData) => {
 
 export const createBook = async (bookData: BooksData, toastId: any) => {
 	try {
-		// // Retrieve all documents from the collection
-		// const response = await databases.listDocuments(
-		// 	process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-		// 	process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID! // Replace with your collection ID
-		// );
-
-		// const documents = response.documents;
-
-		// // Check if a document with the same name already exists
-		// const existingBook = documents.find((doc) => doc.name === bookData.name);
-
-		// if (existingBook) {
-		// 	errorMessage("This book  already exists.");
-		// 	return;
-		// }
-
 		toast.promise(
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -181,25 +156,6 @@ export const createBook = async (bookData: BooksData, toastId: any) => {
 
 export const createSlide = async (slideData: SlidesData) => {
 	try {
-		// Retrieve all documents from the collection
-		// const responseSlides = await databases.listDocuments(
-		// process.env.NEXT_PUBLIC_DATABASE_ID!, // Replace with your Database ID
-		// process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID! // Replace with your collection ID
-		// );
-
-		// const documents = responseSlides.documents;
-
-		// // Check if a document with the same name already exists
-		// const existingSlides = documents.find(
-		// (doc) => doc.name === slideData.name
-
-		// );
-
-		// if (existingSlides ) {
-		// warnMessage('This slide  already exists.');
-		// return;
-		// }
-
 		const data = await toast.promise(
 			databases.createDocument(
 				process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -450,7 +406,7 @@ export async function handleFileUpload(
 
 //  Delete Functions
 
-export const deleteCourse = async (id: string, setRefresh: any) => {
+export const deleteCourse = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -473,8 +429,11 @@ export const deleteCourse = async (id: string, setRefresh: any) => {
 		errorMessage("Action declined ❌");
 	}
 };
-
+export const deleteSelectedCourses = async (selectedRowIds: string[]) => {
+	await Promise.all(selectedRowIds.map((id) => deleteCourse(id)));
+};
 //👇🏻 delete a Slide
+
 export const deleteSlide = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
@@ -511,19 +470,63 @@ export const deleteSlide = async (id: string) => {
 		// 	]);
 
 		// }
-		// setRefresh(true);
+		
 	} catch (err) {
 		throw Error;
 	}
 };
-export const deleteSelectedSlides = async (selectedRowIds: string[]) => {
+export const deleteSelectedSlides = async (selectedRowIds: string[],  setRefresh:any) => {
 	// for (const id of selectedRowIds) {
 	// 	await deleteSlide(id, setRefresh);
 	// }
-	await Promise.all(selectedRowIds.map((id) => deleteSlide(id)));
+	await Promise.all(
+		selectedRowIds.map((id) => deleteSlide(id))
+	);
+	  setRefresh(true);
 };
+
+// Delete Book
+export const deleteBook = async (id: string) => {
+	try {
+		const getDoc = await databases.getDocument(
+			databaseId!,
+			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			id
+		);
+		console.log("🚀 ~ file: functions.ts:493 ~ deleteBook ~ getDoc:", getDoc);
+
+		const fileID = extractIdFromUrl(getDoc.downloadLink);
+		if (getDoc.$id === id && fileID !== null) {
+			try {
+				await storage.deleteFile(
+					process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
+					fileID
+				);
+			} catch (error) {
+				console.error("Error deleting file:", error);
+			}
+
+			await databases.deleteDocument(
+				databaseId!,
+				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
+				id
+			);
+		}
+	} catch (err) {
+		console.log(err)
+	}
+};
+
+export const deleteSelectedBooks = async (selectedRowIds: string[]) => {
+	try {
+		await Promise.all(selectedRowIds.map((id) => deleteBook(id)));
+	} catch (error) {
+	console.log(error);
+	}
+};
+
 // Delete Program
-export const deleteProgram = async (id: string, setRefresh: any) => {
+export const deleteProgram = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -539,44 +542,13 @@ export const deleteProgram = async (id: string, setRefresh: any) => {
 				id
 			);
 		}
-
-		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting program:", error);
 		errorMessage("Failed to delete program");
 	}
 };
-
-// Delete Book
-export const deleteBook = async (id: string, setRefresh: any) => {
-	try {
-		const getDoc = await databases.getDocument(
-			databaseId!,
-			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-			id
-		);
-
-		const fileID = extractIdFromUrl(getDoc.downloadLink);
-
-		if (getDoc.$id === id && fileID !== null) {
-			await storage.deleteFile(
-				process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
-				fileID
-			);
-			await databases.deleteDocument(
-				databaseId!,
-				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
-				id
-			);
-		}
-
-		successMessage(`${getDoc.title} deleted! 🎉`);
-		setRefresh(true);
-	} catch (error) {
-		console.error("Error deleting book:", error);
-		errorMessage("Failed to delete book");
-		setRefresh(true);
-	}
+export const deleteSelectedPrograms = async (selectedRowIds: string[]) => {
+	await Promise.all(selectedRowIds.map((id) => deleteProgram(id)));
 };
 
 // Delete Campus
@@ -744,25 +716,6 @@ export const getAllBooks = async ({
 		throw error;
 	}
 };
-// export const getTotalProgrammesPages = async (
-// 	perPage: number
-// ): Promise<number> => {
-// 	if (!databaseId) {
-// 		throw new Error("Database ID is not defined");
-// 	}
-// 	try {
-// 		const response = await databases.listDocuments(
-// 			databaseId,
-// 			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!
-// 		);
-// 		const totalProgram = response.total;
-// 		const totalPages = Math.ceil(totalProgram / perPage);
-// 		return totalPages;
-// 	} catch (error) {
-// 		console.error(error);
-// 		throw error;
-// 	}
-// };
 
 export const getSlides = async (): Promise<any[]> => {
 	if (!databaseId) {
@@ -977,30 +930,6 @@ export const formatUserTime = (timePosted: string) => {
 	});
 };
 
-// 	userId: string,
-// 	perPage: number
-// ): Promise<number> => {
-// 	if (!databaseId) {
-// 		throw new Error("Database ID is not defined");
-// 	}
-
-// 	try {
-// 		const response = await databases.listDocuments(
-// 			databaseId!,
-// 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-// 			[Query.equal("user_id", userId)]
-// 		);
-
-// 		const totalSlides = response.total;
-
-// 		const totalPages = Math.ceil(totalSlides / perPage);
-
-// 		return totalPages;
-// 	} catch (error) {
-// 		console.error(error);
-// 		throw error;
-// 	}
-// };
 export const getUserSlides = async ({
 	userId,
 	currentPage,
@@ -1130,17 +1059,6 @@ export const logOut = async () => {
 	}
 };
 
-export const getCurrentUser = async (): Promise<string | null> => {
-	try {
-		const request = await account.get();
-
-		return request.$id;
-	} catch (error) {
-		console.error("Error fetching user ID:", error);
-		return null;
-	}
-};
-
 export const getCurrentUserAndSetUser = async () => {
 	try {
 		const response = await account.get();
@@ -1148,34 +1066,6 @@ export const getCurrentUserAndSetUser = async () => {
 	} catch (error) {
 		console.error("Error fetching user:", error);
 		return null;
-	}
-};
-// Check authentication status function
-export const checkAuthStatus = async (
-	setUser: (user: any) => void,
-	setLoading: (loading: boolean) => void,
-	router: any
-) => {
-	try {
-		const request = await account.get();
-		setUser(request);
-		setLoading(false);
-	} catch (error) {
-		router.push("/");
-	}
-};
-
-export const checkAuthStatusDashboard = async (
-	setUser: (user: any) => void,
-	setLoading: (loading: boolean) => void
-) => {
-	try {
-		const request = await account.get();
-
-		setUser(request);
-		setLoading(false);
-	} catch (err) {
-		throw new Error("error");
 	}
 };
 
@@ -1187,20 +1077,7 @@ export const extractIdFromUrl = (url: string) => {
 };
 
 // OAuth functions
-// export const handleGoogleSignIn = async () => {
-// 	try {
-// 		// Define the redirect URL based on the environment
-// 		const redirectUrl =
-// 			process.env.NODE_ENV === "production"
-// 				? "https://slideshub.vercel.app/dashboard"
-// 				: "http://localhost:3000/dashboard";
 
-// 		// Go to OAuth provider login page (Google)
-// 		 account.createOAuth2Session("google", redirectUrl);
-// 	} catch (error) {
-// 		errorMessage("Error initiating Google OAuth:" + error);
-// 	}
-// };
 export const handleGoogleSignIn = async () => {
 	try {
 		// Define the redirect URL based on the environment
@@ -1227,35 +1104,6 @@ export const getUserInitials = async (name: string) => {
 		return result.href.toString();
 	} catch (error) {
 		return null;
-	}
-};
-
-const getUserID = async (): Promise<string> => {
-	try {
-		const request = await account.get();
-		return request.$id;
-	} catch (error) {
-		throw new Error("Error fetching user ID: " + error);
-	}
-};
-
-export const checkUserInTeam = async () => {
-	try {
-		const response = await teams.listMemberships(
-			process.env.NEXT_PUBLIC_TEAM_ID!
-		);
-		const userId = await getUserID();
-
-		// Check if the user's ID exists in the list of team members
-		const userIds = response.memberships.map(
-			(membership: any) => membership.userId
-		);
-		const isUserInTeam = userIds.includes(userId);
-		// console.log("Is user in team:", isUserInTeam);
-		return isUserInTeam;
-	} catch (error) {
-		console.error("Error checking team membership:", error);
-		return false;
 	}
 };
 
