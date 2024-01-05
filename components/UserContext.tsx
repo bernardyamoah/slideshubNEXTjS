@@ -1,5 +1,12 @@
-'use client'
-import { checkUserInTeam, errorMessage, getCurrentUserAndSetUser, logIn, logOut, signUp } from "@/lib/functions";
+"use client";
+import {
+  checkUserInTeam,
+  errorMessage,
+  getCurrentUserAndSetUser,
+  logIn,
+  logOut,
+  signUp,
+} from "@/lib/functions";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -18,9 +25,8 @@ interface MyContextState {
   user: User | null;
   loading: boolean;
   userInTeam: boolean;
- signOut: () => void;
- login: (email: string, password: string) => Promise<void>; // Updated this line
-  
+  signOut: () => void;
+  login: (email: string, password: string) => Promise<void>; // Updated this line
 }
 
 interface MyContextActions {
@@ -36,7 +42,9 @@ const MyContextActions = createContext<MyContextActions | undefined>(undefined);
 function useUserContext() {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useMyContextState must be used within a UserContextProvider");
+    throw new Error(
+      "useMyContextState must be used within a UserContextProvider",
+    );
   }
   return context;
 }
@@ -44,17 +52,21 @@ function useUserContext() {
 function useMyContextActions() {
   const context = useContext(MyContextActions);
   if (!context) {
-    throw new Error("useMyContextActions must be used within a UserContextProvider");
+    throw new Error(
+      "useMyContextActions must be used within a UserContextProvider",
+    );
   }
   return context;
 }
 
-const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
-  
+
   const [userInTeam, setUserInTeam] = useState(false);
   const [loading, setLoading] = useState(true);
-const router=useRouter()
+  const router = useRouter();
   const login = async (email: string, password: string) => {
     try {
       await logIn(email, password);
@@ -62,7 +74,7 @@ const router=useRouter()
       setUser(currentUser);
       router.push("/dashboard");
     } catch (error) {
-      errorMessage('Error logging in');
+      errorMessage("Error logging in");
     }
   };
 
@@ -71,10 +83,10 @@ const router=useRouter()
       await signUp(name, email, password);
       const currentUser = await getCurrentUserAndSetUser();
       setUser(currentUser);
-  
+
       router.push("/dashboard");
     } catch (error) {
-      errorMessage('Error registering');
+      errorMessage("Error registering");
       router.push("/register");
     }
   };
@@ -85,7 +97,7 @@ const router=useRouter()
       router.push("/");
       setUser(null);
     } catch (error) {
-      errorMessage('Error signing out');
+      errorMessage("Error signing out");
     }
   };
   useEffect(() => {
@@ -97,7 +109,7 @@ const router=useRouter()
         setUserInTeam(isUserInTeam);
         setLoading(false);
       } catch (error) {
-        errorMessage('Error fetching user');
+        errorMessage("Error fetching user");
         setLoading(false);
       }
     }
@@ -122,14 +134,10 @@ const router=useRouter()
 
   return (
     <UserContext.Provider value={contextValue}>
-    <MyContextActions.Provider value={contextActions}>
-      
-
-{children}
-
-
-    </MyContextActions.Provider>
-  </UserContext.Provider>
+      <MyContextActions.Provider value={contextActions}>
+        {children}
+      </MyContextActions.Provider>
+    </UserContext.Provider>
   );
 };
 

@@ -1,11 +1,7 @@
-import { LogOut, User } from "lucide-react"
+import { LogOut, User } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,30 +11,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 import { logOut } from "@/lib/functions";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
-;
 import { getUserInitials } from "@/lib/functions";
 import { useEffect, useState } from "react";
-import {  useUserContext } from "./UserContext";
-export const UserProfile= () => {
-  const {user}=useUserContext();
-  const{signOut}=useUserContext()
-  const firstName = user?.name?.split(' ')[0] || '';
+import { useUserContext } from "./UserContext";
+export const UserProfile = () => {
+  const { user } = useUserContext();
+  const { signOut } = useUserContext();
+  const firstName = user?.name?.split(" ")[0] || "";
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   useEffect(() => {
     async function fetchAvatarUrl() {
       try {
-       
         if (user) {
-          
-          const initials = await getUserInitials(user?.name || '');
+          const initials = await getUserInitials(user?.name || "");
           setAvatarUrl(initials);
-        
         }
       } catch (error) {
         console.log(error);
@@ -51,18 +43,23 @@ export const UserProfile= () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className=" relative w-8 h-8 md:w-10 md:h-10 rounded-full outline-zinc-700">
-          <Avatar className="relative w-8 h-8" >
+        <Button
+          variant="ghost"
+          className=" relative w-8 h-8 md:w-10 md:h-10 rounded-full outline-zinc-700"
+        >
+          <Avatar className="relative w-8 h-8">
             {avatarUrl && (
-              <AvatarImage src={avatarUrl} alt={user?.name || ' '} />
-            ) }
+              <AvatarImage src={avatarUrl} alt={user?.name || " "} />
+            )}
           </Avatar>
         </Button>
-
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 z-[100]" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <Link href={`/dashboard/profile/${user?.$id}`} className="flex flex-col space-y-1">
+          <Link
+            href={`/dashboard/profile/${user?.$id}`}
+            className="flex flex-col space-y-1"
+          >
             <p className="text-sm font-medium leading-none">{user?.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}
@@ -70,12 +67,15 @@ export const UserProfile= () => {
           </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-      
-        <DropdownMenuItem className="text-red-600 hover:bg-red-50" onClick={signOut}>
+
+        <DropdownMenuItem
+          className="text-red-600 hover:bg-red-50"
+          onClick={signOut}
+        >
           <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};

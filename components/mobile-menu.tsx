@@ -36,43 +36,38 @@ const MobileMenu = () => {
             <div className="grid gap-8 py-20 ">
               {isAdmin ? (
                 AdmintabRoutes.map((tabRoute, index) => (
-                 
-                    <Link
-                      href={tabRoute.path}
-                      key={index}
-                    
-                      className={cn(
-                        pathname === tabRoute.path
-                          ? "text-zinc-900 dark:text-white font-bold border-l-4  border-emerald-500  text-lg "
-                          : " hover:border-l-2 hover:border-emerald-500 ",
-                        "pl-4 flex gap-2 duration-150 text-muted-foreground py-3 pr-0"
-                      )}
-                      onClick={() => handleOnClick(tabRoute.path)}
-                    >
-                       {tabRoute.icon}
-
-                      Add {tabRoute.label}
-                    </Link>
-           
+                  <Link
+                    href={tabRoute.path}
+                    key={index}
+                    className={cn(
+                      pathname === tabRoute.path
+                        ? "text-zinc-900 dark:text-white font-bold border-l-4  border-emerald-500  text-lg "
+                        : " hover:border-l-2 hover:border-emerald-500 ",
+                      "pl-4 flex gap-2 duration-150 text-muted-foreground py-3 pr-0",
+                    )}
+                    onClick={() => handleOnClick(tabRoute.path)}
+                  >
+                    {tabRoute.icon}
+                    Add {tabRoute.label}
+                  </Link>
                 ))
               ) : (
                 <>
                   {UsertabRoutes.map((tabRoute, index) => (
-                   <Link
-                   href={tabRoute.path}
-                   key={index}
-                   className={cn(
-                     pathname === tabRoute.path
-                       ? "text-zinc-900 dark:text-white font-bold border-l-4 bg-emerald-50/20 border-emerald-500  text-lg "
-                       : " hover:border-l-2 hover:border-emerald-500 ",
-                     "pl-4 flex gap-2 duration-150 text-muted-foreground py-3 pr-0"
-                   )}
-                   onClick={() => handleOnClick(tabRoute.path)}
-                 >
-                    {tabRoute.icon}
-
-                   Add {tabRoute.label}
-                 </Link>
+                    <Link
+                      href={tabRoute.path}
+                      key={index}
+                      className={cn(
+                        pathname === tabRoute.path
+                          ? "text-zinc-900 dark:text-white font-bold border-l-4 bg-emerald-50/20 border-emerald-500  text-lg "
+                          : " hover:border-l-2 hover:border-emerald-500 ",
+                        "pl-4 flex gap-2 duration-150 text-muted-foreground py-3 pr-0",
+                      )}
+                      onClick={() => handleOnClick(tabRoute.path)}
+                    >
+                      {tabRoute.icon}
+                      Add {tabRoute.label}
+                    </Link>
                   ))}
                 </>
               )}

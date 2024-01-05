@@ -1,8 +1,6 @@
-
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import Slides from "@/app/dashboard/_components/Slides";
-
 
 import { Separator } from "@/components/ui/separator";
 
@@ -20,13 +18,7 @@ import Programs from "./_components/Program";
 import Courses from "@/app/dashboard/_components/Courses";
 import Books from "./_components/Books";
 
-
-
-
-
-
 export default function Dashboard() {
-
   const router = useRouter();
   const { userInTeam, user } = useUserContext();
   const userLabel = user?.labels || [];
@@ -43,16 +35,16 @@ export default function Dashboard() {
   };
 
   const handleAddButtonClick = () => {
-    let route = '/dashboard';
+    let route = "/dashboard";
 
-    if (activeTab === 'slide') {
-      route = route + '/add-slide';
-    } else if (activeTab === 'book') {
-      route = route + '/add-book';
-    } else if (activeTab === 'program') {
-      route = route + '/add-program';
-    } else if (activeTab === 'course') {
-      route = route + '/add-course';
+    if (activeTab === "slide") {
+      route = route + "/add-slide";
+    } else if (activeTab === "book") {
+      route = route + "/add-book";
+    } else if (activeTab === "program") {
+      route = route + "/add-program";
+    } else if (activeTab === "course") {
+      route = route + "/add-course";
     }
 
     router.push(route);
@@ -78,14 +70,8 @@ export default function Dashboard() {
     titleAnimation.start("visible");
   }, []);
 
-
-
   return (
     <>
-
-
-
-
       <header className="hidden items-center justify-center w-full ">
         <div className="max-w-screen-xl px-4 py-8 mx-auto">
           <div className="space-y-2">
@@ -117,14 +103,15 @@ export default function Dashboard() {
               <TabsList>
                 {tabTriggers.map((tabTrigger) => {
                   if (
-                    (tabTrigger.value === "program" || tabTrigger.value === "course") &&
+                    (tabTrigger.value === "program" ||
+                      tabTrigger.value === "course") &&
                     !userInTeam
                   ) {
                     return null; // Skip rendering the "Programs" tab if userInTeam is false
                   }
                   if (
-                    Array.isArray(userLabel as string[]) &&
-                    (userLabel as string[]).includes("SuperAdmin") ||
+                    (Array.isArray(userLabel as string[]) &&
+                      (userLabel as string[]).includes("SuperAdmin")) ||
                     (userLabel as string[]).includes("admin")
                   ) {
                     // Render all options if user has "super_Admin" or "admin" label
@@ -139,7 +126,10 @@ export default function Dashboard() {
                         {tabTrigger.label}
                       </TabsTrigger>
                     );
-                  } else if (tabTrigger.value === "slide" || tabTrigger.value === "book") {
+                  } else if (
+                    tabTrigger.value === "slide" ||
+                    tabTrigger.value === "book"
+                  ) {
                     // Render only "Add Slide" and "Add Book" options if user doesn't have "super_Admin" or "admin" label
                     return (
                       <TabsTrigger
@@ -159,23 +149,20 @@ export default function Dashboard() {
               <div className="hidden ml-auto mr-4 lg:block ">
                 <Button onClick={handleAddButtonClick}>
                   <PlusCircledIcon className="w-4 h-4 mr-2" />
-                  {activeTab === 'slide'
-                    ? 'Add Slide'
-                    : activeTab === 'book'
-                      ? 'Add Book'
-                      : activeTab === 'program'
-                        ? 'Add Program'
-                        : activeTab === 'course'
-                          ? 'Add Course'
-                          : ''}
+                  {activeTab === "slide"
+                    ? "Add Slide"
+                    : activeTab === "book"
+                      ? "Add Book"
+                      : activeTab === "program"
+                        ? "Add Program"
+                        : activeTab === "course"
+                          ? "Add Course"
+                          : ""}
                 </Button>
               </div>
             </div>
             {/* Slides content */}
-            <TabsContent
-              value="slide"
-              className="p-0 border-none outline-none"
-            >
+            <TabsContent value="slide" className="p-0 border-none outline-none">
               <div className="flex items-center justify-between ">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-semibold tracking-tight">
@@ -188,7 +175,7 @@ export default function Dashboard() {
               </div>
               <Separator className="my-4" />
 
-              <Slides user={user!} title='Slides' />
+              <Slides user={user!} title="Slides" />
             </TabsContent>
             {/* Books */}
             <TabsContent
@@ -206,7 +193,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <Separator className="my-4" />
-              <Books user={user!}  title='Books' />
+              <Books user={user!} title="Books" />
             </TabsContent>
             {userInTeam ? (
               <>
@@ -226,11 +213,7 @@ export default function Dashboard() {
                   </div>
                   <Separator className="my-4" />
                   <div className="relative">
-
-
-                    <Courses title='Courses' />
-
-
+                    <Courses title="Courses" />
                   </div>
                 </TabsContent>
 
@@ -250,28 +233,16 @@ export default function Dashboard() {
                   </div>
                   <Separator className="my-4" />
                   <div className="relative">
-
-
-
-                    <Programs title='Programs' />
-
+                    <Programs title="Programs" />
                   </div>
                 </TabsContent>
               </>
-            ) : null
-            }
+            ) : null}
           </Tabs>
         </div>
 
-        <div>
-
-        </div>
-
+        <div></div>
       </div>
-
-
-
-
     </>
-  )
+  );
 }

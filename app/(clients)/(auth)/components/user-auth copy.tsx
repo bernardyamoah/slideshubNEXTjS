@@ -1,25 +1,24 @@
-"use client"
+"use client";
 
-
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-import { handleGoogleSignIn } from "@/lib/functions"
-import { Loader2 } from "lucide-react"
-import { useUserContext } from "@/components/UserContext"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { handleGoogleSignIn } from "@/lib/functions";
+import { Loader2 } from "lucide-react";
+import { useUserContext } from "@/components/UserContext";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const loginSchema=z.object({
-  email:z.string().email(),
-  password:z.string().min(6)
-})
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -27,16 +26,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     defaultValues: {
       email: "",
       password: "",
-
     },
   });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {login}=useUserContext();
+  const { login } = useUserContext();
 
- 
-  async function onSubmit(data:z.infer<typeof loginSchema>) {
-    const {email,password}=data
+  async function onSubmit(data: z.infer<typeof loginSchema>) {
+    const { email, password } = data;
     login(email, password);
   }
 
@@ -52,10 +49,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               id="email"
               placeholder="name@example.com"
               type="email"
-           
               autoComplete="email"
               autoCorrect="off"
-              
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -70,15 +65,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect="off"
-          
               value={password}
-			 onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button disabled={form.formState.isSubmitting} className="mt-4">
             {form.formState.isSubmitting && (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              
             )}
             Login
           </Button>
@@ -94,14 +87,19 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={form.formState.isSubmitting} onClick={handleGoogleSignIn}>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={form.formState.isSubmitting}
+        onClick={handleGoogleSignIn}
+      >
         {form.formState.isSubmitting ? (
           <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
         ) : (
           <Icons.google className="w-4 h-4 mr-2" />
         )}{" "}
-    Google
+        Google
       </Button>
     </div>
-  )
+  );
 }

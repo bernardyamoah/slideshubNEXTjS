@@ -1,24 +1,44 @@
-"use client"
+"use client";
 
-import { Check, ChevronsUpDown, Edit, MoreHorizontal, Trash } from "lucide-react"
+import {
+  Check,
+  ChevronsUpDown,
+  Edit,
+  MoreHorizontal,
+  Trash,
+} from "lucide-react";
 
 import { successMessage, deleteCourse, updateCourse } from "@/lib/functions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../../components/ui/dialog"
-import { Input } from "../../../components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../../components/ui/dialog";
+import { Input } from "../../../components/ui/input";
 import { useState } from "react";
 import { Label } from "../../../components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../../../components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "../../../components/ui/command";
 import { cn } from "@/lib/utils";
 import { Semesters, Years, creditHours } from "@/constants";
 
-
-
-export function CourseEdit({ data, setRefresh,setShowDialog }) {
-
+export function CourseEdit({ data, setRefresh, setShowDialog }) {
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -31,24 +51,21 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
     event.preventDefault();
     try {
       await updateCourse(data.$id, courseDetails);
-      successMessage('Course updated successfully');
+      successMessage("Course updated successfully");
       setShowDialog(false);
     } catch (error) {
-      console.error('Error updating course:', error);
+      console.error("Error updating course:", error);
     }
   };
 
   // Handle form field changes
   const handleChange = (e) => {
-    setCourseDetails(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setCourseDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   // Dialog for editing course details
   const renderDialog = () => (
-
-
     <>
-
       <div className="grid gap-4 p-4">
         <form className="w-full  mb-2 space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 mb-4">
@@ -79,17 +96,19 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
           <div className="grid gap-4 mb-1.5 md:grid-cols-2">
             {/* Course code */}
             <div className="flex flex-col space-y-1.5 flex-1 w-full ">
-              <Label htmlFor="courseCode" className="block col-span-4 text-left">
+              <Label
+                htmlFor="courseCode"
+                className="block col-span-4 text-left"
+              >
                 Course Code
               </Label>
               <Input
                 id="courseCode"
                 name="courseCode"
-                value={''}
+                value={""}
                 onChange={handleChange}
               />
             </div>
-
 
             {/* Year */}
             <div className="flex flex-col space-y-1.5 flex-1 w-full ">
@@ -103,14 +122,14 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                     className="justify-between w-full overflow-hidden no-wrap"
                   >
                     {courseDetails.year
-
-                      ? Years.find((level) => level.id === courseDetails.year)?.level
+                      ? Years.find((level) => level.id === courseDetails.year)
+                          ?.level
                       : "Select Level"}
                     <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
-                  <Command onValueChange={handleChange} >
+                  <Command onValueChange={handleChange}>
                     <CommandInput placeholder="Search ..." />
                     <CommandEmpty>No year found</CommandEmpty>
                     <CommandGroup>
@@ -119,9 +138,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           key={level.id}
                           onSelect={(currentValue) => {
                             if (currentValue !== courseDetails.year) {
-                              setCourseDetails(prevData => ({
+                              setCourseDetails((prevData) => ({
                                 ...prevData,
-                                year: currentValue
+                                year: currentValue,
                               }));
                             }
                             setOpen2(false); // Updated from setOpen2(false)
@@ -130,7 +149,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              courseDetails.year === level.id ? "opacity-100" : "opacity-0"
+                              courseDetails.year === level.id
+                                ? "opacity-100"
+                                : "opacity-0",
                             )}
                           />
                           {level.level}
@@ -141,7 +162,6 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                 </PopoverContent>
               </Popover>
             </div>
-
           </div>
 
           <div className="grid gap-4 mb-1.5 md:grid-cols-2">
@@ -158,13 +178,15 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                     className="justify-between w-full overflow-hidden no-wrap"
                   >
                     {courseDetails.year
-                      ? creditHours.find((credit) => credit.id === courseDetails.year)?.hour
+                      ? creditHours.find(
+                          (credit) => credit.id === courseDetails.year,
+                        )?.hour
                       : "Select Level"}
                     <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
-                  <Command onValueChange={handleChange} >
+                  <Command onValueChange={handleChange}>
                     <CommandInput placeholder="Search ..." />
                     <CommandEmpty>No year found</CommandEmpty>
                     <CommandGroup>
@@ -173,9 +195,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           key={credit.id}
                           onSelect={(currentValue) => {
                             if (currentValue !== courseDetails.credit) {
-                              setCourseDetails(prevData => ({
+                              setCourseDetails((prevData) => ({
                                 ...prevData,
-                                credit: currentValue
+                                credit: currentValue,
                               }));
                             }
                             setOpen2(false); // Updated from setOpen2(false)
@@ -184,7 +206,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              courseDetails.credit === credit.id ? "opacity-100" : "opacity-0"
+                              courseDetails.credit === credit.id
+                                ? "opacity-100"
+                                : "opacity-0",
                             )}
                           />
                           {credit.hour}
@@ -195,7 +219,6 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                 </PopoverContent>
               </Popover>
             </div>
-
 
             {/* Semester */}
             <div className="flex flex-col space-y-1.5 flex-1 w-full">
@@ -209,13 +232,15 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                     className="justify-between w-full overflow-hidden no-wrap"
                   >
                     {courseDetails.semester
-                      ? Semesters.find((sem) => sem.id === courseDetails.semester)?.semester
+                      ? Semesters.find(
+                          (sem) => sem.id === courseDetails.semester,
+                        )?.semester
                       : "Select Semester"}
                     <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
-                  <Command onValueChange={handleChange} >
+                  <Command onValueChange={handleChange}>
                     <CommandInput placeholder="Search ..." />
                     <CommandEmpty>No semester found</CommandEmpty>
                     <CommandGroup>
@@ -224,9 +249,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           key={sem.id}
                           onSelect={(currentValue) => {
                             if (currentValue !== courseDetails.semester) {
-                              setCourseDetails(prevData => ({
+                              setCourseDetails((prevData) => ({
                                 ...prevData,
-                                semester: currentValue
+                                semester: currentValue,
                               }));
                             }
                             setOpen2(false);
@@ -235,7 +260,9 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              courseDetails.semester === sem.id ? "opacity-100" : "opacity-0"
+                              courseDetails.semester === sem.id
+                                ? "opacity-100"
+                                : "opacity-0",
                             )}
                           />
                           {sem.semester}
@@ -247,29 +274,23 @@ export function CourseEdit({ data, setRefresh,setShowDialog }) {
               </Popover>
             </div>
           </div>
-
         </form>
-        
+
         <DialogFooter className="flex gap-4 mt-8">
-        <Button variant="secondary" onClick={() => setShowDialog(false)}>Cancel</Button>
-        <Button type="submit" onClick={handleSubmit}>Save changes</Button>
-      </DialogFooter>
+          <Button variant="secondary" onClick={() => setShowDialog(false)}>
+            Cancel
+          </Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Save changes
+          </Button>
+        </DialogFooter>
       </div>
-
-
     </>
-
   );
-
-
 
   return (
     <>
-
-      <ScrollArea className=' overflow-auto'>
-        {renderDialog()}
-      </ScrollArea>
-
+      <ScrollArea className=" overflow-auto">{renderDialog()}</ScrollArea>
     </>
-  )
+  );
 }

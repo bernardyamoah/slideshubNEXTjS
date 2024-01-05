@@ -1,6 +1,6 @@
 "use client";
 
-import  {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -21,7 +21,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -37,20 +36,23 @@ import { Input } from "@/components/ui/input";
 import DocumentUpload from "@/components/document-upload";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { deleteProgram, getCampus, updateProgram } from "@/lib/functions";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-
-export function PresetActions({
-data
-}) {
- 
+export function PresetActions({ data }) {
   const [showDialog, setShowDialog] = useState(false);
   // const programData = programs.find((program) => program.$id === id);
-  
-  
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  
+
   // const [formFields, setFormFields] = useState({
   //   updatedName: programData?.name || '',
   //   updatedDuration: programData?.duration || '',
@@ -60,74 +62,69 @@ data
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-//     try {
-//       // Perform the update
-     
-//       const updatedAttributes: {
-//         name?: string;
-//      duration?:string;
-//      campusId?:string;
-//       } = {};
-//       if (formFields.updatedName !== programData?.name) {
-//         updatedAttributes.name = formFields.updatedName;
-//       }
-//       if (formFields.updatedDuration !== programData?.duration) {
-//         updatedAttributes.duration = formFields.updatedDuration;
-//         }
-//         if (formFields.updatedDescription !== programData?.description) {
-//           updatedAttributes.duration = formFields.updatedDuration;
-//           }
-        
-//         if (formFields.updatedCampusId !== programData?.campusId) {
-//           updatedAttributes.campusId = formFields.updatedCampusId;
-//           }
+    //     try {
+    //       // Perform the update
 
-//       await updateProgram(id, updatedAttributes);
+    //       const updatedAttributes: {
+    //         name?: string;
+    //      duration?:string;
+    //      campusId?:string;
+    //       } = {};
+    //       if (formFields.updatedName !== programData?.name) {
+    //         updatedAttributes.name = formFields.updatedName;
+    //       }
+    //       if (formFields.updatedDuration !== programData?.duration) {
+    //         updatedAttributes.duration = formFields.updatedDuration;
+    //         }
+    //         if (formFields.updatedDescription !== programData?.description) {
+    //           updatedAttributes.duration = formFields.updatedDuration;
+    //           }
 
-      
-      
-//       //  Reset form fields
-// setFormFields({
-// updatedName: formFields.updatedName || '',
-// updatedDuration: formFields.updatedDuration || '',
-// updatedCampusId: formFields.updatedCampusId || '',
-// updatedDescription:formFields.updatedDescription || '',
-// });
+    //         if (formFields.updatedCampusId !== programData?.campusId) {
+    //           updatedAttributes.campusId = formFields.updatedCampusId;
+    //           }
 
-//       setPrograms((prevPrograms) =>
-//         prevPrograms.map((program) => {
-//           if (program.$id === id) {
-//             return {
-//               ...program,
-//               ...updatedAttributes,
-//             };
-//           }
-//           return program;
-//         })
-//       );
-//     } catch (error) {
-//       console.error("Error updating program:", error);
-      
-//     }
+    //       await updateProgram(id, updatedAttributes);
+
+    //       //  Reset form fields
+    // setFormFields({
+    // updatedName: formFields.updatedName || '',
+    // updatedDuration: formFields.updatedDuration || '',
+    // updatedCampusId: formFields.updatedCampusId || '',
+    // updatedDescription:formFields.updatedDescription || '',
+    // });
+
+    //       setPrograms((prevPrograms) =>
+    //         prevPrograms.map((program) => {
+    //           if (program.$id === id) {
+    //             return {
+    //               ...program,
+    //               ...updatedAttributes,
+    //             };
+    //           }
+    //           return program;
+    //         })
+    //       );
+    //     } catch (error) {
+    //       console.error("Error updating program:", error);
+
+    //     }
   };
 
-
-
- 
   // useEffect(() => {
   //   async function fetchCampuses() {
   //     try {
   //       const response = await getCampus();
   //       setCampuses(response)
   //       // const selectedCampus = response.find((campus) => campus.$id === programData?.campusId);
-  
+
   //       // if (selectedCampus) {
   //       //   setFormFields((prevFormFields) => ({
   //       //     ...prevFormFields,
   //       //     updatedCampusId: selectedCampus.name,
   //       //   }));
   //       // };
-        
+
   //     } catch (error) {
 
   //     }
@@ -139,7 +136,6 @@ data
     try {
       // Call the deleteSlide function to delete the slide
       // await deleteProgram(id);
-
       // Update the slides state by filtering out the deleted slide
       // const updatedPrograms = programs.filter((program) => program.$id !== id);
       // setPrograms(updatedPrograms);
@@ -148,12 +144,10 @@ data
     }
   };
   const handleSelectChange = (selectedValue: string) => {
-  
     // setFormFields((prevFormFields) => ({
     //   ...prevFormFields,
     //   updatedCampusId: selectedValue,
     // }));
-    
   };
   return (
     <>
@@ -221,27 +215,26 @@ data
                 //   updatedDuration: event.target.value,
                 // }))}
               />
-             
             </div>
-            
+
             {/* Update program Description */}
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="description" className="col-span-4 text-left">
                 Update Description
               </Label>
-              <Textarea className="col-span-4"
+              <Textarea
+                className="col-span-4"
                 // value={formFields.updatedDescription}
-    // onChange={(event) =>
-    //   setFormFields((prevFormFields) => ({
-    //     ...prevFormFields,
-    //     updatedDescription: event.target.value,
-    //   }))
-    // }
+                // onChange={(event) =>
+                //   setFormFields((prevFormFields) => ({
+                //     ...prevFormFields,
+                //     updatedDescription: event.target.value,
+                //   }))
+                // }
               />
-             
             </div>
-             {/* Update program Campus */}
-             {/* <div className="grid items-center grid-cols-4 gap-4">
+            {/* Update program Campus */}
+            {/* <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="campus" className="col-span-4 text-left">
                 Update Campus
               </Label>
@@ -267,7 +260,6 @@ data
 
 
             </div> */}
-
           </div>
           <DialogFooter>
             <Button type="submit" onClick={handleSubmit}>

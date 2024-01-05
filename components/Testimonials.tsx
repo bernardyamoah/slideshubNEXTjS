@@ -3,7 +3,6 @@
 // import { Swiper, SwiperSlide } from 'swiper/react';
 // import Image from "next/image";
 
-
 // import { Autoplay } from 'swiper/modules';
 // import { Badge } from './ui/badge'
 
@@ -15,10 +14,8 @@
 // import { TestimonialsData } from '@/constants';
 // export default function Testimonials() {
 
-
 // 	return (
 // 		<>
-
 
 // 			<section className=" pb-10 mx-auto w-full ">
 // 				<div className="w-full">
@@ -31,7 +28,6 @@
 // 					<main className=" relative z-[2] mt-8 w-full md:flex md:items-center xl:mt-12 mx-auto">
 // 						<div className="absolute -z-10 w-full   md:h-72"></div>
 // 						<div className=" max-w-xl mx-auto ">
-
 
 // 							<Swiper
 // 								slidesPerView={1}
@@ -58,7 +54,6 @@
 // 											width={700}
 // 										/>
 
-
 // 										<div className=" flex-1 ">
 // 											<CardTitle className="">{name}</CardTitle>
 // 											<small className="mt-4 w-44 md:w-full  block italic text-zinc-500 dark:text-zinc-400">{testimonial}</small>
@@ -68,11 +63,7 @@
 // 									)
 // 								}
 
-
-
 // 							</Swiper>
-
-
 
 // 						</div>
 
