@@ -30,7 +30,7 @@ import { DataTablePagination } from "./tablePagination";
 
 
 
-interface DataTableProps<TData , TValue> {
+interface DataTableProps<TData, TValue> {
   dataTable: {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -43,11 +43,11 @@ interface DataTableProps<TData , TValue> {
     setPageInfo: any;
     loading: boolean;
   }
-  setRefresh:any;
+  setRefresh: any;
 
 }
 export function DataTable<TData, TValue>({
-  dataTable: { columns, data, title, pageInfo, setPageInfo, loading }, setRefresh }: DataTableProps<TData, TValue> ) {
+  dataTable: { columns, data, title, pageInfo, setPageInfo, loading }, setRefresh }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
       currentPage: newPageIndex,
     }));
   };
- const table = useReactTable({
+  const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -91,11 +91,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
-let selectedRowIds=table.getFilteredSelectedRowModel().rows.map(row => (row.original as any)?.id);
+  let selectedRowIds = table.getFilteredSelectedRowModel().rows.map(row => (row.original as any)?.id);
 
   return (
     <>
-      <div className="flex justify-between items-center py-4">
+      <div className="flex justify-between items-center py-4 space-x-8">
         <Input
           placeholder={`Filter by ${title} name `}
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
