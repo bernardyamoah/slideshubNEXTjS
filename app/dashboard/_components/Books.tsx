@@ -50,7 +50,7 @@ export default function Books({ user, title }: UserProps) {
     setRefresh,
   );
 
-  const dataTableProps = {
+  const dataTable = {
     columns: bookColumns,
     data: books,
     title: title,
@@ -62,7 +62,7 @@ export default function Books({ user, title }: UserProps) {
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <DataTable dataTable={dataTableProps} />
+        <DataTable dataTable={dataTable} setRefresh={setRefresh} />
       </Suspense>
     </>
   );

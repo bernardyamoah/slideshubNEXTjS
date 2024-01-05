@@ -2,13 +2,36 @@ import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./TableColumnHeaderFilter";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-
+import { Checkbox } from "@/components/ui/checkbox"
 export function generateDynamicColumns<T>(
   columnConfig: { [key: string]: string },
   title: string,
   setRefresh: any,
 ): ColumnDef<T>[] {
-  const columns: ColumnDef<T>[] = [];
+  const columns: ColumnDef<T>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+  ];
 
   for (const key in columnConfig) {
     if (key === "thumbnail") {
