@@ -1,4 +1,3 @@
-
 import {
 	databases,
 	ID,
@@ -20,7 +19,7 @@ export const successMessage = (message: string) => {
 
 // Error toast notification
 export const errorMessage = (message: string) => {
-	toast.error(message,);
+	toast.error(message);
 };
 
 // Create campus function
@@ -60,7 +59,6 @@ export const createCampus = async (campusData: CampusData) => {
 		return response;
 	} catch (error) {
 		throw error;
-		
 	}
 };
 
@@ -142,7 +140,7 @@ export const createProgram = async (programData: ProgramData) => {
 	}
 };
 
-export const createBook = async (bookData: BooksData, toastId:any) => {
+export const createBook = async (bookData: BooksData, toastId: any) => {
 	try {
 		// // Retrieve all documents from the collection
 		// const response = await databases.listDocuments(
@@ -171,11 +169,9 @@ export const createBook = async (bookData: BooksData, toastId:any) => {
 				loading: "Creating book...",
 				success: "Book created! 🎉",
 				error: "Failed to create book",
-			
 			}
-			
 		);
-		toast.dismiss(toastId)
+		toast.dismiss(toastId);
 	} catch (error) {
 		console.log(error);
 		errorMessage("Error adding book");
@@ -227,7 +223,11 @@ export const createSlide = async (slideData: SlidesData) => {
 
 //    Update Functions
 
-export const updateSlide = async (id: string, updatedAttributes: any, setRefresh:any) => {
+export const updateSlide = async (
+	id: string,
+	updatedAttributes: any,
+	setRefresh: any
+) => {
 	try {
 		await databases.updateDocument(
 			databaseId!,
@@ -237,7 +237,7 @@ export const updateSlide = async (id: string, updatedAttributes: any, setRefresh
 		);
 
 		successMessage("Successfully updated slide");
-setRefresh(true)
+		setRefresh(true);
 	} catch (error) {
 		// Handle any errors that occur during the update process
 		errorMessage("Failed to update slide:" + error);
@@ -450,7 +450,7 @@ export async function handleFileUpload(
 
 //  Delete Functions
 
-export const deleteCourse = async (id: string, setRefresh:any) => {
+export const deleteCourse = async (id: string, setRefresh: any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -475,38 +475,54 @@ export const deleteCourse = async (id: string, setRefresh:any) => {
 };
 
 //👇🏻 delete a Slide
-export const deleteSlide = async (id: string, setRefresh:any) => {
+export const deleteSlide = async (id: string, setRefresh: any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
 			id
 		);
-		const fileID = extractIdFromUrl(getDoc.fileUrl);
 
-		if (getDoc.$id === id && fileID !== null) {
-			await storage.deleteFile(
-				process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-				fileID
-			);
-			await databases.deleteDocument(
-				databaseId!,
-				process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
-				id
-			);
-		}
+		const fileID = extractIdFromUrl(getDoc.fileUrl);
+if (getDoc.$id === id && fileID !== null) {
+	try {
+		await storage.deleteFile(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			fileID
+		);
+	} catch (error) {
+		console.error("Error deleting file:", error);
+	}
+
+	await databases.deleteDocument(
+		databaseId!,
+		process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+		id
+	);
+}
+		// if (getDoc.$id === id && fileID !== null) {
+		// 	await Promise.all([
+		// 		databases.deleteDocument(
+		// 			databaseId!,
+		// 			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+		// 			id
+		// 		),
+		// 		storage.deleteFile(process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!, fileID),
+		// 	]);
+			
+		// }
 		setRefresh(true);
 	} catch (err) {
-		errorMessage("Action declined ❌");
+		throw Error
 	}
 };
 
 // Delete Program
-export const deleteProgram = async (id: string, setRefresh:any) => {
+export const deleteProgram = async (id: string, setRefresh: any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
-			process.env.NEXT_PUBLIC_COURSE_COLLECTION_ID!,
+			process.env.NEXT_PUBLIC_PROGRAMMES_COLLECTION_ID!,
 			id
 		);
 
@@ -518,7 +534,7 @@ export const deleteProgram = async (id: string, setRefresh:any) => {
 				id
 			);
 		}
-	
+
 		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting program:", error);
@@ -527,18 +543,15 @@ export const deleteProgram = async (id: string, setRefresh:any) => {
 };
 
 // Delete Book
-export const deleteBook = async (id: string, setRefresh:any) => {
+export const deleteBook = async (id: string, setRefresh: any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
 			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			id
 		);
-		
 
 		const fileID = extractIdFromUrl(getDoc.downloadLink);
-		
-	
 
 		if (getDoc.$id === id && fileID !== null) {
 			await storage.deleteFile(
@@ -551,7 +564,7 @@ export const deleteBook = async (id: string, setRefresh:any) => {
 				id
 			);
 		}
-		
+
 		successMessage(`${getDoc.title} deleted! 🎉`);
 		setRefresh(true);
 	} catch (error) {
@@ -562,7 +575,7 @@ export const deleteBook = async (id: string, setRefresh:any) => {
 };
 
 // Delete Campus
-export const deleteCampus = async (id: string, setRefresh:any) => {
+export const deleteCampus = async (id: string, setRefresh: any) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -578,7 +591,7 @@ export const deleteCampus = async (id: string, setRefresh:any) => {
 				id
 			);
 		}
-		
+
 		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting campus:", error);
@@ -1047,7 +1060,7 @@ export const getUserBooks = async ({
 				databaseId!,
 				process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 				[
-					Query.equal("user_id", userId),
+					Query.equal("userId", userId),
 					Query.orderDesc("$createdAt"),
 					Query.limit(perPage),
 					Query.offset((currentPage - 1) * perPage),
@@ -1281,50 +1294,55 @@ export const getUserData = async () => {
 	}
 };
 
-export const fetchBookDetails = async (title:String) => {
+export const fetchBookDetails = async (title: String) => {
 	if (!title) {
-	  // Handle the case where the title is empty
-	  return null;
-	}
-  
-	const API_ENDPOINT = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOK_API_KEY}`;
-	
-  
-	try {
-	  const bookDataResponse = await fetch(API_ENDPOINT);
-  
-	  if (bookDataResponse.ok) {
-		const bookData = await bookDataResponse.json();
-		
-  
-		const { id, volumeInfo } = bookData.items[0];
-		const { title, authors, publishedDate, publisher, description, pageCount, categories, previewLink, imageLinks } = volumeInfo;
-		const thumbnail = imageLinks?.thumbnail 
-  
-		const book = {
-	
-		  title,
-		  authors,
-		  publishedDate,
-		  description,
-		  pageCount,
-		  publisher,
-		  categories,
-		  previewLink,
-		  thumbnail,
-		
-		};
-  
-		return book;
-	  } else {
-		console.error('Failed to fetch book data');
+		// Handle the case where the title is empty
 		return null;
-	  }
-	} catch (error) {
-	  console.error('Error:', error);
-	  return null;
-	} finally {
-	//   setLoading(false);
 	}
-  };
-  
+
+	const API_ENDPOINT = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOK_API_KEY}`;
+
+	try {
+		const bookDataResponse = await fetch(API_ENDPOINT);
+
+		if (bookDataResponse.ok) {
+			const bookData = await bookDataResponse.json();
+
+			const { id, volumeInfo } = bookData.items[0];
+			const {
+				title,
+				authors,
+				publishedDate,
+				publisher,
+				description,
+				pageCount,
+				categories,
+				previewLink,
+				imageLinks,
+			} = volumeInfo;
+			const thumbnail = imageLinks?.thumbnail;
+
+			const book = {
+				title,
+				authors,
+				publishedDate,
+				description,
+				pageCount,
+				publisher,
+				categories,
+				previewLink,
+				thumbnail,
+			};
+
+			return book;
+		} else {
+			console.error("Failed to fetch book data");
+			return null;
+		}
+	} catch (error) {
+		console.error("Error:", error);
+		return null;
+	} finally {
+		//   setLoading(false);
+	}
+};
