@@ -72,11 +72,11 @@ export default function Dashboard() {
 
   return (
     <>
-      <header className="hidden items-center justify-center w-full ">
+      <header className=" items-center justify-center w-full ">
         <div className="max-w-screen-xl px-4 py-8 mx-auto">
           <div className="space-y-2">
             <motion.p
-              className="max-w-[600px] text-emerald-600  dark:text-emerald-500 mx-auto text-center"
+              className="max-w-[600px] text-emerald-600  text-xl font-medium dark:text-emerald-400 mx-auto text-center"
               initial="hidden"
               animate={textAnimation}
               variants={textVariants}

@@ -3,7 +3,7 @@ import Blob from "@/components/ui/blob";
 import { Metadata } from "next";
 const metadata: Metadata = {
   title: "Slideshub",
-  description: "Advanced form example using react-hook-form and Zod.",
+
 };
 
 interface ClientLayoutProps {
@@ -17,9 +17,9 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
 
 
-      <div className=" px-4 ">
-        {/* Blob */}
-        <Blob />
+      <div className=" px-4 flex items-center justify-center  flex-1 flex-col h-full min-h-screen w-full">
+      
+        {/* <Blob /> */}
         {children}
 
       </div>

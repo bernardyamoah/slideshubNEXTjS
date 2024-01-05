@@ -71,12 +71,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <UserContextProvider>
-          <body className="relative min-h-screen">
+          <body className="relative min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="relative pb-20 bg-white dark:bg-zinc-950/40">
-              {" "}
-              {/* dark:bg-background/70 */}
+            <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1 border items-center justify-center">
+
+
               <BackButtonNavigation />
               {children}
             </main>

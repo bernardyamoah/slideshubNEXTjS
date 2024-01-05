@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock2 } from "lucide-react";
 
 export default function Loading() {
-  <section className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+  <section className="grid grid-cols-1 gap-10 px-4 pb-10 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-3 lg:gap-12 w-full">
 
     <Card className="relative h-full overflow-hidden duration-500 border rounded-xl dark:bg-zinc-900/70 group md:gap-8 hover:border-zinc-400 dark:hover:border-zinc-600 dark:border-zinc-800">
       <div className="pointer-events-none">

@@ -41,7 +41,7 @@ async function ProgramList({ campusId }) {
     <>
       {programs.length > 0 ? (
         <div className={` grid grid-cols-1 gap-10 pb-10 mx-auto max-w-7xl lg:gap-12  py-6  auto-rows-max ${mainClassName}`}>
-          {programs.map((program, index) => (
+          {programs.map((program) => (
 
             <ProgramCard key={program.$id} {...program} />
           ))}
@@ -65,7 +65,7 @@ export default async function Page({ params }: Props) {
     <>
 
       <div className="p-2 mx-auto text-center lg:mx-0 ">
-        <Badge variant='secondary' className='rounded-full'>
+        <Badge variant='secondary' className='rounded-full mb-2'>
           {location}
         </Badge>
         <h3 className="  text-center regular-24 lg:regular-40 ">  {name}
@@ -73,7 +73,7 @@ export default async function Page({ params }: Props) {
 
       </div>
       <Separator className='my-16' />
-      <div>
+      <div >
 
         <ProgramList campusId={params.campusId} />
 

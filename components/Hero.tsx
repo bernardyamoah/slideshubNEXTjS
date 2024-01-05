@@ -59,9 +59,7 @@ const Hero = () => {
               <Button
                 className="xl:mx-auto text-center flex gap-2 text-base !px-8 !py-6 !rounded-full font-bold "
                 onClick={handleRouteToCampus}
-              >
-                {" "}
-                Get Started <ChevronRightCircleIcon className="w-6 h-6 " />{" "}
+              >Get Started <ChevronRightCircleIcon className="w-6 h-6 " />
               </Button>
             </div>
           </div>
