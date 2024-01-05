@@ -1,8 +1,5 @@
-import React from 'react'
+import React from "react";
 
-
-export function BookEdit({ data,setRefresh,setShowDialog }) {
-  return (
-    <div>BookEdit</div>
-  )
+export function BookEdit({ data, setRefresh, setShowDialog }) {
+  return <div>BookEdit</div>;
 }

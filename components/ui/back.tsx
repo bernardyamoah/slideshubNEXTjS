@@ -1,5 +1,5 @@
-'use client'
-import { useState, useEffect } from 'react'
+"use client";
+import { useState, useEffect } from "react";
 import { Button } from "./button";
 import { ChevronLeftIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,7 +56,7 @@ const BackButtonNavigation = () => {
   //   };
   // }, []);
   // Get the current pathname
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === "/";
 
   // Render the navigation only if the route is not '/'
   // if (isHomePage || !showBackButton) {
@@ -66,19 +66,15 @@ const BackButtonNavigation = () => {
     return null;
   }
   return (
-
-
-
-    <div className=' p-4 md:px-6 lg:px-8 '>
-      <Button onClick={handleNavigation} variant='outline' className=" p-3  rounded-lg shadow-2xl gap-1">
+    <div className=" p-4 md:px-6 lg:px-8 ">
+      <Button
+        onClick={handleNavigation}
+        variant="outline"
+        className=" p-3  rounded-lg shadow-2xl gap-1"
+      >
         <ChevronLeftIcon className="w-4 h-4 text-foreground-muted" /> Back
       </Button>
     </div>
-
-
-
-
-
   );
 };
 

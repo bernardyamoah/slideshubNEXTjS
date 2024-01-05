@@ -5,14 +5,13 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Toaster } from "sonner";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 
 import { Metadata } from "next";
-
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
   applicationName: "Slideshub",
   authors: [{ name: "Slideshub Team", url: "https://slideshub.vercel.app" }],
   colorScheme: "dark",
-  manifest: '/manifest.json',
+  manifest: "/manifest.json",
   openGraph: {
     title: "Slideshub",
     type: "website",
@@ -36,7 +35,6 @@ export const metadata: Metadata = {
   icons: {
     apple: "https://slideshub.vercel.app/apple-touch-icon.png",
   },
-
 
   twitter: {
     title: "SlidesHub",
@@ -58,8 +56,6 @@ export const metadata: Metadata = {
         alt: "Slideshub Image Alt",
       },
 
-
-
       { url: "https://slideshub.vercel.app/thumbnail.jpg" },
     ],
   },
@@ -71,27 +67,29 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en" suppressHydrationWarning>
-
-
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <UserContextProvider>
           <body className="relative min-h-screen">
             <Navbar />
 
-            <main className="relative pb-20 bg-white dark:bg-zinc-950/40"> {/* dark:bg-background/70 */}
+            <main className="relative pb-20 bg-white dark:bg-zinc-950/40">
+              {" "}
+              {/* dark:bg-background/70 */}
               <BackButtonNavigation />
-
-
               {children}
             </main>
 
             <MobileMenu />
             <Footer />
 
-            <Toaster expand={false} position="top-center" richColors closeButton={true} />
+            <Toaster
+              expand={false}
+              position="top-center"
+              richColors
+              closeButton={true}
+            />
             <Analytics />
             <SpeedInsights />
           </body>

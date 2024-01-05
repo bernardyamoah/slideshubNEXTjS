@@ -1,6 +1,6 @@
-'use client'
-import  { useState, useMemo, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
+"use client";
+import { useState, useMemo, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
 import {
   ArrowUpTrayIcon,
   DocumentIcon,
@@ -11,13 +11,13 @@ import {
   PresentationChartBarIcon,
 } from "@heroicons/react/20/solid";
 import { VideoIcon } from "lucide-react";
-import { CardTitle } from './ui/card';
+import { CardTitle } from "./ui/card";
 
 const FileUpload = ({ currentFiles, setCurrentFiles }) => {
   const [files, setFiles] = useState(currentFiles);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: '', // Accept all files
+    accept: "", // Accept all files
     multiple: true,
     onDrop: (acceptedFiles) => {
       setFiles(acceptedFiles);
@@ -51,15 +51,15 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
   };
 
   const bytesToSize = (bytes) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === 0) return '0 Byte';
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    if (bytes === 0) return "0 Byte";
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i];
   };
 
   const imageBlobUrl = useMemo(
     () => (files[0] ? URL.createObjectURL(files[0]) : ""),
-    [files]
+    [files],
   );
 
   return (
@@ -70,7 +70,7 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
       >
         <input {...getInputProps()} name="file" className="sr-only" />
         <div className="rounded-lg border border-dashed  px-2 sm:px-6 md:px-8 py-10 min-h-[200px] w-full ">
-          {files[0]? (
+          {files[0] ? (
             <div
               className="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-5 transition-opacity"
               style={{
@@ -82,33 +82,27 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
           ) : null}
           <div className="text-center  grid  gap-2 max-w-xl mx-auto">
             {files[0] ? (
-              
-              <div className=' gap-6 grid divide-x-2'>
-{files.map((file, index) => (
-  
-  
- 
-  <div key={index} className='border p-2 sm:p-6 rounded-md'>
-    
-    <div className="grid sm:flex  sm:items-center sm:justify-between sm:flex-1 gap-4 ">
-                <div className='gap-2 flex'>
-                <span>{getFileIcon(file.type)}</span>
-                <CardTitle className='text-left'>{file.name.replace(/_/g, " ")}</CardTitle>
-                </div>
-            
-            <div  className=' justify-end gap-2 flex text-muted-foreground'>
-            <span>Size:</span>
-            <p className="text-zinc-500  w-[0.2rem] ">{bytesToSize(file.size)}</p>
-            </div>
-             
+              <div className=" gap-6 grid divide-x-2">
+                {files.map((file, index) => (
+                  <div key={index} className="border p-2 sm:p-6 rounded-md">
+                    <div className="grid sm:flex  sm:items-center sm:justify-between sm:flex-1 gap-4 ">
+                      <div className="gap-2 flex">
+                        <span>{getFileIcon(file.type)}</span>
+                        <CardTitle className="text-left">
+                          {file.name.replace(/_/g, " ")}
+                        </CardTitle>
+                      </div>
+
+                      <div className=" justify-end gap-2 flex text-muted-foreground">
+                        <span>Size:</span>
+                        <p className="text-zinc-500  w-[0.2rem] ">
+                          {bytesToSize(file.size)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-  </div>
-
-
-
-
-))}
-</div> 
             ) : (
               <ArrowUpTrayIcon
                 className="mx-auto h-12 w-12 text-zinc-500"
@@ -130,13 +124,13 @@ const FileUpload = ({ currentFiles, setCurrentFiles }) => {
         </div>
       </div>
     </div>
-      
   );
 };
 
 export default FileUpload;
 
-{/* <ul>
+{
+  /* <ul>
 {files.map((file, index) => (
   <li key={index}>
     {getFileIcon(file.type)}
@@ -144,4 +138,5 @@ export default FileUpload;
     <span>{bytesToSize(file.size)}</span>
   </li>
 ))}
-</ul> */}
+</ul> */
+}
