@@ -71,7 +71,7 @@ const Hero = () => {
           <div className=" mb-3 flex justify-center">
             <Badge
               variant="outline"
-              className="block relative rounded-full px-4 py-1 text-sm leading-6 max-w-sm  font-mono text-muted-foreground text-center"
+              className="block relative rounded-full px-4 py-1 text-sm leading-6 max-w-sm  font-mono  text-center"
             >
               Slideshub 2.0
             </Badge>
