@@ -18,7 +18,7 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <header className="bg-white dark:bg-card border  sticky top-0 md:top-4 z-[10] p-4  w-full lg:top-0 lg:rounded-none lg:max-w-full md:rounded-xl xs:mx-auto  dark:border-zinc-800">
+    <header className="bg-white dark:bg-card border  sticky top-0  z-[10] p-4  w-full      dark:border-zinc-800">
       <nav className="flex items-center justify-between w-full space-x-2 ">
         <Logo />
 

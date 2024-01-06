@@ -64,15 +64,15 @@ export default async function Page({ params }: Props) {
 
     <>
 
-      <div className="p-2 mx-auto text-center lg:mx-0 ">
+      <div className="p-2 mx-auto text-center max-w-4xl ">
         <Badge className=' mb-4 sm:text-lg px-4 '>
           {location}
         </Badge>
-        <h2 className="max-w-4xl uppercase text-3xl text-transparent dark:text-zinc-100 sm:text-4xl xl:text-5xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-500 dark:to-zinc-700 bg-gradient-to-r from-zinc-800 to-zinc-700 ">  {name}
+        <h2 className=" uppercase text-2xl text-transparent dark:text-zinc-100 sm:text-4xl xl:text-5xl/none bg-clip-text dark:bg-gradient-to-r dark:from-zinc-500 dark:to-zinc-700 bg-gradient-to-r from-zinc-800 to-zinc-700 ">  {name}
         </h2>
 
       </div>
-      <Separator className='my-16' />
+      <Separator className='my-10' />
       <div >
 
         <ProgramList campusId={params.campusId} />
