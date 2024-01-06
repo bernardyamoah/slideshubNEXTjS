@@ -68,7 +68,7 @@ const Hero = () => {
 
       <section className="relative pt-10 md:pt-44  max-container padding-container flex flex-col gap-10  pb-32 md:gap-16 lg:py-6 xl:flex-row ">
         <div className="mx-auto max-w-4xl top-6">
-          <div className=" mb-8 flex justify-center">
+          <div className=" mb-3 flex justify-center">
             <Badge
               variant="outline"
               className="block relative rounded-full px-4 py-1 text-sm leading-6 max-w-sm  font-mono text-muted-foreground text-center"
@@ -78,7 +78,7 @@ const Hero = () => {
           </div>
 
           <div className="text-center">
-            <h1 className="scroll-m-20 bold-40  lg:bold-64 xl:bold-88">
+            <h1 className="scroll-m-20 bold-40  lg:bold-64">
               Elevate Your{" "}
               <span className="text-emerald-600 dark:text-emerald-400 ">
                 Education Game!
