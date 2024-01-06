@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      <div className="absolute inset-x-0 top-[calc(5%)] -z-[5]  overflow-hidden blur-3xl sm:-top-[calc(20%)] flex-1">
+      <div className="absolute inset-x-0 top-[calc(5%)] -z-[5] hidden dark:flex  overflow-hidden blur-3xl sm:-top-[calc(20%)] flex-1">
         <div
           className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-emerald-300 to-emerald-600 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
           style={{

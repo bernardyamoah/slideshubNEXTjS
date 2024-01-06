@@ -470,19 +470,21 @@ export const deleteSlide = async (id: string) => {
 		// 	]);
 
 		// }
-		
 	} catch (err) {
 		throw Error;
 	}
 };
-export const deleteSelectedSlides = async (selectedRowIds: string[],  setRefresh:any) => {
+export const deleteSelectedSlides = async (
+	selectedRowIds: string[],
+	setRefresh: any
+) => {
 	// for (const id of selectedRowIds) {
 	// 	await deleteSlide(id, setRefresh);
 	// }
-	await Promise.all(
-		selectedRowIds.map((id) => deleteSlide(id))
-	);
-	  setRefresh(true);
+	
+		await Promise.all(selectedRowIds.map((id) => deleteSlide(id)));
+		setRefresh(true);
+	
 };
 
 // Delete Book
@@ -490,11 +492,10 @@ export const deleteBook = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
-			process.env.NEXT_PUBLIC_SLIDES_COLLECTION_ID!,
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			id
 		);
-		console.log("🚀 ~ file: functions.ts:493 ~ deleteBook ~ getDoc:", getDoc);
-
+		
 		const fileID = extractIdFromUrl(getDoc.downloadLink);
 		if (getDoc.$id === id && fileID !== null) {
 			try {
@@ -513,16 +514,18 @@ export const deleteBook = async (id: string) => {
 			);
 		}
 	} catch (err) {
-		console.log(err)
+		console.log(err);
 	}
 };
 
-export const deleteSelectedBooks = async (selectedRowIds: string[]) => {
-	try {
+export const deleteSelectedBooks = async (
+	selectedRowIds: string[],
+	setRefresh: any
+) => {
+
 		await Promise.all(selectedRowIds.map((id) => deleteBook(id)));
-	} catch (error) {
-	console.log(error);
-	}
+		setRefresh(true);
+	
 };
 
 // Delete Program
@@ -547,12 +550,18 @@ export const deleteProgram = async (id: string) => {
 		errorMessage("Failed to delete program");
 	}
 };
-export const deleteSelectedPrograms = async (selectedRowIds: string[]) => {
-	await Promise.all(selectedRowIds.map((id) => deleteProgram(id)));
+export const deleteSelectedPrograms = async (
+	selectedRowIds: string[],
+	setRefresh: any
+) => {
+
+		await Promise.all(selectedRowIds.map((id) => deleteProgram(id)));
+		setRefresh(true);
+	
 };
 
 // Delete Campus
-export const deleteCampus = async (id: string, setRefresh: any) => {
+export const deleteCampus = async (id: string) => {
 	try {
 		const getDoc = await databases.getDocument(
 			databaseId!,
@@ -568,14 +577,20 @@ export const deleteCampus = async (id: string, setRefresh: any) => {
 				id
 			);
 		}
-
-		setRefresh(true);
 	} catch (error) {
 		console.error("Error deleting campus:", error);
 		errorMessage("Failed to delete campus");
 	}
 };
+export const deleteSelectedCampus = async (
+	selectedRowIds: string[],
+	setRefresh: any
+) => {
 
+		await Promise.all(selectedRowIds.map((id) => deleteCampus(id)));
+		setRefresh(true);
+	
+};
 //===========  FETCH DATA =========================================
 
 // Get Campuses

@@ -17,9 +17,9 @@ function ClientLayout({ children }: ClientLayoutProps) {
     <>
 
 
-      <div className=" px-4 flex items-center justify-center  flex-1 flex-col h-full min-h-screen w-full">
-      
-        {/* <Blob /> */}
+      <div className=" px-4  items-center justify-center   h-full min-h-screen w-full">
+
+        <Blob />
         {children}
 
       </div>

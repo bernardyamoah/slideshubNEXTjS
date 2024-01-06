@@ -47,12 +47,13 @@ export function DataTableViewOptions<TData>({
     const deleteFunctionMap = {
       Course: deleteSelectedCourses,
       Slides: deleteSelectedSlides,
-      Program: deleteSelectedPrograms,
+      Programs: deleteSelectedPrograms,
       Books: deleteSelectedBooks,
     };
 
     const deleteFunction = deleteFunctionMap[title];
     try {
+      console.log(title)
       let id = toast.promise(deleteFunction(selectedRowIds, setRefresh), {
         loading: "Deleting...",
         success: "Success",
@@ -60,7 +61,7 @@ export function DataTableViewOptions<TData>({
       })
       toast.dismiss(id);
       setShowDeleteDialog(false);
-    
+
     } catch (error) {
       console.log(error);
       setShowDeleteDialog(false);

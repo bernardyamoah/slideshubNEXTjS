@@ -67,7 +67,7 @@ const Hero = () => {
       </section>
 
       <section className="relative pt-10 md:pt-44  max-container padding-container flex flex-col gap-10  pb-32 md:gap-16 lg:py-6 xl:flex-row ">
-        <div className="mx-auto max-w-2xl top-6">
+        <div className="mx-auto max-w-4xl top-6">
           <div className=" mb-8 flex justify-center">
             <Badge
               variant="outline"
@@ -78,15 +78,15 @@ const Hero = () => {
           </div>
 
           <div className="text-center">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+            <h1 className="scroll-m-20 bold-40  lg:bold-64 xl:bold-88">
               Elevate Your{" "}
               <span className="text-emerald-600 dark:text-emerald-400 ">
                 Education Game!
               </span>
-              🚀
+
             </h1>
 
-            <p className="leading-7 [&:not(:first-child)]:mt-6 regular-20">
+            <p className="leading-7 md:leading-10 [&:not(:first-child)]:mt-6 regular-20 md:regular-24">
               {" "}
               Welcome to{" "}
               <span className="text-emerald-500 font-bold border-b-2 border-dashed border-emerald-400">
@@ -99,11 +99,11 @@ const Hero = () => {
 
             <div className=" mt-10 flex items-center justify-center gap-x-6">
               <Button
-                className=" bg-emerald-500  hover:bg-emerald-700  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2  flex gap-2 text-base !px-8 !py-6 !rounded-full font-bold "
+                className=" bg-emerald-600 dark:bg-emerald-400  hover:bg-emerald-500 text-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2  flex gap-2  !px-8 !py-6  font-bold "
                 onClick={handleRouteToCampus}
               >
                 {" "}
-                Get Started <ChevronRightCircleIcon className="w-6 h-6 " />{" "}
+                Explore <ChevronRightCircleIcon className="w-6 h-6 " />{" "}
               </Button>
             </div>
           </div>

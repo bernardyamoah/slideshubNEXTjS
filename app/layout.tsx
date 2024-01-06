@@ -74,7 +74,7 @@ export default function RootLayout({
           <body className="relative min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1 border items-center justify-center">
+            <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1  items-center justify-center">
 
 
               <BackButtonNavigation />

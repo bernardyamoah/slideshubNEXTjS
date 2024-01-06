@@ -3,7 +3,7 @@ import React from "react";
 const Blob = () => {
   return (
     <div
-      className="absolute inset-x-0 -top-40  -z-[5] transform-gpu overflow-hidden blur-3xl "
+      className="absolute inset-x-0 -top-40 hidden dark:flex  -z-[5] transform-gpu overflow-hidden blur-3xl "
       aria-hidden="true"
     >
       <div

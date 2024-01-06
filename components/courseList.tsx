@@ -49,7 +49,7 @@ const CourseList = ({ programId, campusId }) => {
   return (
     <div className="py-6 ">
       <Tabs value={selectedTab} className="relative flex flex-col w-full">
-        <TabsList className="relative mx-auto mb-16 min-w-fit">
+        <TabsList className="relative mx-auto  min-w-fit">
           {LevelTabItems.map(({ label, value }) => (
             <TabsTrigger
               key={value}
@@ -65,7 +65,7 @@ const CourseList = ({ programId, campusId }) => {
         {LevelTabItems.map(({ value }) => (
           <TabsContent key={value} value={value}>
             {courses.filter((course) => course.year === value).length > 0 ? (
-              <div className="grid gap-8 pb-10">
+              <div className="grid gap-8 pb-4">
                 <section>
                   <h3 className="text-center  text-muted-foreground mb-10 mx-auto py-3 rounded-3xl regular-32 ">
                     First Semester
