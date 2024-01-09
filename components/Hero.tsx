@@ -38,15 +38,18 @@ const Hero = () => {
               SlidesHub {" "}
             </span>transforms your study experience by providing a comprehensive library of college books and slides. Level up your education journey with us! </p>
             <div className=" mt-10 flex items-center justify-center gap-x-6">
-
-              <Link href='/campus' className='flex gap-2  rounded-full   hover:bg-emerald-500 text-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2    lg:!p-8 !p-6   font-bold'>
-
-                Explore Now
+              <Button
+                className=" focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline  rounded-full  lg:!p-8 !p-6 hover:bg-emerald-500"
+              
+              >
+                <Link href='/campus' className='flex gap-2     text-xl     font-bold'>
+                
+                Explore Now 
                 <Book className="w-6 h-6 " />{" "}
-              </Link>
+                </Link>
+                
 
-
-
+              </Button>
             </div>
           </div>
 
@@ -56,7 +59,7 @@ const Hero = () => {
         <h2 className="bold-32 text-4xl leading-7 md:leading-10 text-center md-3 mt-16">SlidesHub, the Ultimate Resource for Academic Mastery! </h2>
         <div className="relative aspect-video rounded-2xl w-full max-w-3xl mx-auto overflow-hidden  ">
           <Image src='/hero-image-2.png' fill={true} alt='hero' className="object-cover" />
-
+        
 
         </div>
         {/* <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-[5]  overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" >
