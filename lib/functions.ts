@@ -1,7 +1,7 @@
 import { databases, ID, Query, account, storage, avatars } from "@/appwrite";
 import { UploadProgress } from "appwrite";
 import { toast } from "sonner";
-
+import { redirect } from "next/navigation";
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
@@ -481,10 +481,9 @@ export const deleteSelectedSlides = async (
 	// for (const id of selectedRowIds) {
 	// 	await deleteSlide(id, setRefresh);
 	// }
-	
-		await Promise.all(selectedRowIds.map((id) => deleteSlide(id)));
-		setRefresh(true);
-	
+
+	await Promise.all(selectedRowIds.map((id) => deleteSlide(id)));
+	setRefresh(true);
 };
 
 // Delete Book
@@ -495,7 +494,7 @@ export const deleteBook = async (id: string) => {
 			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			id
 		);
-		
+
 		const fileID = extractIdFromUrl(getDoc.downloadLink);
 		if (getDoc.$id === id && fileID !== null) {
 			try {
@@ -522,10 +521,8 @@ export const deleteSelectedBooks = async (
 	selectedRowIds: string[],
 	setRefresh: any
 ) => {
-
-		await Promise.all(selectedRowIds.map((id) => deleteBook(id)));
-		setRefresh(true);
-	
+	await Promise.all(selectedRowIds.map((id) => deleteBook(id)));
+	setRefresh(true);
 };
 
 // Delete Program
@@ -554,10 +551,8 @@ export const deleteSelectedPrograms = async (
 	selectedRowIds: string[],
 	setRefresh: any
 ) => {
-
-		await Promise.all(selectedRowIds.map((id) => deleteProgram(id)));
-		setRefresh(true);
-	
+	await Promise.all(selectedRowIds.map((id) => deleteProgram(id)));
+	setRefresh(true);
 };
 
 // Delete Campus
@@ -586,10 +581,8 @@ export const deleteSelectedCampus = async (
 	selectedRowIds: string[],
 	setRefresh: any
 ) => {
-
-		await Promise.all(selectedRowIds.map((id) => deleteCampus(id)));
-		setRefresh(true);
-	
+	await Promise.all(selectedRowIds.map((id) => deleteCampus(id)));
+	setRefresh(true);
 };
 //===========  FETCH DATA =========================================
 
@@ -1059,8 +1052,12 @@ export const signUp = async (name: string, email: string, password: string) => {
 export const logIn = async (email: string, password: string) => {
 	try {
 		await account.createEmailSession(email, password);
+		const currentUser = await account.get();
 		successMessage("Welcome back! 🎉");
-	} catch (error) {}
+		return currentUser;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 // Logout function
@@ -1072,23 +1069,6 @@ export const logOut = async () => {
 	} catch (error) {
 		errorMessage("Encountered an error 😪");
 	}
-};
-
-export const getCurrentUserAndSetUser = async () => {
-	try {
-		const response = await account.get();
-		return response;
-	} catch (error) {
-		console.error("Error fetching user:", error);
-		return null;
-	}
-};
-
-//👇🏻 extract file ID from the document
-export const extractIdFromUrl = (url: string) => {
-	const regex = /files\/([^/]+)\//;
-	const match = url.match(regex);
-	return match ? match[1] : null;
 };
 
 // OAuth functions
@@ -1108,6 +1088,22 @@ export const handleGoogleSignIn = async () => {
 		console.error("Error initiating Google OAuth:", error);
 		throw new Error("Error initiating Google OAuth");
 	}
+};
+export const getCurrentUserAndSetUser = async () => {
+	try {
+		const response = await account.get();
+		return response;
+	} catch (error) {
+		console.error("Error fetching user:", error);
+		return null;
+	}
+};
+
+//👇🏻 extract file ID from the document
+export const extractIdFromUrl = (url: string) => {
+	const regex = /files\/([^/]+)\//;
+	const match = url.match(regex);
+	return match ? match[1] : null;
 };
 
 // Get Avatars

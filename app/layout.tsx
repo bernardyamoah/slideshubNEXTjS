@@ -9,7 +9,7 @@ import { ConfettiProvider } from '@/components/providers/confetti-provider'
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackButtonNavigation from "@/components/ui/back";
-import { UserContextProvider } from "@/components/UserContext";
+
 import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 

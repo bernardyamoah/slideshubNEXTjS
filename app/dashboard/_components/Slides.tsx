@@ -28,7 +28,7 @@ export default function Slides({ user, title }: UserProps) {
   useEffect(() => {
     const fetchData = async () => {
       const { total_pages, data } = await getUserSlides({
-        userId: user.$id,
+        userId: user?.$id,
         currentPage: pageInfo.currentPage + 1,
         perPage: pageInfo.pageSize,
         setLoading,

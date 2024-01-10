@@ -1,20 +1,18 @@
 "use client";
 
-import Loading from "@/components/ui/Cloading";
-import { useRouter } from "next/navigation";
-import { useStore } from '@/hooks/use-user';
+import { UserProvider } from "@/components/providers/user-provider";
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
- const { user, loading } = useStore();
 
-  const router = useRouter();
+  return <>
+    <UserProvider>
 
-  if (loading) return <Loading />;
-  if (!user) router.push("/login");
-  return <>{children}</>;
+      {children}
+    </UserProvider>
+  </>;
 }
 
 export default DashboardLayout;

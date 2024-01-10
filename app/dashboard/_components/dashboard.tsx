@@ -13,26 +13,31 @@ import { useRouter } from "next/navigation";
 
 import { motion, useAnimation } from "framer-motion";
 import { tabTriggers } from "@/constants";
-import Programs from "./_components/Program";
+import Programs from "./Program";
 
 import Courses from "@/app/dashboard/_components/Courses";
-import Books from "./_components/Books";
+import Books from "./Books";
 
 export default function Dashboard() {
   const router = useRouter();
   const user = useStore((state) => state.user);
   const userInTeam = useStore((state) => state.userInTeam);
+  
   const userLabel = user?.labels || [];
 
   const [activeTab, setActiveTab] = useState(() => {
     // Initialize the active tab from localStorage or use a default value.
-    return localStorage.getItem("activeTab") || "slide";
+    return typeof window !== "undefined"
+      ? localStorage.getItem("activeTab") || "slide"
+      : "slide";
   });
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     // Save the active tab to localStorage.
-    localStorage.setItem("activeTab", value);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("activeTab", value);
+    }
   };
 
   const handleAddButtonClick = () => {
