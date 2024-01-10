@@ -4,7 +4,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
-import { Toaster } from "sonner";
+import { ToastProvider } from '@/components/providers/toaster-provider'
+import { ConfettiProvider } from '@/components/providers/confetti-provider'
+
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackButtonNavigation from "@/components/ui/back";
 import { UserContextProvider } from "@/components/UserContext";
@@ -68,32 +70,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+
     <html lang="en" suppressHydrationWarning>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <UserContextProvider>
-          <body className="relative min-h-screen flex flex-col">
-            <Navbar />
+        <body className="relative min-h-screen flex flex-col">
+          <Navbar />
 
-            <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1  items-center justify-center">
+          <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1  items-center justify-center">
 
 
-              <BackButtonNavigation />
-              {children}
-            </main>
+            <BackButtonNavigation />
+            {children}
+          </main>
 
-            <MobileMenu />
-            <Footer />
+          <MobileMenu />
+          <Footer />
 
-            <Toaster
-              expand={false}
-              position="top-center"
-              richColors
-              closeButton={true}
-            />
-            <Analytics />
-            <SpeedInsights />
-          </body>
-        </UserContextProvider>
+          <ConfettiProvider />
+          <ToastProvider />
+          <Analytics />
+          <SpeedInsights />
+        </body>
       </ThemeProvider>
     </html>
   );

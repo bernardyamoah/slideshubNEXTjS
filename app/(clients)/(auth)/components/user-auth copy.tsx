@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { handleGoogleSignIn } from "@/lib/functions";
 import { Loader2 } from "lucide-react";
-import { useUserContext } from "@/components/UserContext";
+import { useStore } from '@/hooks/use-user';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -30,7 +30,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useUserContext();
+  const login = useStore((state) => state.login);
 
   async function onSubmit(data: z.infer<typeof loginSchema>) {
     const { email, password } = data;

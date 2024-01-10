@@ -7,10 +7,9 @@ import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import { useStore } from '@/hooks/use-user';
 import { handleGoogleSignIn } from "@/lib/functions"
 import { Loader2 } from "lucide-react"
-import { useUserContext } from "@/components/UserContext"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -18,7 +17,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
  
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const {login,loading}=useUserContext();
+  const login = useStore((state) => state.login);
+  const loading = useStore((state) => state.loading);
+
 
  
   async function onSubmit(event: React.SyntheticEvent) {

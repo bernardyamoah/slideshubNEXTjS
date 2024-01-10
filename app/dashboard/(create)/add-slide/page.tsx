@@ -16,9 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useCampuses } from "@/customHooks/useCampuses";
+import { useCampuses } from "@/hooks/useCampuses";
 import { toast } from "sonner";
-import { usePrograms } from "@/customHooks/usePrograms";
+import { usePrograms } from "@/hooks/usePrograms";
 import {
   Select,
   SelectContent,
@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCourses } from "@/customHooks/useCourse";
+import { useCourses } from "@/hooks/useCourse";
 import {
   Popover,
   PopoverContent,
@@ -47,7 +47,7 @@ import { useState } from "react";
 import { ID, storage } from "@/appwrite";
 
 import { bytesToSize, createSlide } from "@/lib/functions";
-import { useUserContext } from "@/components/UserContext";
+import { useStore } from '@/hooks/use-user';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
@@ -120,7 +120,7 @@ async function uploadFile(file: File, storage: any, user: any, programs: Program
   }
 }
 export default function Page() {
-  const { user } = useUserContext();
+  const user = useStore((state) => state.user);
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const form = useForm<z.infer<typeof FormSchema>>({

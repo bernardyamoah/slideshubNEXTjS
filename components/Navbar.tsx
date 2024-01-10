@@ -5,13 +5,12 @@ import MobileNav from "@/app/(clients)/_components/mobile-nav";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useUserContext } from "./UserContext";
 import { UserProfile } from "./userProfile";
 import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
-import { Card } from "./ui/card";
+import { useStore } from '@/hooks/use-user';
 
 export default function Navbar() {
-  const { user } = useUserContext();
+  const user = useStore((state) => state.user);
 
   const pathname = usePathname();
 

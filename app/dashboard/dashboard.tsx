@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 
-import { useUserContext } from "@/components/UserContext";
+import { useStore } from '@/hooks/use-user';
 import { useRouter } from "next/navigation";
 
 import { motion, useAnimation } from "framer-motion";
@@ -20,7 +20,7 @@ import Books from "./_components/Books";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { userInTeam, user } = useUserContext();
+  const { user,userInTeam } = useStore();
   const userLabel = user?.labels || [];
 
   const [activeTab, setActiveTab] = useState(() => {

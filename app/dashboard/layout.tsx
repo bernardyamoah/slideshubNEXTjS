@@ -1,19 +1,19 @@
 "use client";
-import { useUserContext } from "@/components/UserContext";
+
 import Loading from "@/components/ui/Cloading";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
+import { useStore } from '@/hooks/use-user';
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { user, loading } = useUserContext();
+ const { user, loading } = useStore();
+
   const router = useRouter();
 
   if (loading) return <Loading />;
-  if (!user) return router.push("/login");
+  if (!user) router.push("/login");
   return <>{children}</>;
 }
 
