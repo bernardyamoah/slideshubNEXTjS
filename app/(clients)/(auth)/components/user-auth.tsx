@@ -19,6 +19,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [password, setPassword] = React.useState("");
   const login = useStore((state) => state.login);
   const loading = useStore((state) => state.loading);
+  console.log("🚀 ~ file: user-auth.tsx:22 ~ UserAuthForm ~ loading:", loading)
 
 
  

@@ -20,7 +20,8 @@ import Books from "./_components/Books";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { user,userInTeam } = useStore();
+  const user = useStore((state) => state.user);
+  const userInTeam = useStore((state) => state.userInTeam);
   const userLabel = user?.labels || [];
 
   const [activeTab, setActiveTab] = useState(() => {

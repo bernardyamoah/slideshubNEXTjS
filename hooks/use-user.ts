@@ -41,7 +41,7 @@ type State = {
 
 export const useStore = create<State>((set) => ({
 	user: null,
-	loading: true,
+	loading: false,
 	userInTeam: false,
 	setLoading: (loading) => set({ loading }),
 	setUser: (user) => set({ user }),
