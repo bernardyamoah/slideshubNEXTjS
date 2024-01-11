@@ -41,6 +41,7 @@ import { storage } from "@/appwrite";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 // Form Schema
 const BookFormSchema = z.object({
@@ -142,6 +143,7 @@ export default function Page() {
 
   })
   const [loading, setLoading] = useState(false)
+  const confetti = useConfettiStore();
   const [book, setBook] = useState<Book | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null)
@@ -271,6 +273,7 @@ export default function Page() {
   async function onSubmit(data: z.infer<typeof BookFormSchema>) {
 
     uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen, router);
+    confetti.onOpen()
     form.reset();
 
     // go back to the dashboard after complete submission
@@ -317,7 +320,7 @@ export default function Page() {
                         className=' gap-1 flex items-center'
                         onClick={handleSearchClick}
                       >
-                        <SearchIcon className='w-4 h-4' /> Search
+                        <SearchIcon className='w-4 h-4' />
                       </Button>
 
                     </div>

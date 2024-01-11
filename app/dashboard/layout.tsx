@@ -1,6 +1,6 @@
 "use client";
 
-import { UserProvider } from "@/components/providers/user-provider";
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -8,10 +8,10 @@ interface DashboardLayoutProps {
 function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return <>
-    <UserProvider>
 
-      {children}
-    </UserProvider>
+
+    {children}
+
   </>;
 }
 

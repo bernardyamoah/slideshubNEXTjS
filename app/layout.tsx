@@ -14,6 +14,7 @@ import MobileMenu from "../components/mobile-menu";
 import Footer from "@/components/Footer";
 
 import { Metadata } from "next";
+import { UserProvider } from "@/components/providers/user-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -74,6 +75,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <body className="relative min-h-screen flex flex-col">
+          <UserProvider>
           <Navbar />
 
           <main className="relative  bg-white/20 dark:bg-zinc-950/40 flex-1  items-center justify-center">
@@ -90,6 +92,7 @@ export default function RootLayout({
           <ToastProvider />
           <Analytics />
           <SpeedInsights />
+        </UserProvider>
         </body>
       </ThemeProvider>
     </html>

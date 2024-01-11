@@ -52,6 +52,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 // Define constants
 const MIN_SELECTION_MESSAGE = `You have to select an option.`;
@@ -121,7 +122,7 @@ async function uploadFile(file: File, storage: any, user: any, programs: Program
 }
 export default function Page() {
   const user = useStore((state) => state.user);
-
+  const confetti = useConfettiStore();
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -152,7 +153,7 @@ export default function Page() {
         toast.dismiss(toastId);
         toast.message('Task Completed',
           { description: `Successfully uploaded ${successfulUploads} files.` });
-
+        confetti.onOpen();
         // Clear the fields after successful upload
         form.reset();
         setCurrentFiles([]);
