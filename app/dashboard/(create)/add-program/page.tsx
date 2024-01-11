@@ -22,14 +22,13 @@ import {
 import { getCampus } from "@/lib/functions"
 
 import { toast } from "sonner";
-import { useUserContext } from "@/components/UserContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { useStore } from '@/hooks/use-user';
 
 
 
 export default function Page() {
-  const {user}=useUserContext();
+  const user = useStore((state) => state.user);
  
  const[data,setData]=useState({name:'',duration:'',value:''})
  

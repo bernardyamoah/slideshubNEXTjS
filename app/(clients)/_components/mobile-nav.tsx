@@ -4,17 +4,16 @@ import { buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"
- 
+import { useStore } from '@/hooks/use-user';
 import {  PanelLeftOpen } from "lucide-react";
 
-import { useUserContext } from "@/components/UserContext";
 import { useState } from "react";
 import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
 
 
 const MobileNav = ()=>{
   const [isOpen, setIsOpen] = useState(false);
-  const {user}=useUserContext()
+  const user = useStore((state) => state.user);
   const router =useRouter()
   const pathname = usePathname();
   const handleOnClick = (link:any) => {

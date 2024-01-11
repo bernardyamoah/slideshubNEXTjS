@@ -7,23 +7,52 @@ import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-import { handleGoogleSignIn } from "@/lib/functions"
+import { useStore } from '@/hooks/use-user';
 import { Loader2 } from "lucide-react"
-import { useUserContext } from "@/components/UserContext"
+import { account } from "@/appwrite"
+import { useRouter } from "next/navigation"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
- 
+  const router = useRouter()
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const {login,loading}=useUserContext();
+  const login = useStore((state) => state.login);
+  const loading = useStore((state) => state.loading);
+  const setUser = useStore((state) => state.setUser);
 
- 
+  const handleGoogleSignIn = async () => {
+
+
+    try {
+      // Define the redirect URL based on the environment
+      const redirectUrl =
+        process.env.NODE_ENV === 'production'
+          ? 'https://slideshub.vercel.app/dashboard'
+          : 'http://localhost:3000/dashboard';
+
+      // Go to OAuth provider login page (Google)
+      const result = await account.createOAuth2Session('google', redirectUrl);
+      const currentUser = await account.get();
+      setUser(currentUser);
+      return result
+    } catch (error) {
+      console.error('Error initiating Google OAuth:', error);
+      throw new Error('Error initiating Google OAuth');
+    }
+  };
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
-    login(email, password);
+    try {
+      await login(email, password, () => {
+        router.push('/dashboard')
+
+      });
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -58,13 +87,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCorrect="off"
               disabled={loading}
               value={password}
-			 onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button disabled={loading} className="mt-4">
             {loading && (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              
+
             )}
             Login
           </Button>
@@ -86,7 +115,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         ) : (
           <Icons.google className="w-4 h-4 mr-2" />
         )}{" "}
-    Google
+        Google
       </Button>
     </div>
   )

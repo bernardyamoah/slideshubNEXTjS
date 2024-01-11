@@ -1,5 +1,5 @@
 "use client";
-import { useUserContext } from "@/components/UserContext";
+import { useStore } from '@/hooks/use-user';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -12,7 +12,7 @@ import { useState } from "react";
 import { AdmintabRoutes, UsertabRoutes } from "@/constants";
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useUserContext();
+  const user = useStore((state) => state.user);
   const pathname = usePathname();
   const router = useRouter();
   const isAdmin =

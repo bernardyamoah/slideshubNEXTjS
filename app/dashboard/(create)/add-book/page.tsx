@@ -20,7 +20,7 @@ import {
 
 // Custom Hooks
 import { bytesToSize, createBook } from "@/lib/functions";
-import { useUserContext } from "@/components/UserContext";
+import { useStore } from '@/hooks/use-user';
 
 
 
@@ -41,6 +41,7 @@ import { storage } from "@/appwrite";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 // Form Schema
 const BookFormSchema = z.object({
@@ -63,7 +64,7 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
   try {
     // Create a new Appwrite file
     setOpen(true)
-    const toastId = toast.loading("Uploading files..."); 
+    const toastId = toast.loading("Uploading files...");
     const response = await storage.createFile(
       process.env.NEXT_PUBLIC_BOOKS_STORAGE_ID!,
       ID.unique(),
@@ -77,7 +78,7 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
         setUploadProgress(uploadProgress);
       }
     )
-  
+
 
     const fileId = response.$id;
 
@@ -93,19 +94,19 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
 
     bookData = {
       ...bookData,
-      name:bookData.title,
+      name: bookData.title,
       size: bytesToSize(file.size),
       downloadLink: uploadedFileUrl,
       fileType: fileExtension ? fileExtension.toString() : ""
- 
+
     };
     bookData
     await createBook(bookData, toastId);
     // Clear the fields after successful upload
     setUploadProgress(0);
-    
+
     setOpen(false);
-  
+
     router.push('/dashboard')
     return true;
   } catch (error) {
@@ -113,7 +114,7 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
     toast.error("File upload failed");
     setOpen(false);
   }
-    console.log("🚀 ~ file: page.tsx:116 ~ uploadFile ~   bookData:",   bookData)
+  console.log("🚀 ~ file: page.tsx:116 ~ uploadFile ~   bookData:", bookData)
 }
 
 
@@ -121,7 +122,7 @@ export default function Page() {
 
   // Variables
   const router = useRouter()
-  const { user } = useUserContext();
+  const user = useStore((state) => state.user);
   const [open, setOpen] = useState(false)
   const [bookData, setBookData] = useState({
     title: '',
@@ -142,6 +143,7 @@ export default function Page() {
 
   })
   const [loading, setLoading] = useState(false)
+  const confetti = useConfettiStore();
   const [book, setBook] = useState<Book | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null)
@@ -269,8 +271,9 @@ export default function Page() {
 
 
   async function onSubmit(data: z.infer<typeof BookFormSchema>) {
-  
+
     uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen, router);
+    confetti.onOpen()
     form.reset();
 
     // go back to the dashboard after complete submission
@@ -317,7 +320,7 @@ export default function Page() {
                         className=' gap-1 flex items-center'
                         onClick={handleSearchClick}
                       >
-                        <SearchIcon className='w-4 h-4' /> Search
+                        <SearchIcon className='w-4 h-4' />
                       </Button>
 
                     </div>

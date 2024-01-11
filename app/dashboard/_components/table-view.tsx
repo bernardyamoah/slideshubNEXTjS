@@ -24,6 +24,7 @@ import {
 import { Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { deleteSelectedSlides, deleteSelectedCourses, deleteSelectedBooks, deleteSelectedPrograms } from "@/lib/functions";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -40,7 +41,7 @@ export function DataTableViewOptions<TData>({
 }: DataTableViewOptionsProps<TData>) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-
+  const confetti = useConfettiStore();
 
 
   const handleDelete = () => {
@@ -60,8 +61,8 @@ export function DataTableViewOptions<TData>({
         error: "Failed to delete!",
       })
       toast.dismiss(id);
+      confetti.onOpen();
       setShowDeleteDialog(false);
-
     } catch (error) {
       console.log(error);
       setShowDeleteDialog(false);

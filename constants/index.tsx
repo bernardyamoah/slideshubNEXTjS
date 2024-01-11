@@ -118,7 +118,7 @@ export const EmptyUI: EmptyStateType = [
     image: "/undraw_no_data_re_kwbl.svg",
   },
 ];
-export const BookCategories = [
+export const Category = [
   { id: "computer-science", label: "Computer Science" },
   { id: "engineering", label: "Engineering" },
   { id: "mathematics", label: "Mathematics" },

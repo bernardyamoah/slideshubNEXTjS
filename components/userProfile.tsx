@@ -1,29 +1,32 @@
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
+
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
+
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logOut } from "@/lib/functions";
-
-import { useRouter } from "next/navigation";
+import { useStore } from '@/hooks/use-user';
 
 import Link from "next/link";
 import { getUserInitials } from "@/lib/functions";
 import { useEffect, useState } from "react";
-import { useUserContext } from "./UserContext";
+import { useRouter } from "next/navigation";
+
 export const UserProfile = () => {
-  const { user } = useUserContext();
-  const { signOut } = useUserContext();
-  const firstName = user?.name?.split(" ")[0] || "";
+  const router=useRouter()
+  const user = useStore((state) => state.user);
+  const signOut = useStore((state) => state.signOut);
+  const handleSignOut = async () => {
+    signOut();
+    router.push('/')
+  };
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   useEffect(() => {
     async function fetchAvatarUrl() {
@@ -39,7 +42,7 @@ export const UserProfile = () => {
 
     fetchAvatarUrl();
   }, [user]);
-  const router = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -70,7 +73,7 @@ export const UserProfile = () => {
 
         <DropdownMenuItem
           className="text-red-600 hover:bg-red-50"
-          onClick={signOut}
+          onClick={handleSignOut}
         >
           <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>

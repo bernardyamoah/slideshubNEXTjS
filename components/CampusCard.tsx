@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Locate } from "lucide-react";
 import { Card, CardTitle } from "./ui/card";
-import { useCampuses } from "@/customHooks/useCampuses";
+import { useCampuses } from "@/hooks/useCampuses";
 
 interface Campus {
   $id: string;
