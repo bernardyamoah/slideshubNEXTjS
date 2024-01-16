@@ -60,16 +60,18 @@ export default function Navbar() {
             <ModeToggle />
           </div>
 
-          {user ? (
+          {user && (
             <UserProfile />
-          ) : (
-            <Button
-              className="text-base font-medium"
-              onClick={() => router.push("/login")}
-            >
-              Login
-            </Button>
           )}
+        
+          {/* ) : (
+             <Button
+              className="text-base font-medium"
+               onClick={() => router.push("/login")}
+             >
+              Login
+             </Button>
+           )} */}
 
           <div className="flex items-center lg:hidden">
             <MobileNav />
