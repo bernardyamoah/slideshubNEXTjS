@@ -62,8 +62,7 @@ export default function Navbar() {
 
           {user && (
             <UserProfile />
-          )}
-        
+          )}  
           {/* ) : (
              <Button
               className="text-base font-medium"
