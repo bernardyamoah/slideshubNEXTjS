@@ -3,7 +3,7 @@ import lightlogo from "/assets/logo-icon-light.png";
 import Image from "next/image";
 import Link from "next/link";
 
-const Logo = () => {
+export default function Logo() {
 	return (
 		<Link className="flex items-center space-x-2" href="/">
 			<Image
@@ -25,6 +25,4 @@ const Logo = () => {
 			<span className="hidden w-1 h-1 rounded-full bg-emerald-500 sm:flex"></span>
 		</Link>
 	);
-};
-
-export default Logo;
+}

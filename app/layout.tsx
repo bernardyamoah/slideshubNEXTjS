@@ -14,7 +14,7 @@ import MobileMenu from "../components/mobile-menu";
 import { Metadata } from "next";
 import { UserProvider } from "@/components/providers/user-provider";
 import Background from "./background";
-import Footer from "@/components/footer";
+// import Footer from "@/components/footer";
 import Navbar from "@/components/nav-bar";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
@@ -87,7 +87,7 @@ export default function RootLayout({
 							</main>
 
 							<MobileMenu />
-							<Footer />
+							{/* <Footer /> */}
 
 							<ConfettiProvider />
 							<ToastProvider />

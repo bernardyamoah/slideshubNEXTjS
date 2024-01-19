@@ -8,7 +8,7 @@ import Link from "next/link";
 import { UserProfile } from "./user-profile";
 import { UserSidebarRoutes, sidebarRoutes } from "@/constants";
 import { useStore } from "@/hooks/use-user";
-import Logo from "./logo";
+import Logo from "./slideshub-logo";
 
 export default function Navbar() {
 	const user = useStore((state) => state.user);

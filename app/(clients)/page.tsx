@@ -1,6 +1,6 @@
 'use client'
 
-import Features from "@/components/features";
+import Features from "@/components/feature";
 import Hero from "@/components/hero";
 
 
