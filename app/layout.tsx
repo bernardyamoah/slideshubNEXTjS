@@ -17,7 +17,7 @@ import Background from "./background";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { sidebarRoutes } from "@/constants";
+
 
 export const metadata: Metadata = {
 	title: {
