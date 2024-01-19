@@ -1,5 +1,5 @@
 
-import CourseList from "@/components/courseList";
+import CourseList from "@/components/course-list";
 import { getProgramDetails } from "@/lib/functions";
 
 

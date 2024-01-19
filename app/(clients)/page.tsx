@@ -1,8 +1,8 @@
 'use client'
 
-import Features from "@/components/Features";
+import Features from "@/components/features";
 // import Testimonials from "@/components/Testimonials";
-import Hero from "@/components/Hero";
+import Hero from "@/components/hero";
 
 export default function Home() {
 	return (

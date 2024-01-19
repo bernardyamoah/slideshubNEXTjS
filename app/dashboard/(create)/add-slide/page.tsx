@@ -42,7 +42,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
-import FileUpload from "@/components/fileUpload";
+import FileUpload from "@/components/file-upload";
 import { useState } from "react";
 import { ID, storage } from "@/appwrite";
 

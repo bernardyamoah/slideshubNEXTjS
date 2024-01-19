@@ -1,19 +1,12 @@
-
-import { Metadata } from "next"
-import Dashboard from "./_components/dashboard"
+import { Metadata } from "next";
+import Dashboard from "./_components/dashboard";
 export const metadata: Metadata = {
-  title: 'Dashboard',
-
-}
+	title: "Dashboard",
+};
 export default function Home() {
-  return (
-    <>
-
-
-      <Dashboard />
-    </>
-
-
-
-  )
+	return (
+		<>
+			<Dashboard />
+		</>
+	);
 }
