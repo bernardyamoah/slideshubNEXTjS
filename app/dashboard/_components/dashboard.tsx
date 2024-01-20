@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 import { motion, useAnimation } from "framer-motion";
 import { tabTriggers } from "@/constants";
-import Programs from "./Program";
+import Programs from "./program";
 
 import Courses from "@/app/dashboard/_components/Courses";
 import Books from "./Books";
@@ -106,7 +106,7 @@ export default function Dashboard() {
 					<Tabs defaultValue="slide" className="h-full space-y-6  ">
 						<div className="flex items-center space-between ">
 							{/* Tab Triggers */}
-							<TabsList className="w-full ">
+							<TabsList className="">
 								<ScrollArea className="w-full whitespace-nowrap rounded-md relative">
 									{tabTriggers.map((tabTrigger) => {
 										if (
@@ -152,10 +152,7 @@ export default function Dashboard() {
 										}
 										return null; // Skip rendering other options
 									})}
-									<ScrollBar
-										orientation="horizontal"
-										
-									/>
+									<ScrollBar orientation="horizontal" />
 								</ScrollArea>
 							</TabsList>
 							<div className="hidden ml-auto mr-4 lg:block ">

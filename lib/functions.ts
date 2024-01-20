@@ -1210,3 +1210,63 @@ export const fetchBookDetails = async (title: String) => {
 		//   setLoading(false);
 	}
 };
+export async function uploadFile(
+	file: File,
+	storage: any,
+	user: any,
+	programs: Program[],
+	form: any,
+	newData: any,
+	setUploadProgress: (value: number) => void
+) {
+	try {
+		// Create a new Appwrite file
+		const response = await storage.createFile(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			ID.unique(),
+			file,
+			undefined,
+			(progress: UploadProgress) => {
+				const uploadProgress = Math.round(
+					(progress.chunksUploaded * 100) / progress.chunksTotal
+				);
+
+				setUploadProgress(uploadProgress);
+			}
+		);
+		const fileId = response.$id;
+
+		const fileUrlResponse = storage.getFileDownload(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			fileId
+		);
+
+		const filePreviewResponse = storage.getFileView(
+			process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+			fileId
+		);
+
+		const uploadedFileUrl = fileUrlResponse.toString();
+		const fileExtension = file.name.split(".").pop()?.toUpperCase();
+		const fileName = file.name.replace(/_/g, " ");
+		const slideData = {
+			name: fileName.slice(0, fileName.lastIndexOf(".")),
+			size: bytesToSize(file.size),
+			fileUrl: uploadedFileUrl,
+			fileType: fileExtension ? fileExtension.toString() : "",
+			courseId: newData.courses,
+			previewUrl: filePreviewResponse,
+			user_id: user?.$id,
+			programme: programs.find(
+				(program) => program.$id === form.watch("programs")
+			)?.name,
+		};
+
+		await createSlide(slideData);
+
+		return true;
+	} catch (error) {
+		toast.error("File upload failed");
+		throw error; // Rethrow the error to be caught in the calling function
+	}
+}

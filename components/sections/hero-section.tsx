@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Book } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 
 const Hero = () => {
 	const route = useRouter();
@@ -25,7 +25,7 @@ const Hero = () => {
 						<h1 className="scroll-m-20  bold-40  lg:bold-64">
 							Charting Your Course to Success{" "}
 						</h1>
-			
+
 						<p className="leading-7 md:leading-10 [&:not(:first-child)]:mt-6 regular-20 md:regular-24 dark:text-zinc-400">
 							For students who seek excellence in learning!{" "}
 							<span className="text-emerald-500 font-bold border-b-2 border-dashed border-emerald-400">
@@ -60,7 +60,6 @@ const Hero = () => {
 						className="object-cover"
 					/>
 				</div>
-		
 			</section>
 		</>
 	);

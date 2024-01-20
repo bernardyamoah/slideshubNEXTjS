@@ -16,8 +16,7 @@ import { UserProvider } from "@/components/providers/user-provider";
 import Background from "./background";
 // import Footer from "@/components/footer";
 import Navbar from "@/components/nav-bar";
-import { Breadcrumbs } from "@/components/breadcrumbs";
-
+import { Breadcrumbs } from "@/components/pagers/breadcrumbs";
 
 export const metadata: Metadata = {
 	title: {
@@ -76,7 +75,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className="relative min-h-screen flex flex-col">
-				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<UserProvider>
 						<Background>
 							<Navbar />

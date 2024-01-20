@@ -1,7 +1,6 @@
 "use client";
-"use client";
-import Features from "@/components/feature";
-import Hero from "@/components/hero-section";
+import Features from "@/components/sections/feature";
+import Hero from "@/components/sections/hero-section";
 
 export default function Home() {
 	return (

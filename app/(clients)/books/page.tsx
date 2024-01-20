@@ -1,5 +1,5 @@
 
-import { Banner } from '@/components/banner';
+import { Banner } from '@/components/shared/banner';
 import { Metadata } from 'next';
 export const metadata:Metadata={
   title:'Books',

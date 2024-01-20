@@ -4,7 +4,7 @@ import { formatUserTime } from "@/lib/functions";
 import Link from "next/link";
 
 import { Locate } from "lucide-react";
-import { Card, CardTitle } from "./ui/card";
+import { Card, CardTitle } from "../ui/card";
 import { useCampuses } from "@/hooks/useCampuses";
 
 interface Campus {

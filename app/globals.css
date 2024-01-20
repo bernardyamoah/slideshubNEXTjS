@@ -79,22 +79,8 @@
     @apply flex items-center justify-center;
   }
 
-  .flexBetween {
-    @apply flex items-center justify-between;
-  }
-
-  .flexStart {
-    @apply flex items-center justify-start;
-  }
-
-  .flexEnd {
-    @apply flex items-center justify-end;
-  }
 
   /* FONTS */
-  .regular-64 {
-    @apply text-[64px] font-[400] leading-[120%];
-  }
 
   .regular-40 {
     @apply text-[40px] font-[400] leading-[120%];
@@ -112,32 +98,13 @@
     @apply text-[20px] font-[400];
   }
 
-  .regular-18 {
-    @apply text-[18px] font-[400];
-  }
-
-  .regular-16 {
-    @apply text-[16px] font-[400];
-  }
-
-  .regular-14 {
-    @apply text-[14px] font-[400];
-  }
 
   .medium-14 {
     @apply text-[14px] font-[600];
   }
 
-  .bold-88 {
-    @apply text-[88px] font-[700] leading-[120%];
-  }
-
   .bold-64 {
     @apply text-[64px] font-[700] leading-[120%];
-  }
-
-  .bold-52 {
-    @apply text-[52px] font-[700] leading-[120%];
   }
 
   .bold-40 {
@@ -152,35 +119,8 @@
     @apply text-[20px] font-[700];
   }
 
-  .bold-18 {
-    @apply text-[18px] font-[700];
-  }
-
-  .bold-16 {
-    @apply text-[16px] font-[700];
-  }
-
-  /* Hero */
-
-  /* Feature */
-  .feature-phone {
-    @apply absolute top-[13%] z-10 hidden max-w-[1500px] rotate-[15deg] md:-left-16 lg:flex  3xl:left-20 rounded-3xl;
-  }
 }
 
-@layer components {
-  /* --------------- logo -------------------- */
-
-  .logo_icon_dark {
-    @apply hidden object-cover w-8 h-8 dark:block md:h-10 md:w-10;
-  }
-  .logo_icon_light {
-    @apply object-cover w-8 h-8 dark:hidden md:h-10 md:w-10;
-  }
-  .logo_text {
-    @apply hidden text-sm font-bold text-zinc-900 sm:flex dark:text-white md:text-xl font-title;
-  }
-}
 
 section {
   padding: 4rem 2%;

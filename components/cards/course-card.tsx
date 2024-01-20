@@ -3,8 +3,8 @@ import { formatUserTime } from "@/lib/functions";
 import Link from "next/link";
 
 import { Calendar, Clock2 } from "lucide-react";
-import { Card, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { Card, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
 
 export default function CourseCard({ course, campusId }) {
 	let {

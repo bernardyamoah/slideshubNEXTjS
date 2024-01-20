@@ -10,7 +10,7 @@ export default function Logo() {
 				width={144}
 				height={144}
 				src={darklogo}
-				className="logo_icon_dark"
+				className="hidden object-cover w-8 h-8 dark:block md:h-10 md:w-10"
 				alt="logo"
 			/>
 
@@ -18,10 +18,12 @@ export default function Logo() {
 				width={140}
 				height={140}
 				src={lightlogo}
-				className="logo_icon_light"
+				className="object-cover w-8 h-8 dark:hidden md:h-10 md:w-10"
 				alt="logo"
 			/>
-			<span className="logo_text">SlidesHub</span>
+			<span className="hidden text-sm font-bold text-zinc-900 sm:flex dark:text-white md:text-xl font-title">
+				SlidesHub
+			</span>
 			<span className="hidden w-1 h-1 rounded-full bg-emerald-500 sm:flex"></span>
 		</Link>
 	);

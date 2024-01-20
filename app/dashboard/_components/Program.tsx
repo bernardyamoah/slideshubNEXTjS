@@ -8,59 +8,59 @@ import { generateDynamicColumns } from "./generateColumn";
 import { programsColumnConfig } from "@/constants/columnUtils";
 
 const Programs = ({ title }) => {
-  const [programs, setProgram] = useState<Program[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(false);
-  const [pageInfo, setPageInfo] = useState({
-    currentPage: 0,
-    pageCount: 0,
-    pageSize: 10,
-  });
+	const [programs, setProgram] = useState<Program[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [refresh, setRefresh] = useState(false);
+	const [pageInfo, setPageInfo] = useState({
+		currentPage: 0,
+		pageCount: 0,
+		pageSize: 10,
+	});
 
-  useEffect(() => {
-    // Fetch Program for the current page
-    const fetchProgram = async () => {
-      const { data, total_pages } = await getAllPrograms({
-        currentPage: pageInfo.currentPage + 1,
-        perPage: pageInfo.pageSize,
-        setLoading,
-      });
-      setProgram(
-        data.map((program) => ({
-          ...program,
-          timePosted: formatTime(program.$createdAt),
-          id: program.$id,
-        })),
-      );
-      setPageInfo((prevState) => ({
-        ...prevState,
-        pageCount: Math.ceil(total_pages),
-      }));
-    };
-    fetchProgram();
-  }, [pageInfo.currentPage, pageInfo.pageSize, refresh]);
+	useEffect(() => {
+		// Fetch Program for the current page
+		const fetchProgram = async () => {
+			const { data, total_pages } = await getAllPrograms({
+				currentPage: pageInfo.currentPage + 1,
+				perPage: pageInfo.pageSize,
+				setLoading,
+			});
+			setProgram(
+				data.map((program) => ({
+					...program,
+					timePosted: formatTime(program.$createdAt),
+					id: program.$id,
+				}))
+			);
+			setPageInfo((prevState) => ({
+				...prevState,
+				pageCount: Math.ceil(total_pages),
+			}));
+		};
+		fetchProgram();
+	}, [pageInfo.currentPage, pageInfo.pageSize, refresh]);
 
-  const programColumns = generateDynamicColumns(
-    programsColumnConfig,
-    title,
-    setRefresh,
-  );
-  const dataTable = {
-    columns: programColumns,
-    data: programs,
-    title: title,
-    pageInfo: pageInfo,
-    setPageInfo: setPageInfo,
-    loading: loading,
-  };
+	const programColumns = generateDynamicColumns(
+		programsColumnConfig,
+		title,
+		setRefresh
+	);
+	const dataTable = {
+		columns: programColumns,
+		data: programs,
+		title: title,
+		pageInfo: pageInfo,
+		setPageInfo: setPageInfo,
+		loading: loading,
+	};
 
-  return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <DataTable dataTable={dataTable} setRefresh={setRefresh} />
-      </Suspense>
-    </>
-  );
+	return (
+		<>
+			<Suspense fallback={<Loading />}>
+				<DataTable dataTable={dataTable} setRefresh={setRefresh} />
+			</Suspense>
+		</>
+	);
 };
 
 export default Programs;

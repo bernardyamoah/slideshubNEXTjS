@@ -21,7 +21,7 @@ import {
 import { SlideEdit } from "./slides-edit";
 import { CourseEdit } from "./course-preset-actions";
 import { BookEdit } from "./bookEdit";
-import { ProgramEdit } from "./programEdit";
+import { ProgramEdit } from "./program-edit";
 
 
 export function DataTableRowActions({ row, title, setRefresh }) {

@@ -4,7 +4,7 @@ import { getSlidesByCourseId } from "@/lib/functions";
 
 import { Suspense } from "react";
 
-import EmptyState from "@/components/empty-ui";
+import EmptyState from "@/components/shared/empty-ui";
 
 import { Separator } from "@/components/ui/separator";
 

@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { LevelTabItems } from "@/constants";
-import CourseCard from "./course-card";
+import CourseCard from "./cards/course-card";
 
 import { getCoursesByProgramId } from "@/lib/functions";
 import Loading from "./ui/Cloading";
-import EmptyState from "./empty-ui";
+import EmptyState from "./shared/empty-ui";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
 const CourseList = ({ programId, campusId }) => {

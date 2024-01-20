@@ -1,4 +1,4 @@
-import CampusCard from "@/components/campus-card";
+import CampusCard from "@/components/cards/campus-card";
 import LoadingSkeleton from "@/components/loading-skeleton";
 
 import { Metadata } from "next";

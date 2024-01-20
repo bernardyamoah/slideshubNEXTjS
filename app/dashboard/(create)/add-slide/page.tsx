@@ -5,7 +5,7 @@ import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Form,
   FormControl,
@@ -46,7 +46,7 @@ import FileUpload from "@/components/file-upload";
 import { useState } from "react";
 import { ID, storage } from "@/appwrite";
 
-import { bytesToSize, createSlide } from "@/lib/functions";
+import { bytesToSize, createSlide, uploadFile } from "@/lib/functions";
 import { useStore } from '@/hooks/use-user';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -67,59 +67,59 @@ const FormSchema = z.object({
 });
 
 // Extract file upload logic into a separate function
-async function uploadFile(file: File, storage: any, user: any, programs: Program[], form: any, newData: any, setUploadProgress: (value: number) => void) {
-  try {
-    // Create a new Appwrite file
-    const response = await storage.createFile(
-      process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-      ID.unique(),
-      file,
-      undefined,
-      (progress: UploadProgress) => {
-        const uploadProgress = Math.round(
-          (progress.chunksUploaded * 100) / progress.chunksTotal
-        );
+// async function uploadFile(file: File, storage: any, user: any, programs: Program[], form: any, newData: any, setUploadProgress: (value: number) => void) {
+//   try {
+//     // Create a new Appwrite file
+//     const response = await storage.createFile(
+//       process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+//       ID.unique(),
+//       file,
+//       undefined,
+//       (progress: UploadProgress) => {
+//         const uploadProgress = Math.round(
+//           (progress.chunksUploaded * 100) / progress.chunksTotal
+//         );
 
-        setUploadProgress(uploadProgress);
-      }
-    );
-    const fileId = response.$id;
+//         setUploadProgress(uploadProgress);
+//       }
+//     );
+//     const fileId = response.$id;
 
-    const fileUrlResponse = storage.getFileDownload(
-      process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-      fileId
-    );
+//     const fileUrlResponse = storage.getFileDownload(
+//       process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+//       fileId
+//     );
 
-    const filePreviewResponse = storage.getFileView(
-      process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
-      fileId
-    );
+//     const filePreviewResponse = storage.getFileView(
+//       process.env.NEXT_PUBLIC_SLIDES_STORAGE_ID!,
+//       fileId
+//     );
 
-    const uploadedFileUrl = fileUrlResponse.toString();
-    const fileExtension = file.name.split(".").pop()?.toUpperCase();
-    const fileName = file.name.replace(/_/g, " ");
-    const slideData = {
-      name: fileName.slice(0, fileName.lastIndexOf(".")),
-      size: bytesToSize(file.size),
-      fileUrl: uploadedFileUrl,
-      fileType: fileExtension ? fileExtension.toString() : "",
-      courseId: newData.courses,
-      previewUrl: filePreviewResponse,
-      user_id: user?.$id,
-      programme: programs.find(
-        (program) => program.$id === form.watch("programs")
-      )?.name,
-    };
+//     const uploadedFileUrl = fileUrlResponse.toString();
+//     const fileExtension = file.name.split(".").pop()?.toUpperCase();
+//     const fileName = file.name.replace(/_/g, " ");
+//     const slideData = {
+//       name: fileName.slice(0, fileName.lastIndexOf(".")),
+//       size: bytesToSize(file.size),
+//       fileUrl: uploadedFileUrl,
+//       fileType: fileExtension ? fileExtension.toString() : "",
+//       courseId: newData.courses,
+//       previewUrl: filePreviewResponse,
+//       user_id: user?.$id,
+//       programme: programs.find(
+//         (program) => program.$id === form.watch("programs")
+//       )?.name,
+//     };
 
-    await createSlide(slideData);
+//     await createSlide(slideData);
 
 
-    return true;
-  } catch (error) {
-    toast.error("File upload failed");
-    throw error; // Rethrow the error to be caught in the calling function
-  }
-}
+//     return true;
+//   } catch (error) {
+//     toast.error("File upload failed");
+//     throw error; // Rethrow the error to be caught in the calling function
+//   }
+// }
 export default function Page() {
   const user = useStore((state) => state.user);
   const confetti = useConfettiStore();

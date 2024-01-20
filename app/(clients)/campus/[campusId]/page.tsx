@@ -1,5 +1,5 @@
-import EmptyState from "@/components/empty-ui";
-import ProgramCard from "@/components/program-card";
+import EmptyState from "@/components/shared/empty-ui";
+import ProgramCard from "@/components/cards/program-card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getCampusDetails, getProgramsByCampusId } from "@/lib/functions";
