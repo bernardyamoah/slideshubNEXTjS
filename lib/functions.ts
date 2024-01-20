@@ -2,7 +2,7 @@ import { databases, ID, Query, account, storage, avatars } from "@/appwrite";
 import { UploadProgress } from "appwrite";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
-const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
+export const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 // Success toast notification
 export const successMessage = (message: string) => {
 	toast.success(message);
@@ -1184,6 +1184,7 @@ export const fetchBookDetails = async (title: String) => {
 				previewLink,
 				imageLinks,
 			} = volumeInfo;
+				console.log("🚀 ~ fetchBookDetails ~ imageLinks:", imageLinks)
 			const thumbnail = imageLinks?.thumbnail;
 
 			const book = {
@@ -1199,15 +1200,11 @@ export const fetchBookDetails = async (title: String) => {
 			};
 
 			return book;
-		} else {
-			console.error("Failed to fetch book data");
-			return null;
 		}
 	} catch (error) {
 		console.error("Error:", error);
-		return null;
-	} finally {
-		//   setLoading(false);
+		errorMessage(`Failed to fetch ${error}`);
+		return false;
 	}
 };
 export async function uploadFile(
@@ -1217,6 +1214,7 @@ export async function uploadFile(
 	programs: Program[],
 	form: any,
 	newData: any,
+
 	setUploadProgress: (value: number) => void
 ) {
 	try {
@@ -1263,6 +1261,7 @@ export async function uploadFile(
 		};
 
 		await createSlide(slideData);
+		
 
 		return true;
 	} catch (error) {

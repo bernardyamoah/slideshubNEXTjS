@@ -16,8 +16,8 @@ const nextConfig = {
 			"cloud.appwrite.io",
 			"images.unsplash.com",
 			"opendoodles.s3-us-west-1.amazonaws.com",
-			"media.istockphoto.com",
 			"youtu.be",
+			"books.google.com",
 		],
 	},
 

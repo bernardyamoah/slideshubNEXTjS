@@ -11,7 +11,7 @@ function DownloadBtn({ Fileurl, filename }) {
       <Link href={Fileurl} download={filename}>
         <Button
           size="sm"
-          className="flex flex-1 items-center w-full gap-3 mt-4"
+          className="flex flex-1 items-center w-full gap-3 mt-4 "
           onClick={() => {
             toast("Download started!", {
               icon: "📥",

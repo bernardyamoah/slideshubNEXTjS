@@ -7,52 +7,59 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
 } from "@/components/ui/form";
 
 import { useCampuses } from "@/hooks/useCampuses";
 import { toast } from "sonner";
 import { usePrograms } from "@/hooks/usePrograms";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from "@/components/ui/select";
 import { useCourses } from "@/hooks/useCourse";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
 } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
 import FileUpload from "@/components/file-upload";
 import { useState } from "react";
-import { ID, storage } from "@/appwrite";
+import { storage } from "@/appwrite";
 
-import { bytesToSize, createSlide, uploadFile } from "@/lib/functions";
-import { useStore } from '@/hooks/use-user';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { uploadFile } from "@/lib/functions";
+import { useStore } from "@/hooks/use-user";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { UploadProgress } from "appwrite";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
+import { useRouter } from "next/navigation";
 
 // Define constants
 const MIN_SELECTION_MESSAGE = `You have to select an option.`;
@@ -60,10 +67,10 @@ const MIN_FILE_SELECTION_MESSAGE = "You have to select at least one file.";
 
 // Update the schema
 const FormSchema = z.object({
-  campus: z.string().min(1, MIN_SELECTION_MESSAGE),
-  programs: z.string().min(1, MIN_SELECTION_MESSAGE),
-  courses: z.string().min(1, MIN_SELECTION_MESSAGE),
-  currentFiles: z.array(z.string().min(1, MIN_FILE_SELECTION_MESSAGE)),
+	campus: z.string().min(1, MIN_SELECTION_MESSAGE),
+	programs: z.string().min(1, MIN_SELECTION_MESSAGE),
+	courses: z.string().min(1, MIN_SELECTION_MESSAGE),
+	currentFiles: z.array(z.string().min(1, MIN_FILE_SELECTION_MESSAGE)),
 });
 
 // Extract file upload logic into a separate function
@@ -113,7 +120,6 @@ const FormSchema = z.object({
 
 //     await createSlide(slideData);
 
-
 //     return true;
 //   } catch (error) {
 //     toast.error("File upload failed");
@@ -121,254 +127,260 @@ const FormSchema = z.object({
 //   }
 // }
 export default function Page() {
-  const user = useStore((state) => state.user);
-  const confetti = useConfettiStore();
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
+	const user = useStore((state) => state.user);
+	const confetti = useConfettiStore();
+	const [uploadProgress, setUploadProgress] = useState<number>(0);
+	const form = useForm<z.infer<typeof FormSchema>>({
+		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			currentFiles: [],
+		},
+	});
+	const router = useRouter();
+	const [currentFiles, setCurrentFiles] = useState([]);
+	const campuses: Campus[] = useCampuses();
+	const programs: Program[] = usePrograms(form.watch("campus"));
+	const courses: Course[] = useCourses(form.watch("programs"));
+	async function onSubmit(data: z.infer<typeof FormSchema>) {
+		// Adding the current files
+		const newData = { ...data, currentFiles: currentFiles };
 
-      currentFiles: [],
+		if (currentFiles.length > 0) {
+			const toastId = toast.loading("Uploading files...");
 
-    },
-  });
+			// Use Promise.all for concurrent uploads
+			const uploadPromises = currentFiles.map((file: File) =>
+				uploadFile(
+					file,
+					storage,
+					user,
+					programs,
+					form,
+					newData,
+					setUploadProgress
+				)
+			);
+			const results = await Promise.all(uploadPromises);
+			toast.dismiss(toastId);
+			const successfulUploads = results.filter((result) => result).length;
+			if (successfulUploads === currentFiles.length) {
+				toast.dismiss(toastId);
+				toast.message("Task Completed", {
+					description: `Successfully uploaded ${successfulUploads} files.`,
+				});
+				confetti.onOpen();
+				// Clear the fields after successful upload
+				form.reset();
+				setCurrentFiles([]);
+				form.setValue("campus", "");
+				setUploadProgress(0);
+				router.push("/dashboard");
+			}
+		}
+	}
 
-  const [currentFiles, setCurrentFiles] = useState([]);
-  const campuses: Campus[] = useCampuses();
-  const programs: Program[] = usePrograms(form.watch("campus"));
-  const courses: Course[] = useCourses(form.watch("programs"));
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Adding the current files
-    const newData = { ...data, currentFiles: currentFiles };
+	return (
+		<Form {...form}>
+			<Card className="max-w-xl mx-auto ">
+				<CardHeader className="mb-6">
+					<CardTitle>Add Slides</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+						<FormField
+							control={form.control}
+							name="campus"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Campus</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={useWatch({ name: "campus" })}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Select a campus" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{campuses.map((campus) => (
+												<SelectItem key={campus.$id} value={campus.$id}>
+													{campus.name},{" "}
+													<span className="text-sm font-medium text-right">
+														{campus.location}
+													</span>
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									<FormDescription>
+										Choose the campus for the slides.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="programs"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="block">Program</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant="outline"
+													role="combobox"
+													className={cn(
+														"w-full justify-between",
+														!field.value && "text-muted-foreground"
+													)}
+												>
+													{field.value
+														? programs.find(
+																(program) => program.$id === field.value
+														  )?.name
+														: "Select a program"}
+													<CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className="!w-full p-2">
+											<Command>
+												<CommandInput
+													placeholder="Search program..."
+													className="h-9"
+												/>
+												<CommandEmpty>No program found.</CommandEmpty>
+												<CommandGroup>
+													{programs.map((program) => (
+														<CommandItem
+															value={program.name}
+															key={program.$id}
+															onSelect={() => {
+																form.setValue("programs", program.$id);
+															}}
+														>
+															{program.name}
+															<CheckIcon
+																className={cn(
+																	"ml-auto h-4 w-4",
+																	program.$id === field.value
+																		? "opacity-100"
+																		: "opacity-0"
+																)}
+															/>
+														</CommandItem>
+													))}
+												</CommandGroup>
+											</Command>
+										</PopoverContent>
+									</Popover>
+									<FormDescription>
+										Choose the program for the slides.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-    if (currentFiles.length > 0) {
-      const toastId = toast.loading("Uploading files...");
+						<FormField
+							control={form.control}
+							name="courses"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="block">Course</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant="outline"
+													role="combobox"
+													className={cn(
+														"w-full justify-between",
+														!field.value && "text-muted-foreground"
+													)}
+												>
+													{field.value
+														? courses.find(
+																(course) => course.$id === field.value
+														  )?.name
+														: "Select a course"}
+													<CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className="!w-full p-2" align="end">
+											<Command>
+												<CommandInput
+													placeholder="Search course..."
+													className="h-9"
+												/>
+												<CommandEmpty>No course found.</CommandEmpty>
+												<ScrollArea className="h-64 overflow-auto">
+													<CommandGroup>
+														{courses.map((course) => (
+															<CommandItem
+																value={course.name}
+																key={course.$id}
+																onSelect={() => {
+																	form.setValue("courses", course.$id);
+																}}
+																className="capitalize"
+															>
+																{course.name}
+																<CheckIcon
+																	className={cn(
+																		"ml-auto h-4 w-4",
+																		course.$id === field.value
+																			? "opacity-100"
+																			: "opacity-0"
+																	)}
+																/>
+															</CommandItem>
+														))}
+													</CommandGroup>
+												</ScrollArea>
+											</Command>
+										</PopoverContent>
+									</Popover>
+									<FormDescription>
+										Choose the course for the slides.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-      // Use Promise.all for concurrent uploads
-      const uploadPromises = currentFiles.map((file: File) => uploadFile(file, storage, user, programs, form, newData, setUploadProgress));
-      const results = await Promise.all(uploadPromises);
-      toast.dismiss(toastId);
-      const successfulUploads = results.filter(result => result).length;
-      if (successfulUploads === currentFiles.length) {
-        toast.dismiss(toastId);
-        toast.message('Task Completed',
-          { description: `Successfully uploaded ${successfulUploads} files.` });
-        confetti.onOpen();
-        // Clear the fields after successful upload
-        form.reset();
-        setCurrentFiles([]);
-        form.setValue("campus", "");
-        setUploadProgress(0);
+						<FormField
+							control={form.control}
+							name="currentFiles"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Files</FormLabel>
 
-      }
-    }
-  }
+									<FileUpload
+										currentFiles={currentFiles}
+										setCurrentFiles={setCurrentFiles}
+									/>
 
-
-  return (
-    <Form {...form} >
-      <Card className="max-w-xl mx-auto ">
-        <CardHeader className="mb-6">
-          <CardTitle>
-            Add Slides
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
-            <FormField
-              control={form.control}
-              name="campus"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Campus</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={useWatch({ name: 'campus' })}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a campus" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {campuses.map((campus) => (
-                        <SelectItem key={campus.$id} value={campus.$id}>
-                          {campus.name},{" "}
-                          <span className="text-sm font-medium text-right">
-                            {campus.location}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Choose the campus for the slides.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="programs"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="block">Program</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className={cn(
-                            "w-full justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? programs.find(
-                              (program) => program.$id === field.value
-                            )?.name
-                            : "Select a program"}
-                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="!w-full p-2">
-                      <Command>
-                        <CommandInput
-                          placeholder="Search program..."
-                          className="h-9"
-                        />
-                        <CommandEmpty>No program found.</CommandEmpty>
-                        <CommandGroup>
-                          {programs.map((program) => (
-                            <CommandItem
-                              value={program.name}
-                              key={program.$id}
-                              onSelect={() => {
-                                form.setValue("programs", program.$id);
-                              }}
-                            >
-                              {program.name}
-                              <CheckIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  program.$id === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>
-                    Choose the program for the slides.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="courses"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="block">Course</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className={cn(
-                            "w-full justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? courses.find((course) => course.$id === field.value)
-                              ?.name
-                            : "Select a course"}
-                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="!w-full p-2" align="end">
-                      <Command>
-                        <CommandInput
-                          placeholder="Search course..."
-                          className="h-9"
-                        />
-                        <CommandEmpty>No course found.</CommandEmpty>
-                        <ScrollArea className="h-64 overflow-auto">
-                          <CommandGroup>
-                            {courses.map((course) => (
-                              <CommandItem
-                                value={course.name}
-                                key={course.$id}
-                                onSelect={() => {
-                                  form.setValue("courses", course.$id);
-                                }}
-                                className="capitalize"
-                              >
-                                {course.name}
-                                <CheckIcon
-                                  className={cn(
-                                    "ml-auto h-4 w-4",
-                                    course.$id === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </ScrollArea>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>
-
-                    Choose the course for the slides.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-
-
-            <FormField
-              control={form.control}
-              name="currentFiles"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Files</FormLabel>
-
-                  <FileUpload
-                    currentFiles={currentFiles}
-                    setCurrentFiles={setCurrentFiles}
-                  />
-
-                  <FormDescription>
-                    Select the files to upload.
-
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {uploadProgress > 0 &&
-              <CardFooter>
-                <Progress value={uploadProgress} />
-              </CardFooter>
-            }
-            <Button type="submit" disabled={form.formState.isSubmitting}>Submit</Button>
-          </form>
-        </CardContent>
-      </Card>
-    </Form>
-  );
+									<FormDescription>Select the files to upload.</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						{uploadProgress > 0 && (
+							<CardFooter>
+								<Progress value={uploadProgress} />
+							</CardFooter>
+						)}
+						<Button type="submit" disabled={form.formState.isSubmitting}>
+							Submit
+						</Button>
+					</form>
+				</CardContent>
+			</Card>
+		</Form>
+	);
 }
