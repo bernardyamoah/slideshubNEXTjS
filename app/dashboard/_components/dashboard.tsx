@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 import { motion, useAnimation } from "framer-motion";
 import { tabTriggers } from "@/constants";
-import Programs from "./program";
+import Programs from "./programs";
 
 import Courses from "@/app/dashboard/_components/Courses";
 import Books from "./Books";
