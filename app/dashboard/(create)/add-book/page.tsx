@@ -114,7 +114,7 @@ async function uploadFile(file: File, storage: any, bookData: any, setUploadProg
     toast.error("File upload failed");
     setOpen(false);
   }
-  console.log("🚀 ~ file: page.tsx:116 ~ uploadFile ~   bookData:", bookData)
+
 }
 
 
@@ -251,6 +251,7 @@ export default function Page() {
           pageCount: fetchedBook.pageCount,
           publisher: fetchedBook.publisher,
           previewLink: fetchedBook.previewLink,
+        
         }));
         // Update the input field with the fetched book title
         // form.setValue('title', fetchedBook.title);
@@ -271,7 +272,18 @@ export default function Page() {
 
 
   async function onSubmit(data: z.infer<typeof BookFormSchema>) {
+  if (!data.title || data.title.trim() === "") {
+		// Display an error message or handle it as needed
+		toast.error("Title is required");
+		return;
+	}
 
+	// Validate if a file is selected
+	if (!file) {
+		// Display an error message or handle it as needed
+		toast.error("Please select a file");
+		return;
+	}
     uploadFile(file ?? new File([], 'default'), storage, bookData, setUploadProgress, setOpen, router);
     confetti.onOpen()
     form.reset();
