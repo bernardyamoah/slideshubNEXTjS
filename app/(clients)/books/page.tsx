@@ -6,6 +6,8 @@ import { Banner } from "@/components/shared/banner";
 import { getBooks } from "@/hooks/get-books";
 import { Metadata } from "next";
 import BookLoader from "./book-loader";
+import { CategoriesContainer } from "./_components/categories";
+
 export const metadata: Metadata = {
 	title: "Books",
 };
@@ -15,6 +17,11 @@ export default async function Page() {
 	return (
 		<>
 			<h2 className="text-3xl font-bold mt-10 ">Books</h2>
+
+			<div className="my-10">
+				<CategoriesContainer />
+			</div>
+
 			{loading ? (
 				<section className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-10">
 					{Array.from({ length: 6 }).map((_, i) => (

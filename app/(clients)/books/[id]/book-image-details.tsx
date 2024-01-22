@@ -2,20 +2,20 @@
 import { Icons } from "@/components/shared/icons";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import DownloadBtn from "@/components/ui/downloadBtn";
-import { Download } from "lucide-react";
+
+
 import Image from "next/image";
-import Link from "next/link";
+
 import React from "react";
 
 export default function BookImageDetails({
 	image,
-	downloadUrl,
+
+	categories,
 	title,
-	size,
+
 	pages,
-	fileType,
+	
 }) {
 	return (
 		<div className="space-y-3">
@@ -24,7 +24,7 @@ export default function BookImageDetails({
 					<Image
 						src={image ?? "assets/images/hero-image.png"}
 						alt={title}
-						className="object-cover"
+						className="object-cover rounded-xl"
 						sizes="
 		(min-width: 1024px) 20vw,
 		(min-width: 768px) 25vw,
@@ -49,18 +49,29 @@ export default function BookImageDetails({
 						/>
 					</div>
 				)}
-				<Badge className="rounded-3xl absolute top-0">{size} </Badge>
+				
+				
 			</AspectRatio>
-			<div className="flex gap-3 ">
-				<Badge variant="outline" className="rounded-3xl">
-					{fileType}
-				</Badge>
-				<Badge variant="outline" className="rounded-3xl">
-					{pages} pages
-				</Badge>
-			</div>
+			<div className="flex justify-between items-center ">
+				<div className="flex gap-3">
+					
+					{pages ? (
+						<Badge variant="outline" className="rounded-3xl">
+							{pages} pages
+						</Badge>
+					) : null}
 
-			<DownloadBtn filename={title} Fileurl={downloadUrl} />
+					{categories.map((category) => (
+						<Badge
+							key={category}
+							variant="outline"
+							className="rounded-3xl gap-2"
+						>
+							{category}
+						</Badge>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }

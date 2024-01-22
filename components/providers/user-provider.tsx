@@ -12,14 +12,14 @@ export const UserProvider = ({ children }) => {
 	const user = useStore((state) => state.user);
 	const { loading, checkUserInTeam } = useStore();
 	const router = useRouter();
-	const confetti = useConfettiStore();
+
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
 				const user = await account.get();
 				setUser(user);
-				checkUserInTeam()
-				confetti.onOpen();
+				checkUserInTeam();
+				
 				// If the user is null, redirect to the login page
 				if (!user) {
 					router.push("/login");
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
 
 		// Fetch user information
 		fetchUser();
-	}, [setUser, router]);
+	}, [ router]);
 
 	// If loading is true, show a loading spinner
 	if (loading) {

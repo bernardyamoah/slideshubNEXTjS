@@ -11,7 +11,7 @@ export async function getBooks() {
 	try {
 		const response = await databases.listDocuments(
 			databaseId,
-			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!, // Replace with your collection ID
+			process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID!,
 			[Query.limit(99), Query.orderDesc("$createdAt")]
 		);
 

@@ -26,14 +26,14 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function BookCard({ book, className, ...props }: ProductCardProps) {
 	return (
 		<Card className=" duration-300 dark:border-zinc-600 hover:bg-neutral-100/90 dark:hover:bg-neutral-900/90 ">
-			<Link href={"/books/" + book.$id}>
-				<CardHeader className=" p-0 overflow-hidden rounded-xl">
-					<AspectRatio ratio={4 / 3}>
+			<Link href={"/books/" + book.$id} className="grid grid-cols-2 sm:block ">
+				<CardHeader className=" p-0 overflow-hidden rounded-xl block h-full relative">
+					<AspectRatio ratio={4 / 3} className="relative">
 						{book?.thumbnail ? (
 							<Image
 								src={book.thumbnail ?? "assets/images/hero-image.png"}
 								alt={book.title}
-								className="object-cover"
+								className="object-cover h-full "
 								sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
 								fill
 								quality={100}
@@ -54,8 +54,9 @@ export function BookCard({ book, className, ...props }: ProductCardProps) {
 						)}
 					</AspectRatio>
 				</CardHeader>
+
 				<CardContent className="grid   py-2 pb-4">
-					<CardTitle className="line-clamp-2 text-lg ">{book.title}</CardTitle>
+					<CardTitle className="line-clamp-1 text-lg ">{book.title}</CardTitle>
 					<div className="flex  gap-2 flex-col mt-2">
 						<CardDescription className="line-clamp-2 p-0 text-sm text-gray-500">
 							{book.description}

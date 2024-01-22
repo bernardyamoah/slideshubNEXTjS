@@ -1167,12 +1167,13 @@ export const fetchBookDetails = async (title: String) => {
 	const API_ENDPOINT = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOK_API_KEY}`;
 
 	try {
-		const bookDataResponse = await fetch(API_ENDPOINT);
+		const response = await fetch(API_ENDPOINT);
 
-		if (bookDataResponse.ok) {
-			const bookData = await bookDataResponse.json();
+		if (response.ok) {
+			const data = await response.json();
+			console.log("🚀 ~ fetchBookDetails ~ bookData:", data);
 
-			const { id, volumeInfo } = bookData.items[0];
+			const { id, volumeInfo } = data.items[0];
 			const {
 				title,
 				authors,
@@ -1184,8 +1185,8 @@ export const fetchBookDetails = async (title: String) => {
 				previewLink,
 				imageLinks,
 			} = volumeInfo;
-				console.log("🚀 ~ fetchBookDetails ~ imageLinks:", imageLinks)
-			const thumbnail = imageLinks?.thumbnail;
+			console.log("🚀 ~ fetchBookDetails ~ imageLinks:", imageLinks);
+			const thumbnail = imageLinks?.smallThumbnail;
 
 			const book = {
 				title,
@@ -1261,11 +1262,10 @@ export async function uploadFile(
 		};
 
 		await createSlide(slideData);
-		
 
 		return true;
 	} catch (error) {
 		toast.error("File upload failed");
-		throw error; // Rethrow the error to be caught in the calling function
+		throw error; 
 	}
 }

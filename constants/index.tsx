@@ -46,35 +46,24 @@ export const FEATURES = [
 export const tabTriggers = [
 	{
 		value: "slide",
-		className:
-			"relative ",
+		className: "relative ",
 		label: "Slides",
 	},
 	{
 		value: "book",
-		className:
-			"relative  ",
+		className: "relative  ",
 		label: "Books",
 	},
 	{
 		value: "program",
-		className:
-			"relative ",
+		className: "relative ",
 		label: "Programs",
 		disabled: false,
 	},
 	{
 		value: "course",
-		className:
-			"relative ",
+		className: "relative ",
 		label: "Courses",
-	},
-	{
-		value: "campus",
-		className:
-			"relative ",
-		label: "Campus",
-		disabled: true,
 	},
 ];
 export const AdmintabRoutes = [
